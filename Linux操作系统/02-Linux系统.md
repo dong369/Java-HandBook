@@ -388,3 +388,27 @@ rpm -qa               # 查询所有已安装的rpm包
 rpm -qa | grep 包名    # 可联合grep命令查找
 ```
 
+## 8. 解压/压缩
+
+### 8.1 tar
+
+```properties
+tar -cvf jpg.tar file1 file2 ....fileN
+tar -xvf my.tar.gz
+tar -xvf my.tar.gz -C /usr/local/soft
+
+nohup tar -cvf jpg.tar file1 file2 ....fileN &
+```
+
+
+
+### 8.2 tar.gz
+
+```properties
+tar -zcvf my.tar.gz file1 file2 ....fileN
+tar -zxvf my.tar.gz
+tar -zxvf my.tar.gz -C /usr/local/soft
+
+nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
+```
+
