@@ -238,13 +238,42 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 ##### 5.2.1 Gitlab
 
 1. 安装插件
-2. 配置插件信息
-3. 申请token
 
-![配置信息](C:\Users\yanfa07\AppData\Roaming\Typora\typora-user-images\1551923772191.png)
+   >
+
+2. 配置Gitlab服务地址
+
+   >
+
+3. 申请Token
+
+   >
 
 4. 创建项目提交
+
+   >
+
 5. 克隆项目
+
+   > git clone projectName
+
+6. 分支创建及切换
+
+   > 右下角Git标志，点击New Branch，创建分支。
+   >
+   > 右下角Git标志，点击local Branchs，进行分支切换。
+
+7. 分支合并
+
+   > 右下角Git标志，先切换到master分支，点击Remote Branch，进行分支合并到master。
+
+8. 创建tag标签
+
+   > git push origin v1.0.0.0      //推送Tag到远程
+   > git tag -d v1.0.0.1           //删除本地tag
+   > git push origin :refs/tags/v1.0.0.1     //删除已经远程的tag
+   >
+   > 注意：可以通过提交代码时进行tag的提交。
 
 ### 6 快捷键配置
 
