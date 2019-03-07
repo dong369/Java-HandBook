@@ -223,7 +223,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ### 5 版本控制配置
 
-##### 5.1 SVN
+#### 5.1 SVN
 
 1. 安装SVN客户端
 
@@ -233,11 +233,18 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
    File | Settings | Editor | File Types
 
-##### 5.2 Git
+#### 5.2 Git
 
-1. Gitee
-2. Github
-3. Gtlab
+##### 5.2.1 Gitlab
+
+1. 安装插件
+2. 配置插件信息
+3. 申请token
+
+![配置信息](C:\Users\yanfa07\AppData\Roaming\Typora\typora-user-images\1551923772191.png)
+
+4. 创建项目提交
+5. 克隆项目
 
 ### 6 快捷键配置
 
@@ -336,9 +343,9 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > git提交文件。
 
-##### 9.8 Gitee
+##### 9.8 Gitee、Gitlab
 
-> gitee代码托管。
+> git代码托管。
 
 ##### 9.9 GsonFormat
 
@@ -367,8 +374,4 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 ##### 9.14 SVN Disconnect
 
 > 解除SVN的项目关联。
-
-### 10 其他
-
-
 

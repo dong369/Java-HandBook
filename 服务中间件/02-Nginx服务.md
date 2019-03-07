@@ -473,7 +473,7 @@ public class FileUploadUtils {
 server {
     listen  8000;
     location / {
-        root /;
+        root /home/kaifa/resource/;
     }
 }
 ```
