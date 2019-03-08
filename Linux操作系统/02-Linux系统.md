@@ -43,13 +43,19 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 ## 3. Linux配置信息
 
-### 3.1 CentOS系统版本
+### 3.1 CentOS系统信息
+
+
 
 > 输入uname -a ，可显示电脑以及操作系统的相关信息。 
 > 输入cat /proc/version，说明正在运行的内核版本。
 > 输入cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
 > 输入cat /etc/issue，显示的是发行版本信息
 > lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
+
+
+
+> cat /proc/cpuinfo，显示系统配置信息
 
 ### 3.1 Ubunto系统版本
 
@@ -411,4 +417,14 @@ tar -zxvf my.tar.gz -C /usr/local/soft
 
 nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 ```
+
+
+
+## 9. 文件传输
+
+```properties
+scp root@10.248.2.110:/usr/local/test.txt /usr/local/
+```
+
+
 
