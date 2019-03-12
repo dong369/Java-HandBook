@@ -4,7 +4,18 @@
 
 # 数据结构
 
+## 数组
+
+## 栈
+
+- [《java数据结构与算法之栈（Stack）设计与实现》](https://blog.csdn.net/javazejian/article/details/53362993)
+- [《Java Stack 类》](http://www.runoob.com/java/java-stack-class.html)
+- [《java stack的详细实现分析》](https://blog.csdn.net/f2006116/article/details/51375225)
+  - Stack 是线程安全的。
+  - 内部使用数组保存数据，不够时翻倍。
+
 ## 队列
+
 * [《java队列——queue详细分析》](https://www.cnblogs.com/lemon-flm/p/7877898.html)
 	* 非阻塞队列：ConcurrentLinkedQueue(无界线程安全)，采用CAS机制（compareAndSwapObject原子操作）。
 	* 阻塞队列：ArrayBlockingQueue(有界)、LinkedBlockingQueue（无界）、DelayQueue、PriorityBlockingQueue，采用锁机制；使用 ReentrantLock 锁。
@@ -19,13 +30,6 @@
 
 ## 字典、关联数组
 * [《Java map 详解 - 用法、遍历、排序、常用API等》](https://baike.xsoftlab.net/view/250.html)
-
-## 栈
-* [《java数据结构与算法之栈（Stack）设计与实现》](https://blog.csdn.net/javazejian/article/details/53362993)
-* [《Java Stack 类》](http://www.runoob.com/java/java-stack-class.html)
-* [《java stack的详细实现分析》](https://blog.csdn.net/f2006116/article/details/51375225)
-	* Stack 是线程安全的。
-	* 内部使用数组保存数据，不够时翻倍。
 
 ## 树
 
@@ -213,6 +217,7 @@ KMP：Knuth-Morris-Pratt算法（简称KMP）
 ## 多线程
 
 * [《40个Java多线程问题总结》](http://www.importnew.com/18459.html)
+* 多线程：原子性、可见性、有序性
 
 ## 线程安全
 
@@ -221,6 +226,9 @@ KMP：Knuth-Morris-Pratt算法（简称KMP）
 ## 一致性、事务
 
 ### 事务 ACID 特性
+
+**原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）**
+
 * [《数据库事务ACID特性》](https://blog.csdn.net/u012440687/article/details/52116108)
 
 ### 事务的隔离级别

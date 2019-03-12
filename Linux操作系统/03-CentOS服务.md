@@ -13,8 +13,8 @@
 第一步：打开vi /etc/profile
 
 ```properties
-JAVA_HOME=/usr/local/soft/java/jdk1.8.0_201
-JRE_HOME=/usr/local/soft/java/jdk1.8.0_201/jre
+JAVA_HOME=/usr/local/soft/java/jdk1.8
+JRE_HOME=/usr/local/soft/java/jdk1.8/jre
 CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export PATH JAVA_HOME CLASSPATH
@@ -128,4 +128,10 @@ firewall-cmd --zone=public --query-port=80/tcp
 firewall-cmd --zone=public --remove-port=80/tcp --permanent
 重新载入
 firewall-cmd --reload
+```
+
+## 3. 文件传输
+
+```properties
+scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
