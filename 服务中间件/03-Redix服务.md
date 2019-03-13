@@ -41,7 +41,7 @@ cp /usr/local/redis-5.0.3/redis.conf  /usr/local/redis/bin
 
 > 01修改daemonize yes，使用yes启用守护进程
 >
-> #### 02修改bind 192.168.101.3，绑定的主机地址，提倡修改成：0.0.0.0
+> 02修改bind 192.168.101.3，绑定的主机地址，提倡修改成：0.0.0.0
 >
 > 03修改port 6379，监听端口
 

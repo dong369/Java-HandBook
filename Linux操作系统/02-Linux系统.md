@@ -348,7 +348,7 @@ sudo apt-get update
 
 ## 7. 软件安装
 
-## 7.1 yum方式
+### 7.1 yum方式
 
 #### 7.1.1 基础命令
 
@@ -414,5 +414,15 @@ tar -zxvf my.tar.gz
 tar -zxvf my.tar.gz -C /usr/local/soft
 // 大文件后台解压
 nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
+```
+
+## 9. 开机启动
+
+```properties
+chkconfig --list
+chkconfig --add service
+chkconfig --del service
+systemctl enable docker.service
+/usr/lib/systemd/system/docker.service
 ```
 
