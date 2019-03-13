@@ -376,7 +376,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > git代码托管。
 
-##### 9.9 GsonFormat
+##### 9.9 GsonFormat、GenerateAllSetter
 
 > json和pojo的转换。
 
@@ -403,4 +403,8 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 ##### 9.14 SVN Disconnect
 
 > 解除SVN的项目关联。
+
+##### 9.15 VisualVM Launcher
+
+>
 
