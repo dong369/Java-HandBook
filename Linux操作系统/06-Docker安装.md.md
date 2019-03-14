@@ -122,6 +122,12 @@ sudo yum remove docker-ce            # 移除docker
 sudo rm -rf /var/lib/docker          # 移除镜像，容器，卷，网络，自定义文件等
 ```
 
+#### 2.4.9 开机启动
+
+```properties
+systemctl enable docker.service
+```
+
 ### 2.5 操作问题
 
 #### 2.5.1 安装过程中
@@ -160,9 +166,9 @@ sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=curl -sSL https://get.
 ### 3.1 基础命令
 
 > Docker版本：docker version（查看安装版本）
-> 启动Docker：service docker start
-> 停止Docker：service docker stop
-> 重启Docker：service docker restart（sudo systemctl restart docker）
+> 启动Docker：service docker start（systemctl start docker）
+> 停止Docker：service docker stop（systemctl stop docker）
+> 重启Docker：service docker restart（systemctl restart docker）
 > 拉取镜像：docker pull [OPTIONS] NAME[:TAG]    NAME：代表拉取镜像的名称
 > 查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
 > 删除镜像：docker rmi [容器名称&ID]
