@@ -6,6 +6,8 @@
 
 [下载地址](http://nginx.org/en/download.html)
 
+下面教程使用的版本是：nginx-1.14.2.zip
+
 ### 1.2 安装配置
 
 #### 1.2.1 基础环境

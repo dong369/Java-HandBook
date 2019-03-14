@@ -416,7 +416,35 @@ tar -zxvf my.tar.gz -C /usr/local/soft
 nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 ```
 
-## 9. 开机启动
+## 9. 服务管理
+
+### 9.1 service启动服务
+
+> service命令其实是去/etc/init.d目录下，去执行相关程序
+
+```properties
+# service命令启动redis脚本
+service redis start
+# 直接启动redis脚本
+/etc/init.d/redis start
+# 开机自启动
+update-rc.d redis defaults
+```
+
+
+
+### 9.2 systemctl启动服务
+
+> systemd的Unit放在目录/usr/lib/systemd/system(Centos)或/etc/systemd/system(Ubuntu)
+
+```properties
+systemctl redis start
+systemctl redis stop
+# 开机自启动
+systemctl enable redis
+```
+
+### 9.3 chkconfig添加服务
 
 ```properties
 chkconfig --list
@@ -425,4 +453,6 @@ chkconfig --del service
 systemctl enable docker.service
 /usr/lib/systemd/system/docker.service
 ```
+
+
 

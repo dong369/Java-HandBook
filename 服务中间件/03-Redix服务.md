@@ -6,7 +6,7 @@
 
 [Redis下载地址](https://redis.io/download)
 
-下面教程使用的是：redis-5.0.3.tar.gz
+下面教程使用的版本是：redis-5.0.3.tar.gz
 
 ### 1.2 安装配置
 
