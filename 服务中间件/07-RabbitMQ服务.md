@@ -1,14 +1,10 @@
-
-
-
-
 [TOC]
 
-## 1. Redis介绍
+## 1. RabbitMQ介绍
 
 ### 1.1 官网下载
 
-[Redis下载地址](https://redis.io/download)
+[RabbitMQ下载地址](https://redis.io/download)
 
 下面教程使用的是：redis-5.0.3.tar.gz
 
