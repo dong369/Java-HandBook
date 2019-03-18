@@ -43,9 +43,9 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 ## 3. Linux配置信息
 
-### 3.1 CentOS系统信息
+### 3.1 CentOS
 
-
+#### 3.1.1 系统信息
 
 > 输入uname -a ，可显示电脑以及操作系统的相关信息。 
 > 输入cat /proc/version，说明正在运行的内核版本。
@@ -53,11 +53,17 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 > 输入cat /etc/issue，显示的是发行版本信息
 > lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
 
-
+#### 3.1.2 CPU信息
 
 > cat /proc/cpuinfo，显示系统配置信息
 
 ### 3.1 Ubunto系统版本
+
+#### 3.1.1 系统信息
+
+
+
+#### 3.1.2 CPU信息
 
 
 
@@ -133,13 +139,13 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 
 #### 6.1.1 服务名称管理
 
-更改hostname
+1. 更改hostname
 
 ```properties
 vi /etc/hostname
 ```
 
-配置hosts
+2. 配置hosts
 
 ```properties
 vi /etc/hosts
@@ -150,17 +156,17 @@ vi /etc/hosts
 1. 服务安装
 
 ```properties
-systemctl status crond.service #检查服务是否在运行
+systemctl status crond.service # 检查服务是否在运行
 
 yum install vixie-cron
 yum install crontabs
 
-systemctl restart crond.service #启动服务
-systemctl reload crond.service  #重新载入配置
-systemctl status crond.service  #查看crontab服务状态
-systemctl enable crond.service  #开机自启动
+systemctl restart crond.service # 启动服务
+systemctl reload crond.service  # 重新载入配置
+systemctl status crond.service  # 查看crontab服务状态
+systemctl enable crond.service  # 开机自启动
 
-crontab -e #进入定时任务编辑
+crontab -e # 进入定时任务编辑
 ```
 
 1. 相关参数
@@ -348,7 +354,7 @@ sudo apt-get update
 
 ## 7. 软件安装
 
-### 7.1 yum方式
+### 7.1 Yum方式
 
 #### 7.1.1 基础命令
 
