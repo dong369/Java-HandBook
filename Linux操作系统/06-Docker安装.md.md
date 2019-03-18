@@ -69,9 +69,7 @@ sudo yum remove docker \
 #### 2.4.3 安装依赖包
 
 ```properties
-sudo yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
 
 #### 2.4.4 设置存储库,并且更新索引
@@ -198,15 +196,39 @@ E: Unable to locate package vim
 ```
 
 ### 4.2 MySQL服务
-步骤一：拉取镜像
+#### 步骤一：拉取镜像
+
 ```
 root@s200:~# docker pull mysql
 ```
-步骤二：启动容器（-v可以使用推荐的volume）
+#### 步骤二：配置信息
+
+```properties
+mkdir -p /home/service/mysql/data
+mkdir -p /home/service/mysql/log
+mkdir -p /home/service/mysql/conf
 ```
-root@s200:~# docker run --name some-mysql -p 3306:3306 -v mysql_data:/var/lib/mysql -e MYSQL\_ROOT\_PASSWORD=123456 -d [REPOSITORY&IMAGE ID]
+
+#### 步骤三：启动容器
+
+```properties
+docker run -p 3306:3306 --name mysql \
+  -v /home/service/mysql/logs:/logs \
+  -v /home/service/mysql/data:/mysql_data \
+  -e MYSQL_ROOT_PASSWORD=123456\
+  -d mysql
 ```
+#### 步骤四：启动容器
+
+> `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
+>  `-v` 将主机~/mysql/logs目录挂载到容器的/logs
+>  `-v` 将主机mysql/data目录挂载到容器的/mysql_data
+>  `-e` MYSQL_ROOT_PASSWORD=123456：初始化root用户的密码
+>
+> `-d`后台启动
+
 ### 4.3 Tomcat服务
+
 步骤一：拉取镜像
 ```
 root@s200:~# docker pull tomcat
