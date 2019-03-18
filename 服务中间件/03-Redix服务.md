@@ -159,19 +159,21 @@ chkconfig --add /etc/init.d/redis
 chkconfig redis on
 ```
 
-5. 创建Redis服务
+#### 1.3.4 开机启动
 
 创建文件：vim /usr/lib/systemd/system/redis.service
 
 ```properties
 [Unit]
 Description=Redis Server
-After=network.target
+After=network.target remote-fs.target nss-lookup.target
 
 [Service]
-ExecStart=/usr/local/redis/bin/redis-server  /usr/local/redis/bin/redis.conf  --daemonize no
+ExecStart=/usr/local/redis/bin/redis-server  /usr/local/redis/bin/redis.conf
 ExecStop=/usr/local/redis/bin/redis-cli -p 6379 shutdown
-Restart=always
+# Restart=always
+# User=zookeeper
+# Group=zookeeper
 
 [Install]
 WantedBy=multi-user.target

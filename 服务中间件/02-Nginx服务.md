@@ -204,8 +204,6 @@ location /c/ {
 注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
 ```
 
-
-
 ### 1.3 启动使用
 
 > 直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。
@@ -220,7 +218,20 @@ location /c/ {
 检查：./nginx -t
 ```
 
+#### 1.3.2 开机启动
 
+```properties
+# Nginx服务开机启动nginx.service
+[Unit]
+Description=nginx - high performance web server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+ExecReload=/usr/local/nginx/sbin/nginx -s reload
+ExecStop=/usr/local/nginx/sbin/nginx -s stop
+```
 
 ## 2. Nginx高可用
 
@@ -288,7 +299,6 @@ server {
     location /test/ {
         proxy_pass http://192.168.100.12:11601/;
     }
-
 }
 ```
 

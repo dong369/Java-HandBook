@@ -26,8 +26,8 @@
 >
 
 ```properties
-tar -zxvf zookeeper-3.3.6.tar.gz
-cd /usr/local/soft/zookeeper-3.3.6
+tar -zxvf zookeeper-3.4.13.tar.gz
+cd /usr/local/soft/zookeeper-3.4.13
 make data log
 mv config/zoo_sample.cfg zoo.cfg
 ```
@@ -38,13 +38,47 @@ mv config/zoo_sample.cfg zoo.cfg
 >
 > 02、修改dataLogDir=/usr/local/soft/zookeeper-3.3.6/log
 >
-> 03、修改clientPort 8181，监听端口
+> 03、修改clientPort 2181，监听端口
+
+```properties
+# The number of milliseconds of each tick
+tickTime=2000
+# The number of ticks that the initial
+# synchronization phase can take
+initLimit=10
+# The number of ticks that can pass between
+# sending a request and getting an acknowledgement
+syncLimit=5
+# the directory where the snapshot is stored.
+# do not use /tmp for storage, /tmp here is just
+# example sakes.
+dataDir=/usr/local/soft/zookeeper-3.4.13/data
+dataLogDir=/usr/local/soft/zookeeper-3.4.13/log
+# the port at which the clients will connect
+clientPort=2181
+# the maximum number of client connections.
+# increase this if you need to handle more clients
+#maxClientCnxns=60
+#
+# Be sure to read the maintenance section of the
+# administrator guide before turning on autopurge.
+#
+# http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance
+#
+# The number of snapshots to retain in dataDir
+#autopurge.snapRetainCount=3
+# Purge task interval in hours
+# Set to "0" to disable auto purge feature
+#autopurge.purgeInterval=1
+```
+
+
 
 ### 1.3 启动使用
 
 #### 1.3.1 启动命令
 
-> 直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。
+> 直接运行
 
 ```properties
 启动ZK服务: sh bin/zkServer.sh start

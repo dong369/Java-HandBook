@@ -230,8 +230,8 @@ yum -y update
 互联网上的服务器，编辑文件 "/etc/resolv.conf"，根据情况修改文件内容。
 
 ```properties
-nameserver 223.5.5.5
-nameserver 223.6.6.6
+nameserver 8.8.8.8
+nameserver 114.114.114.114
 ```
 
 #### 6.1.6 网络授时NTF
@@ -431,17 +431,26 @@ service redis start
 update-rc.d redis defaults
 ```
 
-
-
 ### 9.2 systemctl启动服务
 
 > systemd的Unit放在目录/usr/lib/systemd/system(Centos)或/etc/systemd/system(Ubuntu)
 
 ```properties
-systemctl redis start
-systemctl redis stop
-# 开机自启动
-systemctl enable redis
+重新加载配置信息：
+systemctl daemon-reload
+启动zookeeper：
+systemctl start zookeeper.service
+关掉zookeeper：
+systemctl stop zookeeper.service
+查看进程状态及日志：
+systemctl status zookeeper.service
+开机自启动：
+systemctl enable zookeeper.service
+关闭自启动：
+systemctl disable zookeeper.service
+
+# docker开机自启动
+systemctl enable docker.service
 ```
 
 ### 9.3 chkconfig添加服务
