@@ -87,5 +87,17 @@ clientPort=2181
 查看ZK服务状态: sh bin/zkServer.sh status
 ```
 
-## 2. Zookeeper高可用
+## 2. Zookeeper伪集群
+
+
+
+
+
+
+
+## 3. Zookeeper高可用
+
+
+
+
 

@@ -40,7 +40,6 @@ make && make install
 1. HTTP服务反向代理
 
 ```properties
-
 # user  nobody;
 worker_processes  1;
 

@@ -51,8 +51,6 @@
 </profiles>
 ```
 
-
-
 ##### 3.2 Maven
 
 > File | Settings | Build, Execution, Deployment | Build Tools
@@ -177,43 +175,29 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > File | Settings | Build, Execution, Deployment | Compiler
 
-
-
 ##### 4.3 智能导包
 
 > File | Settings | Editor | General | Auto Import
-
-
 
 ##### 4.4 忽略大小写
 
 > File | Settings | Editor | General | Code Completion
 
-
-
 ##### 4.5 悬浮提示
 
 > File | Settings | Editor | General
-
-
 
 ##### 4.6 取消单行显示tabs
 
 > File | Settings | Editor | General | Editor Tabs
 
-
-
 ##### 4.7 行号显示
 
 > File | Settings | Editor | General | Editor Tabs
 
-
-
 ##### 4.8 插件下载去掉https
 
 > File | Settings | Appearance & Behavior | System Settings | Updates
-
-
 
 ##### 4.9 mybatis的xml警告背景
 
@@ -225,6 +209,8 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 #### 5.1 SVN
 
+##### 5.1.1 基础配置
+
 1. 安装SVN客户端
 
    特别注意：安装过程需要选中第二项command line tools的will be installed on local hard dirve
@@ -232,6 +218,8 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 2. 屏蔽文件：.iml;.idea;.classpath;.project;.settings;target;logs;
 
    File | Settings | Editor | File Types
+
+3. SVN Disconnect插件安装
 
 #### 5.2 Git
 
@@ -274,6 +262,12 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
    > git push origin :refs/tags/v1.0.0.1     //删除已经远程的tag
    >
    > 注意：可以通过提交代码时进行tag的提交。
+
+##### 5.2.2 GitHub
+
+
+
+##### 5.2.3 Gitee
 
 ### 6 快捷键配置
 

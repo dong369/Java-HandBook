@@ -40,20 +40,10 @@
 > project explorer一般会在写maven的聚合项目使用，便于查看项目直接的相互依赖关系。
 > ![project explorer视图](http://upload-images.jianshu.io/upload_images/8185387-9218a71b3bdace89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 4.4 SVN项目的提交和检出
-#### 4.4.1 SVN项目提交
-***步骤一：提交项目到SVN***
-![忽略不需要提交的内容](http://upload-images.jianshu.io/upload_images/8185387-0a01b1f66907027f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
-#### 4.4.2 SVN项目检出
-***步骤一：从SVN下载项目代码***
-![图-05](http://upload-images.jianshu.io/upload_images/8185387-fa5c315193092bb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-***步骤二：将项目代码转成maven项目***
-![图-06](http://upload-images.jianshu.io/upload_images/8185387-16f1ab5d13674b1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+>
 
 ### 4.5 错误和警告
+
 #### 4.5.1 忽略dubbo的错误信息
 ![添加dubbo](http://upload-images.jianshu.io/upload_images/8185387-12c7cff55d200c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -186,17 +176,74 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
+## 4. 版本控制
+
+### 4.1 SVN项目提交
+
+#### 4.1.1配置SVN
+
+***步骤一：提交项目到SVN***
+![忽略不需要提交的内容](http://upload-images.jianshu.io/upload_images/8185387-0a01b1f66907027f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 4.1.2 项目提交
 
 
-### 4.10 插件配置
 
-#### 4.10.1 lombok
+#### 4.1.3 项目检出
 
-> 代码简洁工具包。
+***步骤一：从SVN下载项目代码***
+![图-05](http://upload-images.jianshu.io/upload_images/8185387-fa5c315193092bb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 5. Git使用
+***步骤二：将项目代码转成maven项目***
+![图-06](http://upload-images.jianshu.io/upload_images/8185387-16f1ab5d13674b1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 4.1.4 项目打分支
+
+
+
+#### 4.1.5 项目分支合并
+
+
+
+#### 4.1.6 项目Tag标签
+
+
+
+### 4.2 Git使用
 
 > eclipse和sts都内置有git插件。
+
+#### 4.2.1 配置Git
+
+
+
+#### 4.2.2 提交项目
+
+
+
+#### 4.2.3 检出项目
+
+
+
+#### 4.2.4 项目打分支
+
+
+
+#### 4.2.5 项目合并
+
+
+
+#### 4.2.6 项目Tag标签
+
+
+
+## 5. 项目构建
+
+## 6. 插件配置
+
+### 6.1 lombok
+
+> 代码简洁工具包。
 
 
 
