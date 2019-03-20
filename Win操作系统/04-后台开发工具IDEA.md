@@ -165,15 +165,15 @@ Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件�
 
 ##### 4.1 字体和[主题01](http://www.riaway.com/)和[主题02](http://color-themes.com/?view=index)
 
-file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路确认 –> 重启
-
-窗口字体：File | Settings | Appearance & Behavior | Appearance
+窗口字体：File | Settings | Appearance & Behavior | Appearance（勾选覆盖字体，选择自己的字体和大小）
 
 编辑文件字体：File | Settings | Editor | Font
 
+file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路确认 –> 重启
+
 ##### 4.2 自动编译
 
-> File | Settings | Build, Execution, Deployment | Compiler
+> File | Settings | Build, Execution, Deployment | Compiler（勾选build project automatically）
 
 ##### 4.3 智能导包
 
@@ -366,13 +366,13 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > git提交文件。
 
-##### 9.8 Gitee、Gitlab
+##### 9.8 Gitee、Gitlab、GitHub
 
 > git代码托管。
 
 ##### 9.9 GsonFormat、GenerateAllSetter
 
-> json和pojo的转换。
+> 一键根据json文本生成java类 非常方便；一键调用一个对象的所有set方法并且赋予默认值 在对象字段多的时候非常方便。
 
 ##### 9.10 BashSupport 
 
