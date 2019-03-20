@@ -290,7 +290,6 @@ root@s200:~# docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabb
 
 ```properties
 [Service]
-ExecStart=
 ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
 ```
 
@@ -300,6 +299,7 @@ ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
 sudo systemctl daemon-reload
 sudo systemctl restart docker      # 进行
 netstat -tulp                      # 检查2375端口
+curl 127.0.0.1:2375/info           # 验证是否成功
 ```
 
 ### 5.3 IDEA连接操作
@@ -323,6 +323,28 @@ EXPOSE 8080
 
 ENTRYPOINT ["java","-jar","/app-server.jar"]
 ```
+
+
+
+```properties
+FROM hub.c.163.com/wuxukun/maven-aliyun:3-jdk-8
+
+ADD pom.xml /tmp/build/
+
+ADD src /tmp/build/src
+        #构建应用
+RUN cd /tmp/build && mvn clean package \
+        #拷贝编译结果到指定目录
+        && mv target/*.jar /guod.jar \
+        #清理编译痕迹
+        && cd / && rm -rf /tmp/build
+
+VOLUME /tmp
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/guod.jar"]
+```
+
+
 
 3. 项目部署操作
 
