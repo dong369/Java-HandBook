@@ -39,11 +39,11 @@ less -N  文件          // 带行号查看
 
 ```properties
 mkdir  hehe/xixi
-mkdir -p first/second/third      //递归创建3个目录 加-p选项
+mkdir -p first/second/third      // 递归创建3个目录 加-p选项
 mv book.txt  shu.txt             // 改名字，地址只要不存在就是改名字
-mv  ten/bread.ods  firstt        //移动，只要地址是存在的目录就是移动
-cp -R /a   /b                    //复制"目录"需要添加参数-R
-rm -rf /a                        //可以删除一切普通的目录或文件 递归
+mv  ten/bread.ods  firstt        // 移动，只要地址是存在的目录就是移动
+cp -R /a /b                      // 复制"目录"需要添加参数-R
+rm -rf /a                        // 可以删除一切普通的目录或文件 递归
 mkdir -p server1/{data,log} server2/{data,log} server3/{data,log}
 ```
 
