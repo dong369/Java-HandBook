@@ -15,7 +15,7 @@
 > redis是C语言开发，建议在linux上运行，本教程使用Centos6.4作为安装环境。安装redis需要先将官网下载的源码进行编译，编译依赖gcc环境。
 
 ```properties
-yum install gcc-c++
+yum -y install make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel unixODBC-devel
 ```
 
 #### 1.2.2 进行安装

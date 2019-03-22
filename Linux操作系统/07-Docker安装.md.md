@@ -175,7 +175,7 @@ sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=curl -sSL https://get.
 > 后台运行：docker run --name some-* -p 宿主机端口:容器端口 –d [容器名称&ID]
 > 查看运行的容器：docker ps
 > 查看所以的容器：docker ps -a（docker stop CONTAINER ID、docker rm CONTAINER ID）
-> 进入容器内部：docker exec -it [容器名称] bash
+> 进入容器内部：docker exec -it containerId /bin/bash（docker exec -it [容器名称] bash）
 > 退出容器：exit
 > 制作自己的镜像：docker build –t name:latest .（指定名称）
 > 推送镜像：docker push registry.cn-hangzhou.aliyuncs.com/namespace/keepalived:[镜像版本号]
@@ -309,19 +309,28 @@ curl 127.0.0.1:2375/info           # 验证是否成功
 ```properties
 tcp://192.168.100.13:2375
 ```
+![Docker连接配置](../插图/Linux操作系统/Docker连接配置.png)
 
 2. 项目编写Dockerfile文件
 
 ```properties
-FROM java:8
+# 容器的依赖
+FROM hub.c.163.com/wuxukun/maven-aliyun:3-jdk-8
 
-VOLUME /tmp
+# 校正容器时间
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/Shanghai" > /etc/timezone
 
-ADD *.jar app-server.jar
+# 获取打包后的jar
+COPY target/*.jar app.jar
 
+RUN bash -c 'touch ./app.jar'
+
+# 指定端口
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/app-server.jar"]
+# 进行启动
+CMD ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
 ```
 
 
@@ -344,8 +353,7 @@ EXPOSE 8080
 ENTRYPOINT ["java","-jar","/guod.jar"]
 ```
 
-
-
 3. 项目部署操作
 
 > 运行Dockerfile文件，项目发布成功！
+> ![Docker连接配置](../插图/Linux操作系统/Dockerfile配置文件.png)

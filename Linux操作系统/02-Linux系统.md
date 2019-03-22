@@ -15,8 +15,8 @@
 ### 1.2 查看帮助
 
 ```properties
-man grep
-info grep
+man ls
+info ls
 ls --help
 ```
 
@@ -242,7 +242,7 @@ nameserver 114.114.114.114
 
 #### 6.1.6 网络授时NTF
 
-> NTP是网络时间协议(Network Time Protocol)，它是用来同步网络中各个计算机的时间的协议。
+> 方式01：NTP是网络时间协议(Network Time Protocol)，它是用来同步网络中各个计算机的时间的协议。
 
 互联网上的服务器，编辑文件 "/etc/ntp.conf"，根据情况修改文件内容为：
 
@@ -258,6 +258,27 @@ fudge  127.127.1.0 stratum 10
 server ntp.aliyun.com iburst minpoll 4 maxpoll 10
 restrict ntp.aliyun.com nomodify notrap nopeer noquery
 ```
+
+> 方式02
+
+```properties
+yum install ntpdate      //安装ntpdate
+ntpdate ntp.sjtu.edu.cn   //同步时间
+注：ntpdate ntp.sjtu.edu.cn   上海交通大学网络中心NTP服务器地址
+ntpdate asia.pool.ntp.org  台湾
+```
+
+> 设置24小时制
+
+```properties
+终端输入命令：tzselect
+根据提示选择：
+5 --> 9-->1-->1-->ok
+rm /etc/localtime
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+```
+
+
 
 #### 6.1.7 修改ssh远程登陆的默认端口
 

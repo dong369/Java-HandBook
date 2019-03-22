@@ -44,8 +44,12 @@ cp /usr/local/redis-5.0.3/redis.conf  /usr/local/redis/bin
 > 02修改bind 192.168.101.3，绑定的主机地址，提倡修改成：0.0.0.0
 >
 > 03修改port 6379，监听端口
+>
+> 04日志文件指定位置，更改logfile的日志路径
+>
+> 05默认数据持久化位置，修改dir后记得要把dump.rdb持久化文件拷贝到指定的位置
 
-
+#### 1.2.4 Redis持久化方案
 
 ### 1.3 启动使用
 
@@ -56,8 +60,6 @@ cp /usr/local/redis-5.0.3/redis.conf  /usr/local/redis/bin
 ```properties
 bin/redis-server
 ```
-
-
 
 #### 1.3.2 后端模式
 
@@ -185,6 +187,16 @@ WantedBy=multi-user.target
 systemctl enable redis   #设置Redis服务开机启动命令
 systemctl start redis    #立即启动Redis服务命令
 pstree
+```
+
+#### 1.3.5 操作命令
+
+清理缓存
+
+```properties
+./redis-cli # 进入命令操作界面
+flushdb     # 删除当前数据库中的所有Key
+flushall    # 删除所有数据库中的key
 ```
 
 

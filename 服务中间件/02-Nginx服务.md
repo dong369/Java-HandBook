@@ -232,7 +232,11 @@ ExecReload=/usr/local/nginx/sbin/nginx -s reload
 ExecStop=/usr/local/nginx/sbin/nginx -s stop
 ```
 
-## 2. Nginx高可用
+## 2. Nginx+Keepalived 实现主备切换
+
+
+
+
 
 
 

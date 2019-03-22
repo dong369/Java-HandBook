@@ -24,14 +24,15 @@
 > 本篇文章引导你通过熟练使用Linux
 
 ```properties
-touch  filename                              //创建文件
-echo content  >  filename                    //给文件添加内容[覆盖添加内容，原内容被删除]
-echo 内容  >> filename                        //给文件追加内容
-echo 内容  >/>>  newfilename                  //会创建一个新的文件，并且有添加内容[重定向方式]
-wc  文件               //计算文件行数
-cat/more/less         //输出文件内容
-head -n  文件          //查看文件前n行内容
-tail -n  文件          //查看文件末尾n行内容
+touch  filename                              // 创建文件
+echo content  >  filename                    // 给文件添加内容[覆盖添加内容，原内容被删除]
+echo 内容  >> filename                        // 给文件追加内容
+echo 内容  >/>>  newfilename                  // 会创建一个新的文件，并且有添加内容[重定向方式]
+wc  文件               // 计算文件行数
+cat/more/less         // 输出文件内容
+head -n  文件          // 查看文件前n行内容
+tail -n  文件          // 查看文件末尾n行内容
+less -N  文件          // 带行号查看
 ```
 
 ### 2.2 文件夹
