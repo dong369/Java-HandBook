@@ -74,13 +74,13 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传。
 
 ```properties
-yum install -y gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
+yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
 yum –y install lrzsz
 yum -y install wget
-yum -y install psmisc  #pstree以树结构显示进程
-yum install curl
+yum -y install curl
 yum -y install net-tools
+yum -y install psmisc  #pstree以树结构显示进程
 ```
 
 ### 4.2 Ubunto基础软件
@@ -309,6 +309,26 @@ vi /etc/selinux/config
 setenforce 0
 查看生效的命令是
 sestatus
+```
+
+#### 6.1.10 History操作日志
+
+```properties
+export HISTFILESIZE=10000000
+export HISTSIZE=1000000
+export PROMPT_COMMAND="history -a"
+export HISTTIMEFORMAT="%Y-%m-%d_%H:%M:%S "
+cat >> /etc/bashrc << EOF
+alias vi='vim'
+HISTDIR='/var/log/command.log'
+if [ ! -f \$HISTDIR ];then
+touch \$HISTDIR
+chmod 666 \$HISTDIR
+fi
+export HISTTIMEFORMAT="{\"TIME\":\"%F %T\",\"IP\":\"\$(ip a | grep -E '192.168|172' | head -1 | awk '{print \$2}' | cut -d/ -f1)\",\"LI\":\"\$(who -u am i 2>/dev/null| awk '{print \$NF}'|sed -e 's/[()]//g')\",\"LU\":\"\$(who am i|awk '{print \$1}')\",\"NU\":\"\${USER}\",\"CMD\":\""
+export PROMPT_COMMAND='history 1|tail -1|sed "s/^[ ]\+[0-9]\+  //"|sed "s/$/\"}/">> /var/log/command.log'
+EOF
+source /etc/bashrc
 ```
 
 ### 6.2 Ubunto其它配置

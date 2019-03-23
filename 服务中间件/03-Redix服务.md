@@ -237,8 +237,6 @@ gem install redis
             redis requires Ruby version >= 2.2.2.
 ```
 
-
-
 ### 2.3 创建集群
 
 #### 2.3.1 基础配置
@@ -334,7 +332,7 @@ esac
 ```properties
 flushdb
 cluster reset
-./redis-cli -c -h 127.0.0.1 -p 8001  # 客户端以集群方式登陆
+./redis-cli -c -h 127.0.0.1 -p 8001          # 客户端以集群方式登陆
 ./redis-cli --cluster check 127.0.0.1:8001   # 查看节点8001端口号的集群信息
 ```
 

@@ -61,7 +61,7 @@ java -version
 
 ## 2. 防火墙配置
 
-#### 2.1 V-7之前
+### 2.1 V-7之前
 
 > + 重启后生效
 >   开启： chkconfig iptables on
@@ -74,7 +74,7 @@ java -version
 
 注意更改后重启防火墙服务：service iptables restart
 
-#### 2.2 V-7之后
+### 2.2 V-7之后
 
 1. firewalld的基本使用
 
