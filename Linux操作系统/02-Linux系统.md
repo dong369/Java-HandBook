@@ -286,6 +286,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 vi /etc/ssh/sshd_config
 找到#Port 23，Port前面默认是有#的，去掉之后把23改成非常规端口，然后保存。
 systemctl restart sshd
+ssh root@192.168.100  # 进行连接
 ```
 
 #### 6.1.8 禁止默认root账号登陆
@@ -303,12 +304,14 @@ systemctl restart sshd
 #### 6.1.9 关闭SElinux
 
 ```properties
-vi /etc/selinux/config
+vi /etc/selinux/config（vi /etc/sysconfig/selinux）
 找到#SELINUX=enforcing，改成SELINUX=disabled，如上图，保存。这个操作需要重启
 才能永久生效，所以可以临时关闭一下。
 setenforce 0
 查看生效的命令是
 sestatus
+reboot # 进行重启操作
+getenforce  # 检查是否生效
 ```
 
 #### 6.1.10 History操作日志
