@@ -48,6 +48,8 @@
 ```properties
 ps -ef | grep java
 netstat -tln                    // 查看端口信息
+netstat -antlp | grep LISTEN
+netstat -antlp | grep java
 netstat -nlp | grep java
 netstat -nlp | grep :8101
 lsof -i:8101                    // 获取Pid

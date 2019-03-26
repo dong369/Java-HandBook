@@ -216,7 +216,11 @@ NM_CONTROLLED=yes   #network manger的参数，实时生效，修改后无需要
 BOOTPROTO=static    #设置网卡获得ip地址的方式，可能的选项为static，dhcp或bootp
 IPADDR=192.168.100.100  #此字段就指定了网卡对应的ip地址
 GATEWAY=192.168.100.2   #默认网关的IP地址
+DNS1=8.8.8.8 
+DNS2=8.8.4.4
 systemctl restart network（CentOS7以前使用命令：service restart network）
+# 路由表
+netstat -rn
 ```
 
 #### 6.1.4 更新系统和补丁
@@ -286,7 +290,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 vi /etc/ssh/sshd_config
 找到#Port 23，Port前面默认是有#的，去掉之后把23改成非常规端口，然后保存。
 systemctl restart sshd
-ssh root@192.168.100  # 进行连接
+ssh -p 23 root@192.168.100  # 进行连接
 ```
 
 #### 6.1.8 禁止默认root账号登陆
