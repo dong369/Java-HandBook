@@ -4,13 +4,12 @@
 
 ### 1.1 版本
 
-> 1.	[CentOS](https://www.centos.org/)
-> 2.	[Redhat](https://www.ubuntu.com/index_kylin)
-> 3.	Ubuntu 12.04 64位
-> 4.	Suse
-> 5.	Debian
-> 6.	Mandriva
-> 7.	红旗
+> 1.	[Redhat](https://www.ubuntu.com/index_kylin)、[CentOS](https://www.centos.org/)
+> 2.	Ubuntu 12.04 64位
+> 3.	Suse
+> 4.	Debian
+> 5.	Mandriva
+> 6.	红旗
 
 ### 1.2 查看帮助
 
@@ -74,13 +73,10 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传。
 
 ```properties
+yum -y install net-tools wget curl lrzsz
+yum -y install psmisc  #pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
-yum –y install lrzsz
-yum -y install wget
-yum -y install curl
-yum -y install net-tools
-yum -y install psmisc  #pstree以树结构显示进程
 ```
 
 ### 4.2 Ubunto基础软件
@@ -123,11 +119,18 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 ### 5.1 备份
 
 备份原始YUM文件
-`mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup`
+
+```properties
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+```
 
 ### 5.2 下载新的YUM文件
 
-`curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo`
+```properties
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+```
+
+
 
 ### 5.3 更新缓存
 
@@ -518,4 +521,19 @@ systemctl enable docker.service
 ```
 
 
+
+## 10. 扩展安装
+
+### 10.1 Tmux
+
+```properties
+yum -y install tmux
+```
+
+### 10.2 Htop
+
+```properties
+yum -y install epel-release
+yum -y install htop
+```
 
