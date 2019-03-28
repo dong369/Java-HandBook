@@ -165,9 +165,9 @@ Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件�
 
 ##### 4.1 字体和[主题01](http://www.riaway.com/)和[主题02](http://color-themes.com/?view=index)
 
-窗口字体：File | Settings | Appearance & Behavior | Appearance（勾选覆盖字体，选择自己的字体和大小）
+窗口字体：File | Settings | Appearance & Behavior | Appearance（勾选字体，选择自己的字体和大小12）
 
-编辑文件字体：File | Settings | Editor | Font
+编辑文件字体：File | Settings | Editor | Font（勾选覆盖字体，选择自己的字体和大小14）
 
 file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路确认 –> 重启
 
@@ -317,6 +317,14 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 11. 翻译快捷键
 
     Plug-ins | Translation | Translate 翻译->ctrl+1
+
+12. 跟踪 Java 源码的技巧
+
+    Main menu | Navigate | Type Hierarchy -> 类继承图关系，将快捷键设置为 F4
+
+    Main menu | Navigate | Call Hierarchy  -> 方法的调用链关系，将快捷键设置为 ctrl+alt+h
+
+    Main menu | Navigate | File Structure -> 类里面有那些方法，将快捷键设置为 ctrl+o
 
 ### 7 Live Template
 
