@@ -382,7 +382,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > 一键根据json文本生成java类 非常方便；一键调用一个对象的所有set方法并且赋予默认值 在对象字段多的时候非常方便。
 
-##### 9.10 BashSupport 
+##### 9.10 BashSupport 、CMD Support
 
 > shell脚本开发。
 
