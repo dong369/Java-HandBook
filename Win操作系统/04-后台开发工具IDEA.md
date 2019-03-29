@@ -231,7 +231,9 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 2. 配置Gitlab服务地址
 
-   >
+   >进行Gitlab服务地址的配置
+   
+   ![Gitlab配置](../插图/Win操作系统/Gitlab配置.jpg)
 
 3. 申请Token
 
