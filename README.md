@@ -85,11 +85,17 @@ Hbase、LevelDB、Tair（Long DB）、nessDB 采用 LSM 树的结构。LSM可以
 * [《Java Bitset类》](http://www.runoob.com/java/java-bitset-class.html)
 * [《Java BitSet（位集）》](https://blog.csdn.net/caiandyong/article/details/51581160)
 
+## 图
+
 # 常用算法
 
 * [《常见排序算法及对应的时间复杂度和空间复杂度》](https://blog.csdn.net/gane_cheng/article/details/52652705)
 
-## 排序、查找算法
+## 排序算法
+
+```properties
+排序口诀：冒择路（入）兮（希尔）快归堆
+```
 
 * [《常见排序算法及对应的时间复杂度和空间复杂度》](https://blog.csdn.net/gane_cheng/article/details/52652705)
 
@@ -136,18 +142,20 @@ TODO
 * [《排序算法系列：基数排序》](https://blog.csdn.net/lemon_tree12138/article/details/51695211)
 * [《基数排序》](https://www.cnblogs.com/skywang12345/p/3603669.html)
 
-
-### 二分查找
-* [《二分查找(java实现)》](https://www.cnblogs.com/coderising/p/5708632.html)
-	* 要求待查找的序列有序。
-	* 时间复杂度 O(logN)。
-
-* [《java实现二分查找-两种方式》](https://blog.csdn.net/maoyuanming0806/article/details/78176957)
-	* while + 递归。
 ### Java 中的排序工具
 * [《Arrays.sort和Collections.sort实现原理解析》](https://blog.csdn.net/u011410529/article/details/56668545?locationnum=6&fps=1)
 	* Collections.sort算法调用的是合并排序。
 	* Arrays.sort() 采用了2种排序算法 -- 基本类型数据使用快速排序法，对象数组使用归并排序。
+
+## 查找算法
+
+### 二分查找
+
+- [《二分查找(java实现)》](https://www.cnblogs.com/coderising/p/5708632.html)
+  - 要求待查找的序列有序。
+  - 时间复杂度 O(logN)。
+- [《java实现二分查找-两种方式》](https://blog.csdn.net/maoyuanming0806/article/details/78176957)
+  - while + 递归。
 
 ## 布隆过滤器
 
@@ -180,12 +188,23 @@ KMP：Knuth-Morris-Pratt算法（简称KMP）
 ## 回溯算法
 * [《 五大常用算法之四：回溯法》](https://blog.csdn.net/qfikh/article/details/51960331)
 
+## 动态规划
+
+- [《详解动态规划——邹博讲动态规划》](https://www.cnblogs.com/little-YTMM/p/5372680.html)
+- [《动态规划算法的个人理解》](https://blog.csdn.net/yao_zi_jie/article/details/54580283)
+
+## 分治算法
+
+- [《详解动态规划——邹博讲动态规划》](https://www.cnblogs.com/little-YTMM/p/5372680.html)
+- [《动态规划算法的个人理解》](https://blog.csdn.net/yao_zi_jie/article/details/54580283)
+
+## 分支限界法
+
+- [《详解动态规划——邹博讲动态规划》](https://www.cnblogs.com/little-YTMM/p/5372680.html)
+- [《动态规划算法的个人理解》](https://blog.csdn.net/yao_zi_jie/article/details/54580283)
+
 ## 剪枝算法
 * [《α-β剪枝算法》](https://blog.csdn.net/luningcsdn/article/details/50930276)
-
-## 动态规划
-* [《详解动态规划——邹博讲动态规划》](https://www.cnblogs.com/little-YTMM/p/5372680.html)
-* [《动态规划算法的个人理解》](https://blog.csdn.net/yao_zi_jie/article/details/54580283)
 
 ## 朴素贝叶斯
 
