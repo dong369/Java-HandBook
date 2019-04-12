@@ -73,7 +73,7 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传。
 
 ```properties
-yum -y install net-tools wget curl lrzsz
+yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
 yum -y install psmisc  #pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
@@ -194,6 +194,10 @@ crontab -e # 进入定时任务编辑
 ```
 
 #### 6.1.3 IP配置
+
+```shell
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
+```
 
 1. 动态IP
 
@@ -505,8 +509,7 @@ systemctl status zookeeper.service
 systemctl enable zookeeper.service
 关闭自启动：
 systemctl disable zookeeper.service
-
-# docker开机自启动
+docker开机自启动
 systemctl enable docker.service
 ```
 
@@ -520,14 +523,13 @@ systemctl enable docker.service
 /usr/lib/systemd/system/docker.service
 ```
 
-
-
 ## 10. 扩展安装
 
 ### 10.1 Tmux
 
 ```properties
 yum -y install tmux
+ctrl+b   // 激活面板
 ```
 
 ### 10.2 Htop
@@ -536,4 +538,3 @@ yum -y install tmux
 yum -y install epel-release
 yum -y install htop
 ```
-
