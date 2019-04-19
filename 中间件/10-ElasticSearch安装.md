@@ -51,8 +51,8 @@ su esuser
 
 ```shell
 su esuser
-
 ./bin/elasticsearch -d
+ps -ef | grep elastic
 ```
 
 ### 9.测试连接
@@ -106,7 +106,7 @@ vi /etc/security/limits.d/20-nproc.conf
 添加 `esuser soft nproc 4096`
 
 处理第三个错误：
-    
+​    
 `vi /etc/sysctl.conf`
 ```
 vm.max_map_count=655360
@@ -156,3 +156,20 @@ Kibana的默认端口是5601
 [root@localhost /]# /usr/local/kibana/bin/kibana
 
 浏览器访问：http://192.168.25.131:5601
+
+
+
+vi /etc/systemd/system/elasticsearch.service
+
+vi /usr/lib/systemd/system
+
+[Unit]
+Description=elasticsearch
+[Service]
+User=es
+LimitNOFILE=100000
+LimitNPROC=100000
+ExecStart=/usr/local/server/elasticsearch/bin/elasticsearch
+[Install]
+
+WantedBy=multi-user.target

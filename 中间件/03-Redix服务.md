@@ -185,8 +185,8 @@ WantedBy=multi-user.target
 开机启动命令
 
 ```properties
-systemctl enable redis   #设置Redis服务开机启动命令
-systemctl start redis    #立即启动Redis服务命令
+systemctl enable redis   # 设置Redis服务开机启动命令
+systemctl start redis    # 立即启动Redis服务命令
 pstree
 ```
 
