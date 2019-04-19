@@ -167,7 +167,7 @@ sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=curl -sSL https://get.
 > 启动Docker：service docker start（systemctl start docker）
 > 停止Docker：service docker stop（systemctl stop docker）
 > 重启Docker：service docker restart（systemctl restart docker）
-> 拉取镜像：docker pull [OPTIONS] NAME[:TAG]    NAME：代表拉取镜像的名称
+> 拉取镜像：docker pull [OPTIONS] NAME[:TAG] NAME：代表拉取镜像的名称
 > 查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
 > 删除镜像：docker rmi [容器名称&ID]
 > 运行镜像：docker run [OPTIONS] IMAGE[:TAG][COMMAND] [ARG…]
@@ -244,11 +244,16 @@ root@s200:~# docker run -it --rm -p 8888:8080 [REPOSITORY&IMAGE ID]
 root@s200:~# docker pull nginx
 ```
 步骤二：启动容器
-```
-root@s200:~# docker run -it -p 8080:80 --name nginx_web [REPOSITORY&IMAGE ID]
+```shell
+root@s200:~# docker run --name nginx_web -p 8080:80 -d [REPOSITORY&IMAGE ID]
 ```
 
+步骤三：配置Nginx
+
+
+
 ### 4.5 Redis服务
+
 步骤一：拉取镜像
 ```
 root@s200:~# docker pull nginx
@@ -269,6 +274,7 @@ root@s200:~# docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID
 ```
 
 ### 4.7 RabbitMQ服务
+
 步骤一：拉取镜像
 ```
 root@s200:~# docker pull rabbitmq:management
