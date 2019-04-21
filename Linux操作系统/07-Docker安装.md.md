@@ -72,7 +72,7 @@ sudo yum remove docker \
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
 
-#### 2.4.4 设置存储库,并且更新索引
+#### 2.4.4 设置存储库,更新索引
 
 > 由于国外的速度太慢.这里更换到阿里云镜像.
 > 我们去`http://mirrors.aliyun.com/`镜像站下载
@@ -196,30 +196,9 @@ E: Unable to locate package vim
 ```
 
 ### 4.2 MySQL服务
-#### 步骤一：拉取镜像
-
-```
+```shell
 root@s200:~# docker pull mysql
 ```
-#### 步骤二：配置信息
-
-```properties
-mkdir -p /home/service/mysql/data
-mkdir -p /home/service/mysql/log
-mkdir -p /home/service/mysql/conf
-```
-
-#### 步骤三：启动容器
-
-```properties
-docker run -p 3306:3306 --name mysql \
-  -v /home/service/mysql/logs:/logs \
-  -v /home/service/mysql/data:/mysql_data \
-  -e MYSQL_ROOT_PASSWORD=123456\
-  -d mysql
-```
-#### 步骤四：启动容器
-
 > `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
 >  `-v` 将主机~/mysql/logs目录挂载到容器的/logs
 >  `-v` 将主机mysql/data目录挂载到容器的/mysql_data
@@ -227,61 +206,84 @@ docker run -p 3306:3306 --name mysql \
 >
 > `-d`后台启动
 
-### 4.3 Tomcat服务
+### 4.3 Oracle服务
+
+```shell
+docker pull sath89/oracle-xe-11g
+docker run --name oracle -d -p 1521:1521 \
+           -v /e/odata:/u01/app/oracle \
+           -e ORACLE_ALLOW_REMOTE=true \
+           --restart=always sath89/oracle-xe-11g
+docker exec -it 容器id /bin/bash
+su oracle
+cd $ORACLE_HOME
+cd /u01/app/oracle
+mkdir test
+chmod 777 test
+create tablespace TEST datafile '/u01/app/oracle/test/test.dbf' size 100M;  // 创建表空间
+create user TEST identified by TEST123 default tablespace TEST;		// 创建用户
+grant connect,resource to TEST;
+grant dba to TEST; // 授予dba权限后，这个用户能操作所有用户的表
+drop user TEST cascade; // 删除用户
+// 进行连接
+sid: xe
+service name: xe
+username: system
+password: oracle
+```
+
+### 4.4 Tomcat服务
 
 步骤一：拉取镜像
-```
+```shell
 root@s200:~# docker pull tomcat
 ```
 步骤二：启动容器
-```
+```shell
 root@s200:~# docker run -it --rm -p 8888:8080 [REPOSITORY&IMAGE ID]
 ```
 
-### 4.4 Nginx服务
-步骤一：拉取镜像
-```
-root@s200:~# docker pull nginx
-```
-步骤二：启动容器
+### 4.5 Nginx服务
 ```shell
-root@s200:~# docker run --name nginx_web -p 8080:80 -d [REPOSITORY&IMAGE ID]
+docker pull nginx
+docker run --name nginx -p 81:80
+docker run --name nginx -p 81:80 
+       -v /home/service/nginx/static:/usr/share/nginx/html 
+       -v /home/service/nginx/conf/nginx.conf:/etc/nginx/nginx.conf 
+       -v /home/service/nginx/log:/var/log/nginx 
+       -v /home/service/nginx/conf.d:/etc/nginx/conf.d 
+       -v /home/service/nginx/ssl:/ssl 
+       -d nginx
 ```
 
-步骤三：配置Nginx
-
-
-
-### 4.5 Redis服务
-
+### 4.6 Redis服务
 步骤一：拉取镜像
 ```
-root@s200:~# docker pull nginx
+docker pull nginx
 ```
 步骤二：启动容器
 ```
-root@s200:~# docker run --name some-redis -p 6379:6379 -v redis-data:/data -d [REPOSITORY&IMAGE ID]
+docker run --name some-redis -p 6379:6379 -v redis-data:/data -d [REPOSITORY&IMAGE ID]
 ```
 
-### 4.6 Mongo服务
+### 4.7 Mongo服务
 步骤一：拉取镜像
 ```
-root@s200:~# docker pull nginx
+docker pull nginx
 ```
 步骤二：启动容器
 ```
-root@s200:~# docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID]
+docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID]
 ```
 
-### 4.7 RabbitMQ服务
-
+### 4.8 RabbitMQ服务
 步骤一：拉取镜像
 ```
-root@s200:~# docker pull rabbitmq:management
+docker pull rabbitmq:management
 ```
 步骤二：启动容器
 ```
-root@s200:~# docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:management
+docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:management
 ```
 
 ## 5.IDEA整合Docker
