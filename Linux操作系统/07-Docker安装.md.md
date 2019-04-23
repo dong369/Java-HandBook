@@ -197,7 +197,7 @@ E: Unable to locate package vim
 
 ### 4.2 MySQL服务
 ```shell
-root@s200:~# docker pull mysql
+docker pull mysql
 ```
 > `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
 >  `-v` 将主机~/mysql/logs目录挂载到容器的/logs
@@ -234,58 +234,43 @@ password: oracle
 
 ### 4.4 Tomcat服务
 
-步骤一：拉取镜像
 ```shell
-root@s200:~# docker pull tomcat
+docker pull tomcat
+docker run -it --rm -p 8888:8080 [REPOSITORY&IMAGE ID]
 ```
-步骤二：启动容器
-```shell
-root@s200:~# docker run -it --rm -p 8888:8080 [REPOSITORY&IMAGE ID]
-```
-
 ### 4.5 Nginx服务
 ```shell
-docker pull nginx
-docker run --name nginx -p 81:80
-docker run --name nginx -p 81:80 
-       -v /home/service/nginx/static:/usr/share/nginx/html 
-       -v /home/service/nginx/conf/nginx.conf:/etc/nginx/nginx.conf 
-       -v /home/service/nginx/log:/var/log/nginx 
-       -v /home/service/nginx/conf.d:/etc/nginx/conf.d 
-       -v /home/service/nginx/ssl:/ssl 
-       -d nginx
+docker run --name nginx -p 81:80 -d pid
+mkdir -p /home/service/nginx/{conf,conf.d,static,log,ssl}
+docker cp nginx:/etc/nginx/nginx.conf /home/service/nginx/conf/nginx.conf
+docker cp nginx:/etc/nginx/conf.d/default.conf /home/service/nginx/conf.d/default.conf
+docker cp nginx:/usr/share/nginx/html/index.html /home/service/nginx/static/index.html
+docker stop nginx
+docker rm nginx
+docker run -p 443:443 -p 81:80 --name dev-nginx \    
+    -v /home/service/nginx/static:/usr/share/nginx/html  \
+    -v /home/service/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \    
+    -v /home/service/nginx/conf.d:/etc/nginx/conf.d \
+    -v /home/service/nginx/ssl:/ssl \
+	-v /home/service/nginx/log:/var/log/nginx  \
+    -d nginx
 ```
 
 ### 4.6 Redis服务
-步骤一：拉取镜像
 ```
 docker pull nginx
-```
-步骤二：启动容器
-```
 docker run --name some-redis -p 6379:6379 -v redis-data:/data -d [REPOSITORY&IMAGE ID]
 ```
-
 ### 4.7 Mongo服务
-步骤一：拉取镜像
 ```
 docker pull nginx
-```
-步骤二：启动容器
-```
 docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID]
 ```
-
 ### 4.8 RabbitMQ服务
-步骤一：拉取镜像
 ```
 docker pull rabbitmq:management
-```
-步骤二：启动容器
-```
 docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:management
 ```
-
 ## 5.IDEA整合Docker
 
 ### 5.1 安装插件
@@ -319,7 +304,9 @@ tcp://192.168.100.13:2375
 ```
 ![Docker连接配置](../插图/Linux操作系统/Docker连接配置.png)
 
-2. 项目编写Dockerfile文件
+### 5.4 Spring Boot部署
+
+1. 项目编写Dockerfile文件
 
 ```properties
 # 容器的依赖
@@ -361,7 +348,7 @@ EXPOSE 8080
 ENTRYPOINT ["java","-jar","/guod.jar"]
 ```
 
-3. 项目部署操作
+2. 项目部署操作
 
 > 运行Dockerfile文件，项目发布成功！
 > ![Docker连接配置](../插图/Linux操作系统/Dockerfile配置文件.png)
