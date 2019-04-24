@@ -34,7 +34,6 @@ useradd esuser -g esgroup -p 123456
 更改elasticsearch文件夹及内部文件的所属用户及组：
 ```shell
 cd /opt
-
 chown -R esuser:esgroup elasticsearch-6.2.4
 ```
 
@@ -42,7 +41,6 @@ chown -R esuser:esgroup elasticsearch-6.2.4
 
 ```shell
 su esuser
-
 ./bin/elasticsearch
 ```
 
@@ -51,8 +49,8 @@ su esuser
 
 ```shell
 su esuser
-
 ./bin/elasticsearch -d
+ps -ef|grep elasticsearch
 ```
 
 ### 9.测试连接
@@ -62,6 +60,7 @@ su esuser
 这个时候想从浏览器打开，发现打不开，此时要修改配置文件`config/elasticsearch.yml`
 ```shell
 network.host: 10.237.16.13
+#cluster.initial_master_nodes: ["node-1", "node-2"] 修改为 cluster.initial_master_nodes: ["node-1"]，记得保存。ES7必须修改。
 ```
 ### 11.修改配置文件后报错处理
 再次启动，会有一个error
@@ -87,27 +86,21 @@ network.host: 10.237.16.13
 修改第一个错误
 ```
 vi /etc/security/limits.conf       //文件最后加入
-
 esuser soft nofile 65536
-
 esuser hard nofile 65536
-
 esuser soft nproc 4096
-
 esuser hard nproc 4096
 ```
 处理第二个错误：
 ```
-
 进入limits.d目录下修改配置文件。
-
 vi /etc/security/limits.d/20-nproc.conf
 ```
 添加 `esuser soft nproc 4096`
 
 处理第三个错误：
-​    
-`vi /etc/sysctl.conf`
+​    `vi /etc/sysctl.conf`
+
 ```
 vm.max_map_count=655360
 ```
