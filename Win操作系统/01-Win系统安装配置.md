@@ -50,11 +50,10 @@
 ```
 Ctrl+A：全选
 Ctrl+C：粘贴
+Ctrl+V：粘贴
 Ctrl+X：剪切
 Ctrl+F：搜索
-Ctrl+V：粘贴
 Ctrl+W：关闭
-Win+R：快速进入Dos窗口
 Notepad：记事本
 Calc：计算器
 control：进入控制面板
@@ -67,8 +66,11 @@ Ctrl+数字[1，2，3，4......]浏览器或clover工具窗口切换
 Win+D：显示桌面
 Shift+右键：快速进入Dos窗口
 Shift+end（shift+home）快速选择从当前行到结尾行（开始行）。
+Win+q：搜索
+Win+w：便签
+Win+e：快速进入资源管理
+Win+t：窗口切换
 Win+Tab：切换窗口
-Win+E：快速进入资源管理
 Win+数字[1，2，3，4......]windows的下窗口程序选择
 Regedit：打开系统注册表。
 Cd：进入特定的目录。
@@ -87,6 +89,7 @@ Psr.exe：步骤记录
 Sysprep：系统恢复初始化
 Write：写字板
 sysdm.cpl：进入环境变量编辑
+alt+F4：关闭窗口
 ```
 
 ### 3.2 功能键区
