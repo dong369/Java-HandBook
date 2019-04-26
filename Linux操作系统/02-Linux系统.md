@@ -54,7 +54,7 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 #### 3.1.2 CPU信息
 
-> cat /proc/cpuinfo，显示系统配置信息
+> cat /proc/cpuinfo，显示系统配置信息。
 
 ### 3.1 Ubunto系统版本
 
