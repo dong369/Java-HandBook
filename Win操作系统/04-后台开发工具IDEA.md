@@ -351,8 +351,9 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 >翻译工具。
 
 ##### 9.2 Maven Helper
-
 >maven管理工具。
+
+![Maven Helper](../插图/Win操作系统/Idea-Maven-Helper.jpg)
 
 ##### 9.3 lombok
 
