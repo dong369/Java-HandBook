@@ -264,7 +264,7 @@ make && make install
 
 ```properties
 进入安装目录，不是源码目录：/usr/local/nginx 
-启动：./nginx -c conf/nginx.conf 
+启动：./nginx -c conf/nginx.conf
 停止：./nginx -s stop 
 从新加载配置：./nginx -s reload
 检查：./nginx -t
