@@ -126,25 +126,23 @@ sudo rm -rf /var/lib/docker          # 移除镜像，容器，卷，网络，�
 systemctl enable docker.service
 ```
 
-#### 2.4.10 安装docker-composer
+#### 2.4.10 docker-composer
+
+1. 下载授权
 
 ```properties
 curl -L https://get.daocloud.io/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose    // 文件授权
+docker-compose --version    // 安装版本查看
 ```
 
-
+2. 启动/关闭/拉取镜像
 
 ```properties
-启动
-docker-compose up -d
-关闭
-docker-compose down
-重新拉取镜像
-docker-compose pull
+启动：docker-compose up -d
+关闭：docker-compose down
+重新拉取镜像：docker-compose pull
 ```
-
-
 
 ### 2.5 操作问题
 
