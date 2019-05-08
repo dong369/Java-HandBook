@@ -1,35 +1,38 @@
-# ES的概述，下载，安装
+## 1. Elk的下载
 
-## ES概述
+### 1.1 Elk下载
+[下载地址](https://www.elastic.co/cn/)
 
-## ES下载
-下载地址：`https://www.elastic.co/cn/downloads/elasticsearch`
-找到`MACOS/LINUX`，点击下载
+本教程使用的elasticsearch版本：elasticsearch-7.0.0-linux-x86_64.tar.gz
 
-## ES安装
+本教程使用的kibana版本：kibana-7.0.0-linux-x86_64.tar.gz
 
-### 0.安装JDK
+本教程使用的logstash版本：logstash-7.0.1.tar.gz
+
+## 2. 安装Elasticsearch
+
+### 2.1 安装JDK
 具体参见以前写的安装JDK文件
 
-### 1.建立目录
+### 2.2 建立目录
 `mkdir -p /opt/soft`
 
-### 2.上传文件
+### 2.3 上传文件
 把刚刚下载的`elasticsearch-6.5.1.tar.gz`上传至到`/opt/soft`目录下
 
-### 3.解压
+### 2.4 解压
 `tar -zxvf elasticsearch-6.5.1.tar.gz`
 
-### 4.进入目录 
+### 2.5 进入目录 
 `cd elasticsearch-6.5.1`
 
-### 5.建立es用户和用户组
+### 2.6 建立ES用户和用户组
 
 ```shell
 groupadd esgroup
 useradd esuser -g esgroup -p 123456
 ```
-### 6.更改es文件夹及内部文件的所属用户组
+### 2.7 更改ES文件的所属用户组
 
 更改elasticsearch文件夹及内部文件的所属用户及组：
 ```shell
@@ -37,14 +40,14 @@ cd /opt
 chown -R esuser:esgroup elasticsearch-6.2.4
 ```
 
-### 7.切换用户并运行
+### 2.8 切换ES用户并运行
 
 ```shell
 su esuser
 ./bin/elasticsearch
 ```
 
-### 8.后台运行
+### 2.9 ES后台运行
 刚刚启动后，你会发现一按`ctrl + c` 就关闭服务了，这时候需要加参数进行后台启动
 
 ```shell
@@ -53,16 +56,16 @@ su esuser
 ps -ef|grep elasticsearch
 ```
 
-### 9.测试连接
+### 2.10 ES测试连接
 再复制一个ssh端口，之后走`curl 127.0.0.1:9200`
 
-### 10.打开远程连接
+### 2.11 打开远程连接
 这个时候想从浏览器打开，发现打不开，此时要修改配置文件`config/elasticsearch.yml`
 ```shell
 network.host: 10.237.16.13
 #cluster.initial_master_nodes: ["node-1", "node-2"] 修改为 cluster.initial_master_nodes: ["node-1"]，记得保存。ES7必须修改。
 ```
-### 11.修改配置文件后报错处理
+### 2.12 修改配置文件后报错处理
 再次启动，会有一个error
 ``` shell
 [2018-11-30T15:10:04,815][DEBUG][o.e.a.ActionModule       ] [4NdIzs7] Using REST wrapper from plugin org.elasticsearch.xpack.security.Security
@@ -80,7 +83,6 @@ network.host: 10.237.16.13
 [2018-11-30T15:10:06,006][INFO ][o.e.n.Node               ] [4NdIzs7] closing ...
 [2018-11-30T15:10:06,023][INFO ][o.e.n.Node               ] [4NdIzs7] closed
 [2018-11-30T15:10:06,025][INFO ][o.e.x.m.j.p.NativeController] [4NdIzs7] Native controller process has stopped - no new native processes can be started
-
 ```
 
 修改第一个错误
@@ -111,41 +113,48 @@ vm.max_map_count=655360
 关闭防火墙：`systemctl stop firewalld.service`
 
 
-### 12.每次SSH连接都提示找不到JAVA_HOME
+### 2.13 SSH连接JAVA_HOME
 `vi ~/.bashrc`在末尾加上`source /etc/profile`
 
+## 3. 安装Kibana
 
+### 3.1 Kibana关联ES
 
-### 1.8安装Kibana
-Kibana是一个针对Elasticsearch的开源分析及可视化平台，使用Kibana可以查询、查看并与存储在ES索引的数据进行交互操作，使用Kibana能执行高级的数据分析，并能以图表、表格和地图的形式查看数据
+1. Kibana是一个针对Elasticsearch的开源分析及可视化平台，使用Kibana可以查询、查看并与存储在ES索引的数据进行交互操作，使用Kibana能执行高级的数据分析，并能以图表、表格和地图的形式查看数据
 
-(1)下载Kibana
-https://www.elastic.co/downloads/kibana
+2. 解压缩，并把解压后的目录移动到/usr/local/soft/kibana
 
-(2)把下载好的压缩包拷贝到/soft目录下
+3. 编辑kibana配置文件
 
-(3)解压缩，并把解压后的目录移动到/user/local/kibana
+```properties
+vim /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/config/kibana.yml
+```
 
-(4)编辑kibana配置文件
+4. 将server.host，elasticsearch.url修改成所在服务器的ip地址
 
-[root@localhost /]# vi /usr/local/kibana/config/kibana.yml
+5. 开启5601端口
 
-![image](https://images2017.cnblogs.com/blog/210978/201708/210978-20170805113725272-708617928.png)
+6. 开启防火墙:systemctl start firewalld.service
 
-将server.host,elasticsearch.url修改成所在服务器的ip地址
+7. 开启5601端口:firewall-cmd --permanent --zone=public --add-port=5601/tcp
 
-(5)开启5601端口
+8. 重启防火墙：firewall-cmd –reload
 
-Kibana的默认端口是5601
+### 3.2 Kibana汉化
 
-开启防火墙:systemctl start firewalld.service
+```properties
+vim /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/config/kibana.yml
+i18n.locale: "zh_CN"
+```
 
-开启5601端口:firewall-cmd --permanent --zone=public --add-port=5601/tcp
+### 3.3 Kibana启动
 
-重启防火墙：firewall-cmd –reload
+1. 启动Kibana
 
-(6)启动Kibana
+```properties
+/usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/bin/kibana
+```
 
-[root@localhost /]# /usr/local/kibana/bin/kibana
+2. 浏览器访问：[http://192.168.100.16:5601](http://192.168.100.16:5601/)
 
-浏览器访问：http://192.168.25.131:5601
+## 4. 安装Logstash
