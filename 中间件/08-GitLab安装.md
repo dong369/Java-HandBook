@@ -76,3 +76,25 @@ GitLab 在初次运行的时候会自动升级， 为了预防万一， 还是�
 gitlab-ctl reconfigure
 gitlab-ctl restart
 ```
+
+1.设置中文。
+
+登陆后 点右上角的头像 --> settings -->Preferred language -->简体中文--> 确定
+
+2.底部中间的小板子（管理中心）-->设置-->通用
+
+帐户和限制
+
+Gravatar enabled的勾去掉
+
+Default projects limit改为10
+
+注册限制
+
+Sign-up enabled的勾去掉
+
+3.管理中心-->外观
+
+标题为首页的标题
+
+描述为首页的描述
