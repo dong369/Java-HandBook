@@ -459,23 +459,46 @@ rpm -qa | grep 包名    # 可联合grep命令查找
 
 ### 8.1 tar
 
+1. 文件压缩
+
 ```properties
+// 文件压缩
 tar -cvf jpg.tar file1 file2 ....fileN
 tar -xvf my.tar.gz
 tar -xvf my.tar.gz -C /usr/local/soft
+
 // 大文件后台压缩
 nohup tar -cvf jpg.tar file1 file2 ....fileN &
 ```
 
+2. 文件解压
+
+```properties
+
+```
+
+
+
 ### 8.2 tar.gz
+
+1. 文件压缩
 
 ```properties
 tar -zcvf my.tar.gz file1 file2 ....fileN
 tar -zxvf my.tar.gz
 tar -zxvf my.tar.gz -C /usr/local/soft
+
 // 大文件后台解压
 nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 ```
+
+2. 文件解压
+
+```properties
+
+```
+
+
 
 ## 9. 服务管理
 

@@ -1,7 +1,7 @@
 ## 1. Elk的下载
 
 ### 1.1 Elk下载
-[下载地址](https://www.elastic.co/cn/)
+[下载地址](https://www.elastic.co/cn/downloads/past-releases)
 
 本教程使用的elasticsearch版本：elasticsearch-7.0.0-linux-x86_64.tar.gz
 
