@@ -74,7 +74,7 @@ CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传�
 
 ```properties
 yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
-yum -y install psmisc  #pstree以树结构显示进程
+yum -y install psmisc  # pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
 ```
@@ -129,8 +129,6 @@ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```properties
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
-
-
 
 ### 5.3 更新缓存
 
