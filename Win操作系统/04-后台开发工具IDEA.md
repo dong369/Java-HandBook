@@ -227,7 +227,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 1. 安装插件
 
-   >
+   >Gitlab
 
 2. 配置Gitlab服务地址
 
@@ -285,8 +285,8 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
    格式代码：File->Settings-> Keymap-> 搜索Reformat Code-> 添加快捷键为Ctrl+Shift+F。
 
 2. 快捷键的配置，习惯了Navicat Premium数据库管理工具的使用（open console、execute）
-   File->Settings-> Keymap-> 搜索open console-> 添加快捷键为Ctrl+Q。
-   File->Settings-> Keymap-> 搜索execute-> 添加快捷键为Ctrl+R。
+   File->Settings-> Keymap->Other-open console-> 添加快捷键为Ctrl+Q。
+   File->Settings-> Keymap->Other-Execute Current Statement in Multiline Console-> 添加快捷键为Ctrl+R。
 
 3. 按鼠标中键快速打开智能提示，取代alt+enter 
    File->Settings-> Keymap-> 搜索 Show Intention Actions -> 添加快捷键为鼠标中键。
@@ -314,7 +314,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ​       Main menu | Code | Folding | Expand All  折叠->alt+
 
-​       Main menu | Code | Folding | Collapse All 展开->alt
+​       Main menu | Code | Folding | Collapse All 展开->alt-
 
 11. 翻译快捷键
 

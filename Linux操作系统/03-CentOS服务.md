@@ -117,11 +117,11 @@ java -version
 
 4. CentOS 7怎么开启一个端口
 
-> 22、80、8080、3306、6379、
+> 22、80、8080、3306、6379
 
 ```properties
-添加
-firewall-cmd --zone=public --add-port=80/tcp --permanent    （--permanent永久生效，没有此参数重启后失效）
+添加（--permanent永久生效，没有此参数重启后失效）
+firewall-cmd --zone=public --add-port=80/tcp --permanent
 查看
 firewall-cmd --zone=public --query-port=80/tcp
 删除
@@ -135,4 +135,8 @@ firewall-cmd --reload
 ```properties
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
+
+
+
+## 4. 文件共享
 

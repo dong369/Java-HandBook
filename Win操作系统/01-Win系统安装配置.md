@@ -84,7 +84,6 @@ Winver：电脑的版本
 Taskmgr：任务管理器
 Syskey：电脑安全命令
 Dxdiag：诊断工具
-Mstsc：远程桌面控制
 Psr.exe：步骤记录
 Sysprep：系统恢复初始化
 Write：写字板

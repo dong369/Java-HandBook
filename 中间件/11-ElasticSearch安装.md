@@ -3,11 +3,11 @@
 ### 1.1 Elk下载
 [下载地址](https://www.elastic.co/cn/downloads/past-releases)
 
-本教程使用的elasticsearch版本：elasticsearch-7.0.0-linux-x86_64.tar.gz
+本教程使用的elasticsearch版本：elasticsearch-6.8.0.tar.gz
 
-本教程使用的kibana版本：kibana-7.0.0-linux-x86_64.tar.gz
+本教程使用的kibana版本：kibana-6.8.0-linux-x86_64.tar.gz
 
-本教程使用的logstash版本：logstash-7.0.1.tar.gz
+本教程使用的logstash版本：logstash-6.8.0.tar.gz
 
 ## 2. 安装Elasticsearch
 
@@ -15,34 +15,40 @@
 具体参见以前写的安装JDK文件
 
 ### 2.2 建立目录
-`mkdir -p /opt/soft`
+```properties
+mkdir -p /opt/soft/{elasticsearch,kiban}
+```
 
 ### 2.3 上传文件
-把刚刚下载的`elasticsearch-6.5.1.tar.gz`上传至到`/opt/soft`目录下
+把刚下载的elasticsearch-7.0.0-linux-x86_64.tar.gz上传至到/usr/local/soft/es目录下
 
 ### 2.4 解压
-`tar -zxvf elasticsearch-6.5.1.tar.gz`
+```properties
+tar -zxvf elasticsearch-6.8.0.tar.gz
+```
 
 ### 2.5 进入目录 
-`cd elasticsearch-6.5.1`
+```properties
+cd /usr/local/soft/es/elasticsearch-6.8.0
+```
 
 ### 2.6 建立ES用户和用户组
 
-```shell
+```properties
 groupadd esgroup
 useradd esuser -g esgroup -p 123456
 ```
 ### 2.7 更改ES文件的所属用户组
 
 更改elasticsearch文件夹及内部文件的所属用户及组：
-```shell
-cd /opt
-chown -R esuser:esgroup elasticsearch-6.2.4
+```properties
+cd /usr/local/soft/es/
+chown -R esuser:esgroup elasticsearch-6.8.0
 ```
 
 ### 2.8 切换ES用户并运行
 
-```shell
+```properties
 su esuser
 ./bin/elasticsearch
 ```
@@ -50,7 +56,7 @@ su esuser
 ### 2.9 ES后台运行
 刚刚启动后，你会发现一按`ctrl + c` 就关闭服务了，这时候需要加参数进行后台启动
 
-```shell
+```properties
 su esuser
 ./bin/elasticsearch -d
 ps -ef|grep elasticsearch
@@ -86,7 +92,7 @@ network.host: 10.237.16.13
 ```
 
 修改第一个错误
-```
+```properties
 vi /etc/security/limits.conf       //文件最后加入
 esuser soft nofile 65536
 esuser hard nofile 65536
@@ -94,16 +100,15 @@ esuser soft nproc 4096
 esuser hard nproc 4096
 ```
 处理第二个错误：
-```
+```properties
 进入limits.d目录下修改配置文件。
 vi /etc/security/limits.d/20-nproc.conf
+esuser soft nproc 4096
 ```
-添加 `esuser soft nproc 4096`
-
 处理第三个错误：
-​    `vi /etc/sysctl.conf`
 
-```
+```properties
+vi /etc/sysctl.conf
 vm.max_map_count=655360
 ```
 
@@ -153,6 +158,7 @@ i18n.locale: "zh_CN"
 
 ```properties
 /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/bin/kibana
+nohup /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/bin/kibana &
 ```
 
 2. 浏览器访问：[http://192.168.100.16:5601](http://192.168.100.16:5601/)

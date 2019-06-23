@@ -35,7 +35,7 @@ cd /usr/local/redis-5.0.3.tar.gz
 make PREFIX=/usr/local/redis install
 cd /usr/local/redis
 mkdir conf
-cp /usr/local/redis-5.0.3/redis.conf  /usr/local/redis/bin
+cp /usr/local/redis-5.0.3/redis.conf  /usr/local/redis/conf
 ```
 
 #### 1.2.3 redis.conf
@@ -185,6 +185,7 @@ WantedBy=multi-user.target
 开机启动命令
 
 ```properties
+systemctl daemon-reload
 systemctl enable redis   # 设置Redis服务开机启动命令
 systemctl start redis    # 立即启动Redis服务命令
 pstree

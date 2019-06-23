@@ -122,6 +122,8 @@ server {
 
 3. server节点配置
 
+
+
 ```properties
 server {
     listen 8081;
@@ -132,7 +134,7 @@ server {
         index  index.html login.html;
     }
 
-    # 后台服务（URL中是否包含有URI，包含/是替换，不包含是追加）
+    # 后台服务（URL中是否包含有URI，包含/是替换，不包含/是追加）
     location /isp/ {
         proxy_pass http://10.237.16.21:7122/;
     }
@@ -203,74 +205,67 @@ location /c/ {
 注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
 ```
 
-### 1.2 离线安装
+### 1.3 离线安装
 
 > 把安装包解压到服务器上，先安装gcc，再安装g++。分别执行两个文件夹下的install.sh。
 > 一般我们都需要先装pcre,zlib，前者用于url rewrite，后者用于gzip压缩，openssl用于后续可能升级到https时使用。
 
-#### pcre安装
+#### 1.3.1 pcre安装
 
 执行如下命令：
 
+```properties
 tar -zxvf pcre-8.42.tar.gz
-
 cd pcre-8.42/
-
 ./configure
-
 make && make install
+```
 
-#### zlib安装
+#### 1.3.2 zlib安装
 
 执行如下命令：
 
-tar -zxvf zlib-1.2.11.tar.gz
+```properties
 
-cd zlib-1.2.11/
+```
 
-./configure
-
-make && make install
-
-#### openssl安装
+#### 1.3.3 openssl安装
 
 执行如下命令：
 
+```properties
 tar -zxvf openssl-1.1.0h.tar.gz
-
 cd openssl-1.1.0h/
-
 ./config
-
 make && make install
+```
 
-#### nginx安装
+#### 1.3.4 nginx安装
 
 执行如下命令：
 
+```properties
 tar -zxvf nginx-1.14.0.tar.gz
-
 cd nginx-1.14.0/
-
 ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-pcre=../pcre-8.42 --with-zlib=../zlib-1.2.11 --with-openssl=../openssl-1.1.0h
-
 make && make install
+```
 
-### 1.3 启动使用
+### 1.4 启动使用
 
 > 直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。
 
-#### 1.3.1 基本命令
+#### 1.4.1 基本命令
 
 ```properties
-进入安装目录，不是源码目录：/usr/local/nginx 
-启动：./nginx -c conf/nginx.conf
+进入安装目录，不是源码目录：/usr/local/nginx
+检查配置文件：./nginx -t
+首次启动：./nginx -c conf/nginx.conf
 停止：./nginx -s stop 
 从新加载配置：./nginx -s reload
-检查：./nginx -t
 ```
 
-#### 1.3.2 开机启动
+#### 1.4.2 开机启动
 
 ```properties
 # Nginx服务开机启动nginx.service
@@ -285,15 +280,11 @@ ExecReload=/usr/local/nginx/sbin/nginx -s reload
 ExecStop=/usr/local/nginx/sbin/nginx -s stop
 ```
 
-### 1.4 nginx.service
+### 1.5 nginx.service
 
 
 
 ## 2. Nginx+Keepalived 实现主备切换
-
-
-
-
 
 
 
@@ -358,6 +349,8 @@ server {
     # 后台服务（URL中是否包含有URI，包含/是替换，不包含是追加）
     location /test/ {
         proxy_pass http://192.168.100.12:11601/;
+        # nginx默认文件上传是2M
+        client_max_body_size    50m;
     }
 }
 ```
@@ -552,3 +545,4 @@ server {
 }
 ```
 
+### 3.3 缓存配置

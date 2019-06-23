@@ -61,7 +61,7 @@
 ​        3. 8009 ---- Apache代理时用的
 
 二、Tomcat的优化配置
-```
+```xml
   <Server port ="800 5" shutdown ="SHUTDOWN">
                 改为
   <Server port ="- 1" shutdown ="SHUTDOWN" >

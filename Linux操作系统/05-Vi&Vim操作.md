@@ -26,8 +26,8 @@
 ```properties
 touch  filename                              // 创建文件
 echo content  >  filename                    // 给文件添加内容[覆盖添加内容，原内容被删除]
-echo 内容  >> filename                        // 给文件追加内容
-echo 内容  >/>>  newfilename                  // 会创建一个新的文件，并且有添加内容[重定向方式]
+echo content  >> filename                    // 给文件追加内容
+echo content  >/>>  newfilename              // 会创建一个新的文件，并且有添加内容[重定向方式]
 wc  文件               // 计算文件行数
 cat/more/less         // 输出文件内容
 head -n  文件          // 查看文件前n行内容
@@ -42,7 +42,7 @@ mkdir  hehe/xixi
 mkdir -p first/second/third      // 递归创建3个目录 加-p选项
 mv book.txt  shu.txt             // 改名字，地址只要不存在就是改名字
 mv  ten/bread.ods  firstt        // 移动，只要地址是存在的目录就是移动
-cp -R /a /b                      // 复制"目录"需要添加参数-R
+cp -r /a /b                      // 复制"目录"需要添加参数-R
 rm -rf /a                        // 可以删除一切普通的目录或文件 递归
 mkdir -p server1/{data,log} server2/{data,log} server3/{data,log}   // 创建多个文件夹
 ```
@@ -122,3 +122,18 @@ yum -y install vim*
 | `:set ff`、`:set ff=unix` | 查看文件格式（fileformat=unix）     |
 | `:set nu`                 | 显示文件行号                        |
 | `:set nonu`               | 去除文件行号                        |
+
+## 5. 查找查看
+
+### 5.1 文件查找
+
+```shell
+find / -name file
+```
+
+### 5.2 内容查找
+
+```shell
+grep -r "JAVA_HOME" /etc/
+grep -Ev "^$|#" file
+```

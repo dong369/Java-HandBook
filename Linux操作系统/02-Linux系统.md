@@ -4,7 +4,7 @@
 
 ### 1.1 版本
 
-> 1.	[Redhat](https://www.ubuntu.com/index_kylin)、[CentOS](https://www.centos.org/)
+> 1.	[Redhat](https://www.ubuntu.com/index_kylin)、[CentOS](https://www.centos.org/)，Redhat安装包需要收费的，一般选择CentOS
 > 2.	Ubuntu 12.04 64位
 > 3.	Suse
 > 4.	Debian
@@ -19,13 +19,13 @@ info ls
 ls --help
 ```
 
-## 2. 版本下载
+## 2. Linux版本下载
+
+[清华大学 TUNA 协会](https://tuna.moe/)
 
 [阿里巴巴开源镜像站](https://opsx.alibaba.com/)
 
 [网易开源镜像站](https://link.jianshu.com/?t=http://mirrors.163.com/)
-
-[清华大学 TUNA 协会](https://tuna.moe/)
 
 ### 2.1 CentOS系统
 ```properties
@@ -44,25 +44,73 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 ### 3.1 CentOS
 
-#### 3.1.1 系统信息
+#### 3.1.1 系统内核
 
-> 输入uname -a ，可显示电脑以及操作系统的相关信息。 
-> 输入cat /proc/version，说明正在运行的内核版本。
-> 输入cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
-> 输入cat /etc/issue，显示的是发行版本信息
-> lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
+```properties
+rpm -qa|grep kernel
+```
 
-#### 3.1.2 CPU信息
+#### 3.1.2 系统版本信息
 
-> cat /proc/cpuinfo，显示系统配置信息。
+```properties
+uname -a ，可显示电脑以及操作系统的相关信息。 
+cat /proc/version，说明正在运行的内核版本。
+cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
+cat /etc/issue，显示的是发行版本信息
+lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
+```
 
-### 3.1 Ubunto系统版本
+#### 3.1.3 CPU信息
 
-#### 3.1.1 系统信息
+```properties
+cat /proc/cpuinfo，显示系统配置信息。
+```
+
+### 3.2 Ubunto系统版本
+
+#### 3.2.1 系统内核
 
 
 
-#### 3.1.2 CPU信息
+#### 3.2.2 系统信息
+
+
+
+#### 3.2.3 CPU信息
+
+
+
+### 3.3 系统组及用户
+
+#### 3.3.1 CentOS
+
+##### 3.3.1.1 添加删除用户组
+
+```properties
+groupadd guoddgroup
+groupdel guoddgroup
+```
+
+##### 3.3.1.2 添加删除用户
+
+```properties
+useradd -g guoddgroup guodd  -p 123456
+userdel -r guodd # 删除用户guodd，同时删除他的工作目录
+```
+
+##### 3.3.1.3 文件拥有者
+
+```properties
+chown -R user:group file
+```
+
+##### 3.3.1.4 文件权限
+
+```properties
+chmod -R 777 file
+```
+
+#### 3.3.2 Ubunto
 
 
 
@@ -116,7 +164,9 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 
 ## 5. 配置阿里YUM源
 
-### 5.1 备份
+### 5.1 CentOS 7
+
+#### 5.1.1 备份
 
 备份原始YUM文件
 
@@ -124,15 +174,59 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```
 
-### 5.2 下载新的YUM文件
+#### 5.1.2 下载新的YUM文件
 
 ```properties
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
-### 5.3 更新缓存
+#### 5.1.3 更新缓存
 
-`yum makecache`
+```properties
+yum makecache
+```
+
+### 5.2 Ubunto
+
+#### 5.2.1 备份
+
+```properties
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+```
+
+#### 5.2.2 添加源信息
+
+```properties
+sudo vim /etc/apt/sources.list
+# 阿里镜像源
+deb https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+# 中科大镜像源
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+```
+
+#### 5.2.3 更新缓存
+
+```properties
+sudo apt-get update
+```
 
 ## 6. Linux其它配置
 
@@ -289,7 +383,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 
 
-#### 6.1.7 修改ssh远程登陆的默认端口
+#### 6.1.7 修改SSH远程登陆
 
 ```properties
 vi /etc/ssh/sshd_config
@@ -343,6 +437,8 @@ EOF
 source /etc/bashrc
 ```
 
+#### 6.1.11 防火墙配置
+
 ### 6.2 Ubunto其它配置
 
 #### 6.2.1 服务名称管理
@@ -350,6 +446,7 @@ source /etc/bashrc
 更改hostname
 
 ```properties
+vi /etc/cloud/cloud.cfg（preserve_hostname: true  # 这里是将false改成true）
 vi /etc/hostname
 ```
 
@@ -364,6 +461,10 @@ vi /etc/hosts
 
 
 #### 6.2.3 IP配置
+
+##### 16.04及之前
+
+修改配置文件：sudo vim /etc/network/interfaces
 
 1. 动态IP
 
@@ -395,6 +496,27 @@ gateway 192.168.100.2
 netmask 255.255.255.0
 dns-nameservers 192.168.100.2
 auto ens33
+```
+
+##### 18.04之后
+
+修改配置文件：sudo vim /etc/netplan/50-cloud-init.yaml
+
+```yaml
+# This file is generated from information provided by
+# the datasource.  Changes to it will not persist across an instance.
+# To disable cloud-init's network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        ens33:
+            addresses: [192.168.100.33/24]
+            dhcp4: false
+            gateway4: 192.168.100.2
+            nameservers: 
+                addresses: [8.8.8.8, 4.4.4.4]
+    version: 2
 ```
 
 
@@ -559,3 +681,74 @@ ctrl+b   // 激活面板
 yum -y install epel-release
 yum -y install htop
 ```
+
+## 11. SSH免密登录
+
+### 11.1 客户机
+
+1. 安装配置cmder终端工具
+2. 生成公钥和私钥
+
+```properties
+ssh-keygen -t rsa
+```
+
+3. 上传公钥，添加到密钥库中
+
+```properties
+scp.exe .ssh\id_rsa.pub guodd@s31:~/.ssh/authorized_keys
+```
+
+### 11.2 服务器机
+
+#### 11.2.1 CentOS
+
+1. CentOS7默认带有SSH服务，无需再次安装。
+
+2. 修改/etc/ssh/sshd_config文件。
+
+```properties
+StrictModes no
+systemctl restart sshd
+```
+
+#### 11.2.2 Ubunto
+
+1. 安装SSH
+
+```properties
+sudo apt-get install ssh
+```
+
+2. 生成公钥和私钥
+
+```properties
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+```
+
+3. 将公钥写入到密钥库
+
+```properties
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+```
+
+## 12. 暴力破解linux系统密码
+
+> 这两种破解方法比较简单，有人可能就想问，既然这么容易就破解了，那linux系统是不是就太不安全了，答案不是这样的，作为服务器，如果都被物理入侵了，那所谓的安全就谈不上了。
+
+### 12.1 CentOS密码重置
+
+1，启动的时候，在启动界面，相应启动项，内核名称上按“e”；
+
+2，进入后，找到linux16开头的地方，按“end”键到最后，输入rd.break，按ctrl+x进入；
+
+3，mount -o remount,rw /sysroot/，重新挂载，之后mount，发现有了r,w权限；
+
+4，chroot /sysroot，echo redhat|passwd –stdin root 修改root密码为redhat，或者输入passwd，交互修改；
+
+5，touch /.autorelabel 这句是为了selinux生效
+
+6，ctrl+d 或者exit退出，然后reboot
+
+### 12.2 Ubunto密码重置
+
