@@ -60,7 +60,7 @@ JavaSE、Spring5、Mybatis
 
 **3、Java中的基本类型有哪些？String 是最基本的数据类型吗？**
 
-1. Java中的基本数据类型只有8个：byte（1）、short（2）、int（4）、long（8）、float（4）、double（8）、char（2）、boolean（1）；
+1. Java中的基本数据类型只有8个：byte（1）、short（2）、int（4）、long（8）、float（4）、double（8）、char（2）、boolean（1bit）；
 2. 除了基本类型（primitive type），剩下的都是引用类型（reference type），Java 5以后引入的枚举类型也算是一种比较特殊的引用类型。
 3. String不是基本数据类型，它定义的为对象。
 

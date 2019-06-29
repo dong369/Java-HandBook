@@ -10,10 +10,12 @@
 [client]
 port=3306
 socket=/tmp/mysql.sock
+default-character-set = utf8mb4
 
 [mysqld]
 port=3306
 user=mysql
+default-character-set = utf8mb4
 socket=/tmp/mysql.sock
 basedir=/opt/soft/mysql/mysql-8.0.15-el7
 datadir=/opt/soft/mysql/mysql-8.0.15-el7/data
@@ -66,34 +68,31 @@ chkconfig --add mysql // 注册启动服务
 service mysql start
 ```
 
-## 2. 配置远程登录账号
+## 2. 配置远程登录
 
 ### 2.1. 改表法
 
 ```properties
+use mysql;
 update user set host = '%' where user = 'root';
 ```
 
+### 2.2 配置账号授权
 
+```properties
+use mysql;
+select host,user,plugin from user;
+create user 'username'@'%' identified by 'passw0rd';   // 创建账号
+// MySQL 8中必须执行否则远程连接不上
+ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
+grant all privileges on *.* to 'username'@'%';  // 授权
+grant all privileges on onedatabase.* to 'username'@'%';
+```
+
+### 2.3 远程连接
 
 ```properties
 mysql -h 192.168.100.11 -P3306 -uroot -ppassw0rd
-use mysql;
-select user,host,plugin from user;
-CREATE USER 'new_user'@'%' IDENTIFIED BY 'passwd';
-GRANT ALL ON *.* TO 'new_user'@'%';
-flush privileges;
-SHOW VARIABLES WHERE Variable_name = 'version';
-```
-
-## 3. 配置账号授权
-
-```properties
-select host,user,plugin from user;
-create user 'username'@'%' identified by 'password';
-ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
-grant all privileges on *.* to 'username'@'%';
-grant all privileges on onedatabase.* to 'username'@'%';
 ```
 
 ## 4. 找回密码
@@ -125,4 +124,26 @@ service mysql restart
 ```
 
 ## 5. 数据库版本
+
+### 5.1 版本信息
+
+```properties
+select version();
+```
+
+### 5.2 编码规则
+
+```properties
+show variables where variable_name like 'character\_set\_%' or variable_name like 'collation%';
+```
+
+
+
+## 6. 错误信息
+
+### 6.1 远程连接
+
+```properties
+ERROR 2059 (HY000): Plugin caching_sha2_password could not be loaded: 找不到指定的模块。
+```
 
