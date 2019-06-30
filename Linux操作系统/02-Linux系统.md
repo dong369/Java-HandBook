@@ -164,7 +164,9 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 
 ## 5. 配置阿里YUM源
 
-### 5.1 CentOS 7
+[参考地址](<https://opsx.alibaba.com/?lang=zh-CN>)
+
+### 5.1 CentOS
 
 #### 5.1.1 备份
 

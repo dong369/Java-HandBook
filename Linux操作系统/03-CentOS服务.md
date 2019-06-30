@@ -10,11 +10,11 @@
 
 ### 1.2 官方JDK安装
 
-第一步：打开vi /etc/profile
+第一步：打开	vi /etc/profile
 
 ```properties
-JAVA_HOME=/usr/local/soft/java/jdk1.8
-JRE_HOME=/usr/local/soft/java/jdk1.8/jre
+JAVA_HOME=/opt/soft/java/jdk1.8
+JRE_HOME=/opt/soft/java/jdk1.8/jre
 CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
 PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 export PATH JAVA_HOME CLASSPATH
