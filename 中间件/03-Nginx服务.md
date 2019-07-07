@@ -532,7 +532,7 @@ public class FileUploadUtils {
 
 
 
-#### 3.2.1 Nginx配置
+#### 3.2.2 Nginx配置
 
 1. 在/usr/local/nginx/server/file目录下配置文件file.conf，名字随意，下面配置根据业务自行修改。
 
@@ -546,3 +546,16 @@ server {
 ```
 
 ### 3.3 缓存配置
+
+
+
+### 3.4重定向问题
+
+**问题情况：**nginx监听的端口例如是8080，外网开放的端口为80，将80端口NAT到内部的8080端口，这时使用外网地址：http://mydomain/test访问时如果不在域名后面加/，那么域名地址会自动变为http://mydomain:8080/test/。
+
+**解决方法：**这是因为nginx做了端口重定向，只需要在nginx.conf配置文件的http或server中添加。
+
+```properties
+port_in_redirect off;
+```
+
