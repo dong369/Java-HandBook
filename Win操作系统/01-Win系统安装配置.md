@@ -46,7 +46,8 @@
 
 
 ## 3. 快捷键熟练使用
-### 3.1 主键区
+### 3.1 Windows快捷键
+
 ```
 Ctrl+A：全选
 Ctrl+C：粘贴
@@ -54,30 +55,35 @@ Ctrl+V：粘贴
 Ctrl+X：剪切
 Ctrl+F：搜索
 Ctrl+W：关闭
-Notepad：记事本
-Calc：计算器
-control：进入控制面板
-Cls：清屏
-Mspaint：画图
-Mstsc：打开电脑的远程桌面控制。
-Ctrl+Shift+T：恢复关闭
-Alt+Tab：切换窗口
-Ctrl+数字[1，2，3，4......]浏览器或clover工具窗口切换
-Win+D：显示桌面
+
 Shift+右键：快速进入Dos窗口
-Shift+end（shift+home）快速选择从当前行到结尾行（开始行）。
+Shift+end（shift+home）快速选择从当前行到结尾行（开始行）
+
+Win+d：显示桌面
+Win+x：功能选择
+Win+g：音频\性能设置
+Win+i：window设置
 Win+q：搜索
-Win+w：便签
+Win+w：便签\草图
 Win+e：快速进入资源管理
 Win+t：窗口切换
 Win+Tab：切换窗口
 Win+数字[1，2，3，4......]windows的下窗口程序选择
-Regedit：打开系统注册表。
-Cd：进入特定的目录。
-Dir：当前目录下的文件。
+
+Alt+Tab：切换窗口
+Alt+F4：关闭应用窗口
+
+Mstsc：打开电脑的远程桌面控制。
+Calc：计算器
+Notepad：记事本
+Mspaint：画图
+control：进入控制面板
 services.msc：开启服务。
+Regedit：打开系统注册表。
+sysdm.cpl：进入环境变量编辑
 Msconfig：关闭启动项
 Regedit：资源管理器
+
 Ipconfig：查看IP
 Netstat –ans：查看占用的端口
 Winver：电脑的版本
@@ -86,12 +92,16 @@ Syskey：电脑安全命令
 Dxdiag：诊断工具
 Psr.exe：步骤记录
 Sysprep：系统恢复初始化
-Write：写字板
-sysdm.cpl：进入环境变量编辑
-alt+F4：关闭窗口
+
+Cd：进入特定的目录。
+Dir：当前目录下的文件。
+Cls：清屏
+
+Ctrl+Shift+T：恢复关闭
+Ctrl+数字[1，2，3，4......]浏览器或clover工具窗口切换
 ```
 
-### 3.2 功能键区
+### 3.2 Google快捷键
 ```
 F1：了解计算机的基本组成和简单入门
 ```

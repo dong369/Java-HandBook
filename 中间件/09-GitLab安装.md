@@ -1,28 +1,39 @@
 [TOC]
 
-## 0.前提
+## 1. 基础环境
 
-安装好docker,并配置好docker镜像源,机器能外网（如果不能联网，可以用RPM安装方式）
+安装好docker，并配置好docker镜像源，机器能外网（如果不能联网，可以用RPM安装方式）。代码是重要的资产，最好定期演练备份和恢复。
 
-代码是重要的资产，最好定期演练备份和恢复
+### 1.1 安装Docker
+
+参考docker安装的文章！此处不做阐述。
+
+### 1.2 配置Docker源
+
+```properties
+[gitlab-ce]
+name=Gitlab CE Repository
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el$releasever/
+gpgcheck=0
+enabled=1
+```
 
 
-## 1.创建GitLab数据目录
+## 2. 安装操作
 
-`mkdir -p /opt/soft/gitlab`
+### 2.1 Docker脚本
 
-## 2.创建docker文件
-创建文件
-`vi start.sh`
-把以下内容粘贴进文件（注意IP换了，SSH端口22也要换被占用了，不换的话可以换docker的映射端口）
+1. 创建对应映射的文件夹：mkdir -p /opt/soft/gitlab/{etc,log,data}
+
+2. 创建文件vim start.sh把以下内容粘贴进文件（注意IP换了，SSH端口22也要换被占用了，不换的话可以换docker的映射端口）。
 
 ```shell
-#!/bin/base
+#!/usr/bin/env bash
 docker run \
     --detach \
-    --publish 443:443 \
-    --publish 80:80 \
-    --publish 22:22 \
+    --publish 10443:443 \
+    --publish 10080:80 \
+    --publish 10022:22 \
     --name gitlab \
     --hostname 192.168.100.13 \
     --env GITLAB_OMNIBUS_CONFIG="external_url 'http://192.168.100.13/'; gitlab_rails['lfs_enabled'] = true;" \
@@ -30,14 +41,44 @@ docker run \
     --volume /opt/soft/gitlab/etc:/etc/gitlab \
     --volume /opt/soft/gitlab/log:/var/log/gitlab \
     --volume /opt/soft/gitlab/data:/var/opt/gitlab \
+    --privileged=true \
     beginor/gitlab-ce:11.3.0-ce.0
 ```
 
-## 3.下载并运行
+### 2.2.上传&运行
 
-`sh start.sh`
+1. 上传执行
 
-## 4.升级
+```properties
+chmod 744 start.sh
+./start.sh
+```
+
+2. 查看生成的文件
+
+```properties
+etc、log、data下面的映射文件
+```
+
+### 2.3 修改配置
+
+修改文件，vim /opt/soft/gitlab/etc/gitlab.rb文件进行修改，特别重要就是这个文件的修改。
+
+```properties
+external_url 'http://211.144.5.80:30127'
+nginx['listen_port'] = 30127
+gitlab_rails['gitlab_shell_ssh_port'] = 10022
+```
+
+修改这一个文件会影响到的文件
+
+vim /opt/soft/gitlab/data/gitlab-rails/etc/gitlab.yml文件，对应的host和port会根据上面配置发生变化。
+
+vim /opt/soft/gitlab/data/nginx/conf/gitlab-http.conf文件，对应的监听端口和IP会发生变化。
+
+**特别说明：**配置gitlab.rb文件中的external_url后面对应的端口号，是nginx监听的端口号。
+
+### 2.4. 备份&升级
 
 小版本升级（例如从 8.8.2 升级到 8.8.3）， 参照官方的说明， 将原来的容器停止， 然后删除：
 ```shell
@@ -50,6 +91,7 @@ docker rm gitlab
 `docker pull beginor/gitlab-ce:11.3.0-ce.0`
 
 还使用原来的运行命令运行(改一下版本号，为了以防万一，最好备份代码)
+
 ```shell
 #!/bin/base
 docker run \

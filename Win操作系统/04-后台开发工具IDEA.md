@@ -232,7 +232,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 2. 配置Gitlab服务地址
 
    >进行Gitlab服务地址的配置
-   
+
    ![Gitlab配置](../插图/Win操作系统/Gitlab配置.jpg)
 
 3. 申请Token
@@ -241,23 +241,24 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 4. 创建项目提交
 
-   >
 
-5. 克隆项目
+
+
+1. 克隆项目
 
    > git clone projectName
 
-6. 分支创建及切换
+2. 分支创建及切换
 
    > 右下角Git标志，点击New Branch，创建分支。
    >
    > 右下角Git标志，点击local Branchs，进行分支切换。
 
-7. 分支合并
+3. 分支合并
 
    > 右下角Git标志，先切换到master分支，点击Remote Branch，进行分支合并到master。
 
-8. 创建tag标签
+4. 创建tag标签
 
    > git push origin v1.0.0.0      //推送Tag到远程
    > git tag -d v1.0.0.1           //删除本地tag
