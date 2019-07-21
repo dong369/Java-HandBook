@@ -59,16 +59,19 @@ Ctrl+W：关闭
 Shift+右键：快速进入Dos窗口
 Shift+end（shift+home）快速选择从当前行到结尾行（开始行）
 
-Win+d：显示桌面
-Win+x：功能选择
-Win+g：音频\性能设置
-Win+i：window设置
 Win+q：搜索
 Win+w：便签\草图
 Win+e：快速进入资源管理
+Win+r：CMD快速启动
 Win+t：窗口切换
+Win+u：window设置
+Win+i：window设置
+Win+d：显示桌面
+Win+x：功能选择
+Win+g：音频\性能设置
 Win+Tab：切换窗口
 Win+数字[1，2，3，4......]windows的下窗口程序选择
+win+上下左右箭头：进行系统的分屏操作
 
 Alt+Tab：切换窗口
 Alt+F4：关闭应用窗口
@@ -103,7 +106,13 @@ Ctrl+数字[1，2，3，4......]浏览器或clover工具窗口切换
 
 ### 3.2 Google快捷键
 ```
-F1：了解计算机的基本组成和简单入门
+F6：快速定位导航栏
+ctrl+t：
+ctrl+shift+t：
+ctrl+tab：向后切换网页
+ctrl+shift+tab：向前切换网页
+alt+左右箭头：进行网页的回退
+
 ```
 
 ## 4. 安装操作

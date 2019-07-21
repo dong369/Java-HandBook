@@ -233,7 +233,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
    >进行Gitlab服务地址的配置
 
-   ![Gitlab配置](../插图/Win操作系统/Gitlab配置.jpg)
+   ![配置Gitlab服务地址](D:\dev\2019dev\code\idea-workspace\Java-HandBook\插图\Win操作系统\配置GitLab服务器地址.png)
 
 3. 申请Token
 
@@ -271,6 +271,16 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 
 ##### 5.2.3 Gitee
+
+
+
+##### 5.2.4 分支
+
+
+
+##### 5.2.5 Tag
+
+
 
 ### 6 快捷键配置
 
