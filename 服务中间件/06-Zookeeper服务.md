@@ -6,7 +6,7 @@
 
 [Zookeeper下载地址](https://www.apache.org/dyn/closer.cgi/zookeeper/)
 
-下面教程使用的版本是：zookeeper-3.4.13.tar.gz
+下面教程使用的版本是：apache-zookeeper-3.5.5-bin.tar.gz
 
 ### 1.2 安装配置
 
@@ -16,7 +16,7 @@
 
 #### 1.2.2 进行安装
 
-> 01、上传zookeeper-3.3.6.tar.gz
+> 01、上传apache-zookeeper-3.5.5-bin.tar.gz
 >
 > 02、解压到指定的文件夹中（本人解压到/usr/local/soft下）
 >
@@ -26,8 +26,8 @@
 >
 
 ```properties
-tar -zxvf zookeeper-3.4.13.tar.gz
-cd /usr/local/soft/zookeeper-3.4.13
+tar -zxvf apache-zookeeper-3.5.5-bin.tar.gz
+cd /usr/local/soft/apache-zookeeper-3.5.5
 make data log
 mv config/zoo_sample.cfg zoo.cfg
 ```
@@ -58,7 +58,7 @@ dataLogDir=/usr/local/soft/zookeeper-3.4.13/log
 clientPort=2181
 # the maximum number of client connections.
 # increase this if you need to handle more clients
-#maxClientCnxns=60
+# maxClientCnxns=60
 #
 # Be sure to read the maintenance section of the
 # administrator guide before turning on autopurge.
@@ -66,10 +66,10 @@ clientPort=2181
 # http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance
 #
 # The number of snapshots to retain in dataDir
-#autopurge.snapRetainCount=3
+# autopurge.snapRetainCount=3
 # Purge task interval in hours
 # Set to "0" to disable auto purge feature
-#autopurge.purgeInterval=1
+# autopurge.purgeInterval=1
 ```
 
 

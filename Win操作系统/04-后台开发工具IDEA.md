@@ -139,7 +139,28 @@
 
 
 
-##### 3.3 编码UTF8
+##### 3.3 Gradle
+
+1. 下载安装
+2. 配置环境变量（GRADLE_HOME、GRADLE_USER_HOME）
+3. 安装检验：gradle -v
+4. 配置IDEA
+
+##### 3.4 SVN
+
+1. 下载客户端（服务端，非必须）
+2. 安装客户端（注意打勾，否则找不到exe文件）
+3. 安装检查：右键鼠标
+4. 配置IDEA
+
+##### 3.5 Git
+
+1. 下载
+2. 安装配置
+3. 安装检查：git version
+4. 配置IDEA
+
+##### 3.6 编码UTF8
 
 > ##### 工程代码乱码：File | Settings | Editor | File Encodings
 >
@@ -147,7 +168,7 @@
 >
 > ##### tomcat运行控制台乱码：-Dfile.encoding=UTF-8
 
-##### 3.4 启动视图
+##### 3.7 启动视图
 
 Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件，在接下来找到 <component name="RunDashboard">中添加下面代码。
 
@@ -241,31 +262,6 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 4. 创建项目提交
 
-
-
-
-1. 克隆项目
-
-   > git clone projectName
-
-2. 分支创建及切换
-
-   > 右下角Git标志，点击New Branch，创建分支。
-   >
-   > 右下角Git标志，点击local Branchs，进行分支切换。
-
-3. 分支合并
-
-   > 右下角Git标志，先切换到master分支，点击Remote Branch，进行分支合并到master。
-
-4. 创建tag标签
-
-   > git push origin v1.0.0.0      //推送Tag到远程
-   > git tag -d v1.0.0.1           //删除本地tag
-   > git push origin :refs/tags/v1.0.0.1     //删除已经远程的tag
-   >
-   > 注意：可以通过提交代码时进行tag的提交。
-
 ##### 5.2.2 GitHub
 
 
@@ -276,9 +272,23 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ##### 5.2.4 分支
 
-
+```
+右下角Git标志，点击New Branch，创建分支。
+右下角Git标志，点击local Branchs，进行分支切换。
+右下角Git标志，先切换到master分支，点击Remote Branch，进行分支合并到master。
+```
 
 ##### 5.2.5 Tag
+
+```properties
+//推送Tag到远程
+git push origin v1.0.0.0      
+//删除本地tag
+git tag -d v1.0.0
+//删除已经远程的tag
+git push origin :refs/tags/v1.0.0
+注意：可以通过提交代码时进行tag的提交。
+```
 
 
 
@@ -359,7 +369,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ##### 9.1 Translation
 
->翻译工具。
+>翻译工具。全局配置快捷键为ctrl+1，配置有道的翻译，音标的字体设置为Arial。
 
 ##### 9.2 Maven Helper
 >maven管理工具。
@@ -374,7 +384,10 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 >热部署，自动编译。
 >
->http://139.199.89.239:1008/88414687-3b91-4286-89ba-2dc813b107ce（激活地址）
+>http://jrebel.pyjuan.com/c95f8c2b-9e97-4bd4-b9bf-48ba24fc3a10
+>https://jrebel.qekang.com/bb25c9bf-7695-48d6-b1a0-baf893ca7631（激活地址）
+>
+>注意配置：一定要设置！！！离线工作（work offline）
 
 ##### 9.5 RestfulToolkit
 
@@ -398,7 +411,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ##### 9.10 BashSupport 、CMD Support
 
-> shell脚本开发。
+> shell脚本开发和bat脚本。
 
 ##### 9.11 Stackoverflow
 

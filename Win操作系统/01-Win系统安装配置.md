@@ -112,7 +112,6 @@ ctrl+shift+t：
 ctrl+tab：向后切换网页
 ctrl+shift+tab：向前切换网页
 alt+左右箭头：进行网页的回退
-
 ```
 
 ## 4. 安装操作
