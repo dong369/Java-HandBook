@@ -1,5 +1,3 @@
-[TOC]
-
 ## 1. JDK配置
 
 ### 1.1 官网下载
@@ -132,11 +130,70 @@ firewall-cmd --reload
 
 ## 3. 文件传输
 
+### 3.1 SCP
+
 ```properties
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
 
-
-
 ## 4. 文件共享
 
+### 4.1 安装samba
+
+```properties
+yum -y install samba
+```
+
+### 4.2 配置共享文件夹
+
+> samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
+
+```properties
+[linux_share]
+path=/home/share
+writable = yes
+public=yes
+```
+
+### 4.3 配置免密码模式
+
+> samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
+
+```properties
+[global]
+	workgroup = SAMBA
+	security = user
+	map to guest = Bad User
+```
+
+### 4.4 启动samba
+
+```properties
+systemctl start smb nmb
+systemctl restart smb nmb
+ps -ef | grep -E 'smb|nmb'
+netstat -tunlp | grep -E 'smbd|nmbd'
+```
+
+### 4.5 关闭SElinux
+
+```properties
+vi /etc/selinux/config（vi /etc/sysconfig/selinux）
+找到#SELINUX=enforcing，改成SELINUX=disabled，如上图，保存。这个操作需要重启
+才能永久生效，所以可以临时关闭一下。
+setenforce 0
+查看生效的命令是
+sestatus
+reboot # 进行重启操作
+getenforce  # 检查是否生效
+```
+
+### 4.6 访问
+
+```properties
+\\192.168.100.12
+file://192.168.100.12/share/
+file:///192.168.100.12
+```
+
+### 4.7 开机启动

@@ -1,8 +1,6 @@
-[TOC]
+# 1. Linux的版本
 
-## 1. Linux的版本
-
-### 1.1 版本
+## 1.1 版本
 
 > 1.	[Redhat](https://www.ubuntu.com/index_kylin)、[CentOS](https://www.centos.org/)，Redhat安装包需要收费的，一般选择CentOS
 > 2.	Ubuntu 12.04 64位
@@ -11,7 +9,7 @@
 > 5.	Mandriva
 > 6.	红旗
 
-### 1.2 查看帮助
+## 1.2 查看帮助
 
 ```properties
 man ls
@@ -19,7 +17,7 @@ info ls
 ls --help
 ```
 
-## 2. Linux版本下载
+# 2. Linux版本下载
 
 [清华大学 TUNA 协会](https://tuna.moe/)
 
@@ -27,30 +25,30 @@ ls --help
 
 [网易开源镜像站](https://link.jianshu.com/?t=http://mirrors.163.com/)
 
-### 2.1 CentOS系统
+## 2.1 CentOS系统
 ```properties
 CentOS-6.4-x86_64-netinstall.iso    网络安装镜像
 CentOS-6.4-x86_64-minimal.iso       最小化安装，只安装必须的软件，类似于精简版，无桌面界面
 CentOS-6.4-x86_64-bin-DVD1.iso      完整版的安装盘 
 CentOS-6.4-x86_64-bin-DVD2.iso      对完整版安装盘的软件进行补充和升级。
 ```
-### 2.2 Ubuntu系统
+## 2.2 Ubuntu系统
 ```properties
 Ubuntu-17.04-desktop-amd64.iso  桌面版系统
 Ubuntu-17.04-server-amd64.iso   服务版系统
 ```
 
-## 3. Linux配置信息
+# 3. Linux配置信息
 
-### 3.1 CentOS
+## 3.1 CentOS
 
-#### 3.1.1 系统内核
+### 3.1.1 系统内核
 
 ```properties
 rpm -qa|grep kernel
 ```
 
-#### 3.1.2 系统版本信息
+### 3.1.2 系统版本信息
 
 ```properties
 uname -a ，可显示电脑以及操作系统的相关信息。 
@@ -60,51 +58,51 @@ cat /etc/issue，显示的是发行版本信息
 lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
 ```
 
-#### 3.1.3 CPU信息
+### 3.1.3 CPU信息
 
 ```properties
 cat /proc/cpuinfo，显示系统配置信息。
 ```
 
-### 3.2 Ubunto系统版本
+## 3.2 Ubunto系统版本
 
-#### 3.2.1 系统内核
-
-
-
-#### 3.2.2 系统信息
+### 3.2.1 系统内核
 
 
 
-#### 3.2.3 CPU信息
+### 3.2.2 系统信息
 
 
 
-### 3.3 系统组及用户
+### 3.2.3 CPU信息
 
-#### 3.3.1 CentOS
 
-##### 3.3.1.1 添加删除用户组
+
+## 3.3 系统组及用户
+
+### 3.3.1 CentOS
+
+#### 3.3.1.1 添加删除用户组
 
 ```properties
 groupadd guoddgroup
 groupdel guoddgroup
 ```
 
-##### 3.3.1.2 添加删除用户
+#### 3.3.1.2 添加删除用户
 
 ```properties
 useradd -g guoddgroup guodd  -p 123456
-userdel -r guodd # 删除用户guodd，同时删除他的工作目录
+userdel -r guodd        # 删除用户guodd，同时删除他的工作目录
 ```
 
-##### 3.3.1.3 文件拥有者
+#### 3.3.1.3 文件拥有者
 
 ```properties
 chown -R user:group file
 ```
 
-##### 3.3.1.4 文件权限
+#### 3.3.1.4 文件权限
 
 ```properties
 chmod -R 777 file
@@ -114,9 +112,9 @@ chmod -R 777 file
 
 
 
-## 4. Linux基础配置
+# 4. Linux基础配置
 
-### 4.1 CentOS基础软件
+## 4.1 CentOS基础软件
 
 CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传。
 
@@ -127,7 +125,7 @@ yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
 ```
 
-### 4.2 Ubunto基础软件
+## 4.2 Ubunto基础软件
 
 Ubunto的软件安装工具apt-get ，安装基础环境和rz上传。
 
@@ -137,21 +135,21 @@ sudo apt-get install openssh-server openssh-client
 sudo /etc/init.d/ssh restart
 ```
 
-### 4.2 重启命令
+## 4.2 重启命令
 
 > 1、reboot
 > 2、shutdown -r now 立刻重启(root用户使用)
 > 3、shutdown -r 10 过10分钟自动重启(root用户使用)
 > 4、shutdown -r 20:35 在时间为20:35时候重启(root用户使用)
 
-### 4.3 关机命令
+## 4.3 关机命令
 
 > 1、halt   立刻关机
 > 2、poweroff  立刻关机
 > 3、shutdown -h now 立刻关机(root用户使用)
 > 4、shutdown -h 10 10分钟后自动关机
 
-### 4.4 用户切换命令：su
+## 4.4 用户切换命令：su
 
 > 1、使用su命令：只是切换了root身份，但Shell环境仍然是普通用户的Shell
 > 2、使用su -命令：连用户和Shell环境一起切换成root身份
@@ -162,13 +160,13 @@ su - root：以root身份登录。
 su root/其他命令：与root建立一个连接，通过root执行命令。
 ```
 
-## 5. 配置阿里YUM源
+# 5. 配置阿里YUM源
 
 [参考地址](<https://opsx.alibaba.com/?lang=zh-CN>)
 
-### 5.1 CentOS
+## 5.1 CentOS
 
-#### 5.1.1 备份
+### 5.1.1 备份
 
 备份原始YUM文件
 
@@ -176,27 +174,27 @@ su root/其他命令：与root建立一个连接，通过root执行命令。
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```
 
-#### 5.1.2 下载新的YUM文件
+### 5.1.2 下载新的YUM文件
 
 ```properties
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 
-#### 5.1.3 更新缓存
+### 5.1.3 更新缓存
 
 ```properties
 yum makecache
 ```
 
-### 5.2 Ubunto
+## 5.2 Ubunto
 
-#### 5.2.1 备份
+### 5.2.1 备份
 
 ```properties
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 ```
 
-#### 5.2.2 添加源信息
+### 5.2.2 添加源信息
 
 ```properties
 sudo vim /etc/apt/sources.list
@@ -224,17 +222,17 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted univer
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 ```
 
-#### 5.2.3 更新缓存
+### 5.2.3 更新缓存
 
 ```properties
 sudo apt-get update
 ```
 
-## 6. Linux其它配置
+# 6. Linux其它配置
 
-### 6.1 CentOS其它配置
+## 6.1 CentOS其它配置
 
-#### 6.1.1 服务名称管理
+### 6.1.1 服务名称管理
 
 1. 更改hostname
 
@@ -248,7 +246,7 @@ vi /etc/hostname
 vi /etc/hosts
 ```
 
-#### 6.1.2 计划任务
+### 6.1.2 计划任务
 
 1. 服务安装
 
@@ -287,7 +285,7 @@ crontab -e # 进入定时任务编辑
 每隔两分钟使用curl 访问www.baidu.com 并将结果写入/home/index.html 文件
 ```
 
-#### 6.1.3 IP配置
+### 6.1.3 IP配置
 
 ```shell
 vim /etc/sysconfig/network-scripts/ifcfg-ens33
@@ -324,7 +322,7 @@ systemctl restart network（CentOS7以前使用命令：service restart network�
 netstat -rn
 ```
 
-#### 6.1.4 更新系统和补丁
+### 6.1.4 更新系统和补丁
 
 > 虚拟机-管理-克隆-创建完整克隆
 
@@ -334,7 +332,7 @@ netstat -rn
 yum -y update
 ```
 
-#### 6.1.5 域名解析DNS
+### 6.1.5 域名解析DNS
 
 > DNS（Domain Name System，[域名系统](https://baike.baidu.com/item/%E5%9F%9F%E5%90%8D%E7%B3%BB%E7%BB%9F/2251573)），万维网上作为域名和[IP地址](https://baike.baidu.com/item/IP%E5%9C%B0%E5%9D%80)相互映射的一个[分布式数据库](https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93/1238109)，能够使用户更方便的访问[互联网](https://baike.baidu.com/item/%E4%BA%92%E8%81%94%E7%BD%91)，而不用去记住能够被机器直接读取的IP数串。
 
@@ -345,7 +343,7 @@ nameserver 8.8.8.8
 nameserver 114.114.114.114
 ```
 
-#### 6.1.6 网络授时NTF
+### 6.1.6 网络授时NTF
 
 > 方式01：NTP是网络时间协议(Network Time Protocol)，它是用来同步网络中各个计算机的时间的协议。
 
@@ -385,7 +383,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 
 
-#### 6.1.7 修改SSH远程登陆
+### 6.1.7 修改SSH远程登陆
 
 ```properties
 vi /etc/ssh/sshd_config
@@ -394,7 +392,7 @@ systemctl restart sshd
 ssh -p 23 root@192.168.100  # 进行连接
 ```
 
-#### 6.1.8 禁止默认root账号登陆
+### 6.1.8 禁止默认root账号登陆
 
 ```properties
 vi /etc/ssh/sshd_config
@@ -406,7 +404,7 @@ passwd admin
 systemctl restart sshd
 ```
 
-#### 6.1.9 关闭SElinux
+### 6.1.9 关闭SElinux
 
 ```properties
 vi /etc/selinux/config（vi /etc/sysconfig/selinux）
@@ -419,7 +417,7 @@ reboot # 进行重启操作
 getenforce  # 检查是否生效
 ```
 
-#### 6.1.10 History操作日志
+### 6.1.10 History操作日志
 
 ```properties
 export HISTFILESIZE=10000000
@@ -439,11 +437,11 @@ EOF
 source /etc/bashrc
 ```
 
-#### 6.1.11 防火墙配置
+### 6.1.11 防火墙配置
 
-### 6.2 Ubunto其它配置
+## 6.2 Ubunto其它配置
 
-#### 6.2.1 服务名称管理
+### 6.2.1 服务名称管理
 
 更改hostname
 
@@ -458,13 +456,13 @@ vi /etc/hostname
 vi /etc/hosts
 ```
 
-#### 6.2.2 计划任务
+### 6.2.2 计划任务
 
 
 
-#### 6.2.3 IP配置
+### 6.2.3 IP配置
 
-##### 16.04及之前
+#### 16.04及之前
 
 修改配置文件：sudo vim /etc/network/interfaces
 
@@ -500,7 +498,7 @@ dns-nameservers 192.168.100.2
 auto ens33
 ```
 
-##### 18.04之后
+#### 18.04之后
 
 修改配置文件：sudo vim /etc/netplan/50-cloud-init.yaml
 
@@ -523,17 +521,17 @@ network:
 
 
 
-#### 6.2.4 更新系统和补丁
+### 6.2.4 更新系统和补丁
 
 ```properties
 sudo apt-get update
 ```
 
-## 7. 软件安装
+# 7. 软件安装
 
-### 7.1 Yum方式
+## 7.1 Yum方式
 
-#### 7.1.1 基础命令
+### 7.1.1 基础命令
 
 ```properties
 yum list | grep nginx  # 查询所有可用软件包列表
@@ -544,7 +542,7 @@ yum -y update 包名      # 更新命令
 yum -y remove 包名      # 卸载命令
 ```
 
-#### 7.1.2 添加nginx源
+### 7.1.2 添加nginx源
 
 1. vim /etc/yum.repos.d/nginx.repo
 
@@ -564,9 +562,9 @@ yum search nginx
 yum -y install nginx.x86_64
 ```
 
-### 7.2 Rpm包方式
+## 7.2 Rpm包方式
 
-#### 7.2.1 基础命令
+### 7.2.1 基础命令
 
 ```properties
 rpm -ivh 包全名		# rpm手工安装
@@ -577,9 +575,9 @@ rpm -qa               # 查询所有已安装的rpm包
 rpm -qa | grep 包名    # 可联合grep命令查找
 ```
 
-## 8. 解压/压缩
+# 8. 解压/压缩
 
-### 8.1 tar
+## 8.1 tar
 
 1. 文件压缩
 
@@ -601,7 +599,7 @@ nohup tar -cvf jpg.tar file1 file2 ....fileN &
 
 
 
-### 8.2 tar.gz
+## 8.2 tar.gz
 
 1. 文件压缩
 
@@ -622,9 +620,9 @@ nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 
 
 
-## 9. 服务管理
+# 9. 服务管理
 
-### 9.1 service启动服务
+## 9.1 service启动服务
 
 > service命令其实是去/etc/init.d目录下，去执行相关程序
 
@@ -637,7 +635,7 @@ service redis start
 update-rc.d redis defaults
 ```
 
-### 9.2 systemctl启动服务
+## 9.2 systemctl启动服务
 
 > systemd的Unit放在目录/usr/lib/systemd/system(Centos)或/etc/systemd/system(Ubuntu)
 
@@ -658,7 +656,7 @@ docker开机自启动
 systemctl enable docker.service
 ```
 
-### 9.3 chkconfig添加服务
+## 9.3 chkconfig添加服务
 
 ```properties
 chkconfig --list
@@ -668,25 +666,25 @@ systemctl enable docker.service
 /usr/lib/systemd/system/docker.service
 ```
 
-## 10. 扩展安装
+# 10. 扩展安装
 
-### 10.1 Tmux
+## 10.1 Tmux
 
 ```properties
 yum -y install tmux
 ctrl+b   // 激活面板
 ```
 
-### 10.2 Htop
+## 10.2 Htop
 
 ```properties
 yum -y install epel-release
 yum -y install htop
 ```
 
-## 11. SSH免密登录
+# 11. SSH免密登录
 
-### 11.1 客户机
+## 11.1 客户机
 
 1. 安装配置cmder终端工具
 2. 生成公钥和私钥
@@ -701,9 +699,9 @@ ssh-keygen -t rsa
 scp.exe .ssh\id_rsa.pub guodd@s31:~/.ssh/authorized_keys
 ```
 
-### 11.2 服务器机
+## 11.2 服务器机
 
-#### 11.2.1 CentOS
+### 11.2.1 CentOS
 
 1. CentOS7默认带有SSH服务，无需再次安装。
 
@@ -714,7 +712,7 @@ StrictModes no
 systemctl restart sshd
 ```
 
-#### 11.2.2 Ubunto
+### 11.2.2 Ubunto
 
 1. 安装SSH
 
@@ -734,11 +732,11 @@ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-## 12. 暴力破解linux系统密码
+# 12. 暴力破解linux系统密码
 
 > 这两种破解方法比较简单，有人可能就想问，既然这么容易就破解了，那linux系统是不是就太不安全了，答案不是这样的，作为服务器，如果都被物理入侵了，那所谓的安全就谈不上了。
 
-### 12.1 CentOS密码重置
+## 12.1 CentOS密码重置
 
 1，启动的时候，在启动界面，相应启动项，内核名称上按“e”；
 
@@ -752,5 +750,5 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 6，ctrl+d 或者exit退出，然后reboot
 
-### 12.2 Ubunto密码重置
+## 12.2 Ubunto密码重置
 

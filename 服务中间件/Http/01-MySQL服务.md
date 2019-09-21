@@ -1,0 +1,229 @@
+## 1. 安装配置
+
+### 1.1. 下载
+
+[下载地址](www.mysql.com)
+
+### 1.2. 配置/etc/my.cnf
+
+```properties
+[client]
+port=3306
+socket=/tmp/mysql.sock
+default-character-set = utf8mb4
+
+[mysqld]
+port=3306
+user=mysql
+default-character-set = utf8mb4
+socket=/tmp/mysql.sock
+basedir=/opt/soft/mysql/mysql-8.0.15-el7
+datadir=/opt/soft/mysql/mysql-8.0.15-el7/data
+log-error=/opt/soft/mysql/mysql-8.0.15-el7/logs/error.log
+lower_case_table_names=1
+```
+
+特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！
+
+### 1.3. 初始化数据库
+
+```properties
+groupadd mysql
+useradd -g mysql -r mysql
+useradd -g mysql mysql -p passw0rd
+
+chown -R mysql:mysql /tmp/mysql
+chown -R mysql:mysql /opt/soft/mysql/mysql-8.0.15-el7
+
+yum install -y libaio
+
+./bin/mysqld --initialize --user=mysql --basedir=/opt/soft/mysql/mysql-8.0.15-el7 --datadir=/opt/soft/mysql/mysql-8.0.15-el7/data/
+```
+
+### 1.4. 查看初始化密码
+
+```properties
+cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
+```
+
+### 1.5. 配置环境变量
+
+```properties
+vim /etc/profile // 打开profile文件。
+export MYSQL_HOME
+MYSQL_HOME=/opt/soft/mysql/mysql-8.0.15-el7
+export PATH=$PATH:$MYSQL_HOME/lib:$MYSQL_HOME/bin 
+
+source /etc/profile
+```
+
+### 1.6. 登录修改root密码
+
+```properties
+mysql -uroot -p
+alter user 'root'@'localhost' identified by 'your_password';
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
+```
+
+### 1.7. 开机启动
+
+```properties
+cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+chmod +x /etc/init.d/mysql //添加可执行权限。
+chkconfig --add mysql // 注册启动服务
+service mysql start
+```
+
+## 2. 配置远程登录
+
+### 2.1. 改表法
+
+```properties
+use mysql;
+update user set host = '%' where user = 'root';
+```
+
+### 2.2 配置账号授权
+
+```properties
+use mysql;
+select host,user,plugin from user;
+create user 'dev'@'%' identified by 'passw0rd';   // 创建账号
+// MySQL 8中必须执行否则远程连接不上
+ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
+grant all privileges on *.* to 'username'@'%';  // 授权
+grant all privileges on onedatabase.* to 'username'@'%';
+```
+
+### 2.3 远程连接
+
+```properties
+mysql -h 192.168.100.11 -P3306 -uroot -ppassw0rd
+```
+
+## 4. 找回密码
+
+```properties
+1.vi /etc/my.cnf，在[mysqld]中添加
+skip-grant-tables
+例如：
+[mysqld]
+skip-grant-tables
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+2.重启mysql
+service mysql restart
+3.使用用户无密码登录
+mysql -uroot -p (直接点击回车，密码为空)
+4.选择数据库
+use mysql;
+5.修改root密码
+update user set authentication_string='passw0rd' where user='root';
+update user set authentication_string=password('123456') where user='root';
+6.刷新权限
+flush privileges;
+7.退出
+exit;
+8.删除第1部增加的配置信息
+skip-grant-tables
+9.重启mysql
+service mysql restart
+```
+
+## 5. 数据库版本
+
+### 5.1 版本信息
+
+```properties
+select version();
+```
+
+### 5.2 编码规则
+
+```properties
+show variables where variable_name like 'character\_set\_%' or variable_name like 'collation%';
+```
+
+## 6. 磁盘情况
+
+### 6.1 库所占磁盘大小
+
+```sql
+select 
+TABLE_SCHEMA, 
+concat(truncate(sum(data_length)/1024/1024,2),' MB') as data_size,
+concat(truncate(sum(index_length)/1024/1024,2),'MB') as index_size
+from information_schema.tables
+group by TABLE_SCHEMA
+ORDER BY data_size desc;
+order by data_length desc;
+```
+
+### 6.2 表所占磁盘大小
+
+```sql
+select 
+TABLE_NAME, 
+concat(truncate(data_length/1024/1024,2),' MB') as data_size,
+concat(truncate(index_length/1024/1024,2),' MB') as index_size
+from information_schema.tables 
+where TABLE_SCHEMA = 'mysql'
+group by TABLE_NAME
+order by data_length desc;
+```
+
+## 7. 错误信息
+
+### 7.1 远程连接
+
+报错信息：
+
+```properties
+ERROR 2059 (HY000): Plugin caching_sha2_password could not be loaded: 找不到指定的模块。
+```
+
+解决方法
+
+```properties
+ALTER USER 'root'@'ip_address' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
+```
+
+
+
+### 7.2 MySQL 8 
+
+报错信息：
+
+```properties
+this is incompatible with sql_mode=only_full_group_by
+```
+
+> 原因以及解决：8.0以上已经取消了NO_AUTO_CREATE_USER这个关键字，删掉sql语句中的这个关键字即可。
+
+解决问题：
+
+```sql
+select @@global.sql_mode;
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
+
+### 7.3 时区错误
+
+```properties
+Server returns invalid timezone. Go to 'Advanced' tab and set 'serverTimezon'
+The server time zone value 'EDT' is unrecognized or represents more than one time zone.
+```
+
+时区错误，MySQL默认的时区是UTC时区，比北京时间晚`8`个小时。
+
+所以要修改mysql的时长
+
+在mysql的命令模式下，输入：
+
+```properties
+show variables like '%time_zone%';
+set time_zone=SYSTEM;
+set global time_zone='+8:00';
+flush privileges;
+```
+
