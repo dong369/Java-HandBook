@@ -1,14 +1,14 @@
-## 1. JDK配置
+# 1 JDK配置
 
-### 1.1 官网下载
+## 1.1 官网下载
 
 [163镜像中心下载地址](http://mirrors.163.com/)
 
 演示使用版本：ubuntu-18.10-live-server-amd64.iso
 
-### 1.2 安装配置
+## 1.2 安装配置
 
-#### 1.2.1 基础环境
+### 1.2.1 基础环境
 
 第一步：打开vi /etc/profile
 
@@ -40,7 +40,7 @@ echo $JAVA_HOME
 java -version
 ```
 
-#### 1.2.2 服务名称管理
+### 1.2.2 服务名称管理
 
 更改hostname
 
@@ -54,7 +54,7 @@ sudo vi /etc/hostname
 vi /etc/hosts
 ```
 
-## 2. 防火墙配置
+# 2 防火墙配置
 
 ```properties
 sudo ufw status

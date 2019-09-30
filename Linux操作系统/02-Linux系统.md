@@ -1,4 +1,4 @@
-# 1. Linux的版本
+# 1 Linux的版本
 
 ## 1.1 版本
 
@@ -85,14 +85,14 @@ cat /proc/cpuinfo，显示系统配置信息。
 #### 3.3.1.1 添加删除用户组
 
 ```properties
-groupadd guoddgroup
-groupdel guoddgroup
+groupadd esgroup
+groupdel esgroup
 ```
 
 #### 3.3.1.2 添加删除用户
 
 ```properties
-useradd -g guoddgroup guodd  -p 123456
+useradd -g esgroup guodd -p 123456
 userdel -r guodd        # 删除用户guodd，同时删除他的工作目录
 ```
 

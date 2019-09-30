@@ -3,16 +3,16 @@
 ## 1.1 Elk下载
 [下载地址](https://www.elastic.co/cn/downloads/past-releases)
 
-本教程使用的elasticsearch版本：elasticsearch-6.8.0.tar.gz
+本教程使用的elasticsearch版本：elasticsearch-7.3.0-linux-x86_64.tar.gz
 
-本教程使用的kibana版本：kibana-6.8.0-linux-x86_64.tar.gz
+本教程使用的kibana版本：kibana-7.3.0-linux-x86_64.tar.gz
 
-本教程使用的logstash版本：logstash-6.8.0.tar.gz
+本教程使用的logstash版本：logstash-7.3.0.tar.gz
 
 # 2 安装Elasticsearch
 
 ## 2.1 安装JDK
-具体参见以前写的安装JDK文件
+具体参见以前写的安装JDK文件，ES中启动官方指定使用的是JDK 11，但是也可以通过安装JDK 1.8进行启动，目前暂时没有发下有问题。
 
 ## 2.2 建立目录
 ```properties
@@ -20,11 +20,11 @@ mkdir -p /opt/soft/{elasticsearch,kiban}
 ```
 
 ## 2.3 上传文件
-把刚下载的elasticsearch-7.0.0-linux-x86_64.tar.gz上传至到/usr/local/soft/es目录下
+把刚下载的安装包上传至到/usr/local/soft/elk目录下
 
 ## 2.4 解压
 ```properties
-tar -zxvf elasticsearch-6.8.0.tar.gz
+tar -zxvf elasticsearch-7.3.0-linux-x86_64.tar.gz
 ```
 
 ## 2.5 进入目录 
@@ -34,13 +34,15 @@ cd /usr/local/soft/es/elasticsearch-6.8.0
 
 ## 2.6 建立ES用户和用户组
 
+通过指定的用户来进行ELK的服务启动，目前
+
 ```properties
 groupadd esgroup
 useradd esuser -g esgroup -p 123456
 ```
 ## 2.7 更改ES文件的所属用户组
 
-更改elasticsearch文件夹及内部文件的所属用户及组：
+更改elasticsearch文件夹及内部文件的所属用户及组
 ```properties
 cd /usr/local/soft/es/
 mkdir -p /data/elasticsearch/{data,log}
@@ -145,11 +147,11 @@ vim /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/config/kibana.yml
 
 ## 3.2 Kibana汉化
 
-### 6之前
+### 7之前
 
 
 
-### 6之后
+### 7之后
 
 ```properties
 vim /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/config/kibana.yml
@@ -158,7 +160,7 @@ i18n.locale: "zh_CN"
 
 ## 3.3 Kibana启动
 
-1. 启动Kibana
+1. 启动Kibana，注意在7.3版本中启动也需要使用新创建的用户！
 
 ```properties
 /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/bin/kibana
@@ -169,9 +171,15 @@ nohup /usr/local/soft/kibana/kibana-7.0.0-linux-x86_64/bin/kibana &
 
 # 4 安装Logstash
 
+## 4.1 数据同步
 
 
 
+# 5. 项目实战
 
-## 5. 项目实战
+## 5.1 Java连接
+
+
+
+## 5.2 kettle连接
 

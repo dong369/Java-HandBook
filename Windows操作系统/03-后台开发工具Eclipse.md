@@ -1,21 +1,21 @@
-## 1. 技术目标
+# 1 技术目标
 
 > * 目标01：Eclipse&STS安装
 > * 目标02：Eclipse&STS设置
 
-## 2. 技术介绍
+# 2 技术介绍
 > Java智能开发工具。
 
-## 3. 环境配置
-### 3.1 基础环境
+# 3 环境配置
+## 3.1 基础环境
 
 > * JDK
 > * Maven
 > * [Eclipse下载](http://www.eclipse.org/downloads/eclipse-packages/)&[STS下载](https://spring.io/tools)
 
 
-## 4. 基本环境配置
-### 4.1 统一的项目编码
+# 4 基本环境配置
+## 4.1 统一的项目编码
 ![Workspace编码](http://upload-images.jianshu.io/upload_images/8185387-e2f8f17905df507d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ![Spelling](http://upload-images.jianshu.io/upload_images/8185387-d096eff491423615.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -24,25 +24,25 @@
 
 ![配置属性编码](http://upload-images.jianshu.io/upload_images/8185387-b30384c00e75887e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 4.2 统一的代码格式
+## 4.2 统一的代码格式
 ![统一代码格式](http://upload-images.jianshu.io/upload_images/8185387-cbf7cf2aff9d9b34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 4.3 统一的项目视图
+## 4.3 统一的项目视图
 > 切换到自己喜爱且方便的视图模式写，看个人情况。本次我们主要介绍两种视图，一种是Java包视图（package explorer），另一种是Java的项目视图（project explorer）。
 
-#### 4.3.1 package explorer
+## 4.3.1 package explorer
 > package explorer一般会在写Java简单项目和JavaWeb项目使用。
 > ![package explorer视图](http://upload-images.jianshu.io/upload_images/8185387-3075405ea0f68b85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 4.3.2 project explorer
+### 4.3.2 project explorer
 > project explorer一般会在写maven的聚合项目使用，便于查看项目直接的相互依赖关系。
 > ![project explorer视图](http://upload-images.jianshu.io/upload_images/8185387-9218a71b3bdace89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 >
 
-### 4.5 错误和警告
+## 4.5 错误和警告
 
-#### 4.5.1 忽略dubbo的错误信息
+### 4.5.1 忽略dubbo的错误信息
 ![添加dubbo](http://upload-images.jianshu.io/upload_images/8185387-12c7cff55d200c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 4.5.1 忽略JQuery.min.js报错的警告

@@ -1,8 +1,8 @@
-## 4. 常用SQL
+# 1 常用SQL
 
-### 4.1 建表语句
+## 1.1 建表语句
 
-#### 4.1.1 MySQL建表
+### 1.1.1 MySQL建表
 
 方式01
 
@@ -25,7 +25,7 @@ CREATE TABLE `t_student` (
 ) ENGINE = INNODB AUTO_INCREMENT = 1000001 DEFAULT CHARSET = utf8mb4;
 ```
 
-#### 4.1.1 Oracle建表
+### 1.1.2 Oracle建表
 
 ```properties
 
@@ -33,11 +33,11 @@ CREATE TABLE `t_student` (
 
 
 
-### 4.2 基本操作语句
+## 1.2 基本操作语句
 
-#### 4.2.1 MySQL操作语句
+### 4.2.1 MySQL操作语句
 
-##### 4.2.1.1 DDL语法
+#### 4.2.1.1 DDL语法
 
 ```properties
 创建数据库
@@ -76,7 +76,7 @@ Rename table oldtable to newtable;
 
 ```
 
-##### 4.2.1.2 DML语法
+#### 4.2.1.2 DML语法
 
 ```properties
 增：insert into users(userid, username, password) values(1, 'mysql', 'mysql');
@@ -86,7 +86,7 @@ Rename table oldtable to newtable;
 过滤查：select distinct id from a
 ```
 
-##### 4.2.1.3 查询模型
+#### 4.2.1.3 查询模型
 
 ```properties
 where：（in&not in、between and、like、is null）
@@ -106,7 +106,7 @@ MySQL分页公式：select * from goods limit (pageNo-1)*pageRows,pageRows
 注意：列是变量，可以放入函数中（大胆的把列看成变量，变量可以计算，可以放入函数中）；投影运算：本有三列，但是取出来两列；广义投影：通过投影的数据进行运算操作得到的列；As：将广义投影给一个新的变量。
 ```
 
-##### 4.2.1.4 子查询
+#### 4.2.1.4 子查询
 
 ```properties
 where子查询：（内层的查询结果作为外层sql的比较条件！）
@@ -123,7 +123,7 @@ select * from category where exists (select * from goods where goods.cat_id=cate
 select 学号,姓名,专业名,出生日期 from xs where 出生日期 < all(select 出生日期 from xs where 专业名='计算机');
 ```
 
-##### 4.2.1.5 连接查询
+#### 4.2.1.5 连接查询
 
 ```properties
 语法：Select xxxx from Table1 连接查询的类型 table2 on table1xx=table2xx;
@@ -139,7 +139,7 @@ select boy.hid,boy.bname,girl.hid,girl.gname from boy left join girl on boy.hid=
 select boy.hid,boy.bname,girl.hid,girl.gname from boy inner join girl on boy.hid=girl.hid;
 ```
 
-##### 4.2.1.6 Union查询
+#### 4.2.1.6 Union查询
 
 ```properties
 Union查询是：把两条或多条sql的查询结果合并成一个结果集。
@@ -150,7 +150,7 @@ select * from boy union select * from girl;
 > 3.    在union的子句中不使用order by，sql合并后得到总的结果集排序。
 ```
 
-##### 4.2.1.7 视图操作
+#### 4.2.1.7 视图操作
 
 ```properties
 视图的创建
@@ -167,7 +167,7 @@ view的algorithm
 删除视图：drop view if exists student_view;
 ```
 
-##### 4.2.1.8 索引操作
+#### 4.2.1.8 索引操作
 
 ```properties
 MVI：索引文件
@@ -191,7 +191,7 @@ Explain
 删除主键索引：alter table tableName drop primary key；
 ```
 
-##### 4.2.1.9 时间操作
+#### 4.2.1.9 时间操作
 
 ```properties
 
@@ -199,7 +199,7 @@ Explain
 
 
 
-##### 4.2.1.10 统计操作
+#### 4.2.1.10 统计操作
 
 1. 分组查询并根据某个字段计算和
 
@@ -259,19 +259,19 @@ GROUP BY
 
 
 
-#### 4.2.2 Oracle操作语句
+### 4.2.2 Oracle操作语句
 
-##### 4..2.2.1 时间操作
-
-
-
-##### 4.2.2.2 统计操作
+#### 4..2.2.1 时间操作
 
 
 
-#### 4.2.1 MySQL&Oracle语法差异
+#### 4.2.2.2 统计操作
 
-##### 4.2.1.1 日期
+
+
+### 4.2.1 MySQL&Oracle语法差异
+
+#### 4.2.1.1 日期
 
 ```sql
 to_char(a.create_time,'yyyy-mm-dd hh24:mi:ss') create_time
@@ -287,7 +287,7 @@ date_format(a.create_time, '%Y-%m-%d') >=:startDate
 
 
 
-##### 4.2.1.2 左右连接
+#### 4.2.1.2 左右连接
 
 ```sql
 SELECT a.*, b.* from a(+) = b就是一个右连接，等同于select a.*, b.* from a right join b
@@ -296,7 +296,7 @@ SELECT a.*, b.* from a = b(+)就是一个左连接，等同于select a.*, b.* fr
 
 
 
-##### 4.2.1.3 分页查询
+#### 4.2.1.3 分页查询
 
 ```sql
 

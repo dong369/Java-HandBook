@@ -1,10 +1,10 @@
-## 1. 安装配置
+# 1. 安装配置
 
-### 1.1. 下载
+## 1.1. 下载
 
 [下载地址](www.mysql.com)
 
-### 1.2. 配置/etc/my.cnf
+## 1.2. 配置/etc/my.cnf
 
 ```properties
 [client]
@@ -23,9 +23,9 @@ log-error=/opt/soft/mysql/mysql-8.0.15-el7/logs/error.log
 lower_case_table_names=1
 ```
 
-特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！
+特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
 
-### 1.3. 初始化数据库
+## 1.3. 初始化数据库
 
 ```properties
 groupadd mysql
@@ -40,13 +40,13 @@ yum install -y libaio
 ./bin/mysqld --initialize --user=mysql --basedir=/opt/soft/mysql/mysql-8.0.15-el7 --datadir=/opt/soft/mysql/mysql-8.0.15-el7/data/
 ```
 
-### 1.4. 查看初始化密码
+## 1.4. 查看初始化密码
 
 ```properties
 cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
 ```
 
-### 1.5. 配置环境变量
+## 1.5. 配置环境变量
 
 ```properties
 vim /etc/profile // 打开profile文件。
@@ -57,7 +57,7 @@ export PATH=$PATH:$MYSQL_HOME/lib:$MYSQL_HOME/bin
 source /etc/profile
 ```
 
-### 1.6. 登录修改root密码
+## 1.6. 登录修改root密码
 
 ```properties
 mysql -uroot -p
@@ -65,7 +65,7 @@ alter user 'root'@'localhost' identified by 'your_password';
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
 ```
 
-### 1.7. 开机启动
+## 1.7. 开机启动
 
 ```properties
 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
@@ -74,16 +74,16 @@ chkconfig --add mysql // 注册启动服务
 service mysql start
 ```
 
-## 2. 配置远程登录
+# 2. 配置远程登录
 
-### 2.1. 改表法
+## 2.1. 改表法
 
 ```properties
 use mysql;
 update user set host = '%' where user = 'root';
 ```
 
-### 2.2 配置账号授权
+## 2.2 配置账号授权
 
 ```properties
 use mysql;
@@ -95,13 +95,13 @@ grant all privileges on *.* to 'username'@'%';  // 授权
 grant all privileges on onedatabase.* to 'username'@'%';
 ```
 
-### 2.3 远程连接
+## 2.3 远程连接
 
 ```properties
-mysql -h 192.168.100.11 -P3306 -uroot -ppassw0rd
+mysql -h192.168.100.11 -P3306 -uroot -ppassw0rd
 ```
 
-## 4. 找回密码
+# 4. 找回密码
 
 ```properties
 1.vi /etc/my.cnf，在[mysqld]中添加
@@ -130,23 +130,23 @@ skip-grant-tables
 service mysql restart
 ```
 
-## 5. 数据库版本
+# 5. 数据库版本
 
-### 5.1 版本信息
+## 5.1 版本信息
 
 ```properties
 select version();
 ```
 
-### 5.2 编码规则
+## 5.2 编码规则
 
 ```properties
 show variables where variable_name like 'character\_set\_%' or variable_name like 'collation%';
 ```
 
-## 6. 磁盘情况
+# 6. 磁盘情况
 
-### 6.1 库所占磁盘大小
+## 6.1 库所占磁盘大小
 
 ```sql
 select 
@@ -159,7 +159,7 @@ ORDER BY data_size desc;
 order by data_length desc;
 ```
 
-### 6.2 表所占磁盘大小
+## 6.2 表所占磁盘大小
 
 ```sql
 select 
@@ -172,9 +172,9 @@ group by TABLE_NAME
 order by data_length desc;
 ```
 
-## 7. 错误信息
+# 7. 错误信息
 
-### 7.1 远程连接
+## 7.1 远程连接
 
 报错信息：
 
@@ -190,7 +190,7 @@ ALTER USER 'root'@'ip_address' IDENTIFIED WITH mysql_native_password BY 'passw0r
 
 
 
-### 7.2 MySQL 8 
+## 7.2 MySQL 8 
 
 报错信息：
 
@@ -207,7 +207,7 @@ select @@global.sql_mode;
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
-### 7.3 时区错误
+## 7.3 时区错误
 
 ```properties
 Server returns invalid timezone. Go to 'Advanced' tab and set 'serverTimezon'

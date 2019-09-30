@@ -246,15 +246,15 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ## 4.4 忽略大小写
 
-> File | Settings | Editor | General | Code Completion
+> File | Settings | Editor | General | 将右侧的 case sensitive completion 修改为NONE
 
 ## 4.5 悬浮提示
 
-> File | Settings | Editor | General（Show quick documentation on mouse move）
+> File | Settings | Editor | General | Code Completion（Show quick documentation on mouse move）
 
 ## 4.6 取消单行显示tabs
 
-> File | Settings | Editor | General | Editor Tabs
+> File | Settings | Editor | General | Editor Tabs=>去掉Show tabs in one row的勾选
 
 ## 4.7 行号显示
 
@@ -270,6 +270,18 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 >
 > 第二步：File | Settings | Editor | Color Scheme | General，选择code的Injected language fragment然后去除background。
 
+## 4.10 用\*标识编辑过的文件 
+
+```properties
+1.Editor–>General –> Editor Tabs
+2.在IDEA中，你需要做以下设置, 这样被修改的文件会以*号标识出来，你可以及时保存相关的文件。
+3.“Mark modifyied tabs with asterisk
+```
+
+## 4.11 关闭自动代码提示
+
+Preferences => IDE Settings => Editor => Code Completion => Autopopup documentation in (ms)
+
 # 5 版本控制配置
 
 ## 5.1 SVN
@@ -280,7 +292,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
    特别注意：安装过程需要选中第二项command line tools的will be installed on local hard dirve
 
-2. 屏蔽文件：.iml;.idea;.classpath;.project;.settings;target;logs;
+2. 屏蔽文件：*.iml;.idea;.classpath;.project;.settings;target;logs;
 
    File | Settings | Editor | File Types
 

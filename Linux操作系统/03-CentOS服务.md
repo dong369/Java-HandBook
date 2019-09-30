@@ -1,12 +1,12 @@
-## 1. JDK配置
+# 1 JDK配置
 
-### 1.1 官网下载
+## 1.1 官网下载
 
 [163镜像中心下载地址](http://mirrors.163.com/)
 
 演示使用版本：CentOS-7-x86_64-Minimal-1810.iso
 
-### 1.2 官方JDK安装
+## 1.2 官方JDK安装
 
 第一步：打开	vi /etc/profile
 
@@ -30,7 +30,7 @@ source /etc/profile
 echo $JAVA_HOME
 ```
 
-### 1.3 OpenJDK 安装
+## 1.3 OpenJDK 安装
 
 1. 安装
 
@@ -57,9 +57,9 @@ yum -y remove tzdata-java.noarch
 java -version
 ```
 
-## 2. 防火墙配置
+# 2. 防火墙配置
 
-### 2.1 V-7之前
+## 2.1 V-7之前
 
 > + 重启后生效
 >   开启： chkconfig iptables on
@@ -72,7 +72,7 @@ java -version
 
 注意更改后重启防火墙服务：service iptables restart
 
-### 2.2 V-7之后
+## 2.2 V-7之后
 
 1. firewalld的基本使用
 
@@ -128,23 +128,23 @@ firewall-cmd --zone=public --remove-port=80/tcp --permanent
 firewall-cmd --reload
 ```
 
-## 3. 文件传输
+# 3. 文件传输
 
-### 3.1 SCP
+## 3.1 SCP
 
 ```properties
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
 
-## 4. 文件共享
+# 4. 文件共享
 
-### 4.1 安装samba
+## 4.1 安装samba
 
 ```properties
 yum -y install samba
 ```
 
-### 4.2 配置共享文件夹
+## 4.2 配置共享文件夹
 
 > samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
 
@@ -155,7 +155,7 @@ writable = yes
 public=yes
 ```
 
-### 4.3 配置免密码模式
+## 4.3 配置免密码模式
 
 > samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
 
@@ -166,7 +166,7 @@ public=yes
 	map to guest = Bad User
 ```
 
-### 4.4 启动samba
+## 4.4 启动samba
 
 ```properties
 systemctl start smb nmb
@@ -175,7 +175,7 @@ ps -ef | grep -E 'smb|nmb'
 netstat -tunlp | grep -E 'smbd|nmbd'
 ```
 
-### 4.5 关闭SElinux
+## 4.5 关闭SElinux
 
 ```properties
 vi /etc/selinux/config（vi /etc/sysconfig/selinux）
@@ -188,7 +188,7 @@ reboot # 进行重启操作
 getenforce  # 检查是否生效
 ```
 
-### 4.6 访问
+## 4.6 访问
 
 ```properties
 \\192.168.100.12
@@ -196,4 +196,4 @@ file://192.168.100.12/share/
 file:///192.168.100.12
 ```
 
-### 4.7 开机启动
+## 4.7 开机启动
