@@ -108,7 +108,7 @@ chown -R user:group file
 chmod -R 777 file
 ```
 
-#### 3.3.2 Ubunto
+### 3.3.2 Ubunto
 
 
 
@@ -123,6 +123,7 @@ yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
 yum -y install psmisc  # pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
+yum install -y unzip zip
 ```
 
 ## 4.2 Ubunto基础软件

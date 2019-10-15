@@ -2,9 +2,11 @@
 
 [官方下载页](http://dev.mysql.com/)
 
-## 1.1安装mySQL
+## 1.1 安装mySQL
 
 安装Mysql分为两种：安装版和绿色版，我们一般使用绿色版。
+
+数据库系统是由数据库、DBMS（数据库管理系统）、应用系统、数据库管理员共同组成。
 
 ### 1.1.1 安装版
 
@@ -34,13 +36,13 @@ root@ubuntuServer:~#apt-get install mysql-server
 
 ## 1.2 远程连接
 
-1.默认mySQL只允许本地连接，需要更改配置文件。
+1. 默认mySQL只允许本地连接，需要更改配置文件。
 
 root@ubuntuServer:~# vi /etc/mysql/my.cnf
 
 注释掉红色部分。
 
-\2. 打开MySQL数据库远程访问的权限
+2. 打开MySQL数据库远程访问的权限
 
 ### 1.2.1 改表法
 
@@ -226,11 +228,9 @@ Query OK, 0 rows affected (0.28 sec)
 
 Records: 0  Duplicates: 0  Warnings: 0
 
-## 2.2 认识SQL
+## 2.2 认识SQL分类
 
-SQL:是结构化查询语言，是**what型语言**而非**how型语言**
-
-Where后加的一般是**表达式（expr）**
+SQL：是结构化查询语言，是**what型语言**而非**how型语言**，Where后加的一般是**表达式（expr）**。
 
 **数据操纵语言（DML）: insert, delete, update, select(使用者的角度80%)**
 
@@ -282,7 +282,7 @@ update users set password = 'password' where userid = 1;
 
 Update t1,t2 set t1.pwd=’AAA’,t2.pwd=’BBB’ where t1.id=t2.id; 
 
-## 2.4 Delete操作(删)
+## 2.5 Delete操作(删)
 
 Delete:所有的行
 
@@ -300,7 +300,7 @@ Delete:指定的行
 
 delete from users where userid = 1;
 
-## 2.4 Select操作(查)
+## 2.6 Select操作(查)
 
 Select:所有的行所有列
 
@@ -2087,8 +2087,6 @@ Add index mark(出生日期);
 # 17 事物
 
 ## 17.1 什么是事物
-
-
 
 开启事物：start transaction;
 

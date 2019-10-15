@@ -216,7 +216,16 @@ E: Unable to locate package vim
 
 ### 4.2 MySQL服务
 ```shell
-docker pull mysql
+sudo docker pull mysql  # 拉取最新版本的镜像，当前为 MySQL 8 版本，tag 为 latest
+sudo docker pull mysql:5.7 # 指定拉取 MySQL 5.7 版本
+
+sudo docker run -p 3306:3306 \
+    --name mysql \
+    -v $PWD/conf:/etc/mysql/conf.d \
+    -v $PWD/logs:/logs \
+    -v $PWD/data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=your-password \
+    -d mysql
 ```
 > `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
 >  `-v` 将主机~/mysql/logs目录挂载到容器的/logs

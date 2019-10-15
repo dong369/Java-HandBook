@@ -248,9 +248,9 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 > File | Settings | Editor | General | 将右侧的 case sensitive completion 修改为NONE
 
-## 4.5 悬浮提示
+## 4.5 悬浮提示开关
 
-> File | Settings | Editor | General | Code Completion（Show quick documentation on mouse move）
+> File | Settings | Editor | General（Show quick documentation on mouse move）
 
 ## 4.6 取消单行显示tabs
 

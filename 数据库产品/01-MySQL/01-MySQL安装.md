@@ -1,10 +1,16 @@
-# 1. 安装配置
+# 1 Windows环境
 
-## 1.1. 下载
+
+
+# 2 Linux环境
+
+## 2.1 安装配置
+
+### 2.1.1 下载
 
 [下载地址](www.mysql.com)
 
-## 1.2. 配置/etc/my.cnf
+### 2.1.2 配置/etc/my.cnf
 
 ```properties
 [client]
@@ -25,7 +31,7 @@ lower_case_table_names=1
 
 特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
 
-## 1.3. 初始化数据库
+## 2.1.3. 初始化数据库
 
 ```properties
 groupadd mysql
@@ -184,8 +190,34 @@ ERROR 2059 (HY000): Plugin caching_sha2_password could not be loaded: 找不到�
 
 解决方法
 
+MySQL 5.7
+
 ```properties
-ALTER USER 'root'@'ip_address' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
+# {usernama} 是远程访问登录的用户名，不建议用 root;
+# {password} 是远程访问的登录密码;
+# '%'代表的是所有IP，如果可以尽量设置指定 IP 或 IP 段
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+# 刷新权限
+FLUSH PRIVILEGES;
+```
+
+MySQL 8
+
+```properties
+# 创建一个账号，用来进行远程访问；
+# {usernama} 是远程访问登录的用户名，不建议用 root;
+# {password} 是远程访问的登录密码;
+# '%'代表的是所有IP，如果可以尽量设置指定 IP 或 IP 段
+CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+
+# 赋予所有权限给之前创建的账号
+GRANT ALL ON *.* TO 'username'@'%';
+
+# 确认使用这里的密码登录此账号
+ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+
+# 刷新权限
+FLUSH PRIVILEGES;
 ```
 
 
