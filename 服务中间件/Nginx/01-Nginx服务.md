@@ -195,12 +195,12 @@ http {
 
 ```properties
 location /c/ {
-      alias /a/
+      alias /a/;
 }
 注：如果访问站点http://location/c访问的就是/a/目录下的站点信息，末尾必须加“/”。
 
 location /c/ {
-      root /a/
+      root /a/;
 }
 注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
 ```

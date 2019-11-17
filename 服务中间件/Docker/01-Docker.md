@@ -236,15 +236,17 @@ sudo docker run -p 3306:3306 \
 
 ### 4.3 Oracle服务
 
+<https://www.jianshu.com/p/65388c869b87>
+
+<https://www.jianshu.com/p/27a36d83fc10>
+
 ```shell
-docker pull jaspeen/oracle-11g
-docker pull filemon/oracle_11g       // 实例名（SID）orcl、管理员帐号（system/admin）
-docker pull sath89/oracle-xe-11g
+docker pull wnameless/oracle-xe-11g
 
 docker run --name oracle -d -p 1521:1521 \
-           -v /e/odata:/u01/app/oracle \
+           -v /home/docker/data/oracle_data:/data/oracle_data \
            -e ORACLE_ALLOW_REMOTE=true \
-           --restart=always sath89/oracle-xe-11g
+           --restart=always wnameless/oracle-xe-11g
                      
 docker exec -it 容器id /bin/bash
 
@@ -260,9 +262,11 @@ create tablespace TEST datafile '/u01/app/oracle/oradata/test/test.dbf' size 100
 create user TEST identified by TEST123 default tablespace TEST;		// 创建用户
 
 grant connect,resource to TEST;
+
 grant dba to TEST; // 授予dba权限后，这个用户能操作所有用户的表
 
 drop user TEST cascade; // 删除用户
+
 // 进行连接
 sid: xe
 service name: xe

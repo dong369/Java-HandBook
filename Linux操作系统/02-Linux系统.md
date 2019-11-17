@@ -99,7 +99,7 @@ userdel -r guodd        # 删除用户guodd，同时删除他的工作目录
 #### 3.3.1.3 文件拥有者
 
 ```properties
-chown -R user:group file
+chown -R esuser:esgroup file
 ```
 
 #### 3.3.1.4 文件权限
@@ -119,6 +119,7 @@ chmod -R 777 file
 CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传。
 
 ```properties
+yum -y update
 yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
 yum -y install psmisc  # pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
@@ -382,8 +383,6 @@ rm /etc/localtime
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 ```
 
-
-
 ### 6.1.7 修改SSH远程登陆
 
 ```properties
@@ -580,11 +579,13 @@ rpm -qa | grep 包名    # 可联合grep命令查找
 
 ## 8.1 tar
 
-1. 文件压缩
+文件压缩和文件解压
 
 ```properties
 // 文件压缩
 tar -cvf jpg.tar file1 file2 ....fileN
+
+// 文件解压
 tar -xvf my.tar.gz
 tar -xvf my.tar.gz -C /usr/local/soft
 
@@ -592,20 +593,15 @@ tar -xvf my.tar.gz -C /usr/local/soft
 nohup tar -cvf jpg.tar file1 file2 ....fileN &
 ```
 
-2. 文件解压
-
-```properties
-
-```
-
-
-
 ## 8.2 tar.gz
 
-1. 文件压缩
+文件压缩和文件解压
 
 ```properties
+// 文件压缩
 tar -zcvf my.tar.gz file1 file2 ....fileN
+
+// 文件解压
 tar -zxvf my.tar.gz
 tar -zxvf my.tar.gz -C /usr/local/soft
 
@@ -613,10 +609,12 @@ tar -zxvf my.tar.gz -C /usr/local/soft
 nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 ```
 
-2. 文件解压
+## 8.3 unzip
 
 ```properties
+unzip -v test.zip
 
+unzip -d elasticsearch-analysis-ik-7.3.0 elasticsearch-analysis-ik-7.3.0.zip
 ```
 
 

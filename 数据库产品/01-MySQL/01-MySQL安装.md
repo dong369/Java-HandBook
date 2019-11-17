@@ -16,17 +16,22 @@
 [client]
 port=3306
 socket=/tmp/mysql.sock
-default-character-set = utf8mb4
+default-character-set = utf8
 
 [mysqld]
 port=3306
 user=mysql
-default-character-set = utf8mb4
+default-character-set = utf8
 socket=/tmp/mysql.sock
 basedir=/opt/soft/mysql/mysql-8.0.15-el7
 datadir=/opt/soft/mysql/mysql-8.0.15-el7/data
 log-error=/opt/soft/mysql/mysql-8.0.15-el7/logs/error.log
+# 表名的大小写
 lower_case_table_names=1
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数
+max_connect_errors=10
 ```
 
 特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
@@ -80,7 +85,7 @@ chkconfig --add mysql // 注册启动服务
 service mysql start
 ```
 
-# 2. 配置远程登录
+# 2 配置远程登录
 
 ## 2.1. 改表法
 
@@ -259,3 +264,22 @@ set global time_zone='+8:00';
 flush privileges;
 ```
 
+## 7.4 最大连接数
+
+max_connections：mysql的最大连接数。
+
+max_used_connections：针对某一个账号的所有客户端并行连接到MYSQL服务的最大并行连接数。
+
+在 show global 里有个系统状态Max_used_connections,它是指从这次mysql服务启动到现在，同一时刻并行连接数的最大值。它不是指当前的连接情况，而是一个比较值。如果在过去某一个时刻，MYSQL服务同时有1000个请求连接过来，而之后再也没有出现这么大的并发请求时，则Max_used_connections=1000。
+
+对于mysql服务器最大连接数值的设置范围比较理想的是：服务器响应的最大连接数值占服务器上限连接数值的比**例值在10%以上**，如果在10%以下，说明mysql服务器最大连接上限值设置过高。
+
+**公式：Max_used_connections / max_connections * 100%**
+
+计算得到，差不多在5.3%作用，所以最大连接数设置有些偏高。可以适当的降低
+
+设置方法：vim /etc/my.cnf  然后添加一句 max_connections=80
+
+这个时候设置的是最理想的。
+
+当然在现实项目中，出现高并发的问题，不可能按着当前的服务器响应最大连接数去设置，应该将最大连接数设置到最大，等项目差不多稳定了，或者在日志中分析出，高并发的数量，从而去调整最大连接数。

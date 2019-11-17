@@ -1,4 +1,4 @@
-# 1. 技术目标
+# 1 技术目标
 
 > * 目标01：Vim 模式切换
 > * 目标02：光标移动
@@ -7,7 +7,7 @@
 > * 目标05：退出(Exiting)
 > * 目标06：剪切\复制\删除
 
-# 2. 文件（夹）操作
+# 2 文件（夹）操作
 ## 2.1 文件
 
 白色：表示普通文件
@@ -45,7 +45,7 @@ rm -rf /a                        // 可以删除一切普通的目录或文件 �
 mkdir -p server1/{data,log} server2/{data,log} server3/{data,log}   // 创建多个文件夹
 ```
 
-# 3. Vim编辑
+# 3 Vim编辑
 
 ## 3.1 安装
 
@@ -77,24 +77,32 @@ yum -y install vim*
 
 ## 4.2 Vi编辑
 
-### 4.2.1 Vim 模式切换
+### 4.2.1 模式切换
 
 > ##### 命令模式、插入模式、末行模式，[中文维基教科书](https://zh.wikibooks.org/zh-sg/Vim/%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F)。
 
 ### 4.2.2 命令模式
 
-| 命令     | 作用                    |
-| -------- | ----------------------- |
-| `[N]yy`  | 复制一行或者N行         |
-| `[N]dd`  | 删除\剪切一行或者N行    |
-| `p`      | 粘贴                    |
-| `u`      | 撤回上一步              |
-| `Ctrl+u` | 撤回全部                |
-| `ctrl+r` | 恢复上一步操作          |
-| `[N]G`   | 文档的第N行或者最后一行 |
-| `gg`     | 文档的第一行            |
-| `Ctrl+f` | 上一页                  |
-| `Ctrl+b` | 下一页                  |
+| 命令                         | 作用                    |
+| ---------------------------- | ----------------------- |
+| [N]yy、y[N]motion            | 复制一行或者N行         |
+| [N]dd、d[N]motion            | 删除\剪切一行或者N行    |
+| x                            | 删除当前字符            |
+| b、w                         |                         |
+| cw、ciw（ci"）;yi"；di"；dfa |                         |
+| p                            | 粘贴                    |
+| u                            | 撤回上一步              |
+| `Ctrl+u`                     | 撤回全部                |
+| `ctrl+r`                     | 恢复上一步操作          |
+| `[N]G`                       | 文档的第N行或者最后一行 |
+| `gg`                         | 文档的第一行            |
+| `Ctrl+f`                     | 上一页                  |
+| `Ctrl+b`                     | 下一页                  |
+| shift+a/g                    | 行尾/行首插入           |
+| shift+o                      | 上一行插入              |
+| hjkl                         | 左下上右                |
+
+
 
 ### 4.2.3 插入模式
 
@@ -121,7 +129,7 @@ yum -y install vim*
 | `:set nu`                 | 显示文件行号                        |
 | `:set nonu`               | 去除文件行号                        |
 
-# 4. 查找查看
+# 4 查找查看
 
 ## 5.1 文件查找
 
@@ -133,8 +141,84 @@ find / -name file
 
 ```shell
 grep -r "JAVA_HOME" /etc/
+
 grep -Ev "^$|#" file
 grep -Ev "^#|^$" /etc/kibana/kibana.yml
 
 egrep -v "^$|#" 文件名
 ```
+
+## 5.3 快速注释
+
+5.3.1 多行注释
+
+1. 进入命令行模式，按ctrl + v进入 visual block模式，然后按j, 或者k选中多行，把需要注释的行标记起来
+
+2. 按大写字母I，再插入注释符，例如//
+
+3. 按esc键就会全部注释了
+
+5.3.2 取消多行注释
+
+1. 进入命令行模式，按ctrl + v进入 visual block模式，按字母l横向选中列的个数，例如 // 需要选中2列
+2. 按字母j，或者k选中注释符号
+3. 按d键就可全部取消注释
+
+## 4.3.4 过滤
+
+```properties
+ls | grep vim
+```
+
+
+
+# 5 Vim配置
+
+## 5.1 自定义
+
+cd：进入home路径
+
+创建文件夹：mkdir .vim
+
+进入.vim，创建vimrc文件
+
+编辑配置vimrc文件
+
+```shell
+let mapleader=" "
+syntax on
+
+set number
+set relativenumber
+set cursorline
+set wrap
+set showcmd
+set wildmenu
+set scrolloff=5
+
+set hlsearch
+exec "nohlsearch"
+set incsearch
+set ignorecase
+set smartcase
+
+noremap <LEADER><CR> :nohlsearch<CR>
+noremap n h
+
+map s <nop>
+map S :w<CR>
+map Q :q<CR>
+map R :source $MYVIMRC<CR>
+```
+
+## 5.2 录制宏
+
+1.把光标定位在第一行；
+
+2.在normal模式下输入qa(当然也可以输入qb, qc, etc，这里的a, b, c是指寄存器名称，vim会把录制好的宏放在这个寄存器中)(PS：如果不知道什么是vim的寄存器，请自行放狗搜之)；
+
+3.正常情况下，vim的命令行会显示“开始录制”的字样，这时候，把光标定位到第一个字符（按0或者|），再按x删除，按j跳到下一行；
+
+4.normal模式下输入q，结束宏录制。
+
+5.在normal模式下输入@a，以播放我们刚录制好的存在寄存器a中的宏。
