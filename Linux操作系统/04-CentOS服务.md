@@ -57,7 +57,7 @@ yum -y remove tzdata-java.noarch
 java -version
 ```
 
-# 2. 防火墙配置
+# 2 防火墙配置
 
 ## 2.1 V-7之前
 
@@ -128,7 +128,7 @@ firewall-cmd --zone=public --remove-port=80/tcp --permanent
 firewall-cmd --reload
 ```
 
-# 3. 文件传输
+# 3 文件传输
 
 ## 3.1 SCP
 
@@ -136,7 +136,7 @@ firewall-cmd --reload
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
 
-# 4. 文件共享
+# 4 文件共享
 
 ## 4.1 安装samba
 
@@ -197,3 +197,11 @@ file:///192.168.100.12
 ```
 
 ## 4.7 开机启动
+
+
+
+# 5 图形界面
+
+yum -y groupinstall "GNOME Desktop"
+
+startx

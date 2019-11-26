@@ -10,11 +10,9 @@ GET /my_index1,my_index2/_search
 
 GET /my_s*/_search
 
-# 2 两种形式
+# 2 URI Search
 
-## 2.1 URI Search
-
-### 2.1.1 语法操作
+## 2.1 语法操作
 
 操作简便，方便通过命令行测试；**仅包含部分查询语法**。通过 url query参数来实现搜索，常用参数如下：
 
@@ -78,7 +76,7 @@ GET test_search_index/_mapping
 GET test_search_index/_search
 ```
 
-#### 2.1.2.1 term与phrase
+### 2.1.2.1 term与phrase
 
 term是一个个的单词，phrase是一个词语是有顺序的！！！
 
@@ -101,7 +99,7 @@ GET test_search_index/_search?q=username:(alfred way)
 }
 ```
 
-#### 2.1.2.2 泛查询
+### 2.1.2.2 泛查询
 
 泛查询是不指定字段的查询，alfred等效于在**所有字段**去匹配该term。
 
@@ -116,7 +114,7 @@ GET test_search_index/_search?q="郭冬"
 }
 ```
 
-#### 2.1.2.3 指定字段
+### 2.1.2.3 指定字段
 
 name:alfred
 
@@ -131,7 +129,7 @@ GET test_search_index/_search?q=username:"郭冬"
 }
 ```
 
-#### 2.1.2.4 分组
+### 2.1.2.4 分组
 
 Group分组设定，**使用括号指定匹配**的规则：
 
@@ -149,7 +147,7 @@ GET test_search_index/_search?q=username:(alfred AND way)
 }
 ```
 
-#### 2.1.2.5 布尔操作符
+### 2.1.2.5 布尔操作符
 
 AND（&&）， OR（||）， NOT（！）
 name:(tom NOT lee)
@@ -190,7 +188,7 @@ GET test_search_index/_search?q=username:(alfred -way)
 }
 ```
 
-#### 2.1.2.6 范围查询
+### 2.1.2.6 范围查询
 
 1. 范围查询，支持数值和日期，区间写法，闭区间用[]，开区间用{}
    age：[1 TO 10]意为1<=age<=10
@@ -215,7 +213,7 @@ GET test_search_index/_search?q=username:alfred AND age:>26
 GET test_search_index/_search?q=birth:(>1980 AND <199)
 ```
 
-#### 2.1.2.7 通配符查询
+### 2.1.2.7 通配符查询
 
 `?`代表1个字符，`*`代表0或多个字符
 name:t?m
@@ -227,7 +225,7 @@ name:t*m
 GET test_search_index/_search?q=username:alf*
 ```
 
-#### 2.1.2.8 正则表达式
+### 2.1.2.8 正则表达式
 
 name:/[mb]oat/
 
@@ -235,7 +233,7 @@ name:/[mb]oat/
 GET test_search_index/_search?q=username:/[a]?l.*/
 ```
 
-#### 2.1.2.9 模糊匹配
+### 2.1.2.9 模糊匹配
 
 模糊匹配fuzzy query，name:roam~1。匹配与roam差1个character的词，比如foam roams等
 
@@ -248,7 +246,7 @@ GET test_search_index/_search?q=username:alfed~1
 GET test_search_index/_search?q=username:alfd~2
 ```
 
-#### 2.1.2.10 近似度匹配
+### 2.1.2.10 近似度匹配
 
 近似度查询 proximity search，"fox quick"~5。以term为单位进行差异比较，比如"quick fox" "quick brown fox"都会被匹配。
 
@@ -261,7 +259,7 @@ GET test_search_index/_search?q=job:"java engineer"~1
 GET test_search_index/_search?q=job:"java engineer"~2
 ```
 
-## 2.2 Request Body search
+# 3 Request Body search
 
 ES提供的完备查询语法Query DSL（Domain Specific Language）
 
@@ -269,7 +267,7 @@ ES提供的完备查询语法Query DSL（Domain Specific Language）
 
 基于JSON定义的查询语言，主要包含如下两种类型
 
-### 2.2.1 字段类查询
+## 3.1 字段类查询
 
 如term（词查询）、terms（词查询）、range（针对词查询）。
 
@@ -277,7 +275,7 @@ match（全文检索）、match_phrase（全文检索查询）等，只针对某
 
 字段类查询主要包括以下两类。
 
-#### 2.2.1.1 全文匹配
+### 3.1.1 全文匹配
 
 针对text类型的字段进行全文检索，会对查询语句先进行分词处理，如 match，match_phrase等query类型。
 
@@ -388,7 +386,7 @@ GET test_search_index/_search
 }
 ```
 
-#### 2.2.1.2 单词匹配
+### 3.1.2 单词匹配
 
 不会对查询语句做分词处理，直接去匹配字段的倒排索引，如term，terms，range等 query类型。
 
@@ -468,11 +466,11 @@ GET test_search_index/_search
 }
 ```
 
-### 2.2.2 复合查询
+## 3.2 复合查询
 
 如bool查询等，包含一个或多个字段类查询或者复合查询语句。复合查询（Compound queries）是指包含字段类査询或复合查询的类型，主要包括以下几类：constant_score_query、bool_query、dis_max_query、function_score_query、boosting_query。Constant Score Query该查询将其内部的査询结果文档得分都设定为1或者 boost的值，多用于结合bool查询实现自定义得分。
 
-#### 2.2.2.1 Constant_score
+### 3.2.1 Constant_score
 
 ```json
 GET test_search_index/_search
@@ -491,11 +489,11 @@ GET test_search_index/_search
 
 filter只能有一个。
 
-#### 2.2.2.2 Bool Query布尔查询
+### 3.2.2 Bool Query布尔查询
 
 Bool Query布尔查询由一个或多个布尔子句组成，主要包含如下4个：filter只过滤符合条件的文档，不计算相关性得分、must必须符合must的所有条件，影响相关性得分、must_not文档必须不符合must_not中的所有条件，不影响相关性得分、should文档中符合should的条件，会影响相关性得分。
 
-| 子句构成 |                                                              |
+| 子句构成 | 描述                                                         |
 | -------- | ------------------------------------------------------------ |
 | filter   | 只过滤**符合条件**的文档，不计算相关性得分，一组条件！！！   |
 | must     | 文档必须符合must中的**所有条件**，会影响相关性得分           |
@@ -614,12 +612,18 @@ GET test_search_index/_search
 
 Query Context VS Filter Context当一个查询语句位于 Query或者Filter上下文时，ES执行的结果会不同，对比如下。
 
+## 3.3 query和filter对比
+
+query关注点：此文档与此查询子句的匹配程度如何？filter关注点：此文档和查询子句匹配吗？
+
+
+
 | 上下文类型 | 执行类型                                                 | 使用方式                                           |
 | ---------- | -------------------------------------------------------- | -------------------------------------------------- |
 | Query      | 查找与查询语句最匹配的文档，对所有文档进行相关性计算排序 | query、bool中的must和should                        |
 | Filter     | 查找与查询语句最匹配的文档                               | bool中的filter和must_not；constant_scort中的filter |
 
-# 3 Count APl
+# 4 Count APl
 
 获取符合条件的文档数， endpoint为_count
 
@@ -640,7 +644,7 @@ GET test_search_index/_count
 }
 ```
 
-# 4 Source Filtering
+# 5 Source Filtering
 
 过滤返回结果中_source中的字段，主要有如下几种方式
 
@@ -671,7 +675,7 @@ GET test_search_index/_search
 }
 ```
 
-# 5 相关性算分
+# 6 相关性算分
 
 相关性算分是指文档与查询语句间的相关度，英文为relevance。
 

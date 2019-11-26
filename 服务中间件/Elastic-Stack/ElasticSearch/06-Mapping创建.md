@@ -200,7 +200,7 @@ text类型默认配置为positions，其他默认为docs
 
 字符串型：text、 keyword
 
-数值型：long、 Integer、 short、byte、 double、 float、 half float、 scaled float
+数值型：long、 Integer、 short、byte、 double、 float、 half_float、 scaled_float
 
 日期类型：date
 
@@ -208,7 +208,7 @@ text类型默认配置为positions，其他默认为docs
 
 二进制类型：binary
 
-范围类型：Integer_range、 float_range、 long_range、 double-range、 date_range
+范围类型：Integer_range、 float_range、 long_range、 double_range、 date_range
 
 ## 3.2 复杂数据类型
 
@@ -218,21 +218,21 @@ text类型默认配置为positions，其他默认为docs
 
 嵌套类型：nested object
 
-地理位置：geo_point、geo_shape
-
 ## 3.3 专用数据类型
 
-记录IP地址IP
+地理位置：geo_point、geo_shape
+
+记录IP地址：IP
 
 实现自动补全：completion
 
-记录分词数：token count
+记录分词数：token_count
 
-记录字符串：hash值 murmur3
+记录字符串：mumur3
 
-percolator
+父子索引join类型：percolator
 
-JoIn
+别名类型：alias
 
 ## 3.4 多字段特征
 
@@ -698,8 +698,9 @@ put _template/test_template1
 
 ## 7.2 模板创建
 
+PUT /_template/prod_template
+
 ```json
-put _template/prod_template
 {
   "index_patterns": "prod_*",
   "order": 0,
@@ -736,9 +737,9 @@ put _template/prod_template
     ],
     "dynamic_templates": [
       {
-        "strings-pinyin": {
+        "strings-pinyin-text": {
           "match_mapping_type": "string",
-          "match": "messagePinyin*",
+          "match": "pinyin*",
           "mapping": {
             "type": "keyword",
             "fields": {
@@ -765,7 +766,7 @@ put _template/prod_template
         }
       },
       {
-        "strings-ik-pinyin": {
+        "strings-ik-pinyin-text": {
           "match_mapping_type": "string",
           "match": "describe*",
           "mapping": {
@@ -781,6 +782,15 @@ put _template/prod_template
                 "boost": 10
               }
             }
+          }
+        }
+      },
+      {
+        "strings-nested": {
+          "match_mapping_type": "string",
+          "match": "nested*",
+          "mapping": {
+            "type": "nested"
           }
         }
       },
@@ -807,12 +817,17 @@ put _template/prod_template
 }
 ```
 
-### 7.2.1 关闭动态
+## 7.3 关闭动态
 
 ```properties
 PUT /prod_patient_info/_mapping
 {
   "dynamic": false
+}
+
+PUT /prod_patient_info/_mapping
+{
+  "numeric_detection": false
 }
 ```
 

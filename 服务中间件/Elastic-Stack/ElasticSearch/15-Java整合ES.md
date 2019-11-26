@@ -6,7 +6,7 @@ SpringBoot + REST Client
 
 ## 1.2 项目介绍
 
-SpringBoot整合ES的方式：TransportClient、Data-ES、Elasticsearch SQL、REST Client。
+SpringBoot整合ES的方式：TransportClient、Elasticsearch SQL、REST Client、Data-ES。
 
 TransportClient即将弃用，所以这种方式不考虑
 
@@ -27,20 +27,24 @@ Spring提供的封装的方式，好像底层也是基于TransportClient，Elast
 ## 2.1 依赖
 
 ```java
-<elasticsearch.version>7.3.0</elasticsearch.version>
+<dependency>
+    <groupId>org.elasticsearch</groupId>
+    <artifactId>elasticsearch</artifactId>
+    <version>7.3.0</version>
+</dependency>
 
 <!-- Java Low Level REST Client -->
 <dependency>
     <groupId>org.elasticsearch.client</groupId>
     <artifactId>elasticsearch-rest-client</artifactId>
-    <version>${elasticsearch.version}</version>
+    <version>7.3.0</version>
 </dependency>
 
 <!-- Java High Level REST Client -->
 <dependency>
     <groupId>org.elasticsearch.client</groupId>
     <artifactId>elasticsearch-rest-high-level-client</artifactId>
-    <version>${elasticsearch.version}</version>
+    <version>7.3.2</version>
 </dependency>
 ```
 
@@ -48,93 +52,25 @@ Spring提供的封装的方式，好像底层也是基于TransportClient，Elast
 
 
 
-## 2.3 测试
+## 2.3 开发技巧
+
+先写DSL语句=>再写业务代码=>打印业务代码中的DSL=>进行DSL比对
+
+## 2.4 测试
 
 
 
 # 3 查询操作
 
-## 3.1 一般查询
-
-（一） matchAllQuery(client). 2
-
-（二） matchQuery(client);3
-
-（三） multiMatchQuery(client);3
-
-（四） wildcardQuery() 模糊查询... 3
-
-（五） commonTermQuery(client);3
-
-（六） termQuery(client);4
-
-（七） testPrefixQuery 前缀... 4
-
-（八） _rangeQuery_(client); 范围查询... 4
-
-1、 两种写法... 5
-
-（九） nested query. 5
-
-（十） 其他查询... 6
-
-二、 聚合查询 AggsQueryTest7
-
-（一） avgQuery(client);7
-
-（二） minQuery(client);8
-
-（三） maxQuery(client). 8
-
-（四） valueCountQuery(client); // 统计个数... 8
-
-值计算聚合... 8
-
-（五） extendedStatsQuery(client);// 统计聚合 (一堆). 8
-
-（六） percentileQuery(client). 9
-
-（七） percentileRankQuery(client);// 百分比... 9
-
-（八） _rangeQuery_(client)// 范围... 9
-
-（九） histogramQuery(client);// 柱状图聚合... 10
-
-（十） dateHistogramQuery(client);// 按日期间隔分组... 10
-
-（十一） 获取聚合里面的结果... 10
-
-（十二） 嵌套的聚合... 10
-
-（十三） 反转嵌套... 10
-
-三、 二级分组的例子：... 10
-
-四、 嵌套查询... 11
-
-（一） constantScoreQuery(client);11
-
-（二） _booQuery_(client)（最常用）... 12
-
-1、 经典案例... 12
-
-（三） disMaxQuery(client);13
-
-五、 本案例数据导入... 14
+## 3.1 基础查询
 
 ### matchAllQuery
 
-matchAllQuery() 方法用来匹配全部文档。
-
-<table border="1" cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; public static void matchAllQuery(Client client) {</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SearchResponse res = null;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QueryBuilder qb = QueryBuilders.matchAllQuery();</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; res = client.prepareSearch("search_test")</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .setTypes("article")</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .setQuery(qb)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .setFrom(0)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .setSize(10)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .execute().actionGet();</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (SearchHit hit: res.getHits().getHits()){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(hit.getSourceAsString());</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p></td></tr></tbody></table>
-
-for 有选择的打印
-
-<table border="1" cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><p align="left">1.&nbsp; <strong>for</strong>&nbsp;(SearchHit&nbsp;searchHit&nbsp;:&nbsp;searchHits)&nbsp;{&nbsp;&nbsp;</p><p align="left">2.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;name&nbsp;=&nbsp;(String)&nbsp;searchHit.getSource().get("name");&nbsp;&nbsp;</p><p align="left">3.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;birth&nbsp;=&nbsp;(String)&nbsp;searchHit.getSource().get("birth");&nbsp;&nbsp;</p><p align="left">4.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;interest&nbsp;=&nbsp;(String)&nbsp;searchHit.getSource().get("interest");&nbsp;&nbsp;</p><p align="left">5.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("-------------"&nbsp;+&nbsp;(++i)&nbsp;+&nbsp;"------------");&nbsp;&nbsp;</p><p align="left">6.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name);&nbsp;&nbsp;</p><p align="left">7.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(birth);&nbsp;&nbsp;</p><p align="left">8.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(interest);&nbsp;&nbsp;</p><p align="left">9.&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</p></td></tr></tbody></table>
+matchAllQuery()方法用来匹配全部文档。
 
 ### matchQuery
 
-不能写为 matchQuery("name", "to*")
+不能写为matchQuery("name", "to*")
 
 matchQuery("filedname","value") 匹配单个字段，匹配字段名为 filedname, 值为 value 的文档
 
@@ -638,12 +574,6 @@ QueryBuilder queryBuilder = QueryBuilders.constantScoreQuery(QueryBuilders.termQ
 {"pid":565,"age":16,"sex":false,"name":"Brown","addr":"Beijing"}
 
 {"pid":73,"age":13,"sex":false,"name":"David","addr":"Beijing"}
-
-
-作者：唐影若凡  
-链接：https://www.jianshu.com/p/a3694b13bf89  
-來源：简书  
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 ### disMaxQuery
 

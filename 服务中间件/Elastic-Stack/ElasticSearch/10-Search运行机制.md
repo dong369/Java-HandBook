@@ -208,6 +208,7 @@ PUT prod_clinic_info/_mapping
   }
 }
 
+# fielddata
 PUT prod_clinic_info/_mapping
 {
   "properties": {
@@ -223,7 +224,7 @@ PUT prod_clinic_info/_mapping
 
 ## 3.2 doc values
 
-doc_values**默认是启用的**，可以在创建索引的时候关闭：如果后面要再开启doc_values，需要做 reindex操作。
+doc_values**默认是启用的**，可以在创建索引的时候关闭：如果后面要再开启doc_values，需要做reindex操作。
 
 ```json
 # doc values
@@ -340,11 +341,48 @@ GET test_search_index/_search
 }
 
 # total_page=(total+page_size-1)/page_size
-
 GET test_search_index/_search
 {
   "from":9998,
   "size":2
+}
+
+# ES通过index.max_result_window修改search查询最大查询条数，默认是10000
+PUT /search_model/_settings
+{
+  "max_result_window": "10000000"
+}
+
+# track_total_hits查询search数据
+GET search_model/_search
+{
+  "track_total_hits": true,
+  "query": {
+    "match_all": {}
+  }
+}
+
+# ES通过search.max_buckets修改聚合最大查询条数，默认是10000
+PUT _cluster/settings
+{
+  "transient": {
+    "search.max_buckets": 10000000
+  }
+}
+
+# track_total_hits查询聚合数据
+GET /prod_clinic_info/_search
+{
+  "track_total_hits": true,
+  "size": 0,
+  "aggregations": {
+    "desensitizeHospitalPatientId": {
+      "terms": {
+        "field": "desensitizeHospitalPatientId",
+        "size": 100000
+      }
+    }
+  }
 }
 ```
 

@@ -339,14 +339,12 @@ Preferences => IDE Settings => Editor => Code Completion => Autopopup documentat
 ```properties
 // 推送Tag到远程
 git push origin v1.0.0.0      
-//删除本地tag
+// 删除本地tag
 git tag -d v1.0.0
-//删除已经远程的tag
+// 删除已经远程的tag
 git push origin :refs/tags/v1.0.0
 注意：可以通过提交代码时进行tag的提交。
 ```
-
-
 
 # 6 快捷键配置
 

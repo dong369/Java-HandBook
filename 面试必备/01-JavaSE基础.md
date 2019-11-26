@@ -15,7 +15,7 @@ JavaSE、Spring5、Mybatis
 第五阶段：技能提升
 高并发、性能优化
 
-### 一、面向对象
+# 一、面向对象
 
 1、面向对象的特征有哪些方面？
 
@@ -1147,7 +1147,7 @@ System.out.print(s1==s2);//返回true
 - String为什么要设计成不可变的？
 - Object类的equal和hashCode方法重写，为什么？
 
-### 二、集合框架
+# 二、集合框架
 
 **1、List、Set、Map是否继承自Collection接口？**
 

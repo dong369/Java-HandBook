@@ -42,26 +42,40 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 ## 3.1 CentOS
 
-### 3.1.1 系统内核
+### 3.1.1 内核
 
 ```properties
 rpm -qa|grep kernel
 ```
 
-### 3.1.2 系统版本信息
+### 3.1.2 版本
 
 ```properties
-uname -a ，可显示电脑以及操作系统的相关信息。 
+cat /etc/os-release
 cat /proc/version，说明正在运行的内核版本。
 cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
 cat /etc/issue，显示的是发行版本信息
 lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
 ```
 
-### 3.1.3 CPU信息
+### 3.1.3 CPU
 
 ```properties
 cat /proc/cpuinfo，显示系统配置信息。
+```
+
+### 3.1.4 磁盘
+
+```properties
+df -h
+
+du -sh * | sort -nr
+```
+
+### 3.1.5 内存
+
+```properties
+free -hl
 ```
 
 ## 3.2 Ubunto系统版本
@@ -235,6 +249,8 @@ sudo apt-get update
 ## 6.1 CentOS其它配置
 
 ### 6.1.1 服务名称管理
+
+uname -a
 
 1. 更改hostname
 
@@ -438,6 +454,8 @@ source /etc/bashrc
 ```
 
 ### 6.1.11 防火墙配置
+
+
 
 ## 6.2 Ubunto其它配置
 
