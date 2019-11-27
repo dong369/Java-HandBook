@@ -24,7 +24,7 @@ node3拼接返回的结果并返回给客户
 
 # 2 相关性算分问题
 
-相关性算分在 shard与 shard间是相互独立的，也就意味着同一个Term的IDF等值在不同shard上是不同的。
+相关性算分在 shard与shard间是相互独立的，也就意味着同一个Term的IDF等值在不同shard上是不同的。
 
 文档的相关性算分和它所处的 shard相关。
 
@@ -40,26 +40,18 @@ DFS Query-then- Fetch是在拿到所有文档后再重新完整的计算一次�
 ```json
 # dive into search
 DELETE test_search_relevance
-PUT test_search_relevance
-{
-  "settings": {
-    "index":{
-      "number_of_shards":1
-    }
-  }
-}
 
-POST test_search_relevance/doc
+POST test_search_relevance/_doc
 {
   "name":"hello"
 }
 
-POST test_search_relevance/doc
+POST test_search_relevance/_doc
 {
   "name":"hello,world"
 }
 
-POST test_search_relevance/doc
+POST test_search_relevance/_doc
 {
   "name":"hello,world!a beautiful world"
 }
@@ -78,6 +70,17 @@ GET test_search_relevance/_search
   }
 }
 
+# 解决方式1：分片设置成一个
+PUT test_search_relevance
+{
+  "settings": {
+    "index":{
+      "number_of_shards":1
+    }
+  }
+}
+
+# 解决方式二：使用dfs_query_then_fetch查询
 GET test_search_relevance/_search?search_type=dfs_query_then_fetch
 {
   "query": {
@@ -90,11 +93,9 @@ GET test_search_relevance/_search?search_type=dfs_query_then_fetch
 
 # 3 排序
 
-ES默认会采用相关性算分排序，用户可以通过设定 sorting参数来自行设定排序规则。如果指定了排序规则的话，ES将不再计算评分！！！
+ES默认会采用**相关性算分排序**，用户可以通过设定sorting参数来自行设定排序规则。如果指定了排序规则的话，ES将不再计算评分！！！
 
-按照字符串排序比较特殊，因为ES有text和keyword两种类型，针对text类型排序，将会报错。
-
-排序的过程实质是对**字段原始内容排序的过程**，这个过程中**倒排索引无法发挥作用**，需要用到正排索引，也就是通过文档ld和字段可以快速得到字段原始内容。
+按照字符串排序比较特殊，因为ES有text和keyword两种类型，针对text类型排序，将会报错。排序的过程实质是对**字段原始内容排序的过程**，这个过程中**倒排索引无法发挥作用**，需要用到正排索引，也就是通过文档ld和字段可以快速得到字段原始内容。
 
 ES对此提供了2种实现方式：fielddata默认禁用；doc values默认启用，除了text类型。
 
@@ -148,7 +149,7 @@ PUT test_search_index/doc/0
   "username":"aaa"
 }
 
-DELETE test_search_index/doc/2
+DELETE test_search_index/_doc/2
 
 GET test_search_index
 
@@ -173,14 +174,14 @@ GET test_search_index/_search
   ]
 }
 
-DELETE test_search_index/doc/5
+DELETE test_search_index/_doc/5
 
-PUT test_search_index/doc/5
+PUT test_search_index/_doc/5
 {
   "username":"alfred junior zoo"
 }
 
-DELETE test_search_index/doc/5
+DELETE test_search_index/_doc/5
 
 GET test_search_index/_search
 {
@@ -193,7 +194,7 @@ GET test_search_index/_search
 ## 3.1 Fielddata
 
 Fielddata**默认是关闭的**，可以通过如下api开启，此时字符串是按照分词后的term排序，往往结果很难符合预期
-一般是在对分词做聚合分析的时候开启。Fielddata只对text类型有效！！！
+一般是在对分词做聚合分析的时候开启。**Fielddata只对text类型有效！！！**
 
 ```json
 PUT prod_clinic_info/_mapping
@@ -222,19 +223,15 @@ PUT prod_clinic_info/_mapping
 }
 ```
 
-## 3.2 doc values
+## 3.2 Doc Values
 
-doc_values**默认是启用的**，可以在创建索引的时候关闭：如果后面要再开启doc_values，需要做reindex操作。
+doc_values**默认是启用的**，明确的知道这个字段不需要排序和聚合操作，可以在创建索引的时候关闭；如果后面要再开启doc_values，需要做reindex操作。
 
 ```json
 # doc values
 DELETE test_doc_values
 
-PUT test_doc_values
-
-GET test_doc_values
-
-PUT test_doc_values/_mapping/doc
+PUT test_doc_values/_doc/1
 {
   "properties": {
     "username": {
@@ -250,18 +247,16 @@ PUT test_doc_values/_mapping/doc
 PUT test_doc_values1/
 {
   "mappings": {
-    "doc": {
-      "properties": {
-        "username": {
-          "type": "keyword",
-          "doc_values": false
-        }
+    "properties": {
+      "username": {
+        "type": "keyword",
+        "doc_values": false
       }
     }
   }
 }
 
-PUT test_doc_values/doc/1
+PUT test_doc_values/_doc/1
 {
   "username":"alfred",
   "hobby":"basketball"
@@ -278,7 +273,7 @@ GET test_doc_values/_search
 }
 
 # can be used to get original field value for not stored field
-PUT test_search_index/_mapping/doc
+PUT test_search_index/_mapping/_doc
 {
   "properties": {
     "username":{
@@ -289,7 +284,7 @@ PUT test_search_index/_mapping/doc
 }
 ```
 
-## 3.3 docvalue_fields
+## 3.3 Docvalue_fields
 
 可以通过该字段获取fielddata或者doc values中存储的内容，**默认是开启的**！！！
 
@@ -472,3 +467,4 @@ GET /prod_clinic_info/_search
 | From/Size    | 需要实时获取顶部的部分文档，且需要自由分页 |
 | Scroll       | 需要全部文档，如导出所有数据的功能         |
 | Search_After | 需要全部文档，不需要自由分页               |
+

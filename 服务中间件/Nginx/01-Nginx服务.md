@@ -1,4 +1,4 @@
-# 1. Nginx基础使用
+# 1 Nginx基础使用
 
 ## 1.1 官网下载
 
@@ -39,17 +39,11 @@ make && make install
 
 ### 1.2.3 nginx.conf
 
-1. HTTP服务反向代理
+#### 1.2.3.1 HTTP服务反向代理
 
 ```properties
 # user  nobody;
 worker_processes  1;
-
-# error_log  logs/error.log;
-# error_log  logs/error.log  notice;
-# error_log  logs/error.log  info;
-
-# pid        logs/nginx.pid;
 
 events {
     worker_connections  1024;
@@ -71,7 +65,7 @@ http {
 }
 ```
 
-2. HTTPS配置
+#### 1.2.3.2 HTTPS配置
 
 ```properties
 # 开启缓存
@@ -122,7 +116,7 @@ server {
 }
 ```
 
-3. server节点配置
+#### 1.2.3.3 server节点配置
 
 ```properties
 server {
@@ -138,11 +132,10 @@ server {
     location /isp/ {
         proxy_pass http://10.237.16.21:7122/;
     }
-
 }
 ```
 
-4. stream节点配置
+#### 1.2.3.4 stream节点配置
 
 ```properties
 server {
@@ -151,7 +144,7 @@ server {
 }
 ```
 
-5. Upstream节点配置
+#### 1.2.3.5 Upstream负载均衡
 
 ```properties
 # 方式一
@@ -189,9 +182,15 @@ http {
 }
 ```
 
-6. root和alias区别
+#### 1.2.3.6 root和alias区别
 
-> 一般情况下，在location /中配置root，在location /other中配置alias是一个好习惯。
+一般情况下，在location的/中配置root，在location /other中配置alias是一个好习惯。
+
+root指定的路径注意**真实的路径是root指定的值加上location指定的值**。
+
+alias 正如其名，alias指定的路径是location的别名，不管location的值怎么写，资源的**真实路径都是 alias 指定的路径**。
+
+区别：alias只能作用在location中，而root可以存在server、htp和location中；alias后面必须要用/结束，否则会找不到文件，而root则对/可有可无
 
 ```properties
 location /c/ {
@@ -207,10 +206,16 @@ location /c/ {
 
 ## 1.3 离线安装
 
+### 1.3.1 gcc-c++
+
 > 把安装包解压到服务器上，先安装gcc，再安装g++。分别执行两个文件夹下的install.sh。
 > 一般我们都需要先装pcre,zlib，前者用于url rewrite，后者用于gzip压缩，openssl用于后续可能升级到https时使用。
 
-### 1.3.1 pcre安装
+```properties
+
+```
+
+### 1.3.2 pcre安装
 
 执行如下命令：
 
@@ -221,15 +226,18 @@ cd pcre-8.42/
 make && make install
 ```
 
-### 1.3.2 zlib安装
+### 1.3.3 zlib安装
 
 执行如下命令：
 
 ```properties
-
+tar -zxvf zlib-1.2.11.tar.gz
+cd zlib-1.2.11/
+./configure
+make && make install
 ```
 
-### 1.3.3 openssl安装
+### 1.3.4 openssl安装
 
 执行如下命令：
 
@@ -240,7 +248,7 @@ cd openssl-1.1.0h/
 make && make install
 ```
 
-### 1.3.4 nginx安装
+### 1.3.5 nginx安装
 
 执行如下命令：
 
@@ -253,7 +261,10 @@ make && make install
 
 ## 1.4 启动使用
 
-> 直接运行bin/redis-server将以前端模式启动，前端模式启动的缺点是ssh命令窗口关闭则redis-server程序结束，不推荐使用此方法。
+```properties
+cd /usr/local/nginx/sbin
+./nginx
+```
 
 ### 1.4.1 基本命令
 
@@ -284,11 +295,13 @@ ExecStop=/usr/local/nginx/sbin/nginx -s stop
 
 
 
-# 2. Keepalived实现主备切换
+# 2 Keepalived实现主备切换
 
 TODO 待完善
 
-# 3. 业务使用
+
+
+# 3 业务使用
 
 ## 3.1 动静分离部署
 
@@ -352,8 +365,6 @@ server {
     }
 }
 ```
-
-
 
 ## 3.2 Nginx文件上传
 
@@ -522,8 +533,6 @@ public class FileUploadUtils {
     }
 }
 ```
-
-
 
 ### 3.2.2 Nginx配置
 
