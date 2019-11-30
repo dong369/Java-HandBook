@@ -37,9 +37,9 @@ cd /usr/local/nginx-1.11.13
 make && make install
 ```
 
-### 1.2.3 nginx.conf
+### 1.2.3 Nginx.conf
 
-#### 1.2.3.1 HTTP服务反向代理
+#### 1.2.3.1 反向代理
 
 ```properties
 # user  nobody;
@@ -116,7 +116,7 @@ server {
 }
 ```
 
-#### 1.2.3.3 server节点配置
+#### 1.2.3.3 Server节点配置
 
 ```properties
 server {
@@ -135,12 +135,39 @@ server {
 }
 ```
 
-#### 1.2.3.4 stream节点配置
+#### 1.2.3.4 Stream节点配置
 
 ```properties
-server {
-    listen 8082;
-    proxy_pass unix:/tmp/stream.socket;
+worker_processes auto;
+error_log logs/error.stream.log info;
+events {
+    worker_connections  1024;
+}
+stream {
+    upstream backend {
+        hash $remote_addr consistent;
+        server 127.0.0.1:12346 weight=5;
+        server 127.0.0.1:12347            max_fails=3 fail_timeout=30s;
+        server 127.0.0.1:12348            max_fails=3 fail_timeout=30s;
+    }
+    upstream dns {
+       server 17.61.29.79:53;
+       server 17.61.29.80:53;
+       server 17.61.29.81:53;
+       server 17.61.29.82:53;
+    }
+    server {
+        listen 12345;
+        proxy_connect_timeout 1s;
+        proxy_timeout 3s;
+        proxy_pass backend;
+    }
+    server {
+        listen 127.0.0.1:53 udp;
+        proxy_responses 1;
+        proxy_timeout 20s;
+        proxy_pass dns;
+    }
 }
 ```
 
@@ -182,7 +209,7 @@ http {
 }
 ```
 
-#### 1.2.3.6 root和alias区别
+#### 1.2.3.6 Root和Alias区别
 
 一般情况下，在location的/中配置root，在location /other中配置alias是一个好习惯。
 

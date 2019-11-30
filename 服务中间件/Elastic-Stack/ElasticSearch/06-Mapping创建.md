@@ -70,7 +70,7 @@ PUT test
 
 ## 2.3 copy_to
 
-将该字段的值复制到目标字段，实现类似_all的作用，不会出现在_source中，只用来搜索。
+将该字段的值复制到目标字段，实现类似all的作用，不会出现在_source中，只用来搜索。
 
 ```json
 {
@@ -360,13 +360,15 @@ PUT my_index/_doc/1
 
 允许根据ES自动识别的数据类型、字段名等来**动态设定字段类型**。
 
-可以实现如下效果：所有字符串类型都设定为keyword类型，即默认不分词；所有以 message开头的字段都设定为text类型，即分词；所有以long开头的字段都设定为long类型；所有自动匹配为double类型的都设定为foat类型，以节省空间。
+可以实现的效果，所有字符串类型都设定为keyword类型，即默认不分词；所有以 message开头的字段都设定为text类型，即分词；所有以long开头的字段都设定为long类型；所有自动匹配为double类型的都设定为foat类型，以节省空间。
 
 ## 5.2 匹配规则
 
 匹配规则一般有如下几个参数：
 match_mapping_type：匹配ES自动识别的字段类型，如 boolean， long， string等。
+
 match、unmatch：匹配字段名。
+
 path_match、path_unmatch：匹配路径。
 
 字符串默认使用 keyword类型ES默认会为字符串设置为text类型，并增加个keyword的子字段。
@@ -392,6 +394,7 @@ PUT /test_index
         ]
     }
 }
+
 # 以message开头的字段都设置为text类型 put 
 PUT /test_index
 {
@@ -681,6 +684,7 @@ put _template/test_template1
         }
     }
 }
+
 # put _template/test_template2
 {
     "index_patterns": ["test*"],
@@ -761,7 +765,13 @@ PUT /_template/prod_template
           "mapping": {
             "type": "text",
             "analyzer": "ik_max_word",
-            "search_analyzer": "ik_smart"
+            "search_analyzer": "ik_smart",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
           }
         }
       },
@@ -787,10 +797,21 @@ PUT /_template/prod_template
       },
       {
         "strings-nested": {
-          "match_mapping_type": "string",
+          "match_mapping_type": "object",
           "match": "nested*",
           "mapping": {
             "type": "nested"
+          }
+        }
+      },
+      {
+        "strings-suggest": {
+          "match_mapping_type": "string",
+          "match": "suggest*",
+          "mapping": {
+            "type": "completion",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart"
           }
         }
       },

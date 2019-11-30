@@ -323,7 +323,7 @@ GET test_search_index/_search
   }
 }
 
-# Match Phrase Query，对字段作检索，有顺序要求，通过slop参数可以控制单词间的间隔
+# Match Phrase Query，对字段作检索，有顺序要求，通过slop参数可以控制单词间的间隔（中间和后面偏移量）
 GET test_search_index/_search
 {
   "query": {
@@ -336,11 +336,12 @@ GET test_search_index/_search
   }
 }
 
-# Query String Query，类似于URI Search中的q参数查询
+# Query String Query，类似于URI Search中的q参数查询，
 GET test_search_index/_search
 {
   "query": {
     "query_string": {
+      // 指定字段中查询
       "fields": [
         "username"
       ],
@@ -348,6 +349,7 @@ GET test_search_index/_search
     }
   }
 }
+
 GET test_search_index/_search
 {
   "query": {
@@ -357,6 +359,7 @@ GET test_search_index/_search
     }
   }
 }
+
 GET test_search_index/_search
 {
   "profile": "true", 
@@ -370,6 +373,7 @@ GET test_search_index/_search
     }
   }
 }
+
 # Simple Query String Query，类似query String，但是会忽略错误的査询语法，并且仅支持部分查询语法
 GET test_search_index/_search
 {

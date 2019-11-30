@@ -246,11 +246,11 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ## 4.4 忽略大小写
 
-> File | Settings | Editor | General | 将右侧的 case sensitive completion 修改为NONE
+> File | Settings | Editor | General | Code Completion | 将右侧的match case去掉打勾
 
 ## 4.5 悬浮提示开关
 
-> File | Settings | Editor | General（Show quick documentation on mouse move）
+> File | Settings | Editor | General  |（Show quick documentation on mouse move）
 
 ## 4.6 取消单行显示tabs
 
@@ -356,7 +356,7 @@ git push origin :refs/tags/v1.0.0
 
 1. 快捷键的配置，习惯了eclipse快捷键设置。（completion、close）
    智能提示：File->Settings-> Keymap-> 搜索completion basic -> 给Basic添加快捷键为Alt+/。
-   关闭窗口：File->Settings-> Keymap-> 搜索close-> 添加快捷键为Ctrl+W。
+   关闭窗口：File->Settings-> Keymap-> 搜索editor tabs close-> 添加快捷键为Ctrl+W。
    格式代码：File->Settings-> Keymap-> 搜索Reformat Code-> 添加快捷键为Ctrl+Shift+F。
 
 2. 快捷键的配置，习惯了Navicat Premium数据库管理工具的使用（open console、execute）
@@ -417,7 +417,17 @@ git push origin :refs/tags/v1.0.0
 
 ## 7.3 自定义类头
 
-
+```properties
+/**
+ * Project -
+ *
+ * @Create by ${USER}
+ * @Version 1.0
+ * @Date 日期:2019/1/3 时间:14:50
+ * @JDK 1.8
+ * @Description 功能模块：构造函数注入
+ */
+```
 
 # 8 Postfix
 
