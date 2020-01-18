@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+            width: 400px;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        
+        td,
+        th {
+            border: 1px solid #000;
+            text-align: center;
+        }
+        
+        .search {
+            width: 600px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search">
+        按照商品名称查询: <input type="text" class="product">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>产品名称</th>
+                <th>价格</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        // 利用新增数组方法操作数据
+        var data = [{
+            id: 1,
+            pname: '小米',
+            price: 3999
+        }, {
+            id: 2,
+            pname: 'oppo',
+            price: 999
+        }, {
+            id: 3,
+            pname: '荣耀',
+            price: 1299
+        }, {
+            id: 4,
+            pname: '华为',
+            price: 1999
+        }, ];
+        // 1. 获取相应的元素
+        var tbody = document.querySelector('tbody');
+        var product = document.querySelector('.product');
+        setDate(data);
+        // 2. 把数据渲染到页面中
+        function setDate(mydata) {
+            // 先清空原来tbody 里面的数据
+            tbody.innerHTML = '';
+            mydata.forEach(function(value) {
+                // console.log(value);
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + value.id + '</td><td>' + value.pname + '</td><td>' + value.price + '</td>';
+                tbody.appendChild(tr);
+            });
+        }
+        // 3.模糊查找---- 根据商品名称查找商品模糊查找
+        // 不再使用click方法,设置keyup,keydown,input事件均可
+        product.addEventListener('keyup', function() {
+            // 把拿到的数据渲染到页面中
+            // includes方法判断输入的值是否是需要存在查找的字符串中
+            // 此处使用filter方法,因为返回值是一个数组,setDate()需要传递一个数组,就不需要重新定义数组变量了
+            var result = data.filter(function(value) {
+                if (value.pname.includes(product.value)) {
+                    return value
+                }
+            })
+            setDate(result);
+
+            // 可以简写为，减少了变量存储
+            setDate(data.filter(function(value) {
+                if (value.pname.includes(product.value)) {
+                    return value
+                }
+            }));
+        })
+    </script>
+</body>
+
+</html>
