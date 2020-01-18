@@ -43,6 +43,10 @@ Boot Priorlty也要更改为 Legacy First这样更改就是跟之前那些没有
 
 >修改启动方式：UEFI BIOS + GPT组合方式。
 
+
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion
+
 # 2. 软件安装
 
 ## 2.1 系统配置

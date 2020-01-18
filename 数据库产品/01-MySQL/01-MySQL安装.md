@@ -1,5 +1,11 @@
 # 1 Windows环境
 
+## 1.1 安装版
+
+
+
+## 1.2 绿色版
+
 
 
 # 2 Linux环境
@@ -113,6 +119,8 @@ mysql -h192.168.100.11 -P3306 -uroot -ppassw0rd
 ```
 
 # 4. 找回密码
+
+## 4.1 步骤
 
 ```properties
 1.vi /etc/my.cnf，在[mysqld]中添加

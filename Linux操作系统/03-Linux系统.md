@@ -61,20 +61,22 @@ lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行
 ### 3.1.3 CPU
 
 ```properties
-cat /proc/cpuinfo，显示系统配置信息。
+lscpu   // 查看cpu总体信息
+cat /proc/cpuinfo  // 查看内存中保存的每个cpu信息
 ```
 
-### 3.1.4 磁盘
+### 3.1.4 硬盘
 
 ```properties
+lsblk -d -o name,rota    // ROTA是1的表示可以旋转，反之则不能旋转。
 df -h
-
 du -sh * | sort -nr
 ```
 
 ### 3.1.5 内存
 
 ```properties
+free
 free -hl
 ```
 
@@ -639,11 +641,20 @@ unzip -d elasticsearch-analysis-ik-7.3.0 elasticsearch-analysis-ik-7.3.0.zip
 
 # 9. 服务管理
 
-## 9.1 service启动服务
+## 9.1 Service启动服务
 
 > service命令其实是去/etc/init.d目录下，去执行相关程序
 
 ```properties
+# chkconfig添加服务
+chmod +x file 
+
+chkconfig --list
+chkconfig --add service
+chkconfig --del service
+
+service file start/stop/restart
+
 # service命令启动redis脚本
 service redis start
 # 直接启动redis脚本
@@ -652,7 +663,7 @@ service redis start
 update-rc.d redis defaults
 ```
 
-## 9.2 systemctl启动服务
+## 9.2 Systemctl启动服务
 
 > systemd的Unit放在目录/usr/lib/systemd/system(Centos)或/etc/systemd/system(Ubuntu)
 
@@ -670,15 +681,6 @@ systemctl enable zookeeper.service
 关闭自启动：
 systemctl disable zookeeper.service
 docker开机自启动
-systemctl enable docker.service
-```
-
-## 9.3 chkconfig添加服务
-
-```properties
-chkconfig --list
-chkconfig --add service
-chkconfig --del service
 systemctl enable docker.service
 /usr/lib/systemd/system/docker.service
 ```

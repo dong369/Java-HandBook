@@ -136,85 +136,41 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 **告诉mysql服务器我用的是什么编码：Set names gbk;**
 
-库（database）：多张表
+库（database）：多张表；表（table）：多行多列的数据；视图（view）：
 
-表（table）：多行多列的数据
+创建数据库：create database if not exists dbName charset utf8;
 
-视图（view）
+删除数据库：drop database dbName;
 
-创建数据库
+修改数据库：Alter datebase db_name charset = gbk;只能修改属性，但是**不能修改数据库名称**。
 
-create database if not exists dbName charset utf8;
+创建表和字段：create table if not exists tableName(字段名 字段属性,...,索引) 其他(引擎/字符集);
 
-删除数据库
+注：innodb是表引擎,也可以是myisam或其他，但最常用的是myisam和innodb，charset常用的有utf8、gbk、utf8mb4；
 
-Drop database dbName;
+创建视图：create view if not exists viewName as select 列字段… from tableName;
 
-修改数据库：只能修改属性，但是**不能修改数据库名称**
+删除数据库或表：drop database if exists dbName;drop table if exists tableName;
 
-Alter datebase db_name charset = gbk;
+删除视图：drop view if exists viewName;
 
-创建表和字段
+查看当前数据库服务下的库：Show databases;
 
-create table if not exists tableName(字段名 字段属性,...,索引) 其他(引擎/字符集);
+进入你选择的库：use databaseName;
 
-注:innodb是表引擎,也可以是myisam或其他,但最常用的是myisam和innodb,
+查看当前库中的表：show tables;
 
-charset 常用的有utf8、gbk、utf8mb4;
+查看表的结构：desc tableName;
 
-创建视图
+查看创建表的sql语句：show create table tableName;
 
-Create view if not exists viewName as select 列字段… from tableName;
+清空表的数据（先删除表，再重新创建表）：**Truncate** tableName;
 
-删除数据库或表
+查看表的详细信息：Show table status;show table status \G;show table status where name='goods' \G;
 
-Drop database if exists dbName;
+更改表名：Rename table oldtable to newtable;
 
-Drop table if exists tableName;
-
-删除视图
-
-Drop view if exists viewName;
-
-查看当前数据库服务下的库：
-
-Show databases;
-
-进入你选择的库：
-
-use databaseName;
-
-查看当前库中的表：
-
-show tables;
-
-查看表的结构：
-
-desc tableName;
-
-查看创建表的sql语句
-
-show create table tableName;
-
-清空表的数据（先删除表，再重新创建表）
-
-**Truncate** tableName;
-
-查看表的详细信息
-
-Show table status;
-
-show table status \G;
-
-show table status where name='goods' \G;
-
-更改表名
-
-Rename table oldtable to newtable;
-
-修改表：
-
-在表xs中增加“奖学金等级”列并将表中的“姓名”列删除。
+修改表：在表xs中增加“奖学金等级”列并将表中的“姓名”列删除。
 
 mysql> use xscj
 
@@ -230,17 +186,11 @@ Query OK, 0 rows affected (0.48 sec)
 
 Records: 0  Duplicates: 0  Warnings: 0
 
-复制表：
+复制表：Create table tab1_name **like** old_tab1_name;
 
-Create table tab1_name **like** old_tab1_name;
+假设存在一个表test，创建test表的一个名为test_copy的拷贝：create  table test_copy like test;
 
-假设存在一个表test，创建test表的一个名为test_copy的拷贝
-
-create  table test_copy like test;
-
-假设存在一个表test，创建test表的一个名为test_copy的拷贝，并且复制其内容；
-
-create table goods_copy as (select * from goods);
+假设存在一个表test，创建test表的一个名为test_copy的拷贝，并且复制其内容：create table goods_copy as (select * from goods);
 
 ## 2.2 Insert操作(增)
 
@@ -1321,7 +1271,7 @@ Delete t1,t2 from t1,t2,t3 where t1.id=t2.id and t2.id=t3.id;
 
 Delete from t1,t2 using t1,t2,t3 where t1.id=t2.id and t2.id=t3.id;
 
-## 6.7连接查询练习
+## 6.7 连接查询练习
 
 连接查询
 
@@ -1763,7 +1713,9 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 
 如何进行避免：声明列为**not null default** **默认值**
 
-# 10 主键与自增
+# 10 主键
+
+## 10.1 自增主键
 
 主键：primary key（auto_increment（递增））
 
@@ -1856,7 +1808,7 @@ mysql> CREATE TABLE `form` (
 
 ​    -> ) engine=InnoDB DEFAULT CHARSET=utf8;
 
-# 12 列的删除、修改和增加
+# 12 列操作
 
 更改表名：rename table table1Name to table2Name; 
 
@@ -1965,11 +1917,27 @@ IBD文件：
 
 常用的引擎：Myisam、InnoDB、Memory、BDB、Archive
 
-## 14.2 引擎区别
+## 14.2 引擎
+
+### 14.2.1 Myisam
+
+
+
+### 14.2.2 InnoDB
+
+
+
+### 14.2.3 区别
 
 Myisam、InnoDB两者的区别？
 
+Innodb支持事务和行级锁，是innodb的最大特色；myisam只支持表级锁。
 
+### 14.2.3 操作
+
+```sql
+show table status from test where name='b';
+```
 
 # 15 字符集与乱码的问题
 
@@ -2147,7 +2115,7 @@ Java应用程序访问数据库的过程：
 
 # 20 MySQL 8
 
-## 20.1 公共表表达式)CTE
+## 20.1 公共表表达式CTE
 
 ```json
 with cte1 as (select * from girl),

@@ -513,6 +513,12 @@ git push origin :refs/tags/v1.0.0
 
 
 
+## 9.15 CodeGlance
+
+
+
+## 9.16 IdeaJad
+
 # 10 Debug调试
 
 ## 10.1 基本调试
@@ -521,14 +527,42 @@ git push origin :refs/tags/v1.0.0
 
 ## 10.2 条件调试
 
+### 10.2.1 条件断点
 
+循环中经常用到这个技巧，比如：遍历1个大List的过程中，想让断点停在某个特定值。在断点的位置，右击断点旁边的小红点，会出来一个界面，在Condition这里填入断点条件即可，这样调试时，就会自动停在i=10的位置。
+
+### 10.2.2 回到上一步
+
+该技巧最适合特别复杂的方法套方法的场景，好不容易跑起来，一不小心手一抖，断点过去了，想回过头看看刚才的变量值，如果不知道该技巧，只能再跑一遍。method1方法调用method2，当前断点的位置j=100，点击上图红色箭头位置的Drop Frame图标后，时间穿越了。
+
+注：好奇心是人类进步的阶梯，如果想知道为啥这个功能叫Drop Frame，而不是类似Back To Previous 之类的，可以去翻翻JVM的书，JVM内部以栈帧为单位保存线程的运行状态，drop frame即扔掉当前运行的栈帧，这样当前“指针”的位置，就自然到了上一帧的位置。
 
 ## 10.3 多线程调试
 
-
+多线程同时运行时，谁先执行，谁后执行，完全是看CPU心情的，无法控制先后，运行时可能没什么问题，但是调试时就比较麻烦了，最明显的就是断点乱跳，一会儿停这个线程，一会儿停在另一个线程。
 
 ## 10.4 多进程调试
 
 
 
 ## 10.5 远程调试
+
+这也是一个装B的利器，本机不用启动项目，只要有源代码，可以在本机直接远程调试服务器上的代码，打开姿势如下：
+
+项目启动时，先允许远程调试
+
+```
+ java -server -Xms512m -Xmx512m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9081 -Djava.ext.dirs=. ${main_class}
+```
+
+起作用的就是
+
+```
+-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9081
+```
+
+注意：远程调试从技术上讲，就是在本机与远程建立scoket通讯，所以端口不要冲突，而且本机要允许访问远程端口，另外这一段参数，放要在`-jar` 或 `${main_class}`的前面
+
+idea中设置远程调试	
+
+前提是本机有项目的源代码 ，在需要的地方打个断点，然后访问一个远程的url试试，断点就会停下来。

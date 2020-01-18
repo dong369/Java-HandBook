@@ -37,209 +37,17 @@ cd /usr/local/nginx-1.11.13
 make && make install
 ```
 
-### 1.2.3 Nginx.conf
-
-#### 1.2.3.1 反向代理
-
-```properties
-# user  nobody;
-worker_processes  1;
-
-events {
-    worker_connections  1024;
-}
-
-# 配置了tcp负载均衡和udp(dns)负载均衡的例子
-stream {
-    include ../server/stream/*.conf;
-}
-
-# HTTP服务代理（负载均衡、反向代理）
-http {
-    include ../server/http/*.conf;
-    include       mime.types;
-    default_type  application/octet-stream; 
-    sendfile        on;
-    # keepalive_timeout  0;
-    keepalive_timeout  65;  
-}
-```
-
-#### 1.2.3.2 HTTPS配置
-
-```properties
-# 开启缓存
-proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
-
-# 通过http访问https
-server {
-    listen       80 default_server;
-    listen       [::]:80 default_server;
-    server_name  test.com;
-    return 302 https://$server_name$request_uri;
-}
-
-# 配置https和反向代理
-server {
-    # https的默认端口是443
-    listen       443;
-    server_name  test.com;
-
-    # 公钥私钥生成命令（生成的证书会提示不安全）：openssl req -x509 -newkey rsa:2048 -nodes -sha256 -keyout localhost-privkey.pem -out localhost-cert.pem
-    ssl on;
-    ssl_certificate_key  ../certs/localhost-privkey.pem;
-    ssl_certificate      ../certs/localhost-cert.pem;
-
-    location / {
-        proxy_cache my_cache;
-        proxy_pass http://127.0.0.1:8888;
-        proxy_set_header Host $host;
-    }
-}
-
-# http2配置（chrome://net-internals中可以查看http2；https://http2.akamai.com/demo/http2-lab.html可以比较性能）
-server {
-    listen       443 http2;
-    server_name  test.com;
-
-    http2_push_preload  on;
-
-    ssl on;
-    ssl_certificate_key  ../certs/localhost-privkey.pem;
-    ssl_certificate      ../certs/localhost-cert.pem;
-
-    location / {
-        proxy_cache my_cache;
-        proxy_pass http://127.0.0.1:8888;
-        proxy_set_header Host $host;
-    }
-}
-```
-
-#### 1.2.3.3 Server节点配置
-
-```properties
-server {
-    listen 8081;
-
-    # 前台页面
-    location ~* \.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css|woff|ttf)$ {
-        root   /home/www/;
-        index  index.html login.html;
-    }
-
-    # 后台服务（URL中是否包含有URI，包含/是替换，不包含/是追加）
-    location /isp/ {
-        proxy_pass http://10.237.16.21:7122/;
-    }
-}
-```
-
-#### 1.2.3.4 Stream节点配置
-
-```properties
-worker_processes auto;
-error_log logs/error.stream.log info;
-events {
-    worker_connections  1024;
-}
-stream {
-    upstream backend {
-        hash $remote_addr consistent;
-        server 127.0.0.1:12346 weight=5;
-        server 127.0.0.1:12347            max_fails=3 fail_timeout=30s;
-        server 127.0.0.1:12348            max_fails=3 fail_timeout=30s;
-    }
-    upstream dns {
-       server 17.61.29.79:53;
-       server 17.61.29.80:53;
-       server 17.61.29.81:53;
-       server 17.61.29.82:53;
-    }
-    server {
-        listen 12345;
-        proxy_connect_timeout 1s;
-        proxy_timeout 3s;
-        proxy_pass backend;
-    }
-    server {
-        listen 127.0.0.1:53 udp;
-        proxy_responses 1;
-        proxy_timeout 20s;
-        proxy_pass dns;
-    }
-}
-```
-
-#### 1.2.3.5 Upstream负载均衡
-
-```properties
-# 方式一
-upstream proxy_server01 {
-    server 192.168.1.1:8001;
-    server 192.168.1.2:8001;
-    server 192.168.1.3:8001;
-    server 192.168.1.4:8001;
-}
-
-# 方式二
-upstream proxy_server02 {
-    server http://192.168.1.1:8001/;
-    server http://192.168.1.2:8001/;
-    server http://192.168.1.3:8001/;
-    server http://192.168.1.4:8001/;
-}
-
-http {
-    server {
-        listen 80;
-        server_name aaa.com;
-        location / {
-            proxy_pass http://proxy_server01;
-        }
-    }
-
-    server {
-        listen 81;
-        server_name bbb.com;
-        location /server/ {
-            proxy_pass proxy_server02;
-        }
-    }
-}
-```
-
-#### 1.2.3.6 Root和Alias区别
-
-一般情况下，在location的/中配置root，在location /other中配置alias是一个好习惯。
-
-root指定的路径注意**真实的路径是root指定的值加上location指定的值**。
-
-alias 正如其名，alias指定的路径是location的别名，不管location的值怎么写，资源的**真实路径都是 alias 指定的路径**。
-
-区别：alias只能作用在location中，而root可以存在server、htp和location中；alias后面必须要用/结束，否则会找不到文件，而root则对/可有可无
-
-```properties
-location /c/ {
-      alias /a/;
-}
-注：如果访问站点http://location/c访问的就是/a/目录下的站点信息，末尾必须加“/”。
-
-location /c/ {
-      root /a/;
-}
-注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
-```
-
 ## 1.3 离线安装
 
 ### 1.3.1 gcc-c++
 
-> 把安装包解压到服务器上，先安装gcc，再安装g++。分别执行两个文件夹下的install.sh。
-> 一般我们都需要先装pcre,zlib，前者用于url rewrite，后者用于gzip压缩，openssl用于后续可能升级到https时使用。
+把安装包解压到服务器上，先安装gcc，再安装g++。分别执行两个文件夹下的install.sh。
+
+一般我们都需要先装pcre,zlib，前者用于url rewrite，后者用于gzip压缩，openssl用于后续可能升级到https时使用。
 
 ```properties
-
+gcc --version
+g++ --version
 ```
 
 ### 1.3.2 pcre安装
@@ -318,9 +126,201 @@ ExecReload=/usr/local/nginx/sbin/nginx -s reload
 ExecStop=/usr/local/nginx/sbin/nginx -s stop
 ```
 
-## 1.5 nginx.service
+## 1.5 Nginx.conf
 
+### 1.5.1 反向代理
 
+```properties
+# user  nobody;
+worker_processes  1;
+
+events {
+    worker_connections  1024;
+}
+
+# 配置了tcp负载均衡和udp(dns)负载均衡的例子
+stream {
+    include ../server/stream/*.conf;
+}
+
+# HTTP服务代理（负载均衡、反向代理）
+http {
+    include ../server/http/*.conf;
+    include       mime.types;
+    default_type  application/octet-stream; 
+    sendfile        on;
+    # keepalive_timeout  0;
+    keepalive_timeout  65;  
+}
+```
+
+### 1.5.2 负载均衡
+
+可以实现线上无缝切换服务。
+
+```properties
+# 方式一
+upstream proxy_server01 {
+    server 192.168.1.1:8001;
+    server 192.168.1.2:8001;
+    server 192.168.1.3:8001;
+    server 192.168.1.4:8001;
+}
+
+# 方式二
+upstream proxy_server02 {
+    server http://192.168.1.1:8001/;
+    server http://192.168.1.2:8001/;
+    server http://192.168.1.3:8001/;
+    server http://192.168.1.4:8001/;
+}
+
+http {
+    server {
+        listen 80;
+        server_name aaa.com;
+        location / {
+            proxy_pass http://proxy_server01;
+        }
+    }
+
+    server {
+        listen 81;
+        server_name bbb.com;
+        location /server/ {
+            proxy_pass proxy_server02;
+        }
+    }
+}
+```
+
+### 1.5.3 HTTPS配置
+
+```properties
+# 开启缓存
+proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
+
+# 通过http访问https
+server {
+    listen       80 default_server;
+    listen       [::]:80 default_server;
+    server_name  test.com;
+    return 302 https://$server_name$request_uri;
+}
+
+# 配置https和反向代理
+server {
+    # https的默认端口是443
+    listen       443;
+    server_name  test.com;
+
+    # 公钥私钥生成命令（生成的证书会提示不安全）：openssl req -x509 -newkey rsa:2048 -nodes -sha256 -keyout localhost-privkey.pem -out localhost-cert.pem
+    ssl on;
+    ssl_certificate_key  ../certs/localhost-privkey.pem;
+    ssl_certificate      ../certs/localhost-cert.pem;
+
+    location / {
+        proxy_cache my_cache;
+        proxy_pass http://127.0.0.1:8888;
+        proxy_set_header Host $host;
+    }
+}
+
+# http2配置（chrome://net-internals中可以查看http2；https://http2.akamai.com/demo/http2-lab.html可以比较性能）
+server {
+    listen       443 http2;
+    server_name  test.com;
+
+    http2_push_preload  on;
+
+    ssl on;
+    ssl_certificate_key  ../certs/localhost-privkey.pem;
+    ssl_certificate      ../certs/localhost-cert.pem;
+
+    location / {
+        proxy_cache my_cache;
+        proxy_pass http://127.0.0.1:8888;
+        proxy_set_header Host $host;
+    }
+}
+```
+
+### 1.5.4 Server节点配置
+
+```properties
+server {
+    listen 8081;
+
+    # 前台页面
+    location ~* \.(html|htm|gif|jpg|jpeg|bmp|png|ico|txt|js|css|woff|ttf)$ {
+        root   /home/www/;
+        index  index.html login.html;
+    }
+
+    # 后台服务（URL中是否包含有URI，包含/是替换，不包含/是追加）
+    location /isp/ {
+        proxy_pass http://10.237.16.21:7122/;
+    }
+}
+```
+
+### 1.5.5 Stream节点配置
+
+```properties
+worker_processes auto;
+error_log logs/error.stream.log info;
+events {
+    worker_connections  1024;
+}
+stream {
+    upstream backend {
+        hash $remote_addr consistent;
+        server 127.0.0.1:12346 weight=5;
+        server 127.0.0.1:12347            max_fails=3 fail_timeout=30s;
+        server 127.0.0.1:12348            max_fails=3 fail_timeout=30s;
+    }
+    upstream dns {
+       server 17.61.29.79:53;
+       server 17.61.29.80:53;
+       server 17.61.29.81:53;
+       server 17.61.29.82:53;
+    }
+    server {
+        listen 12345;
+        proxy_connect_timeout 1s;
+        proxy_timeout 3s;
+        proxy_pass backend;
+    }
+    server {
+        listen 127.0.0.1:53 udp;
+        proxy_responses 1;
+        proxy_timeout 20s;
+        proxy_pass dns;
+    }
+}
+```
+
+### 1.5.6 Root和Alias区别
+
+一般情况下，在location的/中配置root，在location /other中配置alias是一个好习惯。
+
+root指定的路径注意**真实的路径是root指定的值加上location指定的值**。
+
+alias 正如其名，alias指定的路径是location的别名，不管location的值怎么写，资源的**真实路径都是 alias 指定的路径**。
+
+区别：alias只能作用在location中，而root可以存在server、htp和location中；alias后面必须要用/结束，否则会找不到文件，而root则对/可有可无
+
+```properties
+location /c/ {
+      alias /a/;
+}
+注：如果访问站点http://location/c访问的就是/a/目录下的站点信息，末尾必须加“/”。
+
+location /c/ {
+      root /a/;
+}
+注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
+```
 
 # 2 Keepalived实现主备切换
 
