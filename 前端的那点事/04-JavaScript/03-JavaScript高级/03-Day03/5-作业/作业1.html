@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 写一个函数 生成一个随机数，每次调用函数都返回第一次生成的随机数
+        function getRandom() {
+            // 将当前生成的随机数 放在一个函数中当返回值,延长当前生成随机数的作用范围
+            var num = parseInt(Math.random() * 10) + 1;
+            return function() {
+                return num;
+            }
+        }
+
+        var fn = getRandom();
+        console.log(fn());
+        console.log(fn());
+        console.log(fn());
+        console.log(fn());
+    </script>
+</body>
+
+</html>

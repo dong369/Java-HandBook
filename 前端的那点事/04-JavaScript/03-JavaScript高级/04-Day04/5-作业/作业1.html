@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 将字符串 'cqyzsC012QzAabcd'中的acq(忽略大小写)替换为'你好'
+        var str = 'cqyzsC012QzAabcd';
+        // 全局匹配 忽略大小写 
+        var str1 = str.replace(/a|c|q/gi, '你好')
+        console.log(str1);
+    </script>
+</body>
+
+</html>
