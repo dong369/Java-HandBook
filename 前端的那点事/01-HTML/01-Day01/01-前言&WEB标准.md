@@ -86,7 +86,7 @@ typora-copy-images-to: media
 | :------ | :------------: | :----------------------------------------------------------- |
 | IE      |    Trident     | IE、猎豹安全、360极速浏览器、百度浏览器                      |
 | firefox |     Gecko      | 可惜这几年已经没落了，打开速度慢、升级频繁、猪一样的队友flash、神一样的对手chrome。 |
-| Safari  |     webkit     | 现在很多人错误地把 webkit 叫做 chrome内核（即使 chrome内核已经是 blink 了）。苹果感觉像被别人抢了媳妇，都哭晕再厕所里面了。 |
+| Safari  |     webkit     | 现在很多人错误地把webkit叫做chrome内核（即使chrome内核已经是 blink了）。苹果感觉像被别人抢了媳妇，都哭晕再厕所里面了。 |
 | chrome  | Chromium/Blink | 在 Chromium 项目中研发 Blink 渲染引擎（即浏览器核心），内置于 Chrome 浏览器之中。Blink 其实是 WebKit 的分支。大部分国产浏览器最新版都采用Blink内核。二次开发 |
 | Opera   |     blink      | 现在跟随chrome用blink内核。                                  |
 
@@ -104,7 +104,7 @@ iOS以及WP7平台上，由于系统原因，系统大部分自带浏览器内�
 目标
 
 * 记忆
-  * 能说出网页 中 web 标准三层组成
+  * 能说出网页中web标准三层组成
 * 理解
   * 能结合人来表述web标准三层
 

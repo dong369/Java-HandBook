@@ -98,18 +98,19 @@ free -hl
 
 ### 3.3.1 CentOS
 
-#### 3.3.1.1 添加删除用户组
+#### 3.3.1.1 用户组
 
 ```properties
+cat /etc/group
 groupadd esgroup
 groupdel esgroup
 ```
 
-#### 3.3.1.2 添加删除用户
+#### 3.3.1.2 用户
 
 ```properties
-useradd -g esgroup guodd -p 123456
-userdel -r guodd        # 删除用户guodd，同时删除他的工作目录
+useradd -g esgroup esuser -p 123456
+userdel -r esuser        # 删除用户esuser，同时删除他的工作目录
 ```
 
 #### 3.3.1.3 文件拥有者
@@ -140,7 +141,7 @@ yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
 yum -y install psmisc  # pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
-yum install -y unzip zip
+yum -y install unzip zip
 ```
 
 ## 4.2 Ubunto基础软件
@@ -632,8 +633,10 @@ nohup tar -zcvf my.tar.gz file1 file2 ....fileN &
 ## 8.3 unzip
 
 ```properties
+// 压缩文件
 unzip -v test.zip
 
+// 解压文件
 unzip -d elasticsearch-analysis-ik-7.3.0 elasticsearch-analysis-ik-7.3.0.zip
 ```
 
@@ -751,7 +754,7 @@ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-# 12. 暴力破解linux系统密码
+# 12. 暴力破解密码
 
 > 这两种破解方法比较简单，有人可能就想问，既然这么容易就破解了，那linux系统是不是就太不安全了，答案不是这样的，作为服务器，如果都被物理入侵了，那所谓的安全就谈不上了。
 

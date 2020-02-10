@@ -459,8 +459,6 @@ git push origin :refs/tags/v1.0.0
 >
 >注意配置：一定要设置！！！离线工作（work offline）
 
-
-
 ## 9.5 RestfulToolkit
 
 >快速查找rest full接口，sts中自带的有。
@@ -487,7 +485,7 @@ git push origin :refs/tags/v1.0.0
 
 > shell脚本开发和bat脚本，2019后的idea虽然自带的也，但是不好用。
 >
-> 推荐安装：BashSupport 、CMD Support
+> 推荐安装：Batch Scripts Supports（执行bat脚本）、BashSupport（执行shell脚本，需要禁用自带的shell）
 
 ## 9.11 Stackoverflow
 
@@ -518,6 +516,12 @@ git push origin :refs/tags/v1.0.0
 
 
 ## 9.16 IdeaJad
+
+
+
+## 9.17 Material Theme UI Plugin
+
+工具的颜值也很重要，好的主题让人赏心悦目，有码代码的欲望。今天推荐一个IDEA颜值类插件：Material Theme UI
 
 # 10 Debug调试
 

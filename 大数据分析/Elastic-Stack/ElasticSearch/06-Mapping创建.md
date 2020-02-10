@@ -2,15 +2,7 @@
 
 ## 1.1 Mapping
 
-类似数据库中的表结构定义，主要作用如下：
-
-定义index下的字段名（ Field Name）；
-
-定义字段的类型，比如数值型、字符串型、布尔型等；
-
-定义倒排索引相关的配置，比如是否索引、记录position等。
-
-语法：get school/_mapping
+类似数据库中的表结构定义，主要作用如下：定义index下的字段名（ Field Name）；定义字段的类型，比如数值型、字符串型、布尔型等；定义倒排索引相关的配置，比如是否索引、记录position等。语法：get school/_mapping
 
 # 2 Mapping操作
 
@@ -287,7 +279,7 @@ ES可以自动识别文档字段类型，是依靠JSON文档的字段类型来�
 | 整数     | long                                                         |
 | object   | object                                                       |
 | array    | **由第一个非null值**的类型决定                               |
-| string   | 匹配是日期设为date（默认开启）；匹配数值设为float/long（默认关闭）；设为text，并附带keyword子字段 |
+| string   | 匹配是日期设为date（默认开启）；匹配数值设为float/long（默认关闭）；否则设为text，并附带keyword子字段 |
 
 ```json
 PUT /test_index/doc/1
@@ -308,9 +300,7 @@ PUT /test_index/doc/1
 
 strict_date _optional_time是ISO datetime的格式，完整格式类似下面：YYYY-MM-DDThh:mm:ssTZD（eg 1997-07-16T19:20:30+01:00）
 
-dynamic_date_formats：可以自定义日期类型。
-
-date_detection：可以关闭日期自动识别的机制。
+dynamic_date_formats：可以自定义日期类型；date_detection：可以关闭日期自动识别的机制。
 
 ```json
 PUT my_index

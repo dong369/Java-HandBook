@@ -47,7 +47,9 @@ ORCL =
 变量名：NLS_LANG 变量值：SIMPLIFIED CHINESE_CHINA.ZHS16GBK
 修改Path变量：在后面添加 E:\PLSQL Developer\instantclient_11_2
 
+D:\dev\2019dev\soft\SQL\PLSQL Developer\instantclient_11_2
 
+D:\dev\2019dev\soft\sql\plsql developer\instantclient_11_2\oci.dll
 
 # 4 Toad
 

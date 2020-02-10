@@ -56,25 +56,28 @@ lambda 表达式的特性：
 
 ```properties
 // 格式一：无参，无返回值
-() -> System.out.print("Java8 lambda.");
+Runnable r = () -> {System.out.println("hello lambda");};
 
-// 格式二：一个参数，没有返回值
-(String str) -> System.out.print(str)
+// 格式二：lambda需要一个参数，但是没有返回值
+Consumer<String> r = (String str) -> {System.out.println(str);};
 
-// 格式二：无参，有返回值
-() -> 1 
+// 格式三：数据类型可以省略，因为可由编辑器推断出来，称为类型推断
+Consumer<String> r = (str) -> {System.out.println(str);};
 
-// 格式三：有参，有返回值
-x ->  5 * x 
+// 格式四：lambda若只需要一个参数时，参数的小括号可以省略
+Consumer<String> r = str -> {System.out.println(str);};
 
-// 格式四：无参，无返回值
-(x, y) -> x - y
+// 格式五：lambda需要两个或以上的参数，多条件执行语句，并且可以有返回值
+Comparator<Integer> a = (c1, c2) -> {
+	System.out.println("hello lambda");
+	return Integer.compare(c1, c2);
+};
 
-// 格式五：无参，无返回值
-(int x, int y) -> x - y  
+// 格式五：lambda体只有一条语句，return与大括号若有都可以省略
+Comparator<Integer> a = (c1, c2) -> Integer.compare(c1, c2);
 ```
 
-**个人建议，从程序的严谨性角度出发，尽量指明函数的参数类型，避免出错！！！**
+个人建议，从程序的严谨性角度出发，尽量指明函数的参数类型，避免出错！！！
 
 ### 1.1.3 Runnable接口
 

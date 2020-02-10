@@ -2,7 +2,7 @@
 
 [官方下载页](http://dev.mysql.com/)
 
-## 1.1 安装mySQL
+## 1.1 安装MySQL
 
 安装Mysql分为两种：安装版和绿色版，我们一般使用绿色版。
 
@@ -146,7 +146,7 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 创建表和字段：create table if not exists tableName(字段名 字段属性,...,索引) 其他(引擎/字符集);
 
-注：innodb是表引擎,也可以是myisam或其他，但最常用的是myisam和innodb，charset常用的有utf8、gbk、utf8mb4；
+注：innodb是表引擎，也可以是myisam或其他，但最常用的是myisam和innodb，charset常用的有utf8、gbk、utf8mb4；
 
 创建视图：create view if not exists viewName as select 列字段… from tableName;
 
@@ -166,7 +166,7 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 清空表的数据（先删除表，再重新创建表）：**Truncate** tableName;
 
-查看表的详细信息：Show table status;show table status \G;show table status where name='goods' \G;
+查看表的详细信息：Show table status；show table status \G；show table status where name='goods' \G；
 
 更改表名：Rename table oldtable to newtable;
 
@@ -209,6 +209,8 @@ insert：所有的行；insert：指定的行
 insert into users(userid, username, password) values(1, 'mysql', 'mysql');
 
 **注意**：列和值要严格的对应！数字不需要加单引号，但是字符串**一定要**加单引号！
+
+values和value的区别：应该在**插入单行**的时候使用VALUES，在**插入多行**的时候使用VALUE
 
 ## 2.3 Update操作(改)
 
@@ -302,7 +304,7 @@ Where 条件;
 
 注意：查是DML中最重要的部分！
 
-# 3 Select查询模型where(重要部分)
+# 3 Select查询模型
 
 ## 3.1 认识查询模型（where）
 
