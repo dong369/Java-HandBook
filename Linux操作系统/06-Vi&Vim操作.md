@@ -124,10 +124,10 @@ yum -y install vim*
 | `/`                       | 从前往后找（正向搜索），使用n下一个 |
 | `?`                       | 从后往前走(反向搜索)                |
 | `:set ff`、`:set ff=unix` | 查看文件格式（fileformat=unix）     |
-| `:set nu`                 | 显示文件行号                        |
+| `:set nu`                 | 显示文件行号（numeric）             |
 | `:set nonu`               | 去除文件行号                        |
 
-# 4 查找查看
+# 4 查找替换
 
 ## 5.1 文件查找
 
@@ -148,7 +148,7 @@ egrep -v "^$|#" 文件名
 
 ## 5.3 快速注释
 
-5.3.1 多行注释
+### 5.3.1 多行注释
 
 1. 进入命令行模式，按ctrl + v进入 visual block模式，然后按j, 或者k选中多行，把需要注释的行标记起来
 
@@ -156,16 +156,23 @@ egrep -v "^$|#" 文件名
 
 3. 按esc键就会全部注释了
 
-5.3.2 取消多行注释
+### 5.3.2 取消多行注释
 
 1. 进入命令行模式，按ctrl + v进入 visual block模式，按字母l横向选中列的个数，例如 // 需要选中2列
 2. 按字母j，或者k选中注释符号
 3. 按d键就可全部取消注释
 
-## 4.3.4 过滤
+## 4.4 过滤
 
 ```properties
 ls | grep vim
+```
+
+## 4.5 替换
+
+```properties
+将dev替换为prod，在末行模式下执行
+:%s/dev/prod/g 
 ```
 
 # 5 Vim配置
@@ -185,6 +192,7 @@ let mapleader=" "
 syntax on
 
 set number
+set norelativenumber
 set relativenumber
 set cursorline
 set wrap

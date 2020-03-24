@@ -1,51 +1,65 @@
-## 1. Hello World
+# 1 Vue-cli
 
-
-
-## 2. Hello World（vue-cli）
-
-### 2.1 安装升级
+## 1.1 安装升级
 
 ```properties
 cnpm install -g @vue/cli
 cnpm install -g vue-cli
 ```
 
-### 2.2 创建项目
+## 2.2 创建项目
+
+### 2.2.1 交互式命令
+
+```properties
+vue create vue-project
+```
+
+### 2.2.2 图形界面
+
+```properties
+vue ui
+```
+### 2.2.3 旧版本
+
 ```properties
 vue init webpack vue
 ```
-### 2.3 项目依赖
 
-#### 2.3.1 添加依赖
+# 2  项目依赖
+
+## 2.3.1 添加依赖
 
 ```properties
 npm install sass-loader --save;
 npm install node-sass --save;
 ```
-#### 2.3.2 卸载依赖
+## 2.3.2 卸载依赖
 
 ```properties
 npm uninstall babel-plugin-transform-runtime --save
 ```
 
 
-### 2.3 运行项目
+# 3 运行项目
 ```properties
 D:\2018dev\code\WebStorm\nodejs\vue>npm run dev
 ```
 
-### 2.4 第一张页面
-#### 2.4.1 第一步 
+# 4 页面开发
+
+## 第一张页面
+
+### 2.4.1 第一步 
 
 在组件总目录下面新建一个你要写的组件的目录，并新建一个你要写的组件，如test/test.vue
 
 ![第一步.png](https://upload-images.jianshu.io/upload_images/8185387-d7c2ec85cc088105.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#### 2.4.2 第二步
+### 2.4.2 第二步
 
 编写组件内容(组件就是把功能拆分出来，然后哪里需要这个组件，就在哪里去引入就行了)
 ![第二步.png](https://upload-images.jianshu.io/upload_images/8185387-d75dfd75ba2a4f12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#### 2.2.3 第三步
+### 2.2.3 第三步
 修改路由，将新写的组件插入到路由里面去(找到src/router/router.js，将页面组件（如刚写的test.vue）添加到appRouter里面去)   
 ![第三步.png](https://upload-images.jianshu.io/upload_images/8185387-2ad0185e08806ff5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ## 3. 框架选型

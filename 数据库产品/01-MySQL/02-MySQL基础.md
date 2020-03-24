@@ -142,7 +142,7 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 删除数据库：drop database dbName;
 
-修改数据库：Alter datebase db_name charset = gbk;只能修改属性，但是**不能修改数据库名称**。
+修改数据库：alter datebase db_name charset = gbk;只能修改属性，但是**不能修改数据库名称**。
 
 创建表和字段：create table if not exists tableName(字段名 字段属性,...,索引) 其他(引擎/字符集);
 

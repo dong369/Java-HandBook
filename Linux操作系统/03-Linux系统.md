@@ -259,12 +259,17 @@ uname -a
 
 ```properties
 vi /etc/hostname
+
+c10
 ```
 
-2. 配置hosts
+2. 配置hosts，修改dns解析
 
 ```properties
 vi /etc/hosts
+
+192.168.10.10 s10
+192.168.10.11 s11
 ```
 
 ### 6.1.2 计划任务
@@ -639,8 +644,6 @@ unzip -v test.zip
 // 解压文件
 unzip -d elasticsearch-analysis-ik-7.3.0 elasticsearch-analysis-ik-7.3.0.zip
 ```
-
-
 
 # 9. 服务管理
 

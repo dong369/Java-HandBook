@@ -1,12 +1,12 @@
-## 1. 基础环境
+# 1. 基础环境
 
 安装好docker，并配置好docker镜像源，机器能外网（如果不能联网，可以用RPM安装方式）。代码是重要的资产，最好定期演练备份和恢复。
 
-### 1.1 安装Docker
+## 1.1 安装Docker
 
 参考docker安装的文章！此处不做阐述。
 
-### 1.2 配置Docker源
+## 1.2 配置Docker源
 
 ```properties
 [gitlab-ce]
@@ -17,9 +17,9 @@ enabled=1
 ```
 
 
-## 2. 安装操作
+# 2. 安装操作
 
-### 2.1 Docker脚本
+## 2.1 Docker脚本
 
 1. 创建对应映射的文件夹：mkdir -p /opt/soft/gitlab/{etc,log,data}
 
@@ -43,7 +43,7 @@ docker run \
     beginor/gitlab-ce:11.3.0-ce.0
 ```
 
-### 2.2.上传&运行
+## 2.2.上传&运行
 
 1. 上传执行
 
@@ -58,7 +58,7 @@ chmod 744 start.sh
 etc、log、data下面的映射文件
 ```
 
-### 2.3 修改配置
+## 2.3 修改配置
 
 修改文件，vim /opt/soft/gitlab/etc/gitlab.rb文件进行修改，特别重要就是这个文件的修改。
 
@@ -76,7 +76,7 @@ vim /opt/soft/gitlab/data/nginx/conf/gitlab-http.conf文件，对应的监听端
 
 **特别说明：**配置gitlab.rb文件中的external_url后面对应的端口号，是nginx监听的端口号。
 
-### 2.4. 备份&升级
+## 2.4. 备份&升级
 
 小版本升级（例如从 8.8.2 升级到 8.8.3）， 参照官方的说明， 将原来的容器停止， 然后删除：
 ```shell

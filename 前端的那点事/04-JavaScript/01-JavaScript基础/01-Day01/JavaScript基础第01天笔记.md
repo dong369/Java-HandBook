@@ -1,5 +1,3 @@
-# JavaScript基础第01天
-
 ## 1 - 编程语言
 
 ### 1.1 编程
@@ -350,7 +348,7 @@ var age  = 18;  // 声明变量同时赋值为 18
   ```
 
   ​		在代码运行时，变量的数据类型是由 JS引擎 根据 = 右边变量值的数据类型来判断 的，运行完毕之后， 变量就确定了数据类型。JavaScript 拥有动态类型，同时也意味着相同的变量可用作不同的类型：
-	
+	​	
   ```js
 var x = 6;           // x 为数字
   var x = "Bill";      // x 为字符串    
@@ -415,9 +413,9 @@ JavaScript 中的简单数据类型及其说明如下：
   4. isNaN
   
      用来判断一个变量是否为非数字的类型，返回 true 或者 false
-  
+
    ![](images\图片17.png)
-  
+
    ```js
      var usrAge = 21;
    var isOk = isNaN(userAge);
@@ -425,7 +423,7 @@ JavaScript 中的简单数据类型及其说明如下：
    var usrName = "andy";
      console.log(isNaN(userName));// true ，"andy"是一个非数字
    ```
-  
+
 - 字符串型 String
 
   ​		字符串型可以是引号中的任意文本，其语法为 双引号 "" 和 单引号''

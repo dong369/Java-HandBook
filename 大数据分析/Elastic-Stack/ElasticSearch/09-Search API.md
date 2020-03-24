@@ -18,7 +18,7 @@ GET /my_index——*/_search
 
 操作简便，方便通过命令行测试；**但仅包含部分查询语法**。
 
-通过 url query参数来实现搜索，常用参数如下：
+通过url query参数来实现搜索，常用参数如下：
 
 q：是query的简称，指定查询的语句，语法为Query String Syntax。
 
@@ -30,11 +30,11 @@ timeout：指定超时时间，默认不超时
 
 from，size：用于分页
 
-语法01：get /my_index/_search?q=username:alfred&sort=age:asc&from=4&sixe=10&timeout=1s
+语法01：get /my_index/_search?q=username:alfred&sort=age:asc&from=1&sixe=10&timeout=1s
 
-语法02：get /my_index/_search?q=alfred&df=username&sort=age:asc&from=4&sixe=10&timeout=1s
+语法02：get /my_index/_search?q=alfred&df=username&sort=age:asc&from=1&sixe=10&timeout=1s
 
-语义：查询username字段包含alfred的文档，结果按照age升序排序，返回第5-14的文档数据，如果超过一秒没有结束，则超时结束！
+语义：查询username字段包含alfred的文档，结果按照age升序排序，返回第1-10的文档数据，如果超过一秒没有结束，则超时结束！
 
 ## 2.2 Query String Syntax
 
@@ -259,7 +259,7 @@ GET test_search_index/_search?q=job:"java engineer"~1
 GET test_search_index/_search?q=job:"java engineer"~2
 ```
 
-# 3 Request Body search
+# 3 Body Search
 
 ES提供的**完备查询语法**Query DSL（Domain Specific Language）
 
@@ -375,6 +375,7 @@ GET test_search_index/_search
 }
 
 # Simple Query String Query，类似query String，但是会忽略错误的査询语法，并且仅支持部分查询语法
+# 其常用的逻辑符号不能是AND、OR、NOT
 GET test_search_index/_search
 {
   "profile": "true", 
@@ -392,7 +393,7 @@ GET test_search_index/_search
 
 ### 3.1.2 单词匹配
 
-不会对查询语句做分词处理，直接去匹配字段的倒排索引，如term，terms，range等 query类型。
+不会对查询语句做分词处理，直接去匹配字段的倒排索引，如term，terms，range等query类型。
 
 Term Query将査询语句作为整个单词进行查询，即不对查査询语句做分词处理。
 
@@ -423,9 +424,7 @@ GET test_search_index/_search
 
 Range query范围查询主要针对数值和日期类型。
 
-gte：大于等于；gt：大于；
-
-lte：小于等于；lt：小于
+gte：大于等于、gt：大于；lte：小于等于、lt：小于
 
 Range Query - Date Math针对曰期提供的一种更友好地计算方式，格式如下：now-1d
 
@@ -437,12 +436,12 @@ y- years；M-months；w-weeks；d -days；h-hours；m- minutes；s- seconds
 
 假设now为2018-01-02 12:00:00，那么如下的计算结果实际为：
 
-| 计算公式            | 实际结果            |
-| ------------------- | ------------------- |
-| now+1h              | 2018-01-02 13:00:00 |
-| now-1h              | 2018-01-02 11:00:00 |
-| now-1h/d            | 2018-01-02 00:00:00 |
-| 2016-01-01\|\|+1M/d | 2016-02-01 00:00:00 |
+| 计算公式                          | 实际结果            |
+| --------------------------------- | ------------------- |
+| now+1h                            | 2018-01-02 13:00:00 |
+| now-1h                            | 2018-01-02 11:00:00 |
+| now-1h/d        /d是舍入到        | 2018-01-02 00:00:00 |
+| 2016-01-01\|\|+1M/d    /d是舍入到 | 2016-02-01 00:00:00 |
 
 ```json
 GET test_search_index/_search
@@ -473,7 +472,7 @@ GET test_search_index/_search
 
 ## 3.2 复合查询
 
-如bool查询等，包含一个或多个字段类查询或者复合查询语句。复合查询（Compound queries）是指包含字段类査询或复合查询的类型，主要包括以下几类：constant_score_query、bool_query、dis_max_query、function_score_query、boosting_query。Constant Score Query该查询将其内部的査询结果文档得分都设定为1或者 boost的值，多用于结合bool查询实现自定义得分。
+如bool查询等，包含**一个或多个字段类查询**或者**复合查询**语句。复合查询（Compound queries）是指包含字段类査询或复合查询的类型，主要包括以下几类：constant_score_query、bool_query、dis_max_query、function_score_query、boosting_query。Constant Score Query该查询将其内部的査询结果文档得分都设定为1或者 boost的值，多用于结合bool查询实现自定义得分。
 
 ### 3.2.1 Constant_score
 
@@ -772,9 +771,7 @@ GET /prod_search_info/_search?_source=nestedStudentInfos
 
 # 5 Distinct
 
-## 5.1 去重
-
-Elasticsearch的distinct项查询（去重查询）
+## 5.1 collapse
 
 ```properties
 # MySQL数据库
@@ -792,7 +789,13 @@ GET /search_model/_search
     "field": "user_id"
   }
 }
+```
 
+## 5.2 cardinality
+
+cartinality metric对每个bucket中的指定的field进行去重，取去重后的count，就是count(distinct)
+
+```properties
 # MySQL中count + distinct
 SELECT COUNT(DISTINCT(user_id)) FROM table WHERE user_id_type = 3;
 
@@ -813,16 +816,35 @@ GET /search_model/_search
   }
 }
 
-# MySQL中count+group by
-SELECT COUNT(user_id) FROM table GROUP BY user_id_type;
-
-# ES
-GET /search_model/_search
+GET /prod_search_info/_search?size=0
 {
   "aggs": {
-    "user_type": {
-      "terms": {
-        "field": "user_id_type"
+    "aa": {
+      "cardinality": {
+        "field": "teacherName"
+      }
+    }
+  }
+}
+
+# 每月销售品牌数量统计，MySQL中count+group by
+SELECT COUNT(DISTINCT(user_id)) FROM table GROUP BY user_id_type;
+
+# ES
+GET /tvs/sales/_search
+{
+  "aggs": {
+    "months": {
+      "date_histogram": {
+        "field": "sold_date",
+        "interval": "month"
+      },
+      "aggs": {
+        "distinct_brand": {
+          "cardinality": {
+            "field": "brand"
+          }
+        }
       }
     }
   }
@@ -854,7 +876,10 @@ GET test_search_index/_count
 
 ## 6.2 nested数目
 
+value_count就是单纯的计数
+
 ```properties
+# value_count计数时没有改字段的不会计（""、null会计），而nested是会计的
 GET /prod_search_info/_search?size=0
 {
   "query": {
@@ -879,6 +904,32 @@ GET /prod_search_info/_search?size=0
     }
   }
 }
+
+# 过滤nested下面的字段
+GET /prod_search_info/_search?size=0
+{
+  "aggs": {
+    "aa": {
+      "nested": {
+        "path": "nestedStudentInfos"
+      },
+      "aggs": {
+        "bb_filter": {
+          "filter": {
+            "term": {
+              "nestedStudentInfos.studentName": "aa"
+            }
+          }
+        },
+        "bb": {
+          "value_count": {
+            "field": "nestedStudentInfos.studentName"
+          }
+        }
+      }
+    }
+  }
+}
 ```
 
 # 7 Source过滤
@@ -891,13 +942,21 @@ Source Filtering过滤返回结果中_source中的字段，主要有如下几种
 # 通过URI的形式
 GET test_search_index/_search
 GET test_search_index/_search?_source=username
+```
 
+## 7.2 禁用
+
+```json
 # 通过指定_source为false
 GET test_search_index/_search
 {
   "_source": false
 }
+```
 
+## 7.3 指定
+
+```json
 # 直接指定
 GET test_search_index/_search
 {
@@ -914,40 +973,3 @@ GET test_search_index/_search
 }
 ```
 
-# 8 相关性算分
-
-## 8.1 原理
-
-相关性算分是指文档与查询语句间的相关度，英文为relevance。
-
-通过倒排索引可以获取与査询语句相匹配的文档列表，那么如何将最符合用户查询。
-
-需求的文档放到前列呢？本质是一个排序问题，排序的依据是相关性算分。
-
-Term Frequency（TF）词频，即单词在该文档中出现的次数。词频越高，相关度越高。
-
-Document Frequency（DF）文档频率，即单词出现的文档数。
-
-Inverse Document Frequency（IDF）逆向文档频率，与文栏频率相反，简单理解为1/DF，即单词出现的文档数越少，相关度越高。
-
-Field-length Norm文档越短，相关性越高。
-
-ES目前主要有两个相关性算分模型，如：**TF/DF**模型；**BM25模型**5X之后的默认模型。
-
-可以通过explain参数来查看具体的计算方法。
-
-但要注意ES的算分是按照shard进行的，即shard的分数计算是相互独立的，所以在使用explain的时候注意分片数，可以通过设置索引的分片数为1来避免这个问题。
-
-TFDF模型是 Lucene的经典模型；BM25模型中BM指 Best match，25指迭代了25次才计算方法，是针对TFDF的一个优化。
-
-```json
-GET test_search_index/_search
-{
-  "explain": true,
-  "query": {
-    "match": {
-      "username": "alfred"
-    }
-  }
-}
-```

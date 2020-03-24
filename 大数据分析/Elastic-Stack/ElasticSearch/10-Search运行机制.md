@@ -16,7 +16,7 @@ node3整合3个分片返回的from+sie个文档ld，根据排序值排序后选�
 
 node3根据Query阶段获取的文档ld列表去对应的 shard上获取文档详情数据
 
-node3向相关的分片发送 multi_get请求
+node3向相关的分片发送multi_get请求
 
 3个分片返回文档详细数据
 
@@ -26,7 +26,7 @@ node3拼接返回的结果并返回给客户
 
 ## 2.1 理论
 
-相关性算分在 shard与shard间是相互独立的，也就意味着同一个Term的IDF等值在不同shard上是不同的。
+相关性算分在 shard与shard间是**相互独立**的，也就意味着同一个Term的IDF等值在不同shard上是不同的。
 
 文档的相关性算分和它所处的 shard相关。
 
@@ -113,9 +113,7 @@ ES对此提供了2种实现方式：fielddata默认禁用；doc values默认启�
 源码
 
 ```json
-# sorting
-
-# score is null here
+# 算分是空的
 GET test_search_index/_search
 {
   "query":{
@@ -128,6 +126,7 @@ GET test_search_index/_search
   }
 }
 
+# 多字段排序，会有算分
 GET test_search_index/_search
 {
   "query":{
@@ -197,8 +196,10 @@ GET test_search_index/_search
 
 ## 3.1 Fielddata
 
-Fielddata**默认是关闭的**，可以通过如下api开启，此时字符串是按照分词后的term排序，往往结果很难符合预期
-一般是在对分词做聚合分析的时候开启。**Fielddata只对text类型有效！！！**
+Fielddata**默认是关闭的**，可以通过如下api开启，此时字符串是按照分词后的**term排序**，往往结果很难符合预期
+一般是在对分词做聚合分析的时候开启。
+
+**Fielddata只对text类型有效！！！**可以随时开启和关闭的！！！
 
 ```json
 PUT prod_clinic_info/_mapping
@@ -229,7 +230,11 @@ PUT prod_clinic_info/_mapping
 
 ## 3.2 Doc Values
 
-doc_values**默认是启用的**，明确的知道这个字段不需要排序和聚合操作，可以在创建索引的时候关闭；如果后面要再开启doc_values，需要做reindex操作。
+doc_values**默认是启用的**，除了text类型。
+
+明确的知道这个字段不需要排序和聚合操作，可以在创建索引的时候关闭；
+
+如果后面要再开启doc_values，需要做reindex操作。
 
 ```json
 # doc values
@@ -288,6 +293,13 @@ PUT test_search_index/_mapping/_doc
 }
 ```
 
+| 对比     | FieldData                | DocValues                    |
+| -------- | ------------------------ | ---------------------------- |
+| 创建时机 | 搜索时及时创建           | 创建索引时，和倒排索引一致   |
+| 创建位置 | JVM Heap                 | 磁盘                         |
+| 优点     | 不占用额外磁盘资源       | 不占用Heap                   |
+| 缺点     | 文档过多时，占用Heap过多 | 减慢索引的速度，占用额外资源 |
+
 ## 3.3 Docvalue_fields
 
 可以通过该字段获取fielddata或者doc values中存储的内容，**默认是开启的**！！！
@@ -300,18 +312,6 @@ GET test_search_index/_search
     "username.keyword",
     "age"
   ]
-}
-
-PUT test_search_index/_mapping
-{
-  "properties": {
-    "messageDeptName": {
-      "type": "text",
-      "analyzer": "ik_max_word",
-      "search_analyzer": "ik_smart",
-      "fielddata": true
-    }
-  }
 }
 ```
 
@@ -398,7 +398,7 @@ GET /prod_clinic_info/_search
 如果创建快照后添加（删除）数据，是不能被查询到的！！！
 
 ```json
-# scroll
+# scroll为五分钟有效
 GET prod_clinic_info/_search?scroll=5m
 {
   "size": 1

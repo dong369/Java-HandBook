@@ -26,7 +26,7 @@ Spring提供的封装的方式，好像底层也是基于TransportClient，Elast
 
 ## 2.1 依赖
 
-```java
+```pom
 <dependency>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticsearch</artifactId>
@@ -75,7 +75,6 @@ matchAllQuery()方法用来匹配全部文档。
 matchQuery("filedname","value") 匹配单个字段，匹配字段名为 filedname, 值为 value 的文档
 
 <table border="1" cellspacing="0" cellpadding="0"><tbody><tr><td valign="top"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QueryBuilder qb = QueryBuilders.matchQuery("title", "article");</p></td></tr></tbody></table>
-
 ### multiMatchQuery
 
 多个字段匹配某一个值，搜索name 中或interest 中包含有music的文档（必须与 music 一致）。
@@ -313,7 +312,6 @@ AggsQueryTest
 返回聚合分析后所有指标，比 Stats 多三个统计结果：平方和、方差、标准差
 
 <table border="0" cellspacing="0" cellpadding="0" width="800"><tbody><tr><td><p align="left">1</p><p align="left">2</p><p align="left">3</p><p align="left">4</p><p align="left">5</p></td><td><p align="left">{</p><p align="left">&nbsp;&nbsp;&nbsp;&nbsp;"aggs" : {</p><p align="left">&nbsp;&nbsp;&nbsp;&nbsp;"grades_stats" : {"extended_stats" : { "field" : "grade"} }</p><p align="left">&nbsp;&nbsp;&nbsp;&nbsp;}</p><p align="left">}</p></td></tr></tbody></table>
-
          ExtendedStatsBuilder agg =AggregationBuilders._extendedStats_("extended_stats_num").field("like");
 
 ### percentileQuery
@@ -649,6 +647,8 @@ QueryBuilder queryBuilder = QueryBuilders.constantScoreQuery(QueryBuilders.termQ
 
 4 本案例数据导入
 =========
+
+## 4.1 基础数据
 
 curl -XPUT'http://169.254.135.217:9200/search_test/' -d '{
 

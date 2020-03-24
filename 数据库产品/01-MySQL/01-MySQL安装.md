@@ -1,12 +1,87 @@
 # 1 Windows环境
 
+Stable Version：MySQL-8.0.19
+
 ## 1.1 安装版
 
 
 
 ## 1.2 绿色版
 
+1、MySQL8.0.16解压
 
+其中`dada`文件夹和`my.ini`配置文件是解压后手动加入的，如下图所示
+
+2、新建配置文件`my.ini`放在`D:\Free\mysql-8.0.16-winx64`目录下
+
+```properties
+[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8
+[mysqld]
+#设置3306端口
+port = 3306
+# 设置mysql的安装目录
+basedir=D:/dev/soft/SQL/mysql-8.0.19-winx64
+# 设置mysql数据库的数据的存放目录
+datadir=D:/dev/soft/SQL/mysql-8.0.19-winx64/data
+# 允许最大连接数
+max_connections=200
+# 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统
+max_connect_errors=20
+# 服务端使用的字符集默认为8比特编码的latin1字符集
+character-set-server=utf8
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+# 忽略密码
+# skip-grant-tables
+```
+
+3、初始化MYSQL配置
+
+管理员身份打开Windows PowerShell，并进入`D:\Free\mysql-8.0.16-winx64\bin`目录，执行如下命令：
+
+```
+mysqld --initialize --console
+```
+
+4、安装MySQL服务，并启动服务
+
+安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8作为服务名，如下所示
+
+```
+mysqld --install mysql8
+```
+
+启动服务命令为：net start 服务名
+
+```
+net start mysql8
+```
+
+5、登录MySQL并修改root密码
+
+使用默认分配的密码（即diK3i1dH=k8b）进行登录
+
+```
+mysql -uroot -pdiK3i1dH=k8b
+```
+
+登录成功后，修改密码为password
+
+```
+alter user 'root'@'localhost' IDENTIFIED BY 'password';
+```
+
+刷新一下即可
+
+```
+flush privileges;
+```
+
+show variables like '%time_zone%';
+set global time_zone = '+8:00'; 
+set persist time_zone='+8:00';
 
 # 2 Linux环境
 

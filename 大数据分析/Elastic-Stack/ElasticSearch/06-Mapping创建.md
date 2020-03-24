@@ -2,7 +2,9 @@
 
 ## 1.1 Mapping
 
-类似数据库中的表结构定义，主要作用如下：定义index下的字段名（ Field Name）；定义字段的类型，比如数值型、字符串型、布尔型等；定义倒排索引相关的配置，比如是否索引、记录position等。语法：get school/_mapping
+类似数据库中的表结构定义，主要作用如下：定义index下的字段名（ Field Name）；定义字段的类型，比如数值型、字符串型、布尔型等；定义倒排索引相关的配置，比如是否索引、记录position等。
+
+语法：get school/_mapping
 
 # 2 Mapping操作
 
@@ -32,16 +34,10 @@ Mapping中的字段类型一旦设定后，禁止直接修改，原因：Lucene�
 
 ## 2.2 新增字段
 
-通过dynamic参数来控制字段的新增
-
-true允许自动新增字段（**默认**）；
-
-false不允许自动新增字段，但是文档**可以正常写入**，但无法对字段进行査询等操作，推荐使用！！！
-
-strict文档不能写入，**报错**。
+通过dynamic参数来控制字段的新增，true允许自动新增字段（**默认**）；false不允许自动新增字段，但是文档**可以正常写入**，但无法对字段进行査询等操作，推荐使用！！！strict文档不能写入，**报错**。
 
 ```json
-PUT test
+PUT prod_search_base
 {
     "mappings": {
         "dynamic": false,
@@ -58,6 +54,11 @@ PUT test
         }
     }
 }
+
+PUT /prod_search_base/_mapping
+{
+  "dynamic": false
+}
 ```
 
 ## 2.3 copy_to
@@ -65,6 +66,7 @@ PUT test
 将该字段的值复制到目标字段，实现类似all的作用，不会出现在_source中，只用来搜索。
 
 ```json
+PUT prod_search_base
 {
     "mappings": {
         "properties": {
@@ -95,6 +97,7 @@ PUT test
 控制当前字段是否索引，**默认为true**，即记录索引，**false不记录倒排索引，即不可搜索**。
 
 ```json
+PUT prod_search_base
 {
     "mappings": {
         "properties": {
@@ -125,19 +128,20 @@ PUT test
 
 用于控制倒排索引记录的内容，有如下4种配置：
 
-​	-docs只记录 doc id
+docs只记录 doc id
 
-​	-freqs记录doc id和 term frequencies
+freqs记录doc id和term frequencies
 
-​	-positions记录doc id、 term frequencies和 term position
+positions记录doc id、 term frequencies和 term position
 
-​	-offsets记录doc id、 term frequencies、 term position和 character offsets
+offsets记录doc id、 term frequencies、 term position和 character offsets
 
 text类型默认配置为positions，其他默认为docs
 
 记录内容越多，占用空间越大！！！
 
 ```json
+PUT prod_search_base
 {
     "mappings": {
         "properties": {
@@ -170,6 +174,7 @@ text类型默认配置为positions，其他默认为docs
 当字段遇到null值时的处理策略，默认为null，即空值，此时ES会忽略该值。可以通过设定该值设定字段的默认值。
 
 ```json
+PUT prod_search_base
 {
     "mappings": {
         "properties": {            
@@ -282,7 +287,7 @@ ES可以自动识别文档字段类型，是依靠JSON文档的字段类型来�
 | string   | 匹配是日期设为date（默认开启）；匹配数值设为float/long（默认关闭）；否则设为text，并附带keyword子字段 |
 
 ```json
-PUT /test_index/doc/1
+PUT /base_index/_doc/1
 {
   "username":"alfred",
   "age":14,
@@ -300,24 +305,24 @@ PUT /test_index/doc/1
 
 strict_date _optional_time是ISO datetime的格式，完整格式类似下面：YYYY-MM-DDThh:mm:ssTZD（eg 1997-07-16T19:20:30+01:00）
 
-dynamic_date_formats：可以自定义日期类型；date_detection：可以关闭日期自动识别的机制。
+dynamic_date_formats：可以自定义日期类型；
+
+date_detection：可以关闭日期自动识别的机制。
 
 ```json
 PUT my_index
 {
   "mappings": {
-    "my_type": {
-      "dynamic_date_formats": ["MM/dd/yyyy"]
-    }
+    "dynamic_date_formats": ["MM/dd/yyyy"]
   }
 }
 
-PUT my_index/my_type/1
+PUT my_index/_doc/1
 {
   "create_date": "09/25/2015"
 }
 
-PUT my_index/my_type/1
+PUT my_index/_doc/1
 {
   "create_date": "2015-09-01"
 }
@@ -331,9 +336,7 @@ PUT my_index/my_type/1
 PUT my_index
 {
   "mappings": {
-    "my_type": {
-      "numeric_detection": true
-    }
+    "numeric_detection": true
   }
 }
 
@@ -350,7 +353,7 @@ PUT my_index/_doc/1
 
 允许根据ES自动识别的数据类型、字段名等来**动态设定字段类型**。
 
-可以实现的效果，所有字符串类型都设定为keyword类型，即默认不分词；所有以 message开头的字段都设定为text类型，即分词；所有以long开头的字段都设定为long类型；所有自动匹配为double类型的都设定为foat类型，以节省空间。
+可以实现的效果，所有字符串类型都设定为keyword类型，即默认不分词；所有以message开头的字段都设定为text类型，即分词；所有以long开头的字段都设定为long类型；所有自动匹配为double类型的都设定为foat类型，以节省空间。
 
 ## 5.2 匹配规则
 
@@ -361,21 +364,23 @@ match、unmatch：匹配字段名。
 
 path_match、path_unmatch：匹配路径。
 
-字符串默认使用 keyword类型ES默认会为字符串设置为text类型，并增加个keyword的子字段。
+字符串默认使用keyword类型ES默认会为字符串设置为text类型，并增加个keyword的子字段。
+
+**注意：多个规则是从上往下执行，匹配上后不会继续往下匹配**
 
 ```json
-# 字符串默认使用keyword类型 put
-PUT /test_index
+# 字符串默认使用keyword类型
+PUT /my_index
 {
-    "settings": {
-        // 数组，可以指定多个匹配规则
+    "mappings": {
+        # 数组，可以指定多个匹配规则
         "dynamic_templates": [
             {
-                // template的名称
-                "strings": {
-                    // 匹配规则
+                # template的名称
+                "string_name": {
+                    # 匹配规则
                     "match_mapping_type": "string",
-                    // 设置mapping信息
+                    # 设置mapping信息
                     "mapping": {
                         "type": "keyword"
                     }
@@ -385,30 +390,30 @@ PUT /test_index
     }
 }
 
-# 以message开头的字段都设置为text类型 put 
+# 以message开头的字段都设置为text类型
 PUT /test_index
 {
-    "settings": {
-        // 数组，可以指定多个匹配规则
+    "mappings": {
+        # 数组，可以指定多个匹配规则
         "dynamic_templates": [
             {
-                // template的名称
+                # template的名称
                 "message_as_text": {
-                    // 匹配规则
+                    # 匹配规则
                     "match_mapping_type": "string",
                     "match": "message*",
-                    // 设置mapping信息
+                    # 设置mapping信息
                     "mapping": {
                         "type": "text"
                     }
                 }
             },
             {
-                // template的名称
+                # template的名称
                 "strings_as_keywords": {
-                    // 匹配规则
+                    # 匹配规则
                     "match_mapping_type": "string",                    
-                    // 设置mapping信息
+                    # 设置mapping信息
                     "mapping": {
                         "type": "keyword"
                     }
@@ -576,11 +581,6 @@ PUT search_model
 
 ## 6.2 自动生成
 
-自定义Mapping的操作步骤如下：
-1. 写入一条文档到es的临时索引中，获取es自动生成的mapping
-2. 修改步骤1得到的mapping，自定义相关配置
-3. 使用步骤2的mapping创建实际所需索引
-
 ```json
 PUT my_product_index/_doc/1
 {
@@ -607,7 +607,13 @@ PUT my_product_index/_doc/1
 }
 ```
 
-## 6.3 dynamic
+自定义Mapping的操作步骤如下：
+
+1. 写入一条文档到es的临时索引中，获取es自动生成的mapping
+2. 修改步骤1得到的mapping，自定义相关配置
+3. 使用步骤2的mapping创建实际所需索引
+
+## 6.3 Dynamic
 
 使用dynamic的方式！！！
 
@@ -657,7 +663,9 @@ PUT test_index
 # delete _template/test_template1
 put _template/test_template1
 {
+    // 匹配索引名称
     "index_patterns": ["te*","bar*"],
+    // 顺序配置
     "order": 0,
     "settings": {
         "number_of_shards": 1
@@ -731,6 +739,23 @@ PUT /_template/prod_template
     ],
     "dynamic_templates": [
       {
+        "strings-ik-text": {
+          "match_mapping_type": "string",
+          "match": "message*",
+          "mapping": {
+            "type": "text",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_smart",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      },
+      {
         "strings-pinyin-text": {
           "match_mapping_type": "string",
           "match": "pinyin*",
@@ -743,23 +768,6 @@ PUT /_template/prod_template
                 "term_vector": "with_offsets",
                 "analyzer": "pinyin_analyzer",
                 "boost": 10
-              }
-            }
-          }
-        }
-      },
-      {
-        "strings-ik-text": {
-          "match_mapping_type": "string",
-          "match": "message*",
-          "mapping": {
-            "type": "text",
-            "analyzer": "ik_max_word",
-            "search_analyzer": "ik_smart",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
               }
             }
           }

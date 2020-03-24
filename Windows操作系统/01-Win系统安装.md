@@ -1,6 +1,6 @@
 # 1. 系统安装
 
-![](D:\dev\2019dev\code\idea-workspace\Java-HandBook\插图\Windows操作系统\安装windows系统流程.png)
+<img src="..\插图\Windows操作系统\安装windows系统流程.png"/>
 
 ## 1.1 系统格式
 
@@ -45,7 +45,13 @@ Boot Priorlty也要更改为 Legacy First这样更改就是跟之前那些没有
 
 
 
-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion
+## 1.7 默认配置修改
+
+①注册表=>计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion
+
+②存储=>更改新内容的保存位置
+
+对应安装到C盘符的文件路径进行修改
 
 # 2. 软件安装
 

@@ -39,9 +39,11 @@ idea.system.path=D:/dev/2019dev/soft/IDE/ideaIU-2019.2.win/user/system
 
 ## 3.1 JDK
 
-> File | Settings | SDKs
+IDEA中的JDK的位置：SDKs、Project、Modules、Java Compiler、Runner（Use project Jdk）
 
-1. 指定JDK的版本号（maven的settings中指定）
+[JDK参考资料](https://segmentfault.com/a/1190000018708356)
+
+1. 单个JDK配置（maven的settings中指定）
 
 ```xml
 <profiles>
@@ -58,6 +60,36 @@ idea.system.path=D:/dev/2019dev/soft/IDE/ideaIU-2019.2.win/user/system
         </properties>
     </profile>
 </profiles>
+```
+
+2. 多JDK配置（maven的settings中指定）
+
+```properties
+<profile> 
+  <id>java8-compiler</id>  
+  <properties> 
+    <JAVA_HOME>D:\dev\soft\JDK\jdk8u114</JAVA_HOME>  
+    <JAVA_VERSION>1.8</JAVA_VERSION>  
+    <maven.compiler.source>1.8</maven.compiler.source>  
+    <maven.compiler.target>1.8</maven.compiler.target>  
+    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion> 
+  </properties>  
+  <!-- activeByDefault=true代表如果不指定某个固定id的profile，那么就使用这个环境 -->  
+  <activation> 
+    <activeByDefault>true</activeByDefault> 
+  </activation> 
+</profile>
+
+<profile> 
+  <id>java11-compiler</id>  
+  <properties> 
+    <JAVA_HOME>D:\dev\soft\JDK\jdk-11.0.6</JAVA_HOME>  
+    <JAVA_VERSION>11</JAVA_VERSION>  
+    <maven.compiler.source>11</maven.compiler.source>  
+    <maven.compiler.target>11</maven.compiler.target>  
+    <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion> 
+  </properties> 
+</profile>
 ```
 
 ## 3.2 Maven
@@ -173,8 +205,6 @@ idea.system.path=D:/dev/2019dev/soft/IDE/ideaIU-2019.2.win/user/system
 </repositories>
 ```
 
-
-
 ## 3.3 Gradle
 
 1. 下载安装
@@ -223,8 +253,6 @@ Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件�
       </set>  
  </option>  
 ```
-
-
 
 # 4 IntelliJ IDEA局部环境配置
 
@@ -281,6 +309,14 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 ## 4.11 关闭自动代码提示
 
 Preferences => IDE Settings => Editor => Code Completion => Autopopup documentation in (ms)
+
+## 4.12 修改高亮
+
+File | Settings | Editor | Color Scheme | General
+
+- code=>Identifier under caret，修改跟随一致变量的颜色
+- code=>Identifier under caret (write)，修改单击选中的颜色
+- Edit=>Selection background，修改双击选中的颜色
 
 # 5 版本控制配置
 
@@ -415,17 +451,33 @@ git push origin :refs/tags/v1.0.0
 
 > live template自定义（常用设置：main、psfi、psfs、pi、ps、pm）
 
+```properties
+/**
+ * 属性描述：$VAR1$
+ */
+public String $VAR2$;
+
+$END$
+
+
+/**
+ * 属性描述：$VAR1$
+ */
+private static final String $VAR2$ = "aa";
+
+$END$
+```
+
 ## 7.3 自定义类头
 
 ```properties
 /**
  * Project -
  *
- * @Create by ${USER}
- * @Version 1.0
- * @Date 日期:2019/1/3 时间:14:50
- * @JDK 1.8
- * @Description 功能模块：构造函数注入
+ * @author ${USER}
+ * @version 1.0
+ * @date ${DATE}
+ * @since 1.8
  */
 ```
 
@@ -495,9 +547,9 @@ git push origin :refs/tags/v1.0.0
 
 > 日志管理。
 
-## 9.13 Docker integration
+## 9.13 Background Image Plus
 
-> docker容器插件，高版本中已经内置，无需安装！！！
+> 背景图片设置
 
 ## 9.13 Alibaba Cloud Toolkit
 
@@ -522,6 +574,8 @@ git push origin :refs/tags/v1.0.0
 ## 9.17 Material Theme UI Plugin
 
 工具的颜值也很重要，好的主题让人赏心悦目，有码代码的欲望。今天推荐一个IDEA颜值类插件：Material Theme UI
+
+个人感觉不太好用！！！
 
 # 10 Debug调试
 

@@ -73,7 +73,7 @@ Comparator<Integer> a = (c1, c2) -> {
 	return Integer.compare(c1, c2);
 };
 
-// 格式五：lambda体只有一条语句，return与大括号若有都可以省略
+// 格式六：lambda体只有一条语句，return与大括号若有都可以省略
 Comparator<Integer> a = (c1, c2) -> Integer.compare(c1, c2);
 ```
 
@@ -81,7 +81,7 @@ Comparator<Integer> a = (c1, c2) -> Integer.compare(c1, c2);
 
 ### 1.1.3 Runnable接口
 
-    用 lambdah 代替匿名类是 java8 中 lambda 的常用形式，本文以开发同学经常使用的 Runnable 接口匿名类为示例，演示如何用 lambda 表达式来代替匿名类：
+    用lambdah代替匿名类是 java8 中 lambda 的常用形式，本文以开发同学经常使用的 Runnable 接口匿名类为示例，演示如何用 lambda 表达式来代替匿名类：
 
 1.  在 java8 之前：
 

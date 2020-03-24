@@ -1,5 +1,7 @@
 # 1 Nginx基础使用
 
+Stable Version：nginx-1.16.1
+
 ## 1.1 官网下载
 
 [下载地址](http://nginx.org/en/download.html)
