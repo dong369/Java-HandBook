@@ -2,8 +2,8 @@
 
 ## 1.1 镜像（Images）
 
->  我们都知道，操作系统分为内核和用户空间。对于Linux而言，内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker	镜像（Image），就相当于是一个root文件系统。比如官方镜像ubuntu:14.04就包含了完整的一套Ubuntu14.04最小系统的root文件系统。
->  Docker	镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
+>  我们都知道，操作系统分为内核和用户空间。对于Linux而言，内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像（Image），就相当于是一个root文件系统。比如官方镜像ubuntu:14.04就包含了完整的一套Ubuntu14.04最小系统的root文件系统。
+>  Docker镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
 ----
 > 镜像拉取的提供商地址
 > + [Docker官网](https://hub.docker.com/explore/)
@@ -11,7 +11,7 @@
 > + [阿里云官网](https://dev.aliyun.com/search.html)
 
 ## 1.2 容器（Container）
-> 镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和	实例	一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。
+> 镜像（Image）和容器（Container）的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。
 
 ## 1.3 仓库（Repository）
 > 镜像构建完成后，可以很容易的在当前宿主上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry就是这样的服务。一个Docker Registry中可以包含多个仓库（Repository）；每个仓库可以包含多个标签（Tag）；每个标签对应一个镜像。通常，一个仓库会包含同一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。我们可以通过<仓库名>:<标签>	的格式来指定具体是这个软件哪个版本的镜像。如果不给出标签，将以latest作为默认标签。
@@ -125,9 +125,9 @@ sudo rm -rf /var/lib/docker          # 移除镜像，容器，卷，网络，�
 systemctl enable docker.service
 ```
 
-### 2.4.10 docker-composer
+## 2.5 docker-composer
 
-1. 下载授权
+### 2.5.1 下载授权
 
 ```properties
 curl -L https://get.daocloud.io/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
@@ -135,7 +135,7 @@ chmod +x /usr/local/bin/docker-compose    // 文件授权
 docker-compose --version    // 安装版本查看
 ```
 
-2. 启动/关闭/拉取镜像
+### 2.5.2 启动/关闭/拉取镜像
 
 ```properties
 启动：docker-compose up -d
@@ -143,9 +143,7 @@ docker-compose --version    // 安装版本查看
 重新拉取镜像：docker-compose pull
 ```
 
-
-
-## 2.5 操作问题
+## 2.5 安装过程问题
 
 ### 2.5.1 安装过程中
 

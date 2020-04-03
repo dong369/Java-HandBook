@@ -168,5 +168,7 @@ list.forEach(item => console.log(item));
 # 4 搜索技巧
 ## 4.1 用 site 命令
 > 科学上网 site:zhihu.com OR site:jianshu.com
+>
+> in:name spring stars:>30000
 
 # 5 科学上网

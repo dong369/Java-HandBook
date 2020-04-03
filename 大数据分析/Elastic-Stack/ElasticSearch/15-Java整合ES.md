@@ -22,11 +22,11 @@ Spring提供的封装的方式，好像底层也是基于TransportClient，Elast
 
 官方推荐使用，所以我们采用这个方式，这个分为两个Low Level REST Client和High Level REST Client，Low Level REST Client是早期出的API比较简陋了，还需要自己去拼写Query DSL，High Level REST Client使用起来更好用，更符合面向对象的感觉，两个都使用下吧
 
-# 2 基础架子搭建
+# 2 基础框架搭建
 
 ## 2.1 依赖
 
-```pom
+```properties
 <dependency>
     <groupId>org.elasticsearch</groupId>
     <artifactId>elasticsearch</artifactId>
@@ -56,7 +56,7 @@ Spring提供的封装的方式，好像底层也是基于TransportClient，Elast
 
 先写DSL语句=>再写业务代码=>打印业务代码中的DSL=>进行DSL比对
 
-## 2.4 测试
+## 2.4 单元测试
 
 
 
