@@ -266,15 +266,17 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ## 4.2 自动编译
 
-> File | Settings | Build, Execution, Deployment | Compiler（勾选build project automatically）
+> File | Settings | Build, Execution, Deployment | Compiler（build project automatically）
+
+启动的项目需要切换下应用，再回到idea即可自动编译程序。
 
 ## 4.3 智能导包
 
-> File | Settings | Editor | General | Auto Import
+> File | Settings | Editor | General | Auto Import（Optimize imports on the fly(for current project)）
 
 ## 4.4 忽略大小写
 
-> File | Settings | Editor | General | Code Completion | 将右侧的match case去掉打勾
+> File | Settings | Editor | General | Code Completion（match case去掉打勾）
 
 ## 4.5 悬浮提示开关
 
@@ -282,7 +284,7 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 
 ## 4.6 取消单行显示tabs
 
-> File | Settings | Editor | General | Editor Tabs=>去掉Show tabs in one row的勾选
+> File | Settings | Editor | General | Editor Tabs（去掉Show tabs in one row的勾选）
 
 ## 4.7 行号显示
 
@@ -298,7 +300,11 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 >
 > 第二步：File | Settings | Editor | Color Scheme | General，选择code的Injected language fragment然后去除background。
 
-## 4.10 用\*标识编辑过的文件 
+## 4.10 方法参数提示
+
+File | Settings | Editor | General | Code Completion（Parameter Info对应的选项都打勾）
+
+## 4.11 用\*标识编辑过的文件 
 
 ```properties
 1.Editor–>General –> Editor Tabs
@@ -306,17 +312,21 @@ file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路
 3.“Mark modifyied tabs with asterisk
 ```
 
-## 4.11 关闭自动代码提示
+## 4.12 关闭自动代码提示
 
 Preferences => IDE Settings => Editor => Code Completion => Autopopup documentation in (ms)
 
-## 4.12 修改高亮
+## 4.13 修改高亮
 
 File | Settings | Editor | Color Scheme | General
 
 - code=>Identifier under caret，修改跟随一致变量的颜色
 - code=>Identifier under caret (write)，修改单击选中的颜色
 - Edit=>Selection background，修改双击选中的颜色
+
+## 4.14 数据库全局设置
+
+Global Data Sources
 
 # 5 版本控制配置
 

@@ -19,6 +19,8 @@ Stable Version：MySQL-8.0.19
 # 设置mysql客户端默认字符集
 default-character-set=utf8
 [mysqld]
+# 时区为东八区
+default-time_zone='+8:00'
 #设置3306端口
 port = 3306
 # 设置mysql的安装目录
@@ -100,6 +102,7 @@ socket=/tmp/mysql.sock
 default-character-set = utf8
 
 [mysqld]
+default-time_zone='+8:00'
 port=3306
 user=mysql
 default-character-set = utf8
@@ -113,6 +116,7 @@ lower_case_table_names=1
 max_connections=200
 # 允许连接失败的次数
 max_connect_errors=10
+sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 ```
 
 特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
@@ -336,9 +340,7 @@ The server time zone value 'EDT' is unrecognized or represents more than one tim
 
 时区错误，MySQL默认的时区是UTC时区，比北京时间晚`8`个小时。
 
-所以要修改mysql的时长
-
-在mysql的命令模式下，输入：
+所以要修改mysql的时长，在mysql的命令模式下，输入：
 
 ```properties
 show variables like '%time_zone%';

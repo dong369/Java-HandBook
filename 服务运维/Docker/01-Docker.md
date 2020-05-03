@@ -176,27 +176,42 @@ sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=curl -sSL https://get.
 > 创建Docker命令：docker-machine create <name>
 > docker-machine ssh <name>
 
+### 2.5.4 IPv4 forwarding
+
+```properties
+Docker报错 WARNING: IPv4 forwarding is disabled. Networking will not work.
+
+解决
+vim  /usr/lib/sysctl.d/00-system.conf
+net.ipv4.ip_forward=1
+systemctl restart network
+```
+
+
+
 # 3. 命令操作
 
 ## 3.1 基础命令
 
-> Docker版本：docker version（查看安装版本）
-> 启动Docker：service docker start（systemctl start docker）
-> 停止Docker：service docker stop（systemctl stop docker）
-> 重启Docker：service docker restart（systemctl restart docker）
-> 拉取镜像：docker pull [OPTIONS] NAME[:TAG] NAME：代表拉取镜像的名称
-> 查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
-> 删除镜像：docker rmi [容器名称&ID]
-> 运行镜像：docker run [OPTIONS] IMAGE[:TAG][COMMAND] [ARG…]
-> 前台运行：docker run [容器名称&ID]
-> 后台运行：docker run --name some-* -p 宿主机端口:容器端口 –d [容器名称&ID]
-> 查看运行的容器：docker ps
-> 查看所以的容器：docker ps -a（docker stop CONTAINER ID、docker rm CONTAINER ID）
-> 进入容器内部：docker exec -it containerId /bin/bash（docker exec -it [容器名称] bash）
-> 退出容器：exit
-> 制作自己的镜像：docker build –t name:latest .（指定名称）
-> 推送镜像：docker push registry.cn-hangzhou.aliyuncs.com/namespace/keepalived:[镜像版本号]
-> 查看容器日志：docker logs -f [容器名称]
+```properties
+Docker版本：docker version（查看安装版本）
+启动Docker：systemctl start docker（service docker start）
+停止Docker：systemctl stop docker（service docker stop）
+重启Docker：systemctl restart docker（service docker restart）
+拉取镜像：docker pull [OPTIONS] NAME[:TAG] NAME：代表拉取镜像的名称
+查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
+删除镜像：docker rmi [容器名称&ID]
+运行镜像：docker run [OPTIONS] IMAGE[:TAG][COMMAND] [ARG…]
+前台运行：docker run [容器名称&ID]
+后台运行：docker run --name some-* -p 宿主机端口:容器端口 –d [容器名称&ID]
+查看运行的容器：docker ps
+查看所以的容器：docker ps -a（docker stop CONTAINER ID、docker rm CONTAINER ID）
+进入容器内部：docker exec -it containerId /bin/bash（docker exec -it [容器名称] bash）
+退出容器：exit
+制作自己的镜像：docker build –t name:latest .（指定名称）
+推送镜像：docker push registry.cn-hangzhou.aliyuncs.com/namespace/keepalived:[镜像版本号]
+查看容器日志：docker logs -f [容器名称]
+```
 
 # 4. 服务安装
 
@@ -319,6 +334,8 @@ docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:manageme
 
 >Docker integration
 
+高版本的idea自带了docker的插件
+
 ## 5.2 修改Docker配置
 
 1. 修改vim /usr/lib/systemd/system/docker.service
@@ -344,7 +361,9 @@ curl 127.0.0.1:2375/info           # 验证是否成功
 ```properties
 tcp://192.168.100.13:2375
 ```
-![Docker连接配置](D:\dev\2019dev\code\idea-workspace\Java-HandBook\插图\Linux操作系统\Docker连接配置.png)
+
+
+<img src="..\..\插图\Linux操作系统\Docker连接配置.png"/>
 
 ## 5.4 Spring Boot部署
 
@@ -394,5 +413,5 @@ ENTRYPOINT ["java","-jar","/guod.jar"]
 
 > 运行Dockerfile文件，项目发布成功！
 
-![Docker连接配置](D:\dev\2019dev\code\idea-workspace\Java-HandBook\插图\Linux操作系统\Dockerfile配置文件.png)
+<img src="../..\插图\Linux操作系统\Dockerfile配置文件.png"/>
 

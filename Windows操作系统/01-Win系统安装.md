@@ -16,7 +16,7 @@ Delete Esc F2 F8 F9 F10 F11 F12
 > 主板为了兼容MBR分区表，一般会提供Legacy BIOS和UEFI BIOS启动模式选项，而且默认情况下主板是优先开启Legacy BIOS，所以如果要使用UEFI模式安装Windows，就必须手动去调整开启UEFI引导模式。
 
 第一是：更改BIOS默认系统
-自带出厂时机器默认的是WIN8 for 64Bit。我们要将其改成“Other OS”。这样的话BIOS设置就是完成了。这样就能加载“U盘”、“光驱”启动了。这样就解决了客户反映的在选择菜单启动时候反复停留在启动菜单选项中。选择什么都是返回这个界面。
+自带出厂时机器默认的是WIN8 for 64Bit。我们要将其改成“Other OS”。这样的话BIOS设置就是完成了。这样就能加载“U盘”、“光驱”启动了。这样就解决了客户反映的在选择菜单启动时候**反复停留在启动菜单选项中**。选择什么都是返回这个界面。
 
 第二是：Boot项目设置
 BootMode系统默认设置是UEFI要将其改为Legacy Support。
@@ -29,6 +29,7 @@ Boot Priorlty也要更改为 Legacy First这样更改就是跟之前那些没有
 >MBR和GPT
 
 1、主板BIOS开启UEFI，硬盘就是GPT，主板BIOS是传统Legacy，硬盘就是MBR，而且大多数情况下装系统必须是UEFI+GPT或Legacy+MBR，不能有其他的组合
+
 2、win7默认是Legacy+MBR，win7 64位支持UEFI+GPT下安装，win10默认是UEFI+GPT，win10还支持Legacy+MBR
 
 ## 1.4 进入PE系统
@@ -49,9 +50,7 @@ Boot Priorlty也要更改为 Legacy First这样更改就是跟之前那些没有
 
 ①注册表=>计算机\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion
 
-②存储=>更改新内容的保存位置
-
-对应安装到C盘符的文件路径进行修改
+②存储=>更改新内容的保存位置，对应安装到C盘符的文件路径进行修改
 
 # 2. 软件安装
 
@@ -61,11 +60,25 @@ Boot Priorlty也要更改为 Legacy First这样更改就是跟之前那些没有
 
 
 
-### 2.1.2 办公娱乐
+### 2.1.2 基础软件
+
+Revo Uninstalle Pro彻底分析和扫描程序在系统和注册表中的所有文件和键值，将程序彻底完全的移除，不会在系统中留下软件的任何残留，对比产品total uninstall。
+
+Snipaste 是一款开发了三年精心打磨出来、简单易用却又强大到让人惊叹的免费屏幕截图软件。
+
+Pointofix中文版是一个强大的立体划线工具。
+
+FSCapture v9.2中文版，图像捕捉。
+
+ScreenToGif是Gif动图工具。
+
+Universal Extractor是一款近乎于万能的文件提取器，支持的文件类型多达40多种。
+
+### 2.1.3 办公娱乐
 
 office、Visio、
 
-### 2.1.3 开发工具
+### 2.1.4 开发工具
 
 idea、pycharm
 
@@ -76,6 +89,10 @@ idea、pycharm
 
 
 ### 2.2.2 ZD423
+
+
+
+### 2.2.3 果核剥壳
 
 
 

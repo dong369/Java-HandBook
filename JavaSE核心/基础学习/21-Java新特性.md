@@ -94,8 +94,6 @@ Comparator<Integer> a = (c1, c2) -> Integer.compare(c1, c2);
          System.out.println("No use lambda.");
     }
    }).start();
-
-
 ```
 
 2.  在 java8 之后：
@@ -114,8 +112,6 @@ Comparator<Integer> a = (c1, c2) -> Integer.compare(c1, c2);
   public interface Runnable {
       public abstract void run();
   }
-
-
 ```
 
 本文后面会详细讲解 FunctionalInterface 注解。

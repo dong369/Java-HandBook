@@ -1,7 +1,8 @@
 # 1 技术目标
 
-> * 目标01：Eclipse&STS安装
-> * 目标02：Eclipse&STS设置
+> 目标01：Eclipse&STS安装
+>
+> 目标02：Eclipse&STS设置
 
 # 2 技术介绍
 > Java智能开发工具。
@@ -175,7 +176,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-## 4. 版本控制
+# 4. 版本控制
 
 ### 4.1 SVN项目提交
 
@@ -236,9 +237,9 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-## 5. 项目构建
+# 5. 项目构建
 
-## 6. 插件配置
+# 6. 插件配置
 
 ### 6.1 lombok
 

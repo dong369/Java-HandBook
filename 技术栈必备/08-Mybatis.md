@@ -1,14 +1,24 @@
+# 1 什么是MyBatis
 
+答：MyBatis是一款优秀的持久层框架，一个半 ORM（对象关系映射）框架，它支持定制化 SQL、存储过程以及高级映射。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。MyBatis 可以使用简单的 XML 或注解来配置和映射原生类型、接口和 Java 的 POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录。
 
-## 1、什么是MyBatis？
+总统概述：MyBatis是一个可以自定义SQL、存储过程和高级映射的**持久层框架**。
 
-答：MyBatis是一个可以自定义SQL、存储过程和高级映射的**持久层框架**。
+# 2 什么是ORM
 
-## 2、讲下MyBatis的缓存
+ORM（Object Relational Mapping），对象关系映射，是一种为了解决关系型数据库数据与简单Java对象（POJO）的映射关系的技术。简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系型数据库中。
 
-答：MyBatis的缓存分为一级缓存和二级缓存，一级缓存放在**session****里面**,默认就有，二级缓存放在它的**命名空间里**，默认是不打开的，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态)，可在它的映射文件中配置<cache/>
+# 3 讲下MyBatis的缓存
 
-## 3、Mybatis是如何进行分页的？分页插件的原理是什么？
+答：MyBatis的缓存分为一级缓存和二级缓存。
+
+一级缓存基于PerpetualCache 的HashMap本地缓存，其存储作用域为 Session，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，默认打开一级缓存。
+
+二级缓存也是采用PerpetualCache，HashMap存储，放在它的**命名空间**里，默认是不打开的，使用二级缓存属性类需要实现Serializable序列化接口(可用来保存对象的状态)，可在它的映射文件中配置（<cache/>）。
+
+对于缓存数据更新机制，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被 clear。
+
+# 4 分页及原理
 
 1）Mybatis使用RowBounds对象进行分页，也可以直接编写sql实现分页，也可以使用Mybatis的分页插件。
 
@@ -16,13 +26,13 @@
 
 举例：select * from student，拦截sql后重写为：select t.* from （select * from student）t limit 0，10
 
-## 4、简述Mybatis的插件运行原理，以及如何编写一个插件？
+# 5 Mybatis的插件
 
 1）Mybatis仅可以编写针对ParameterHandler、ResultSetHandler、StatementHandler、Executor这4种接口的插件，Mybatis通过动态代理，为需要拦截的接口生成代理对象以实现接口方法拦截功能，每当执行这4种接口对象的方法时，就会进入拦截方法，具体就是InvocationHandler的invoke()方法，当然，只会拦截那些你指定需要拦截的方法。
 
 2）实现Mybatis的Interceptor接口并复写intercept()方法，然后在给插件编写注解，指定要拦截哪一个接口的哪些方法即可，记住，别忘了在配置文件中配置你编写的插件。
 
-5、Mybatis动态sql是做什么的？都有哪些动态sql？能简述一下动态sql的执行原理不？
+# 6 动态SQL
 
 1）Mybatis动态sql可以让我们在Xml映射文件内，以标签的形式编写动态sql，完成逻辑判断和动态拼接sql的功能。
 

@@ -206,6 +206,22 @@ file:///192.168.100.12
 
 # 5 图形界面
 
+```properties
 yum -y groupinstall "GNOME Desktop"
 
 startx
+```
+
+# 6 磁盘分区
+
+```properties
+fdisk -l
+fdisk  /dev/vdb（输入 n， p， 1， 回车，回车， wq）
+mkfs.ext3 /dev/vdb1（格式化磁盘）
+mkdir /data0
+mount /dev/vdb1 /data0（umount /dev/vdb1）
+echo '/dev/vdb1 /data0 ext3 defaults 0 0' >> /etc/fstab
+
+lsblk
+```
+

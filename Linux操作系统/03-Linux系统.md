@@ -12,9 +12,9 @@
 ## 1.2 查看帮助
 
 ```properties
-man ls
-info ls
-ls --help
+ls --help  // 显示shell内部的帮助信息
+man ls  // 查看Linux中的指令帮助、配置文件帮助和编程帮助等信息。
+info ls  // 是man指令的详细内容
 ```
 
 # 2. Linux版本下载
@@ -52,8 +52,8 @@ rpm -qa|grep kernel
 
 ```properties
 cat /etc/os-release
-cat /proc/version，说明正在运行的内核版本。
 cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
+cat /proc/version，说明正在运行的内核版本。
 cat /etc/issue，显示的是发行版本信息
 lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
 ```
@@ -69,7 +69,7 @@ cat /proc/cpuinfo  // 查看内存中保存的每个cpu信息
 
 ```properties
 lsblk -d -o name,rota    // ROTA是1的表示可以旋转，反之则不能旋转。
-df -h
+df -hl
 du -sh * | sort -nr
 ```
 
@@ -122,7 +122,7 @@ chown -R esuser:esgroup file
 #### 3.3.1.4 文件权限
 
 ```properties
-chmod -R 777 file
+chmod -R 777 file    // 4+2+1
 ```
 
 ### 3.3.2 Ubunto
@@ -343,6 +343,7 @@ IPADDR=192.168.100.100  #此字段就指定了网卡对应的ip地址
 GATEWAY=192.168.100.2   #默认网关的IP地址
 DNS1=8.8.8.8 
 DNS2=8.8.4.4
+
 systemctl restart network（CentOS7以前使用命令：service restart network）
 # 路由表
 netstat -rn
@@ -611,6 +612,9 @@ rpm -qa | grep 包名    # 可联合grep命令查找
 // 文件压缩
 tar -cvf jpg.tar file1 file2 ....fileN
 
+// 压缩包预览
+tar -tf jpg.tar
+
 // 文件解压
 tar -xvf my.tar.gz
 tar -xvf my.tar.gz -C /usr/local/soft
@@ -733,8 +737,10 @@ scp.exe .ssh\id_rsa.pub guodd@s31:~/.ssh/authorized_keys
 2. 修改/etc/ssh/sshd_config文件。
 
 ```properties
-StrictModes no
+StrictModes no  // 严格的方式，22端口将不能连接
 systemctl restart sshd
+
+ssh root@s10
 ```
 
 ### 11.2.2 Ubunto
