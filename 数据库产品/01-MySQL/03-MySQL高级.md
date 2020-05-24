@@ -280,7 +280,7 @@ log-bin=mysql-bin     // 声明二进制日志文件为mysql-bin.xxx
 binlog-format=mixed   // 二进制的格式：mixed(混合的)、row(磁盘变化)、statement(执行语句)
 ```
 
-语句长而磁盘变化少，宜用row；语句短但影响上万行，磁盘变化大。
+语句长而磁盘变化少，宜用row；语句短但影响上万行，磁盘变化大，宜用statement。
 
 配置从MySQL的配置文件my.cnf
 
@@ -306,33 +306,71 @@ show master status;    // 是否具备主服务器的条件，就是产生binlog
 
 show slave status;       // 是否具备从服务器的条件。
 
-`grand replication client,replication slave on *.* to guo@'192.168.100.%' identified by '11111'`
+```properties
+// 低版本
+grant replication client,replication slave on *.* to guodd@'192.168.10.%' identified by 'passw0rd';
+
+// 高版本的MySQL数据库需要分开写
+create user 'guodd'@'192.168.10.*' identified by 'passw0rd';
+grant all privileges on *.* to 'guodd'@'192.168.10.*' with grant option;
+
+flush privileges;
+```
 
 
 
+
+
+```properties
 change master to 
+master_host='192.168.10.50',
+master_user='guodd',
+master_password='passw0rd',
+master_log_file='mysql-bin.000001',
+master_log_pos=872;
+```
 
-master_host='',master_name='',master_password='',
+查看从服务器状态
 
-master_log_file='',master_log_pos=348;
-
-
-
-show slave status /G;
-
-
+show slave status \G;
 
 start slave;   // 启动从服务器的功能
 
 stop slave;
 
+**1. 先停止slave
+**mysql>stop slave;
+
+**2. 跳过slave上的1个错误
+**mysql>set global sql_slave_skip_counter=1;
+
+**3.在slave上手工插入一条数据
+**mysql>insert into aa values(1,'Java');
 
 
-测试；
 
+# 7 宕机情况
 
+## 7.1 主库宕机
 
+(1)确保所有的relay log全部更新完毕，在每个从库上执行show processlist;
 
+(2)更新完毕后，登录所有从库查看master.info文件，对比选择pos最大的作为新的主库，
 
+(3)然后登录这个新的主库，执行stop slave；进入主目录，删除master.Info和relay-log.info配置my.cnf文件开启log-bin文件
 
+(4)创建用于同步的用户并授权slave
 
+(5)登录另外一台从库，执行stop slave停止同步
+
+(6)执行start slave
+
+(7)修改新的master数据，测试slave是否同步更新
+
+## 7.2 从库宕机
+
+(1)查看从库上mysql的错误日志，里面有记录主从挂掉时的binlog信息。
+
+(2)有了binlog和postion信息后，只需要重新在从库上进行change master to配置即可。配置后开启slave状态，没有报错
+
+(3)查看slave状态，发现slave已经正常了，开始进行延时数据恢复。

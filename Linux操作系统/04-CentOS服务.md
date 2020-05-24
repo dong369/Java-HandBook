@@ -12,10 +12,12 @@
 
 ```properties
 JAVA_HOME=/opt/soft/java/jdk1.8
-JRE_HOME=/opt/soft/java/jdk1.8/jre
-CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
-PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-export PATH JAVA_HOME CLASSPATH
+
+PATH=$PATH:$JAVA_HOME/bin
+
+CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+export JAVA_HOME PATH CLASSPATH
 ```
 
 第二步：使环境变量生效
@@ -56,6 +58,17 @@ yum -y remove java-1.8.0-openjdk*
 yum -y remove tzdata-java.noarch
 java -version
 ```
+
+## 1.4 环境变量
+
+```properties
+1、/etc/profile:在登录时,操作系统定制用户环境时使用的第一个文件,此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行。
+2、/etc/environment:在登录时操作系统使用的第二个文件,系统在读取你自己的profile前,设置环境文件的环境变量。
+3、~/.bash_profile:在登录时用到的第三个文件是.profile文 件,每个用户都可使用该文件输入专用于自己使用的shell信息,当用 户登录时,该 文件仅仅执行一次!默认情况下,他设置一些环境变游戏量,执 行用户的.bashrc文件。/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该 文件被读取.
+4、~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。
+```
+
+优先级：1>2>3>4
 
 # 2 防火墙配置
 
@@ -135,6 +148,8 @@ firewall-cmd --reload
 ```properties
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
 ```
+
+## 3.2 Rsync
 
 # 4 文件共享
 

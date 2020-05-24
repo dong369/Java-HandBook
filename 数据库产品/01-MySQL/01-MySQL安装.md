@@ -1,4 +1,4 @@
-# 1 Windows环境
+# 1 Win环境
 
 Stable Version：MySQL-8.0.19
 
@@ -15,50 +15,54 @@ Stable Version：MySQL-8.0.19
 2、新建配置文件`my.ini`放在`D:\Free\mysql-8.0.16-winx64`目录下
 
 ```properties
-[mysql]
-# 设置mysql客户端默认字符集
-default-character-set=utf8
 [mysqld]
+# 设置3306端口
+port=3306
 # 时区为东八区
 default-time_zone='+8:00'
-#设置3306端口
-port = 3306
 # 设置mysql的安装目录
-basedir=D:/dev/soft/SQL/mysql-8.0.19-winx64
+basedir=D:\Program Files\MySQL
 # 设置mysql数据库的数据的存放目录
-datadir=D:/dev/soft/SQL/mysql-8.0.19-winx64/data
+datadir=D:\Program Files\MySQL\Data
 # 允许最大连接数
 max_connections=200
-# 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统
-max_connect_errors=20
-# 服务端使用的字符集默认为8比特编码的latin1字符集
-character-set-server=utf8
+# 允许连接失败的次数。
+max_connect_errors=10
+# 服务端使用的字符集默认为utf8mb4
+character-set-server=utf8mb4
 # 创建新表时将使用的默认存储引擎
 default-storage-engine=INNODB
-# 忽略密码
-# skip-grant-tables
+# 默认使用“mysql_native_password”插件认证
+#mysql_native_password
+default_authentication_plugin=mysql_native_password
+
+[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3306
+default-character-set=utf8mb4
 ```
 
 3、初始化MYSQL配置
 
 管理员身份打开Windows PowerShell，并进入`D:\Free\mysql-8.0.16-winx64\bin`目录，执行如下命令：
 
-```
-mysqld --initialize --console
-```
+Redis是AP，可以添加哨兵
 
 4、安装MySQL服务，并启动服务
 
 安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8作为服务名，如下所示
 
 ```
-mysqld --install mysql8
+mysqld --install mysql8.0.20
 ```
 
 启动服务命令为：net start 服务名
 
 ```
-net start mysql8
+mysqld --install mysql8.0.20
 ```
 
 5、登录MySQL并修改root密码
@@ -72,68 +76,112 @@ mysql -uroot -pdiK3i1dH=k8b
 登录成功后，修改密码为password
 
 ```
-alter user 'root'@'localhost' IDENTIFIED BY 'password';
+alter user 'root'@'localhost' IDENTIFIED BY 'passw0rd';
 ```
 
 刷新一下即可
 
 ```
+show variables like '%time_zone%';
+set global time_zone = '+8:00';   // Asia/Shanghai或者GMT+8
+set persist time_zone='+8:00';
 flush privileges;
 ```
 
-show variables like '%time_zone%';
-set global time_zone = '+8:00'; 
-set persist time_zone='+8:00';
-
 # 2 Linux环境
 
-## 2.1 安装配置
-
-### 2.1.1 下载
+## 21 下载
 
 [下载地址](www.mysql.com)
 
-### 2.1.2 配置/etc/my.cnf
+## 2.2 卸载
 
 ```properties
-[client]
-port=3306
-socket=/tmp/mysql.sock
-default-character-set = utf8
+1、如果安装过MySQL（每个文件都要移除）
+输入1（获取文件列表）：rpm -qa | grep mysql
+输出1：文件名列表
+输入2（删除文件，文件名列表中的都要删除）：yum remove 文件名
+输出2：略
+输入3（删除mysl配置文件）：rm -rf /var/lib/mysql、rm /etc/my.cnf、rm -rf /usr/share/mysql-8.0
 
-[mysqld]
-default-time_zone='+8:00'
-port=3306
-user=mysql
-default-character-set = utf8
-socket=/tmp/mysql.sock
-basedir=/opt/soft/mysql/mysql-8.0.15-el7
-datadir=/opt/soft/mysql/mysql-8.0.15-el7/data
-log-error=/opt/soft/mysql/mysql-8.0.15-el7/logs/error.log
-# 表名的大小写
-lower_case_table_names=1
-# 允许最大连接数
-max_connections=200
-# 允许连接失败的次数
-max_connect_errors=10
-sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+2、查看自带数据库（输出与系统版本相关）
+输入：rpm -qa | grep mariadb
+输出：mariadb-libs-5.5.64-1.el7.x86_64
+ 
+3、卸载自带数据库（数据库名以上条语句输出为准）
+输入：rpm -e --nodeps mariadb-libs-5.5.64-1.el7.x86_64
+输出：无
+ 
+4、安装依赖
+输入：yum install -y libaio perl net-tools
+输出：略
 ```
 
-特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
+## 2.3 my.cnf
 
-## 2.1.3. 初始化数据库
+配置/etc/my.cnf
+
+```properties
+[mysqld]
+# 设置3306端口
+port=3306
+# 设置mysql的安装目录
+basedir=/opt/soft/db/mysql
+# 设置mysql数据库的数据的存放目录，指定自己的文件
+datadir=/opt/soft/db/mysql/data
+log-error=/opt/soft/db/mysql/logs/error.log
+# 允许最大连接数
+max_connections=10000
+# 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统
+max_connect_errors=10
+# 服务端使用的字符集默认为UTF8
+character-set-server=utf8mb4
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+# 默认使用“mysql_native_password”插件认证
+default_authentication_plugin=mysql_native_password
+[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8mb4
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3306
+default-character-set=utf8mb4
+```
+
+## 2.4 用户权限
 
 ```properties
 groupadd mysql
-useradd -g mysql -r mysql
-useradd -g mysql mysql -p passw0rd
+useradd -g mysql mysql（useradd -g mysql -r mysql）
+passwd mysql
 
 chown -R mysql:mysql /tmp/mysql
 chown -R mysql:mysql /opt/soft/mysql/mysql-8.0.15-el7
+chmod -R 777 /opt/soft/db/mysql
+```
 
-yum install -y libaio
+## 2.5 配置环境变量
 
-./bin/mysqld --initialize --user=mysql --basedir=/opt/soft/mysql/mysql-8.0.15-el7 --datadir=/opt/soft/mysql/mysql-8.0.15-el7/data/
+```properties
+vim /etc/profile
+export MYSQL_HOME=/opt/soft/db/mysql
+export PATH=$PATH:$MYSQL_HOME/lib:$MYSQL_HOME/bin
+
+source /etc/profile
+```
+
+## 2.6 初始化数据库
+
+```properties
+mysqld --initialize --console（./bin/mysqld --initialize --user=mysql --basedir=/opt/soft/db/mysql --datadir=/opt/soft/db/mysql/data/）一般使用简写方式
+```
+
+## 5.6 启动服务
+
+```properties
+cd support-files/
+./mysql.server start
 ```
 
 ## 1.4. 查看初始化密码
@@ -142,41 +190,51 @@ yum install -y libaio
 cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
 ```
 
-## 1.5. 配置环境变量
-
-```properties
-vim /etc/profile // 打开profile文件。
-export MYSQL_HOME
-MYSQL_HOME=/opt/soft/mysql/mysql-8.0.15-el7
-export PATH=$PATH:$MYSQL_HOME/lib:$MYSQL_HOME/bin 
-
-source /etc/profile
-```
-
 ## 1.6. 登录修改root密码
 
 ```properties
 mysql -uroot -p
 alter user 'root'@'localhost' identified by 'your_password';
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
+alter user  'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
 ```
 
 ## 1.7. 开机启动
 
 ```properties
-cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql
+cp /usr/local/db/mysql/support-files/mysql.server /etc/init.d/mysql
+方式1：
+vim /usr/lib/systemd/system/mysqld.service
+[Unit]
+Description=mysql server
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+#User=mysql
+Type=forking
+ExecStart=/etc/init.d/mysqld start
+ExecReload=/etc/init.d/mysqld restart
+ExecStop=/etc/init.d/mysqld stop
+
+[Install]
+WantedBy=multi-user.target
+
+systemctl daemon-reload
+
+方式2：
 chmod +x /etc/init.d/mysql //添加可执行权限。
-chkconfig --add mysql // 注册启动服务
+chkconfig --add mysql      // 注册启动服务
 service mysql start
 ```
 
-# 2 配置远程登录
+# 3 配置远程登录
 
 ## 2.1. 改表法
 
 ```properties
 use mysql;
 update user set host = '%' where user = 'root';
+flush privileges;
 ```
 
 ## 2.2 配置账号授权
@@ -197,7 +255,7 @@ grant all privileges on onedatabase.* to 'username'@'%';
 mysql -h192.168.100.11 -P3306 -uroot -ppassw0rd
 ```
 
-# 4. 找回密码
+# 4 找回密码
 
 ## 4.1 步骤
 
@@ -228,7 +286,7 @@ skip-grant-tables
 service mysql restart
 ```
 
-# 5. 数据库版本
+# 5 数据库版本
 
 ## 5.1 版本信息
 
@@ -242,7 +300,7 @@ select version();
 show variables where variable_name like 'character\_set\_%' or variable_name like 'collation%';
 ```
 
-# 6. 磁盘情况
+# 6 磁盘情况
 
 ## 6.1 库所占磁盘大小
 
@@ -270,7 +328,15 @@ group by TABLE_NAME
 order by data_length desc;
 ```
 
-# 7. 错误信息
+# 7 入坑
+
+## 7.1 启动报错
+
+情况一、Starting MySQL.. ERROR! The server quit without updating PID file (/usr/local/mysql/data/localhost.localdomain.pid).
+
+
+
+情况二、特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
 
 ## 7.1 远程连接
 

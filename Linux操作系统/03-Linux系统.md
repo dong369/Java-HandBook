@@ -1,6 +1,6 @@
-# 1 Linux的版本
+# 1 版本信息
 
-## 1.1 版本
+## 1.1 发行版本
 
 > 1.	[Redhat](https://www.ubuntu.com/index_kylin)、[CentOS](https://www.centos.org/)，Redhat安装包需要收费的，一般选择CentOS
 > 2.	Ubuntu 12.04 64位
@@ -9,7 +9,17 @@
 > 5.	Mandriva
 > 6.	红旗
 
-## 1.2 查看帮助
+## 1.2 版本信息
+
+```properties
+cat /etc/os-release
+cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
+cat /proc/version，说明正在运行的内核版本。
+cat /etc/issue，显示的是发行版本信息
+lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
+```
+
+## 1.3 查看帮助
 
 ```properties
 ls --help  // 显示shell内部的帮助信息
@@ -17,7 +27,7 @@ man ls  // 查看Linux中的指令帮助、配置文件帮助和编程帮助等�
 info ls  // 是man指令的详细内容
 ```
 
-# 2. Linux版本下载
+# 2. 版本下载
 
 [清华大学 TUNA 协会](https://tuna.moe/)
 
@@ -38,7 +48,7 @@ Ubuntu-17.04-desktop-amd64.iso  桌面版系统
 Ubuntu-17.04-server-amd64.iso   服务版系统
 ```
 
-# 3. Linux配置信息
+# 3. 配置信息
 
 ## 3.1 CentOS
 
@@ -48,32 +58,24 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 rpm -qa|grep kernel
 ```
 
-### 3.1.2 版本
-
-```properties
-cat /etc/os-release
-cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
-cat /proc/version，说明正在运行的内核版本。
-cat /etc/issue，显示的是发行版本信息
-lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
-```
-
-### 3.1.3 CPU
+### 3.1.2 CPU
 
 ```properties
 lscpu   // 查看cpu总体信息
 cat /proc/cpuinfo  // 查看内存中保存的每个cpu信息
 ```
 
-### 3.1.4 硬盘
+### 3.1.3 硬盘
 
 ```properties
 lsblk -d -o name,rota    // ROTA是1的表示可以旋转，反之则不能旋转。
 df -hl
 du -sh * | sort -nr
+
+fdisk -l
 ```
 
-### 3.1.5 内存
+### 3.1.4 内存
 
 ```properties
 free
@@ -129,7 +131,7 @@ chmod -R 777 file    // 4+2+1
 
 
 
-# 4. Linux基础配置
+# 4. 基础配置
 
 ## 4.1 CentOS基础软件
 
@@ -137,7 +139,7 @@ CentOS的软件安装工具不是apt-get 是yum，安装基础环境和rz上传�
 
 ```properties
 yum -y update
-yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.*
+yum -y install net-tools wget curl lrzsz lsof nc telnet-server telnet.* rsync
 yum -y install psmisc  # pstree以树结构显示进程
 yum -y install gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install libstdc++-devel
@@ -247,7 +249,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted unive
 sudo apt-get update
 ```
 
-# 6. Linux其它配置
+# 6. 其它配置
 
 ## 6.1 CentOS其它配置
 
@@ -680,6 +682,7 @@ update-rc.d redis defaults
 ```properties
 重新加载配置信息：
 systemctl daemon-reload
+
 启动zookeeper：
 systemctl start zookeeper.service
 关掉zookeeper：
