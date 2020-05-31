@@ -1,4 +1,4 @@
-## 1. Bean的声明
+## 1 Bean的声明
 
 @Component
 
@@ -8,7 +8,7 @@
 
 @Controller
 
-## 2. Bean的注入
+## 2 Bean的注入
 
 @AutoWired：通过 byType 的方式去注入的，使用该注解，要求接口只能有一个实现类。
 

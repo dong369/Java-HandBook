@@ -147,6 +147,7 @@ firewall-cmd --reload
 
 ```properties
 scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
+scp /usr/local/soft/ root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz
 ```
 
 ## 3.2 Rsync

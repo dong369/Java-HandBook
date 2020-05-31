@@ -1,14 +1,14 @@
-# 1 Nginx基础使用
+# 1  基础使用
 
-Stable Version：nginx-1.16.1
+Stable Version：nginx-1.18.0
 
 ## 1.1 官网下载
 
 [下载地址](http://nginx.org/en/download.html)
 
-下面教程使用的版本是：nginx-1.14.2.zip。
+下面教程使用的版本是：nginx-1.18.0.zip。
 
-正向代理代理的是客户端，而且客户端是知道目标的，而目标是不知道客户端是通过VPN访问的；正向代理类似一个跳板机，代理访问外部资源；客户端必须设置正向代理服务器，当然前提是要知道正向代理服务器的IP地址，还有代理程序的端口。
+正向代理代理的是客户端，而且客户端是知道目标的，而目标是不知道客户端是通过VPN访问的；正向代理类似一个**跳板机**，代理访问外部资源；客户端必须设置正向代理服务器，当然前提是要知道正向代理服务器的IP地址，还有代理程序的端口。
 
 反向代理代理的是服务器端，而且这一个过程对于客户端而言是透明的；保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击；大型网站，通常将反向代理作为公网访问地址，Web服务器是内网。负载均衡，通过反向代理服务器来优化网站的负载。
 
@@ -128,9 +128,9 @@ ExecReload=/usr/local/nginx/sbin/nginx -s reload
 ExecStop=/usr/local/nginx/sbin/nginx -s stop
 ```
 
-## 1.5 Nginx.conf
+# 2 Nginx.conf
 
-### 1.5.1 反向代理
+## 2.1 反向代理
 
 ```properties
 # user  nobody;
@@ -156,7 +156,7 @@ http {
 }
 ```
 
-### 1.5.2 负载均衡
+## 2.2 负载均衡
 
 可以实现线上无缝切换服务。
 
@@ -196,7 +196,7 @@ http {
 }
 ```
 
-### 1.5.3 HTTPS配置
+## 2.3 HTTPS配置
 
 ```properties
 # 开启缓存
@@ -247,7 +247,7 @@ server {
 }
 ```
 
-### 1.5.4 Server节点配置
+## 2.4 Server节点配置
 
 ```properties
 server {
@@ -266,7 +266,7 @@ server {
 }
 ```
 
-### 1.5.5 Stream节点配置
+## 2.5 Stream节点配置
 
 ```properties
 worker_processes auto;
@@ -302,13 +302,13 @@ stream {
 }
 ```
 
-### 1.5.6 Root和Alias区别
+## 2.6 Root和Alias区别
 
 一般情况下，在location的/中配置root，在location /other中配置alias是一个好习惯。
 
-root指定的路径注意**真实的路径是root指定的值加上location指定的值**。
+root指定的路径注意真实的路径是root指定的值加上location指定的值。
 
-alias 正如其名，alias指定的路径是location的别名，不管location的值怎么写，资源的**真实路径都是 alias 指定的路径**。
+alias正如其名，alias指定的路径是location的别名，不管location的值怎么写，资源的**真实路径都是 alias 指定的路径**。
 
 区别：alias只能作用在location中，而root可以存在server、htp和location中；alias后面必须要用/结束，否则会找不到文件，而root则对/可有可无
 
@@ -324,17 +324,9 @@ location /c/ {
 注：如果访问站点http://location/c访问的就是/a/c目录下的站点信息，末尾“/”加不加无所谓。
 ```
 
-# 2 Keepalived实现主备切换
+# 3 动静分离部署
 
-TODO 待完善
-
-
-
-# 3 业务使用
-
-## 3.1 动静分离部署
-
-### 3.1.1 前台页面配置
+## 3.1 前台页面配置
 
 ```javascript
 var baseUrl = "192.168.100.12:11601";
@@ -342,7 +334,7 @@ var baseUrl = "192.168.100.12:11601";
 
 > 注意：此处是配置Nginx的地址，不是后台部署服务的地址。
 
-### 3.1.2 Nginx配置
+## 3.2 Nginx配置
 
 1. 全局总配置文件nginx.conf
 
@@ -395,11 +387,11 @@ server {
 }
 ```
 
-## 3.2 Nginx文件上传
+# 4  文件上传
 
 > 可以直接使用spring boot中自带的静态资源访问文件。
 
-### 3.2.1 Java后台配置
+## 4.1 Java后台配置
 
 1. 例如上传图片文件，在spring boot项目中的application.yml配置路径。
 
@@ -563,7 +555,7 @@ public class FileUploadUtils {
 }
 ```
 
-### 3.2.2 Nginx配置
+## 4.2 Nginx配置
 
 1. 在/usr/local/nginx/server/file目录下配置文件file.conf，名字随意，下面配置根据业务自行修改。
 
@@ -576,11 +568,11 @@ server {
 }
 ```
 
-## 3.3 缓存配置
+## 4.3 缓存配置
 
 TODO 待完善
 
-## 3.4重定向问题
+## 4.4 重定向问题
 
 **问题情况：**nginx监听的端口例如是8080，外网开放的端口为80，将80端口NAT到内部的8080端口，这时使用外网地址：http://mydomain/test访问时如果不在域名后面加/，那么域名地址会自动变为http://mydomain:8080/test/。
 

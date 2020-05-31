@@ -262,7 +262,7 @@ Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件�
 
 编辑文件字体：File | Settings | Editor | Font（勾选覆盖字体，选择自己的字体和大小14）
 
-file –> import setttings –> 选中 1 中下载的主题jar文件 –> 一路确认 –> 重启
+file => import setttings => 选中1中下载的主题jar文件 => 一路确认 => 重启
 
 ## 4.2 自动编译
 

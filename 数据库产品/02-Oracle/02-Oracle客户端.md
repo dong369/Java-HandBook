@@ -3,7 +3,7 @@
 Oracle的客户端。
 
 ```sql
-sqlplus sys/bjsxt as sysdba;
+sqlplus system/oracle as sysdba;
 alter user scott account unlock;
 sqlplus /nolog
 connect /as sysdba
