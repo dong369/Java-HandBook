@@ -27,7 +27,7 @@ man ls  // 查看Linux中的指令帮助、配置文件帮助和编程帮助等�
 info ls  // 是man指令的详细内容
 ```
 
-# 2. 版本下载
+# 2 版本下载
 
 [清华大学 TUNA 协会](https://tuna.moe/)
 
@@ -48,7 +48,7 @@ Ubuntu-17.04-desktop-amd64.iso  桌面版系统
 Ubuntu-17.04-server-amd64.iso   服务版系统
 ```
 
-# 3. 配置信息
+# 3 配置信息
 
 ## 3.1 CentOS
 
@@ -104,21 +104,21 @@ free -hl
 
 ```properties
 cat /etc/group
-groupadd esgroup
-groupdel esgroup
+groupadd guoddgroup
+groupdel guoddgroup
 ```
 
 #### 3.3.1.2 用户
 
 ```properties
-useradd -g esgroup esuser -p 123456
-userdel -r esuser        # 删除用户esuser，同时删除他的工作目录
+useradd -g guoddgroup guodd -p passw0rd
+userdel -r guodd # 删除用户guodd，同时删除他的工作目录
 ```
 
 #### 3.3.1.3 文件拥有者
 
 ```properties
-chown -R esuser:esgroup file
+chown -R esuser:guoddgroup file
 ```
 
 #### 3.3.1.4 文件权限
@@ -131,7 +131,7 @@ chmod -R 777 file    // 4+2+1
 
 
 
-# 4. 基础配置
+# 4 基础配置
 
 ## 4.1 CentOS基础软件
 
@@ -181,7 +181,7 @@ su - root：以root身份登录。
 su root/其他命令：与root建立一个连接，通过root执行命令。
 ```
 
-# 5. 配置阿里YUM源
+# 5 配置阿里YUM源
 
 [参考地址](<https://opsx.alibaba.com/?lang=zh-CN>)
 
@@ -249,7 +249,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted unive
 sudo apt-get update
 ```
 
-# 6. 其它配置
+# 6 其它配置
 
 ## 6.1 CentOS其它配置
 
@@ -556,7 +556,7 @@ network:
 sudo apt-get update
 ```
 
-# 7. 软件安装
+# 7 软件安装
 
 ## 7.1 Yum方式
 
@@ -604,7 +604,7 @@ rpm -qa               # 查询所有已安装的rpm包
 rpm -qa | grep 包名    # 可联合grep命令查找
 ```
 
-# 8. 解压/压缩
+# 8 解压/压缩
 
 ## 8.1 tar
 
@@ -651,7 +651,7 @@ unzip -v test.zip
 unzip -d elasticsearch-analysis-ik-7.3.0 elasticsearch-analysis-ik-7.3.0.zip
 ```
 
-# 9. 服务管理
+# 9 服务管理
 
 ## 9.1 Service启动服务
 
@@ -698,7 +698,7 @@ systemctl enable docker.service
 /usr/lib/systemd/system/docker.service
 ```
 
-# 10. 扩展安装
+# 10 扩展安装
 
 ## 10.1 Tmux
 
@@ -714,7 +714,7 @@ yum -y install epel-release
 yum -y install htop
 ```
 
-# 11. SSH免密登录
+# 11 SSH免密登录
 
 ## 11.1 客户机
 
@@ -766,7 +766,7 @@ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ```
 
-# 12. 暴力破解密码
+# 12 暴力破解密码
 
 > 这两种破解方法比较简单，有人可能就想问，既然这么容易就破解了，那linux系统是不是就太不安全了，答案不是这样的，作为服务器，如果都被物理入侵了，那所谓的安全就谈不上了。
 

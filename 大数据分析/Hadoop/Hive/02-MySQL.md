@@ -7,7 +7,7 @@
 	schema(模式，元信息存放到数据库中)，HDFS文件。derby，mysql。
 	数据库和表都是路径。
 
-hive
+1.1 hive
 ------------------
 	类似mysql
 	
@@ -20,7 +20,7 @@ hive
 	$>schematool -initSchema --dbtype derby		//初始化模式
 	$>hive										//初始化模式
 
-常用命令
+1.2 常用命令
 ----------------------	
 	$>!clear ;					//hive中执行shell命令
 	$>!dfs -lsr / ;				//hive中执行hdfs命令
@@ -225,22 +225,24 @@ hive
 	$>hive>desc[ribe] database extended hive3	//显示db信息,不包含扩展信息
 	$>hive>use hive3;							//使用哪个库
 
-分区表
+3.2 分区表
 -----------------
 
 
-托管表
+
+
+3.3 托管表
 ----------------
 	hive默认表都是托管表。hive控制其数据的生命周期。删除托管表时，元数据和数据都被删除。
 
-外部表
+3.4 外部表
 ---------------
 	hive控制元数据。删除托管表时，数据不被删除。
 	create external table hive1.test3 like hive1.test1 ;
 
 
 
-## Beeline客户端
+## 3.5 Beeline客户端
 
 使用beeline客户端可以实现远程jdbc连接
 
@@ -252,13 +254,13 @@ hive
 		$beenline>!help;						//帮助
 		$beenline>!dbinfo						//帮助
 
-配置hive的仓库位置
+3.6 配置hive的仓库位置
 ---------------------
 	[hive-site.xml]
 	hive.metastore.warehouse.dir=/user/hive/warehouse/
 
 
-hive数据类型
+3.7 hive数据类型
 ----------------------
 	类型			Size					案例
 TINYINT		1 byte signed integer.				20				//byte
@@ -278,7 +280,7 @@ STRUCT		struct('John', 'Doe')
 MAP			map('first', 'John','last', 'Doe')
 ARRAY		array('John', 'Doe')
 
-Hive所谓的读模式
+3.8 Hive所谓的读模式
 -----------------------
 	hive在写操作是不校验，读时校验。
 
