@@ -241,3 +241,9 @@ echo '/dev/vdb1 /data0 ext3 defaults 0 0' >> /etc/fstab
 lsblk
 ```
 
+# 7 Git
+
+```properties
+yum install -y git
+```
+
