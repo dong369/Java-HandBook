@@ -13,10 +13,12 @@
 
 ```properties
 cat /etc/os-release
-cat /etc/redhat-release，Linux查看版本当前操作系统发行版信息
-cat /proc/version，说明正在运行的内核版本。
-cat /etc/issue，显示的是发行版本信息
-lsb_release -a，适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
+uname -r // 内核信息
+cat /etc/redhat-release // Linux查看版本当前操作系统发行版信息
+cat /proc/version // 说明正在运行的内核版本。
+
+cat /etc/issue // 显示的是发行版本信息
+lsb_release -a // 适用于所有的linux，包括Redhat、SuSE、Debian等发行版，但是在debian下要安装lsb
 ```
 
 ## 1.3 查看帮助
@@ -27,28 +29,49 @@ man ls  // 查看Linux中的指令帮助、配置文件帮助和编程帮助等�
 info ls  // 是man指令的详细内容
 ```
 
+## 1.4 系统结构
+
+```properties
+/usr/local	// 用户级的程序目录，可以理解为C:/Progrem Files/，编译软件安装到该目录下，默认安装目录。
+/opt        // 用户级的程序目录，可以理解为D:/dev/soft，opt有可选的意思，可以用于放置第三方大型软件（或游戏），当你不需要时，直接rm -rf掉即可。
+/etc		// 配置文件目录.	
+/home		// 主目录，/home/ubuntu  /home/ubuntu2,...
+/bin		// 二进制文件目录
+/sbin		// 二进制文件目录
+/dev		// device,设备目录,光驱，磁盘，分区...	
+/lib		// 库文件,共享对象文件(so---shared object,等价于dll文件。)	
+/meida
+/mnt	
+/root		// root用户的主目录
+/usr		// user用户
+/usr/bin	// 可执行文件
+/usr/sbin	// 可执行文件	
+/usr/local/bin	//
+/usr/local/sbin	//
+```
+
 # 2 版本下载
 
 [清华大学 TUNA 协会](https://tuna.moe/)
 
 [阿里巴巴开源镜像站](https://opsx.alibaba.com/)
 
-[网易开源镜像站](https://link.jianshu.com/?t=http://mirrors.163.com/)
+[网易开源镜像站](http://mirrors.163.com/)
 
 ## 2.1 CentOS系统
 ```properties
-CentOS-6.4-x86_64-netinstall.iso    网络安装镜像
-CentOS-6.4-x86_64-minimal.iso       最小化安装，只安装必须的软件，类似于精简版，无桌面界面
-CentOS-6.4-x86_64-bin-DVD1.iso      完整版的安装盘 
-CentOS-6.4-x86_64-bin-DVD2.iso      对完整版安装盘的软件进行补充和升级。
+CentOS-6.4-x86_64-minimal.iso       // 最小化安装，安装必须的软件，类似于精简版，无桌面界面（推荐）
+CentOS-6.4-x86_64-netinstall.iso    // 网络安装镜像
+CentOS-6.4-x86_64-bin-DVD1.iso      // 完整版的安装盘 
+CentOS-6.4-x86_64-bin-DVD2.iso      // 对完整版安装盘的软件进行补充和升级。
 ```
 ## 2.2 Ubuntu系统
 ```properties
-Ubuntu-17.04-desktop-amd64.iso  桌面版系统
-Ubuntu-17.04-server-amd64.iso   服务版系统
+Ubuntu-17.04-server-amd64.iso   // 服务版系统，无桌面界面（推荐）
+Ubuntu-17.04-desktop-amd64.iso  // 桌面版系统
 ```
 
-# 3 配置信息
+# 3 系统配置
 
 ## 3.1 CentOS
 
@@ -56,6 +79,7 @@ Ubuntu-17.04-server-amd64.iso   服务版系统
 
 ```properties
 rpm -qa|grep kernel
+uname -r
 ```
 
 ### 3.1.2 CPU
@@ -82,17 +106,21 @@ free
 free -hl
 ```
 
-## 3.2 Ubunto系统版本
+## 3.2 Ubunto
 
-### 3.2.1 系统内核
-
-
-
-### 3.2.2 系统信息
+### 3.2.1 内核
 
 
 
-### 3.2.3 CPU信息
+### 3.2.2 CPU
+
+
+
+### 3.2.3 硬盘
+
+
+
+### 3.2.3 内存
 
 
 
@@ -103,22 +131,23 @@ free -hl
 #### 3.3.1.1 用户组
 
 ```properties
-cat /etc/group
-groupadd guoddgroup
-groupdel guoddgroup
+cat /etc/group // 查看用户组
+groupadd guoddgroup // 添加用户组
+groupdel guoddgroup // 删除用户组
 ```
 
 #### 3.3.1.2 用户
 
 ```properties
-useradd -g guoddgroup guodd -p passw0rd
-userdel -r guodd # 删除用户guodd，同时删除他的工作目录
+useradd -g guoddgroup guodd -p passw0rd // 添加用户
+userdel -r guodd // 删除用户guodd，同时删除他的工作目录
+passwd guodd // 进行密码修改
 ```
 
 #### 3.3.1.3 文件拥有者
 
 ```properties
-chown -R esuser:guoddgroup file
+chown -R guodd:guoddgroup file
 ```
 
 #### 3.3.1.4 文件权限

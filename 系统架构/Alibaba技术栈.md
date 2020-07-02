@@ -301,7 +301,7 @@ Alibaba Cloud SMS：覆盖全球的短信服务，友好、高效、智能的互
 | 服务熔断                     | alibaba-sentinel                | V1.7.2   | [Sentinel官网](https://sentinelguard.io/zh-cn/index.html)   |
 | 路由网关                     | spring cloud gateway            |          |                                                             |
 | 消息队列                     | alibaba-rocketmq                | V4.7.0   | [RocketMq官网](http://rocketmq.apache.org/)                 |
-| 调用链监控                   | skywalking                      | V7.0     | [Skywalking官网](http://skywalking.apache.org/)             |
+| 调用链监控                   | skywalking                      | V8.0     | [Skywalking官网](http://skywalking.apache.org/)             |
 | 认证授权                     | JWT oauth2                      |          |                                                             |
 | 信息检索                     | Elastic Stack                   | V7.3     | [Elastk-Stack官网](https://www.elastic.co/guide/index.html) |
 | 时序监控                     | Prometheus                      |          |                                                             |
@@ -1507,7 +1507,7 @@ sentinel共有三种流控模式，分别是：
 
 目前官方还未发布SCA 2.1.2.RELEASE，所以我们只能使用2.1.1.RELEASE，需要写代码的形式实现
 
-(1) 暂时将SpringCloud Alibaba的版本调整为2.1.1.RELEASE
+1、暂时将SpringCloud Alibaba的版本调整为2.1.1.RELEASE
 
 ```java
 @Service
@@ -1519,43 +1519,11 @@ public class OrderServiceImpl3 {
 }
 ```
 
-```
-@RestController
-@Slf4j
-public class OrderController3 {
-```
+2、配置文件中关闭sentinel的CommonFilter实例化
 
-```
-@Autowired
-private OrderServiceImpl3 orderServiceImpl3;
-```
+3、添加一个配置类，自己构建CommonFilter实例
 
-```
-@RequestMapping("/order/message1")
-public String message1() {
-orderServiceImpl3.message();
-return "message1";
-}
-```
-
-```
-@RequestMapping("/order/message2")
-public String message2() {
-orderServiceImpl3.message();
-return "message2";
-}
-}
-```
-
-```
-<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
-```
-
-(2) 配置文件中关闭sentinel的CommonFilter实例化
-
-(3) 添加一个配置类，自己构建CommonFilter实例
-
-第 4 步: 控制台配置限流规则
+4、控制台配置限流规则
 
 ```
 spring:
@@ -1565,38 +1533,13 @@ spring:
 				enabled: false
 ```
 
-```
-package com.itheima.config;
-```
 
-```
-import com.alibaba.csp.sentinel.adapter.servlet.CommonFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-```
-
-```
-@Configuration
-public class FilterContextConfig {
-```
 
 ```java
-@Bean
-public FilterRegistrationBean sentinelFilterRegistration() {
-FilterRegistrationBean registration = new FilterRegistrationBean();
-registration.setFilter(new CommonFilter());
-registration.addUrlPatterns("/*");
-// 入口资源关闭聚合
-registration.addInitParameter(CommonFilter.WEB_CONTEXT_UNIFY, "false");
-registration.setName("sentinelFilter");
-registration.setOrder(1);
-return registration;
-}
-}
+
 ```
 
-第 5 步: 分别通过/order/message1和/order/message2访问, 发现 2 没问题, 1的被限流了
+5、分别通过/order/message1和/order/message2访问, 发现 2 没问题, 1的被限流了
 
 #### 5.6.1.3 配置流控效果
 
@@ -1616,22 +1559,9 @@ Warm Up：它从开始阈值到最大QPS阈值会有一个缓冲阶段，一开�
 
 异常比例：当资源的每秒异常总数占通过量的比值超过阈值之后，资源进入降级状态，即在接下的时间窗口（以 s 为单位）之内，对这个方法的调用都会自动地返回。异常比率的阈值范围是 [0.0,1.0]。
 
-第 1 步: 首先模拟一个异常
+1、首先模拟一个异常
 
-第 2 步: 设置异常比例为0.25
-
-```
-int i = 0;
-@RequestMapping("/order/message2")
-public String message2() {
-i++;
-//异常比例为 0 .333
-if (i % 3 == 0){
-throw new RuntimeException();
-}
-return "message2";
-}
-```
+2、设置异常比例为0.25
 
 异常数 ：当资源近 1 分钟的异常数目超过阈值之后会进行服务降级。注意由于统计时间窗口是分钟级别的，若时间窗口小于 60s，则结束熔断状态后仍可能再进入熔断状态。
 
@@ -1672,24 +1602,17 @@ public String message3(String name, Integer age) {
 
 只要Sentinel保护的接口资源被访问，Sentinel就会调用RequestOriginParser的实现类去解析访问来源。
 
-第 1 步: 自定义来源处理规则
+1、自定义来源处理规则
 
 ```java
-@Component
-public class RequestOriginParserDefinition implements RequestOriginParser{
-@Override
-public String parseOrigin(HttpServletRequest request) {
-String serviceName = request.getParameter("serviceName");
-return serviceName;
-}
-}
+
 ```
 
-第 2 步: 授权规则配置
+2、授权规则配置
 
 这个配置的意思是只有serviceName=pc不能访问(黑名单)
 
-第 3 步: 访问 http://localhost:8091/order/message1?serviceName=pc观察结果
+3、访问 http://localhost:8091/order/message1?serviceName=pc观察结果
 
 ### 5.6.5 系统规则
 
@@ -1991,13 +1914,13 @@ Spring Cloud Gateway是Spring公司基于Spring 5.0，Spring Boot 2.0 和 Projec
 
 需要Spring Boot 2.0及以上的版本，才支持
 
-## 6.3 Gateway快速入门
+## 6.3 快速入门
 
 要求: 通过浏览器访问api网关,然后通过网关将请求转发到商品微服务
 
 ### 6.3.1 基础版
 
-第1步：创建一个api-gateway的模块，导入相关依赖，如果提示没有导入成功，执行install命令，特别注意此处不能添加spring boot的web包。
+第1步：创建一个api-gateway的模块，导入相关依赖，如果提示没有导入成功，执行install命令，**特别注意此处不能添加spring boot的web包。**
 
 ```java
 <dependency>
@@ -2047,10 +1970,10 @@ spring:
       routes: # 路由数组[路由就是指定当请求满足什么条件的时候转到哪个微服务]
         - id: product_route # 当前路由的标识, 要求唯一，默认UUID
           uri: http://localhost:8081 # 请求最终要转发到的地址
-          order: 1 # 路由的优先级,数字越小级别越高
-          predicates: # 断言(就是路由转发要满足的条件)
+          order: 1 # 路由的优先级，数字越小级别越高
+          predicates: # 断言（就是路由转发要满足的条件）
             - Path=/product-serv/** # 当请求路径满足Path指定的规则时，才进行路由转发
-          filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
+          filters: # 过滤器，请求在传递过程中可以通过过滤器对其进行一定的修改
             - StripPrefix=1 # 转发之前去掉1层路径
 ```
 
@@ -2060,7 +1983,7 @@ spring:
 
 现在在配置文件中写死了转发路径的地址, 前面我们已经分析过地址写死带来的问题, 接下来我们从注册中心获取此地址。
 
-第 1 步：加入nacos依赖
+第1步：加入nacos依赖
 
 ```java
 <!-- nacos客户端 -->
@@ -2070,9 +1993,9 @@ spring:
 </dependency>
 ```
 
-第 2 步：在主类上添加注解
+第2步：在主类上添加注解
 
-第 3 步：修改配置文件
+第3步：修改配置文件
 
 ```java
 server:
@@ -2088,10 +2011,10 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true # 让gateway可以发现nacos中的微服务
+          enabled: true # 让gateway可以发现nacos中拉取微服务列表
       routes:
         - id: product_route
-          uri: lb://yl-base-product # lb指的是从nacos中按照名称获取微服务,并遵循负载均衡策略
+          uri: lb://yl-base-product # lb指的是从nacos中按照名称获取微服务，并遵循负载均衡策略
           order: 1
           predicates:
             - Path=/yl-base-product/**
@@ -2099,82 +2022,109 @@ spring:
             - StripPrefix=1
 ```
 
-第 4 步:测试
+第4步：测试
 
 
 ### 5.3.3 简写版
 
-第 1 步: 去掉关于路由的配置
+第1步：去掉关于路由的配置
 
 第 2 步: 启动项目，并通过网关去访问微服务
 
-这时候，就发现只要按照网关地址/微服务/接口 的格式去访问，就可以得到成功响应。
+这时候，就发现只要按照网关地址/微服务/接口的格式去访问，就可以得到成功响应。
 
-## 5.4 Gateway核心架构
+```properties
+server:
+  port: 7000
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.10.60:8848
+        namespace: dev
+    gateway:
+      discovery:
+        locator:
+          enabled: true # 让gateway可以发现nacos中拉取微服务列表
+```
 
-### 5.4.1 基本概念
+## 6.4 核心架构
 
-路由(Route) 是 gateway 中最基本的组件之一，表示一个具体的路由信息载体。主要定义了下面的几个信息:
+### 6.4.1 基本概念
 
-id ，路由标识符，区别于其他 Route。
+路由(Route) 是 gateway中最基本的组件之一，表示一个具体的路由信息载体。
 
-uri ，路由指向的目的地 uri，即客户端请求最终被转发到的微服务。
+主要定义了下面的几个信息：
 
-order ，用于多个 Route 之间的排序，数值越小排序越靠前，匹配优先级越高。
+- id：路由标识符，区别于其他Route，默认是UUID。
 
-predicate ，断言的作用是进行条件判断，只有断言都返回真，才会真正的执行路由。
 
-filter ，过滤器用于修改请求和响应信息。
+- uri：路由指向的目的地uri，即客户端请求最终被转发到的微服务。
 
-### 5.4.2 执行流程
+
+- order：用于多个Route之间的排序，数值越小排序越靠前，匹配优先级越高。
+
+
+- predicate：断言的作用是进行**条件判断**，只有断言都返回真，才会真正的执行路由。
+
+
+- filter：过滤器用于修改请求和响应信息。
+
+
+### 6.4.2 执行流程
 
 执行流程大体如下：
 
-1. Gateway Client向Gateway Server发送请求
+1、Gateway Client向Gateway Server发送请求
 
-2. 请求首先会被HttpWebHandlerAdapter进行提取组装成网关上下文
+2、请求首先会被HttpWebHandlerAdapter进行提取组装成网关上下文
 
-3. 然后网关的上下文会传递到DispatcherHandler，它负责将请求分发给
+3、然后网关的上下文会传递到DispatcherHandler，它负责将请求**分发**给RoutePredicateHandlerMapping
 
-RoutePredicateHandlerMapping
+4、RoutePredicateHandlerMapping负责路由查找，并根据**路由断言判断**路由是否可用
 
-4. RoutePredicateHandlerMapping负责路由查找，并根据路由断言判断路由是否可用
+5、如果过断言成功，由FilteringWebHandler创建过滤器链并调用
 
-5. 如果过断言成功，由FilteringWebHandler创建过滤器链并调用
+6、请求会一次经过PreFilter--微服务--PostFilter的方法，最终返回响应
 
-6. 请求会一次经过PreFilter--微服务--PostFilter的方法，最终返回响应
+## 6.5 断言
 
-## 5.5 断言
+Predicate（断言, 谓词）：用于进行条件判断，只有断言都返回真，才会真正的执行路由。
 
-Predicate(断言, 谓词) 用于进行条件判断，只有断言都返回真，才会真正的执行路由。
+断言就是说：在什么条件下才能进行路由转发
 
-断言就是说: 在 什么条件下 才能进行路由转发
+### 6.5.1 内置路由断言工厂
 
-### 5.5.1 内置路由断言工厂
+SpringCloud Gateway包括许多内置的断言工厂，所有这些断言都与HTTP请求的不同属性匹配。具体如下：
 
-SpringCloud Gateway包括许多内置的断言工厂，所有这些断言都与HTTP请求的不同属性匹配。具体
+- 基于Datetime类型的断言工厂
 
-如下：
-
-基于Datetime类型的断言工厂
 
 此类型的断言根据时间做判断，主要有三个：
 
-AfterRoutePredicateFactory： 接收一个日期参数，判断请求日期是否晚于指定日期
+AfterRoutePredicateFactory：接收一个日期参数，判断请求日期是否晚于指定日期
 
-BeforeRoutePredicateFactory： 接收一个日期参数，判断请求日期是否早于指定日期
+BeforeRoutePredicateFactory：接收一个日期参数，判断请求日期是否早于指定日期
 
-BetweenRoutePredicateFactory： 接收两个日期参数，判断请求日期是否在指定时间段内
+BetweenRoutePredicateFactory：接收两个日期参数，判断请求日期是否在指定时间段内
 
--After=2019-12-31T23:59:59.789+08:00[Asia/Shanghai]
+```properties
+- Before=2019-12-31T23:59:59.789+08:00[Asia/Shanghai]
+- After=2019-12-31T23:59:59.789+08:00[Asia/Shanghai]
+```
 
-基于远程地址的断言工厂 RemoteAddrRoutePredicateFactory：接收一个IP地址段，判断请求主
+- 基于远程地址的断言工厂
 
-机地址是否在地址段中
+ RemoteAddrRoutePredicateFactory：接收一个IP地址段，判断请求主机地址是否在地址段中
 
--RemoteAddr=192.168.1.1/24
+```properties
+- RemoteAddr=192.168.1.1/24
+```
 
-基于Cookie的断言工厂
+- 基于Cookie的断言工厂
+
 
 CookieRoutePredicateFactory：接收两个参数，cookie 名字和一个正则表达式。 判断请求
 
@@ -2182,7 +2132,8 @@ cookie是否具有给定名称且值与正则表达式匹配。
 
 -Cookie=chocolate, ch.
 
-基于Header的断言工厂
+- 基于Header的断言工厂
+
 
 HeaderRoutePredicateFactory：接收两个参数，标题名称和正则表达式。 判断请求Header是否
 
@@ -2190,25 +2141,29 @@ HeaderRoutePredicateFactory：接收两个参数，标题名称和正则表达�
 
 -Header=X-Request-Id, \d+
 
-基于Host的断言工厂
+- 基于Host的断言工厂
+
 
 HostRoutePredicateFactory：接收一个参数，主机名模式。判断请求的Host是否满足匹配规则。
 
 -Host=**.testhost.org
 
-基于Method请求方法的断言工厂
+- 基于Method请求方法的断言工厂
+
 
 MethodRoutePredicateFactory：接收一个参数，判断请求类型是否跟指定的类型匹配。
 
 -Method=GET
 
-基于Path请求路径的断言工厂
+- 基于Path请求路径的断言工厂
+
 
 PathRoutePredicateFactory：接收一个参数，判断请求的URI部分是否满足路径规则。
 
 -Path=/foo/{segment}
 
-基于Query请求参数的断言工厂
+- 基于Query请求参数的断言工厂
+
 
 QueryRoutePredicateFactory ：接收两个参数，请求param和正则表达式， 判断请求参数是否具
 
@@ -2216,7 +2171,8 @@ QueryRoutePredicateFactory ：接收两个参数，请求param和正则表达式
 
 -Query=baz, ba.
 
-基于路由权重的断言工厂
+- 基于路由权重的断言工厂
+
 
 WeightRoutePredicateFactory：接收一个[组名,权重], 然后对于同一个组内的路由按照权重转发
 
@@ -2238,109 +2194,115 @@ routes:
 
 接下来我们验证几个内置断言的使用:
 
-### 5.5.2 自定义路由断言工厂
+### 6.5.2 自定义路由断言工厂
 
 我们来设定一个场景: 假设我们的应用仅仅让age在(min,max)之间的人来访问。
 
-第 1 步：在配置文件中,添加一个Age的断言配置
+第1步：在配置文件中，添加一个Age的断言配置
 
-第 2 步：自定义一个断言工厂, 实现断言方
+第2步：自定义一个断言工厂, 实现断言方
 
-```
-package com.itheima.predicates;
-//泛型 用于接收一个配置类,配置类用于接收中配置文件中的配置
+```java
+package com.io.predicates;
+
+import lombok.Data;
+import org.springframework.cloud.gateway.handler.predicate.AbstractRoutePredicateFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.server.ServerWebExchange;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+/**
+ * The class/interface 自定义路由断言工厂
+ * 1、在配置文件中，添加一个Age的断言配置
+ * 2、自定义一个断言工厂, 实现断言方
+ *
+ * @author guodd
+ * @version 1.0 use jdk 1.8
+ */
 @Component
-public class AgeRoutePredicateFactory
-extends AbstractRoutePredicateFactory<AgeRoutePredicateFactory.Config> {
-```
+public class AgeRoutePredicateFactory extends AbstractRoutePredicateFactory<AgeRoutePredicateFactory.Config> {
 
-```
-public AgeRoutePredicateFactory() {
-super(AgeRoutePredicateFactory.Config.class);
+    // 构造器
+    public AgeRoutePredicateFactory() {
+        super(AgeRoutePredicateFactory.Config.class);
+    }
+
+    // 读取配置文件，将值赋值到配置类的属性上
+    @Override
+    public List<String> shortcutFieldOrder() {
+        // 这文件是有顺序
+        return Arrays.asList("minAge", "maxAge");
+    }
+
+    // 断言逻辑
+    @Override
+    public Predicate<ServerWebExchange> apply(AgeRoutePredicateFactory.Config config) {
+        return new Predicate<ServerWebExchange>() {
+            @Override
+            public boolean test(ServerWebExchange serverWebExchange) {
+                // 接受前台参数值
+                String age = serverWebExchange.getRequest().getQueryParams().getFirst("age");
+                if (!StringUtils.isEmpty(age)) {
+                    int ageInt = Integer.parseInt(age);
+                    return ageInt < config.getMaxAge() && ageInt > config.getMinAge();
+                }
+                return false;
+            }
+        };
+    }
+
+    @Data
+    public static class Config {
+        /**
+         * 属性描述：最小年龄
+         */
+        private Integer minAge;
+
+        /**
+         * 属性描述：最大年龄
+         */
+        private Integer maxAge;
+    }
 }
 ```
 
-```
-//用于从配置文件中获取参数值赋值到配置类中的属性上
-@Override
-public List<String> shortcutFieldOrder() {
-//这里的顺序要跟配置文件中的参数顺序一致
-return Arrays.asList("minAge", "maxAge");
-}
-```
+第3步：启动测试
 
-```
-//断言
-@Override
-public Predicate<ServerWebExchange> apply(AgeRoutePredicateFactory.Config
-config) {
-return new Predicate<ServerWebExchange>() {
-@Override
-public boolean test(ServerWebExchange serverWebExchange) {
-//从s erverWebExchange获取传入的参数
-```
-
-第 4 步：启动测试
-
-## 5.6 过滤器
-
-三个知识点:
-
-1 作用: 过滤器就是在请求的传递过程中,对请求和响应做一些手脚
-
-2 生命周期: Pre Post
-
-3 分类: 局部过滤器(作用在某一个路由上) 全局过滤器(作用全部路由上)
-
-在Gateway中, Filter的生命周期只有两个：“pre” 和 “post”。
-
-PRE： 这种过滤器在请求被路由之前调用。我们可利用这种过滤器实现身份验证、在集群中选择
-
-请求的微服务、记录调试信息等。
-
-POST：这种过滤器在路由到微服务以后执行。这种过滤器可用来为响应添加标准的HTTP
-
-Header、收集统计信息和指标、将响应从微服务发送给客户端等。
-
-```
-String ageS tr =
-```
-
-```
-serverWebExchange.getRequest().getQueryParams().getFirst("age");
-if (StringUtils.isNotEmpty(ageStr)) {
-int age = Integer.parseInt(ageStr);
-return age > config.getMinAge() && age < config.getMaxAge();
-}
-return true ;
-}
-};
-}
-}
-```
-
-```
-//自定义一个配置类, 用于接收配置文件中的参数
-@Data
-class Config {
-private int minAge;
-private int maxAge;
-}
-```
-
-```
+```properties
 #测试发现当age在( 20,60)可以访问,其它范围不能访问
 http://localhost:7000/product-serv/product/1?age=30
 http://localhost:7000/product-serv/product/1?age=10
 ```
 
-Gateway 的Filter从作用范围可分为两种: GatewayFilter与GlobalFilter。
+## 6.6 过滤器
+
+三个知识点:
+
+1、作用: 过滤器就是在请求的传递过程中,对请求和响应做一些手脚
+
+2、生命周期：Pre、Post
+
+3、分类：局部过滤器（作用在某一个路由上） 、全局过滤器（作用全部路由上）
+
+在Gateway中, Filter的生命周期只有两个：“pre” 和 “post”。
+
+PRE： 这种过滤器在请求被路由之前调用。我们可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。
+
+POST：这种过滤器在路由到微服务以后执行。这种过滤器可用来为响应添加标准的HTTP
+
+Header、收集统计信息和指标、将响应从微服务发送给客户端等。
+
+Gateway 的Filter从作用范围可分为两种：GatewayFilter与GlobalFilter。
 
 GatewayFilter：应用到单个路由或者一个分组的路由上。
 
 GlobalFilter：应用到所有的路由上。
 
-### 5.6.1 局部过滤器
+### 6.6.1 局部过滤器
 
 局部过滤器是针对单个路由的过滤器。
 
@@ -2348,193 +2310,54 @@ GlobalFilter：应用到所有的路由上。
 
 在SpringCloud Gateway中内置了很多不同类型的网关路由过滤器。具体如下：
 
+| 过滤器工厂 | 作用 | 参数 |
+| ---------- | ---- | ---- |
+|            |      |      |
+|            |      |      |
+|            |      |      |
+
 内置局部过滤器的使用
 
-#### 5.6.1.2 自定义局部过滤器
+#### 6.6.1.2 自定义局部过滤器
+
+```yaml
 
 ```
-server:
-port: 7000
-spring:
-application:
-name: api-gateway
-cloud:
-nacos:
-discovery:
-server-addr: localhost:8848
-gateway:
-discovery:
-locator:
-enabled: true
-routes:
-```
 
-- id: product_route
-  uri: lb://service-product
-  order: 1
-  predicates:
-  - Path=/product-serv/**
-    filters:
-  - StripPrefix=1
-  - SetStatus=2000 # 修改返回状态
+1、在配置文件中,添加一个Log的过滤器配置
 
-第 1 步：在配置文件中,添加一个Log的过滤器配置
+2、自定义一个过滤器工厂,实现方法
 
-第 2 步：自定义一个过滤器工厂,实现方法
+3、启动测试
 
-```
-spring:
-application:
-name: gateway
-cloud:
-nacos:
-discovery:
-server-addr: 127.0.0.1:8848
-gateway:
-discovery:
-locator:
-enabled: true
-routes:
-```
+### 6.6.2 全局过滤器
 
-- id: consumer
-  order: -1
-    uri: lb://consumer
-    predicates:
-    - Path=/consumer-serv/**
-      filters:
-    - StripPrefix=1
-    - Log=true,false # 控制日志是否开启
+全局过滤器作用于所有路由, 无需配置。通过全局过滤器可以实现对权限的统一校验，安全性验证等功能。
 
-//自定义局部过滤器
-
-```
-@Component
-public class LogGatewayFilterFactory
-extends AbstractGatewayFilterFactory<LogGatewayFilterFactory.Config> {
-```
-
-```
-//构造函数
-public LogGatewayFilterFactory() {
-super(LogGatewayFilterFactory.Config.class);
-}
-```
-
-```
-//读取配置文件中的参数 赋值到 配置类中
-@Override
-public List<String> shortcutFieldOrder() {
-return Arrays.asList("consoleLog", "cacheLog");
-}
-```
-
-```
-//过滤器逻辑
-@Override
-public GatewayFilter apply(LogGatewayFilterFactory.Config config) {
-return new GatewayFilter() {
-@Override
-public Mono<Void> filter(ServerWebExchange exchange,
-GatewayFilterChain chain) {
-if (config.isCacheLog()) {
-```
-
-第 3 步：启动测试
-
-### 5.6.2 全局过滤器
-
-全局过滤器作用于所有路由, 无需配置。通过全局过滤器可以实现对权限的统一校验，安全性验证等功
-
-能。
-
-#### 5.6.2.1 内置全局过滤器
+#### 6.6.2.1 内置全局过滤器
 
 SpringCloud Gateway内部也是通过一系列的内置全局过滤器对整个路由转发进行处理如下：
 
-#### 5.6.2.2 自定义全局过滤器
+#### 6.6.2.2 自定义全局过滤器
 
-内置的过滤器已经可以完成大部分的功能，但是对于企业开发的一些业务功能处理，还是需要我们
-
-自己编写过滤器来实现的，那么我们一起通过代码的形式自定义一个过滤器，去完成统一的权限校验。
+内置的过滤器已经可以完成大部分的功能，但是对于企业开发的一些业务功能处理，还是需要我们自己编写过滤器来实现的，那么我们一起通过代码的形式自定义一个过滤器，去完成统一的权限校验。
 
 开发中的鉴权逻辑：
 
-```
-System.out.println("cacheLog已经开启了....");
-}
-if (config.isConsoleLog()) {
-System.out.println("consoleLog已经开启了....");
-}
-```
+- 当客户端第一次请求服务时，服务端对用户进行信息认证（登录）
 
-```
-return chai n.filter(exchange);
-}
-};
-}
-```
+- 认证通过，将用户信息进行加密形成token，返回给客户端，作为登录凭证
 
-```
-//配置类 接收配置参数
-@Data
-@NoArgsConstructor
-public static class Config {
-private boolean consoleLog;
-private boolean cacheLog;
-}
-}
-```
-
-当客户端第一次请求服务时，服务端对用户进行信息认证（登录）
-
-认证通过，将用户信息进行加密形成token，返回给客户端，作为登录凭证
-
-以后每次请求，客户端都携带认证的token
-
-服务端对token进行解密，判断是否有效。
+- 以后每次请求，客户端都携带认证的token
+- 服务端对token进行解密，判断是否有效。
 
 如上图，对于验证用户是否已经登录鉴权的过程可以在网关统一检验。
 
 检验的标准就是请求中是否携带token凭证以及token的正确性。
 
-下面的我们自定义一个GlobalFilter，去校验所有请求的请求参数中是否包含“token”，如何不包含请求
+下面的我们自定义一个GlobalFilter，去校验所有请求的请求参数中是否包含“token”，如何不包含请求参数“token”则不转发路由，否则执行正常的逻辑。
 
-参数“token”则不转发路由，否则执行正常的逻辑。
-
-```
-package com.itheima.filters;
-```
-
-```
-//自定义全局过滤器需要实现GlobalFilter和O rdered接口
-@Component
-public class AuthGlobalFilter implements GlobalFilter, Ordered {
-```
-
-```
-//完成判断逻辑
-@Override
-public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain
-chain) {
-String token = exchange.getRequest().getQueryParams().getFirst("token");
-if (StringUtils.isBlank(token)) {
-System.out.prin tln("鉴权失败");
-exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-return exchange.getResponse().setComplete();
-}
-//调用chain.filter继续向下游执行
-return chain.filter(exchange);
-}
-```
-
-```
-//顺序,数值越小,优先级越高
-@Override
-public int getOrder() {
-```
-
-## 5.7 网关限流
+## 6.7 网关限流
 
 网关是所有请求的公共入口，所以可以在网关进行限流，而且限流的方式也很多，我们本次采用前面学过的Sentinel组件来实现网关的限流。Sentinel支持对SpringCloud Gateway、Zuul等主流网关进行限流。
 
@@ -2544,143 +2367,23 @@ route维度：即在Spring配置文件中配置的路由条目，资源名为对
 
 自定义API维度：用户可以利用Sentinel提供的API来自定义一些API分组
 
-1 导入依赖
+1、导入依赖
 
-2 编写配置类
-
-基于Sentinel 的Gateway限流是通过其提供的Filter来完成的，使用时只需注入对应的
-
-SentinelGatewayFilter实例以及 SentinelGatewayBlockExceptionHandler 实例即可。
-
-aa
+```properties
 
 ```
-return 0;
-}
-}
-```
 
-```
-<dependency>
-<groupId>com.alibaba.csp</groupId>
-<artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
-</dependency>
-```
+2、编写配置类
 
-```
-@Configuration
-public class GatewayConfiguration {
-```
+基于Sentinel 的Gateway限流是通过其提供的Filter来完成的，使用时只需注入对应的SentinelGatewayFilter实例以及 SentinelGatewayBlockExceptionHandler 实例即可。
 
-```
-private final List<ViewResolver> viewResolvers;
-```
-
-private final ServerCodecConfigurer serverCodecConfigurer;
-
-public GatewayConfiguration(ObjectProvider<List<ViewResolver>>
-viewResolversProvider,
-ServerCodecConfigurer serverCodecConfigurer) {
-this.viewResolvers =
-viewResolversProvider.getIfAvailable(Collections::emptyList);
-this.serverCodecConfigurer = serverCodecConfigurer;
-}
-
-// 初始化一个限流的过滤器
-@Bean
-@Order(Ordered.HIGHEST_PRECEDENCE)
-public GlobalFilter sentinelGatewayFilter() {
-return new SentinelGatewayFilter();
-}
-
-// 配置初始化的限流参数
-
-@PostConstruct
-public void initGatewayRules() {
-Set<GatewayFlowRule> rules = new HashSet<>();
-rules.add(
-new GatewayFlowRule("product_route") //资源名称,对应路由id
-.setCount(1) // 限流阈值
-.setIntervalSec(1) // 统计时间窗口，单位是秒，默认是 1 秒
-);
-GatewayRuleManager.loadRules(rules);
-}
-
-// 配置限流的异常处理器
-@Bean
-@Order(Ordered.HIGHEST_PRECEDENCE)
-public SentinelGatewayBlockExceptionHandler
-sentinelGatewayBlockExceptionHandler() {
-return new SentinelGatewayBlockExceptionHandler(viewResolvers,
-serverCodecConfigurer);
-}
-
-// 自定义限流异常页面
-@PostConstruct
-public void initBlockHandlers() {
-BlockRequestHandler blockRequestHandler = new BlockRequestHandler() {
-public Mono<ServerResponse> handleRequest(ServerWebExchange
-serverWebExchange, Throwable throwable) {
-Map map = new HashMap<>();
-map.put("code", 0);
-map.put("message", "接口被限流了");
-return ServerResponse.status(HttpStatus.OK).
-
-3 测试
+3、测试
 
 在一秒钟内多次访问http://localhost:7000/product-serv/product/1就可以看到限流启作用了。
 
-4 自定义API分组
+4、自定义API分组
 
 自定义API分组是一种更细粒度的限流规则定义
-
-```
-contentType(MediaType.APPLICATION_JSON_UTF8).
-body(BodyInserters.fromObject(map));
-}
-};
-GatewayCallbackManager.setBlockHandler(blockRequestHandler);
-}
-}
-```
-
-/**
-
-* 配置初始化的限流参数
-
-*/
-
-```
-@PostConstruct
-public void initGatewayRules() {
-Set<GatewayFlowRule> rules = new HashSet<>();
-rules.add(new
-GatewayFlowRule("product_api1").setCount(1).setIntervalSec(1));
-rules.add(new
-GatewayFlowRule("product_api2").setCount(1).setIntervalSec(1));
-GatewayRuleManager.loadRules(rules);
-}
-```
-
-```
-//自定义API分组
-@PostConstruct
-private void initCustomizedApis() {
-Set<ApiDefinition> definitions = new HashSet<>();
-ApiDefinition api1 = new ApiDefinition("product_api1")
-.setPredicateItems(new HashSet<ApiPredicateItem>() {{
-// 以/ product-serv/product/api1 开头的请求
-add(new ApiPathPredicateItem().setPattern("/product-
-serv/product/api1/**").
-```
-
-```
-setMatchStrategy(SentinelGatewayConstants.URL_MATCH_STRATEGY_PREFIX));
-}});
-ApiDefinition api2 = new ApiDefinition("product_api2")
-.setPredicateItems(new HashSet<ApiPredicateItem>() {{
-// 以/ product-serv/product/api2/demo1 完成的url路径匹配
-```
 
 # 7 Sleuth链路追踪
 
@@ -2700,23 +2403,28 @@ ApiDefinition api2 = new ApiDefinition("product_api2")
 
 常见的链路追踪技术有下面这些：
 
-cat
+- cat
+
 
 由大众点评开源，基于Java开发的实时应用监控平台，包括实时应用监控，业务监控 。 集成方案是通过代码埋点的方式来实现监控，比如： 拦截器，过滤器等。 对代码的侵入性很大，集成成本较高。风险较大。
 
-zipkin 
+- zipkin 
+
 
 由Twitter公司开源，开放源代码分布式的跟踪系统，用于收集服务的定时数据，以解决微服务架构中的延迟问题，包括：数据的收集、存储、查找和展现。该产品结合spring-cloud-sleuth使用较为简单， 集成很方便， 但是功能较简单。
 
-pinpoint
+- pinpoint
+
 
 Pinpoint是韩国人开源的基于字节码注入的调用链分析，以及应用监控分析工具。特点是支持多种插件，UI功能强大，接入端无代码侵入。
 
-skywalking
+- skywalking
 
-SkyWalking是本土开源的基于字节码注入的调用链分析，以及应用监控分析工具。特点是支持多种插件，UI功能较强，接入端无代码侵入。目前已加入Apache孵化器。
 
-Sleuth
+SkyWalking是本土开源的基于字节码注入的调用链分析，以及应用监控分析工具。特点是支持多种插件，UI功能较强，接入端**无代码侵入**。目前已加入Apache孵化器。
+
+- Sleuth
+
 
 SpringCloud 提供的分布式系统中链路追踪解决方案。
 
@@ -2728,7 +2436,8 @@ SpringCloud 提供的分布式系统中链路追踪解决方案。
 
 SpringCloud Sleuth主要功能就是在分布式系统中提供追踪解决方案。它大量借用了Google Dapper的设计， 先来了解一下Sleuth中的术语和相关概念。
 
-Trace
+- Trace
+
 
 由一组Trace Id相同的Span串联形成一个树状结构。为了实现请求跟踪，当请求到达分布式系统的入口端点时，只需要服务跟踪框架为该请求创建一个唯一的标识（即TraceId），同时在分布式系
 
@@ -2736,7 +2445,8 @@ Trace
 
 Span 代表了一组基本的工作单元。为了统计各处理单元的延迟，当请求到达各个服务组件的时候，也通过一个唯一标识（SpanId）来标记它的开始、具体过程和结束。通过SpanId的开始和结束时间戳，就能统计该span的调用时间，除此之外，我们还可以获取如事件的名称。请求信息等元数据。
 
-Annotation
+- Annotation
+
 
 用它记录一段时间内的事件，内部使用的重要注释：
 
@@ -2767,7 +2477,7 @@ cr（Client Reveived）客户端接受到服务端的响应，请求结束。 cr
 
 查看日志文件并不是一个很好的方法，当微服务越来越多日志文件也会越来越多，通过Zipkin可以将日志聚合，并进行可视化展示和全文检索。
 
-## 7.3 Zipkin的集成
+## 7.3 Zipkin集成
 
 ```java
 <!--链路追踪 Sleuth-->
@@ -2779,7 +2489,7 @@ cr（Client Reveived）客户端接受到服务端的响应，请求结束。 cr
 
 ### 7.3.1 ZipKin介绍
 
-Zipkin 是 Twitter 的一个开源项目，它基于Google Dapper实现，它致力于收集服务的定时数据，以解决微服务架构中的延迟问题，包括数据的 收集、存储、查找和展现 。
+Zipkin是Twitter 的一个开源项目，它基于Google Dapper实现，它致力于收集服务的定时数据，以解决微服务架构中的延迟问题，包括数据的 收集、存储、查找和展现 。
 
 我们可以使用它来收集各个服务器上请求链路的跟踪数据，并通过它提供的REST API接口来辅助我们查询跟踪数据以实现对分布式系统的监控程序，从而及时地发现系统中出现的延迟升高问题并找出系统性能瓶颈的根源。
 
@@ -2848,7 +2558,7 @@ Zipkin Server默认会将追踪数据信息保存到内存，但这种方式不�
 
 第 2 步: 在启动ZipKin Server的时候,指定数据保存的mysql的信息
 
-## 7.4.2 使用elasticsearch实现数据持久化
+### 7.4.2 使用elasticsearch实现数据持久化
 
 第 1 步: 下载elasticsearch
 
@@ -2858,11 +2568,44 @@ Zipkin Server默认会将追踪数据信息保存到内存，但这种方式不�
 
 第 3 步: 在启动ZipKin Server的时候，指定数据保存的elasticsearch的信息
 
+## 7.5 Skywalking集成
+
+### 7.5.1 基础环境
+
+1、下载tar包：apache-skywalking-apm-8.0.0.tar.gz
+
+2、解压文件，同时上传MySQL驱动到oap-libs文件夹下，mysql-connector-java-8.0.20.jar
+
+3、修改config目录下的application.yml，主要修改连接源
+
+4、修改webapp文件夹下的webapp.yml，主要修改的是web端访问的端口。
+
+5、进入bin目录进行启动，后台服务脚本：oapService.sh；前台页面脚本：webappService.sh。（startup.sh）
+
+### 7.5.2 Tomcat项目
+
+```properties
+# Linux tomcat7、tomcat8，需要修改tomcat/bin/catalina.sh，在首行加入如下信息
+CATALINA_OPTS="$CATALINA_OPTS -javaagent:/opt/soft/monitor/skywalking/agent/skywalking-agent.jar"; export CATALINA_OPTS
+
+# Windows Tomcat7、Tomcat8，需要修改tomcat/bin/catalina.bat,在首行加入如下信息
+set "CATALINA_OPTS=-javaagent:/opt/soft/monitor/skywalking/agent/skywalking-agent.jar"
+```
+
+### 7.5.3 Boot项目
+
+```properties
+java -javaagent:/opt/soft/monitor/apache-skywalking-apm-bin/agent/skywalking-agent.jar -jar demo.jar
+ 
+//Windows本地启动为例
+java -javaagent:D:\\apache-skywalking-apm-6.4.0\\apache-skywalking-apm-bin\\agent\\skywalking-agent.jar -jar zh-boot.jar
+```
+
 # 8 Rocketmq消息驱动
 
 ## 8.1 MQ简介
 
-## 8.1.1 什么是MQ
+### 8.1.1 什么是MQ
 
 MQ（Message Queue）是一种跨进程的通信机制，用于传递消息。通俗点说，就是一个先进先出的数据结构。
 
@@ -2946,7 +2689,7 @@ Kafka是Apache下的一个子项目，是一个高性能跨语言分布式Publis
 
 式系统。
 
-## 7.2 RocketMQ入门
+## 8.2 RocketMQ入门
 
 RocketMQ是阿里巴巴开源的分布式消息中间件，现在是Apache的一个顶级项目。在阿里内部使用
 
@@ -3111,7 +2854,7 @@ mvn clean package -Dmaven.test.skip=true
 java -jar target/rocketmq-console-ng-1.0.0.jar
 ```
 
-## 7.3 消息发送和接收演示
+## 8.3 消息发送和接收演示
 
 ##### 接下来我们使用Java代码来演示消息的发送和接收
 
@@ -3169,7 +2912,7 @@ Message msg = new Message("myTopic", "myTag",
 
 5. 启动消息消费者
 
-## 7.4 案例
+## 8.4 案例
 
 接下来我们模拟一种场景: 下单成功之后，向下单用户发送短信。设计图如下：
 
@@ -3398,7 +3141,7 @@ server-addr: 127.0.0.1:8848
 
 ##### 5 启动服务，执行下单操作，观看后台输出
 
-## 7.5 发送不同类型的消息
+## 8.5 发送不同类型的消息
 
 ### 7.5.1 普通消息
 
@@ -3661,7 +3404,7 @@ private OrderServiceImpl4 orderServiceImpl4;
 @Override
 ```
 
-## 7.6 消息消费要注意的细节
+## 8.6 消息消费要注意的细节
 
 RocketMQ支持两种消息模式:
 
