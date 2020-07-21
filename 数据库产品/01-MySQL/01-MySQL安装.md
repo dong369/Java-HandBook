@@ -21,9 +21,9 @@ port=3306
 # 时区为东八区
 default-time_zone='+8:00'
 # 设置mysql的安装目录
-basedir=D:\Program Files\MySQL
+basedir=D:\dev\soft\SQL\mysql-8.0.20-winx64
 # 设置mysql数据库的数据的存放目录
-datadir=D:\Program Files\MySQL\Data
+datadir=D:\dev\soft\SQL\mysql-8.0.20-winx64\data
 # 允许最大连接数
 max_connections=200
 # 允许连接失败的次数。
@@ -61,25 +61,23 @@ mysqld --install mysql8.0.20
 
 5、启动服务命令为：net start 服务名
 
-```properties
+```bash
 net start mysql8.0.20
 ```
 
-5、登录MySQL并修改root密码
-
-使用默认分配的密码（即diK3i1dH=k8b）进行登录
+5、登录MySQL并修改root密码，使用默认分配的密码（即diK3i1dH=k8b）进行登录，第三步会打印密码
 
 ```sql
 mysql -uroot -pdiK3i1dH=k8b
 ```
 
-登录成功后，修改密码为password
+6、登录成功后，修改密码为password
 
 ```sql
 alter user 'root'@'localhost' IDENTIFIED BY 'passw0rd';
 ```
 
-刷新一下即可
+7、刷新一下即可
 
 ```sql
 show variables like '%time_zone%';
@@ -245,6 +243,7 @@ flush privileges;
 use mysql;
 select host,user,plugin from user;
 create user 'dev'@'%' identified by 'passw0rd';   // 创建账号
+
 // MySQL 8中必须执行否则远程连接不上
 ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
 grant all privileges on *.* to 'username'@'%';  // 授权
@@ -335,8 +334,6 @@ order by data_length desc;
 ## 7.1 启动报错
 
 情况一、Starting MySQL.. ERROR! The server quit without updating PID file (/usr/local/mysql/data/localhost.localdomain.pid).
-
-
 
 情况二、特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
 
