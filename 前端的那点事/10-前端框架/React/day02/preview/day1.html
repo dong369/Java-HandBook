@@ -1,0 +1,330 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>i5ting_ztree_toc:day1</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="-app-1-">移动App第1天</h1>
+<h2 id="-app-">什么是移动App开发【重点】</h2>
+<ol>
+<li>苹果上的软件是如何开发出来的：使用IOS平台的开发工具和开发语言进行设计开发的！苹果上的开发语言：OC、Swift</li>
+<li>安卓平台上的软件又是如何开发出来的：使用Java这么语言，结合一些Android控件，就可以开发安卓上的手机软件；</li>
+<li>苹果和安卓平台上共有的软件是如何开发出来的：招聘两部分的开发人员，分别是苹果开发人员和安卓开发人员；</li>
+<li>现在，我们可以使用混合App开发的方式，来同时进行两个平台上软件的开发；</li>
+<li>也就是说，抛开OC、Swift、Java、Android；可以直接使用前端技术（HTML + CSS + JS）来进行移动端App开发；这种开发方式叫做混合App开发！</li>
+</ol>
+<blockquote>
+<p>什么是移动App开发：通俗的理解，就是把开发Web网站的技术，通过某种方式，移植到移动App开发上进行使用，这种利用Web开发技术进行移动端开发体验的方式，叫做混合App开发！</p>
+</blockquote>
+<h3 id="-app-">关于移动App开发，需要知道的几个概念：</h3>
+<ul>
+<li>原生开发：是使用手机平台官方推荐的开发语言和框架，进行开发的方式，叫做原生开发！</li>
+<li>混合开发：抛开官方提供的开发方式，使用前端技术，进行移动APP开发的方式，叫做混合开发！</li>
+<li>App的分类：App -&gt; Application(应用程序)：什么是应用程序：可以安装的、提供了某些具体功能的软件，叫做应用程序；<ul>
+<li>按照平台来划分：<ul>
+<li>PC端：LOL、VS Code、网易云音乐、视频软件</li>
+<li>移动端：手机QQ、外卖、地图【战略资源】、亡者农药</li>
+</ul>
+</li>
+<li>按照功能来划分：<ul>
+<li>游戏：亡者农药、英雄联盟</li>
+<li>应用：Office办公软件、翻译软件、外卖软件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>App和Web的区别：<ul>
+<li>APP：App是Application的缩写，含义为：“可安装的应用程序”，特点：需要安装；需要手动去升级；<ul>
+<li>优点：<strong>性能稳定、体验好</strong>；内容丰富；安全；对网络要求比较低（受网络影响小）；</li>
+<li>缺点：需要手动安装；需要手动去升级；<strong>不能跨平台</strong></li>
+</ul>
+</li>
+<li>Web：特指基于浏览器开发的网站（说白了就是运行在浏览器中的网页）<ul>
+<li>优点：免安装，只要安装了浏览器就能访问Web；不需要用户手动升级（升级过程对用户来说是透明的）；<strong>能够跨平台</strong>；（因为Web天生就是跨平台的）</li>
+<li>缺点：严重依赖于网络的情况；<strong>用户体验没有App优秀</strong>；也有平台之间的兼容性！</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="-app-">为什么要学混合App开发</h2>
+<h3 id="-">从程序员的角度分析：</h3>
+<ol>
+<li>挣钱多【知识多且杂】</li>
+<li>对于找工作来说：市场需求量大，好找工作，提高我们的行业竞争力</li>
+<li>能接触到前端流行的技术和框架   ES6    React<ul>
+<li>前端是一个永恒的行业???【前端是基于 浏览器，只是行业要求变高了而已；】</li>
+<li>屌丝的崛起之路：<code>只能做页面</code> -&gt; <code>Ajax前后台数据交互</code> -&gt; <code>Jquery、Bootstrap</code> -&gt; <code>前端的框架兴起</code> -&gt; <code>可以做手机混合App/桌面应用</code> -&gt; <code>可以做手机原生App</code> -&gt; <code>将来或许可以发射火箭发射卫星发射导弹</code> -&gt; <code>终极目标：统一全宇宙</code></li>
+</ul>
+</li>
+<li>能购置一批牛逼的设备【第一件事：发朋友圈】</li>
+</ol>
+<h3 id="-app-">从企业的角度分析:(选择合适自身的移动App开发方式)【重点】</h3>
+<ul>
+<li>节省开发成本<ul>
+<li>从工资上</li>
+<li>从时间上:使用前端技术开发App的话，速度很快，因为前端技术够简单（HTML+CSS+JS），但是原生的 安卓和 IOS 语言就很难学，其次，一些复杂的概念比较难懂，</li>
+</ul>
+</li>
+<li>市面上常见的App开发方式<ul>
+<li>WebApp：基于浏览器实现的，有特定功能的网站，称作WebApp（本质就是一个网站，只不过功能很复杂，所以把它叫做 Web 类型的 APP）<ul>
+<li>例如：百度脑图、<a href="https://m.jd.com/、https://m.taobao.com/#index">https://m.jd.com/、https://m.taobao.com/#index</a></li>
+<li>优点：跨平台（最大的优点）</li>
+<li>缺点：依赖网络，有白屏效果，相对来说，用户体验差；不能调用硬件底层得设备，比如摄像头；</li>
+</ul>
+</li>
+<li>NativeApp：用android和Object-C等原生语言开发的应用<ul>
+<li>优点：体验好；用户使用起来很流畅；非常适合做游戏【性能高】；可以直接调用硬件底层的API；</li>
+<li>缺点：不能跨平台</li>
+</ul>
+</li>
+<li>HybirdApp：利用前端所学的知识去开发移动端App，兼具2者的优势<ul>
+<li>优点：能够跨平台；体验会好一些；能够调用硬件底层API；</li>
+<li>缺点：相对于原生体验稍微弱一丢丢；不适合做游戏；</li>
+<li>混合App适合做应用类型得App，比如外卖，比如非游戏类型得软件；</li>
+<li>混合APP开发的特点：外层用原生的NativeContainer来包裹所有的应用程序代码；同时这个NativeContainer也提供了调用硬件底层API的能力；注意：在NatvieContainer中，运行的不是原生的机器码，而是我们的HTML + CSS + JS搭建的出来的网页；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>三种开发方式的原理和对比
+<img src="images/三种开发类型的原理.png" alt="">
+<img src="images/三种开发类型的对比.png" alt=""></li>
+<li><a href="https://facebook.github.io/react-native/showcase.html">谁在使用React Native？？？</a></li>
+</ul>
+<h2 id="-app-">企业如何选择合适自己的App开发方式</h2>
+<p>如果企业中之前有用原生开发出来的App，那么需要继续使用原生的方式去维护；
+如果企业是做手游的，也只能使用原生，或者，对app性能要求特别高，也要用原生；
+一般，如果有了一个好的方案，就需要立即把方案实现为具体的应用；快速的推向市场，占领市场；基于这种需求，混合APP开发方式，更适合；尤其适用于小企业；【裤衩开发】</p>
+<h2 id="-">企业中项目开发流程</h2>
+<ul>
+<li>需求调研：产品定位、受众群体、市场需求、开发价值；【产出物：需求文档】</li>
+<li>产品设计：功能模块、流程逻辑；【产出物：设计文档，交互稿】，确定项目的基本功能；</li>
+<li>项目开发：项目架构、美工、前端、后台、测试【产品的把控】<strong>要理解前后端分离的概念</strong></li>
+<li>运营维护：上线试运行、调Bug、微调功能模块、产品迭代</li>
+</ul>
+<blockquote>
+<p>根据需求搞设计，根据设计做开发</p>
+</blockquote>
+<h2 id="-">企业技术选型 - 几大主流技术之间的关系</h2>
+<ol>
+<li>Angular.js 和 Ionic<ul>
+<li><a href="https://angularjs.org/">Angular1官网</a></li>
+<li><a href="https://angular.io/">Angular2官网</a></li>
+<li><a href="http://www.ionic.wang/">Ionic 中文网</a></li>
+<li><a href="http://ionicframework.com/getting-started/">Ionic 英文官网</a></li>
+</ul>
+</li>
+<li>Vue.js 和 Weex<ul>
+<li><a href="https://cn.vuejs.org/">Vue.js官网</a></li>
+<li><a href="http://weex.apache.org/cn/references/index.html">Weex文档</a></li>
+<li><a href="https://github.com/apache/incubator-weex">Weex - github地址 - 新</a></li>
+<li><a href="https://github.com/alibaba/weex">Weex - github地址 - 旧</a></li>
+</ul>
+</li>
+<li>React.js 和 React-Native<ul>
+<li><a href="https://facebook.github.io/react/">React.js英文官网</a></li>
+<li><a href="http://reactnative.cn/">ReactNative中文网</a></li>
+<li><a href="http://facebook.github.io/react-native/">ReactNative英文网</a></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Angular, Vue, React 这三个都是前端框架，我们在进行混合App开发的时候，只是用到了这三个框架的基础语法而已；
+Ionic， Weex， ReactNatvie 这三个都是打包工具，能够把我们开发出来的应用，最终打包成一个可安装的手机端程序安装包；同时，这三个东西，也提供了好用的一些小组件；</p>
+</blockquote>
+<h2 id="-app-">前端混合App开发框架</h2>
+<ol>
+<li>Html5+、ReactNative、Weex、Ionic</li>
+<li><a href="http://www.html5plus.org/#home">认识HTML5+</a><ul>
+<li>h5+是一个产业联盟，它有一些互联网成员，专门在中国推广H5</li>
+</ul>
+</li>
+<li><a href="http://www.dcloud.io/">HBuilder官网</a></li>
+</ol>
+<h2 id="-">开发框架之间的区别</h2>
+<ol>
+<li>Html5+ 和 Ionic</li>
+<li>ReactNative 和 Weex</li>
+</ol>
+<h2 id="-hbuilder-">使用HBuilder生成安卓应用（在线）</h2>
+<p><a href="http://www.html5plus.org/doc/zh_cn/webview.html">API地址</a>
+Hbuilder这个工具，是一个在线打包工具，使用很方便，不需要在本地配置开发环境；直接将做好的网站，通过一些简单的操作，就能在线打包为一个App出来；</p>
+<ul>
+<li>在项目上右键 -&gt; 发行 -&gt; 发行为原生安装包</li>
+</ul>
+<p>好处：本地不用配置开发环境；操作方便，对于程序员来说不关心打包的过程，打包过程对于我们来说是透明的；
+缺点：程序员很少能干预打包的过程；源代码被提交到了云端的服务器，存在项目核心代码被泄露的风险；</p>
+<h2 id="-">环境变量的使用</h2>
+<p>作用：将需要全局使用的工具或者应用程序，配置到Path环境变量中，可以很方便的通过命令行的形式，在任何想要运行这些应用程序的地方，运行它们；</p>
+<h2 id="-app-">移动App开发环境配置【重点】</h2>
+<h3 id="-java-jdk">安装最新版本的java jdk</h3>
+<ol>
+<li>修改环境变量，新增<code>JAVA_HOME</code>的系统环境变量，值为<code>C:\Program Files (x86)\Java\jdk1.8.0_112</code>，也就是安装JDK的根目录</li>
+<li>修改系统环境变量<code>Path</code>，在<code>Path</code>之后新增<code>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;</code></li>
+<li>新建<strong>系统环境变量</strong><code>CLASSPATH</code>，值为<code>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;</code></li>
+<li>保存所有的系统环境变量，同时退出系统环境变量配置窗口，然后运行cmd命令行工具，输入<code>javac</code>，如果能出现javac的命令选项，就表示配置成功！</li>
+</ol>
+<h3 id="-node-js-">安装Node.js环境</h3>
+<p>注意：需要安装最新的长期稳定版本，不要实验版本；安装完毕之后的node.js会自动配置到全局系统环境变量中
+安装完毕后，可以输入<code>node -v</code>查看node版本号；</p>
+<h3 id="-c-">安装C++环境</h3>
+<p>大多数情况下操作系统自带C++环境，不需要手动安装C++环境；
+如果运行报错，则需要手动安装visual studio中的C++环境；</p>
+<h3 id="-git-">安装Git环境</h3>
+<p>Git安装完毕后，会自动配置到系统环境变量中；
+可以通过运行<code>git --version</code>来检查是否正确安装和配置了Git的环境变量；</p>
+<h3 id="-python-">安装Python环境</h3>
+<ol>
+<li>注意：安装Python时候，只能<strong>安装2.×的版本</strong>，注意勾选安装界面上的<code>Add Python to path</code>，这样才能自动将Python安装到系统环境变量中；</li>
+<li>安装完毕之后，可以在命令行中运行<code>python</code>，检查是否成功安装了python。</li>
+</ol>
+<h3 id="-">配置安卓环境</h3>
+<ol>
+<li>安装<code>installer_r24.3.4-windows.exe</code>，最好手动选择安装到C盘下的android目录</li>
+<li>打开安装的目录，将<code>android-25</code>、<code>android-23</code>(react-native必须依赖这个)解压后，放到<code>platforms</code>文件夹下</li>
+<li>解压并得到<code>platform-tools</code>文件夹，放到安装目录的根目录中；</li>
+<li>【这一步直接忽略即可！】<strong>tools文件夹不解压覆盖也行；</strong><del>解压<code>tools</code>，放到安装根目录中</del></li>
+<li>解压<code>build-tools_r23.0.1-windows.zip(react-native必须依赖这个)</code>、<code>build-tools_r23.0.2-windows.zip(weex必须依赖这个)</code>和<code>build-tools_r23.0.3-windows.zip</code>，并将解压出来的文件夹，分别改名为版本号<code>23.0.1</code>、<code>23.0.2</code>和<code>23.0.3</code>；在安装目录中新建文件夹<code>build-tools</code>，并将改名为版本号之后的文件夹，放到新创建出来的<code>build-tools</code>文件夹下</li>
+<li>在安装目录中，新建<code>extras</code>文件夹，在<code>extras</code>文件夹下新建<code>android</code>文件夹；解压<code>m2responsitory</code>文件夹和<code>support</code>文件夹，放到新建的<code>extras -&gt; android</code>文件夹下</li>
+<li>配置安装环境变量：在系统环境变量中新建<code>ANDROID_HOME</code>，值为android SDK Manager的安装路径<code>C:\Users\liulongbin\AppData\Local\Android\android-sdk</code>，紧接着，在Path中新增<code>;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;</code></li>
+</ol>
+<h2 id="-reactnative-http-reactnative-cn-docs-0-42-getting-started-html-"><a href="http://reactnative.cn/docs/0.42/getting-started.html">ReactNative快速打包</a></h2>
+<ol>
+<li><p>安装完node后建议<strong>设置npm镜像</strong>以加速后面的过程（或使用科学上网工具）。注意：<strong>不要使用cnpm！</strong>cnpm安装的模块路径比较奇怪，packager不能正常识别！</p>
+<blockquote>
+<p>npm config set registry <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a> --global<br/>
+npm config set disturl <a href="https://npm.taobao.org/dist">https://npm.taobao.org/dist</a> --global</p>
+</blockquote>
+</li>
+<li><p>Yarn、React Native的命令行工具（react-native-cli）</p>
+<ul>
+<li><p>Yarn是Facebook提供的替代npm的工具，可以加速node模块的下载。React Native的命令行工具用于执行创建、初始化、更新项目、运行打包服务（packager）等任务。</p>
+<blockquote>
+<p>npm install -g yarn react-native-cli</p>
+</blockquote>
+</li>
+<li><p>安装完yarn后同理也要设置镜像源：</p>
+<blockquote>
+<p>yarn config set registry <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a> --global<br/>
+yarn config set disturl <a href="https://npm.taobao.org/dist">https://npm.taobao.org/dist</a> --global</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>运行<code>react-native init AwesomeProject</code>创建React-Native项目</p>
+</li>
+<li>运行<code>cd AwesomeProject</code>切换到项目根目录中，运行<code>adb devices</code>来确保有设备连接到了电脑上</li>
+<li>运行<code>react-native run-android</code>打包编译安卓项目，并部署到模拟器或开发机中</li>
+<li>运行上一条命令之前，要确保有设备连接到了电脑上，可以运行<code>adb devices</code>查看当前接入的设备列表，打包好的文件，放到了<code>android\app\build\outputs\apk</code>目录下</li>
+<li><a href="http://www.open-open.com/lib/view/open1477469117948.html">入坑指南</a><blockquote>
+<p><strong>问题1：开启悬浮框权限；</strong><br/>
+<strong>问题2：Could not get BatchedBridge, make sure your bundle is packaged correctly</strong><br/>
+解决方案：在终端中，进入到项目的根目录，执行下面这段命令行：<br/>
+<code>react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/</code><br/>
+运行之前，需要确保<code>android/app/src/main/</code>目录下有<code>assets</code>文件夹，如果没有，手动创建之~，再运行上面的命令；<br/>
+<strong>问题3：could not connect to development server</strong><br/>
+解决方案：晃动手机，唤起设置属性窗口，点击“Dev settings”，再点击Debuug server host 出现设置ip地址窗口，填写Ip地址和端口号8081，例如<code>192.168.1.111:8081</code></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="-weex-http-weex-apache-org-cn-guide-tools-toolkit-html-"><a href="http://weex.apache.org/cn/guide/tools/toolkit.html">Weex快速打包</a></h2>
+<ol>
+<li>安装依赖:Weex 官方提供了 weex-toolkit 的脚手架工具来辅助开发和调试。首先，你需要最新稳定版的 Node.js 和 Weex CLi。</li>
+<li>运行<code>npm install -g weex-toolkit</code>安装Weex 官方提供的 <code>weex-toolkit</code> 脚手架工具到全局环境中</li>
+<li>运行<code>weex create project-name</code>初始化Weex项目</li>
+<li>进入到项目的根目录中，打开cmd窗口，运行<code>weex platform add android</code>安装android模板，首次安装模板时，等待时间较长，建议fq安装模板</li>
+<li>打开<code>android studio</code>中的<code>安卓模拟器</code>，或者将<code>启用USB调试的真机</code>连接到电脑上，运行<code>weex run android</code>，打包部署weex项目</li>
+<li>部署完成，查看项目效果</li>
+</ol>
+<h2 id="-">总结重点</h2>
+<ol>
+<li>什么是前端移动App开发</li>
+<li>市面上常见的App开发方式及优缺点</li>
+<li>使用Hbuilder在线生成安卓应用</li>
+<li>学会配置ReactNative开发环境</li>
+<li>掌握ReactNative打包流程</li>
+</ol>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

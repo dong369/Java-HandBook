@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var str = '小明：大神么么哒，正好是我想要的，我的邮箱是xiaoming@qq.com小红：我老公最爱看这个了，我想给他一个惊喜，么么么哒，邮箱是xiaohong@sina.com我：好人一生平安，邮箱是wuyou@163.com';
+
+        // 字符串.match(正则表达式)可以对字符串进行提取操作,返回值是一个数组
+        // 提取字符串str中的邮箱内容，注意，需要在正则的最后添加匹配模式g，不要设置严格匹配。
+        var str1 = str.match(/\w+@\w+\.\w+/g)
+        console.log(str1);
+    </script>
+</body>
+
+</html>

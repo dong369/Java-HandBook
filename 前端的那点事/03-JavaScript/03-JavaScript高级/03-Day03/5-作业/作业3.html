@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <button>赞(1)</button>
+    <button>赞(1)</button>
+    <button>赞(1)</button>
+    <button>赞(1)</button>
+    <script>
+        //闭包缓存数据
+        function getValue() {
+            var value = 2;
+            return function() {
+                //每一次点击的时候,都应该改变当前点击按钮的value值
+                this.innerHTML = "赞(" + (value++) + ")";
+            }
+        }
+        //获取所有的按钮
+        var btnObjs = document.getElementsByTagName("button");
+        //循环遍历每个按钮,注册点击事件
+        for (var i = 0; i < btnObjs.length; i++) {
+            //注册事件
+            btnObjs[i].onclick = getValue();
+        }
+    </script>
+</body>
+
+</html>
