@@ -1,5 +1,5 @@
-flume
---------------
+1 Flume
+==============
 	agent	:
 	source	:收集数据,event	
 	channel	:临时存储event，buffer

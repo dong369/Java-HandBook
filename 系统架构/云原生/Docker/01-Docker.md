@@ -138,7 +138,7 @@ docker-compose --version    // 安装版本查看
 ### 2.5.2 启动/关闭/拉取镜像
 
 ```properties
-启动：docker-compose up -d
+后台启动：docker-compose up -d
 关闭：docker-compose down
 重新拉取镜像：docker-compose pull
 ```
@@ -204,13 +204,13 @@ Docker版本：docker version（查看安装版本）
 重启Docker：systemctl restart docker（service docker restart）
 拉取镜像：docker pull [OPTIONS] NAME[:TAG] NAME：代表拉取镜像的名称
 查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
-删除镜像：docker rmi [容器名称&ID]
+删除镜像：docker rmi (-f) [容器名称&ID]
 运行镜像：docker run [OPTIONS] IMAGE[:TAG][COMMAND] [ARG…]
 前台运行：docker run [容器名称&ID]
-后台运行：docker run --name some-* -p 宿主机端口:容器端口 –d [容器名称&ID]
+后台运行：docker run --name demo-name -p 宿主机端口:容器端口 –d [容器名称&ID]
 查看运行的容器：docker ps
 查看所以的容器：docker ps -a（docker stop CONTAINER ID、docker rm CONTAINER ID）
-进入容器内部：docker exec -it containerId /bin/bash（docker exec -it [容器名称] bash）
+进入容器内部：docker exec -it [容器ID] /bin/bash（docker exec -it [容器名称] bash）
 退出容器：exit
 制作自己的镜像：docker build –t name:latest .（指定名称）
 推送镜像：docker push registry.cn-hangzhou.aliyuncs.com/namespace/keepalived:[镜像版本号]
@@ -363,8 +363,7 @@ curl 127.0.0.1:2375/info           # 验证是否成功
 tcp://192.168.100.13:2375
 ```
 
-
-<img src="..\..\插图\Linux操作系统\Docker连接配置.png"/>
+<img src="../../..\插图\Linux操作系统\Docker连接配置.png"/>
 
 ## 5.4 Spring Boot部署
 
@@ -414,5 +413,5 @@ ENTRYPOINT ["java","-jar","/guod.jar"]
 
 > 运行Dockerfile文件，项目发布成功！
 
-<img src="../..\插图\Linux操作系统\Dockerfile配置文件.png"/>
+<img src="../../..\插图\Linux操作系统\Dockerfile配置文件.png"/>
 

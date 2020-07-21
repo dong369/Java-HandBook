@@ -4,7 +4,7 @@ Stable Version：MySQL-8.0.19
 
 ## 1.1 安装版
 
-
+安装正常软件的安装流程，进行下一步下一步操作。
 
 ## 1.2 绿色版
 
@@ -12,7 +12,7 @@ Stable Version：MySQL-8.0.19
 
 其中`dada`文件夹和`my.ini`配置文件是解压后手动加入的，如下图所示
 
-2、新建配置文件`my.ini`放在`D:\Free\mysql-8.0.16-winx64`目录下
+2、新建配置文件`my.ini`放在`D:\dev\soft\SQL\mysql-8.0.20-winx64`目录下
 
 ```properties
 [mysqld]
@@ -47,41 +47,41 @@ default-character-set=utf8mb4
 
 3、初始化MYSQL配置
 
-管理员身份打开Windows PowerShell，并进入`D:\Free\mysql-8.0.16-winx64\bin`目录，执行如下命令：
+管理员身份打开，并进入`D:\dev\soft\SQL\mysql-8.0.20-winx64\bin`目录，执行如下命令：
 
-Redis是AP，可以添加哨兵
-
-4、安装MySQL服务，并启动服务
-
-安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8作为服务名，如下所示
-
+```properties
+mysqld --initialize --console
 ```
+
+4、安装MySQL服务，并启动服务，安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8.0.20作为服务名。
+
+```properties
 mysqld --install mysql8.0.20
 ```
 
-启动服务命令为：net start 服务名
+5、启动服务命令为：net start 服务名
 
-```
-mysqld --install mysql8.0.20
+```properties
+net start mysql8.0.20
 ```
 
 5、登录MySQL并修改root密码
 
 使用默认分配的密码（即diK3i1dH=k8b）进行登录
 
-```
+```sql
 mysql -uroot -pdiK3i1dH=k8b
 ```
 
 登录成功后，修改密码为password
 
-```
+```sql
 alter user 'root'@'localhost' IDENTIFIED BY 'passw0rd';
 ```
 
 刷新一下即可
 
-```
+```sql
 show variables like '%time_zone%';
 set global time_zone = '+8:00';   // Asia/Shanghai或者GMT+8
 set persist time_zone='+8:00';
@@ -195,6 +195,8 @@ cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
 ```properties
 mysql -uroot -p
 alter user 'root'@'localhost' identified by 'your_password';
+
+
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
 alter user  'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
 ```
@@ -252,7 +254,7 @@ grant all privileges on onedatabase.* to 'username'@'%';
 ## 2.3 远程连接
 
 ```properties
-mysql -h192.168.100.11 -P3306 -uroot -ppassw0rd
+mysql -h 192.168.100.11 -P3306 -uroot -ppassw0rd
 ```
 
 # 4 找回密码

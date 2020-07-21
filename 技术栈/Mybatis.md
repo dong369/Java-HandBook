@@ -40,7 +40,7 @@ ORM（Object Relational Mapping），对象关系映射，是一种为了解决�
 
 3）其执行原理为，使用OGNL从sql参数对象中计算表达式的值，根据表达式的值动态拼接sql，以此来完成动态sql的功能。
 
-6、#{}和${}的区别是什么？
+# 7 #{}和${}的区别
 
 1）#{}是**预编译处理**，${}是字符串替换。
 
@@ -50,17 +50,21 @@ ORM（Object Relational Mapping），对象关系映射，是一种为了解决�
 
 4）使用#{}可以有效的防止SQL注入，提高系统安全性。
 
-7、为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
+# 8 半自动/全自动
+
+为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？
 
 答：Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。而Mybatis在查询关联对象或关联集合对象时，需要手动编写sql来完成，所以，称之为半自动ORM映射工具。
 
-8、Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
+# 9 是否支持延迟加载
+
+Mybatis是否支持延迟加载？如果支持，它的实现原理是什么？
 
 1）Mybatis仅支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
 
 2）它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。
 
-9、MyBatis与Hibernate有哪些不同？
+# 10 与Hibernate有哪些不同
 
 1）Mybatis和hibernate不同，它不完全是一个ORM框架，因为MyBatis需要程序员自己编写Sql语句，不过mybatis可以通过XML或注解方式灵活配置要运行的sql语句，并将java对象和sql语句映射生成最终执行的sql，最后将sql执行的结果再映射生成java对象。
 
@@ -70,7 +74,7 @@ ORM（Object Relational Mapping），对象关系映射，是一种为了解决�
 
 总之，按照用户的需求在有限的资源环境下只要能做出维护性、扩展性良好的软件架构都是好架构，所以框架只有适合才是最好。
 
-10、MyBatis的好处是什么？
+# 11 好处是什么
 
 1）MyBatis把sql语句从Java源程序中独立出来，放在单独的XML文件中编写，给程序的维护带来了很大便利。
 
@@ -78,15 +82,21 @@ ORM（Object Relational Mapping），对象关系映射，是一种为了解决�
 
 3）因为MyBatis需要程序员自己去编写sql语句，程序员可以结合数据库自身的特点灵活控制sql语句，因此能够实现比Hibernate等全自动orm框架更高的查询效率，能够完成复杂查询。
 
-11、简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
+# 12 数据映射关系
+
+简述Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？
 
 答：Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，<parameterMap>标签会被解析为ParameterMap对象，其每个子元素会被解析为ParameterMapping对象。<resultMap>标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个<select>、<insert>、<update>、<delete>标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。
 
-12、什么是MyBatis的接口绑定,有什么好处？
+# 13 接口绑定
 
-答：接口映射就是在MyBatis中任意定义接口,然后把接口里面的方法和SQL语句绑定,我们直接调用接口方法就可以,这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置.
+什么是MyBatis的接口绑定，有什么好处？
 
-13、接口绑定有几种实现方式,分别是怎么实现的?
+答：接口映射就是在MyBatis中任意定义接口，然后把接口里面的方法和SQL语句绑定,我们直接调用接口方法就可以，这样比起原来了SqlSession提供的方法我们可以有更加灵活的选择和设置。
+
+# 14 接口绑定实现方式
+
+接口绑定有几种实现方式，分别是怎么实现的?
 
 答：接口绑定有两种实现方式,一种是通过注解绑定,就是在接口的方法上面加上@Select@Update等注解里面包含Sql语句来绑定,另外一种就是通过xml里面写SQL来绑定,在这种情况下,要指定xml映射文件里面的namespace必须为接口的全路径名.
 

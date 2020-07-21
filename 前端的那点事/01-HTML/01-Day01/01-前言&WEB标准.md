@@ -1,8 +1,4 @@
----
-typora-copy-images-to: media
----
-
-> 第01阶段.前端基础.认识WEB
+> 第01阶段，前端基础，认识WEB
 # 1 目标
 
 目标：能根据psd文件，用HTML+CSS 布局出**符合W3C规范**的网页。
@@ -75,7 +71,7 @@ typora-copy-images-to: media
 
 ### 2.2 常见浏览器内核（了解）
 
-首先解释一下浏览器内核是什么东西。英文叫做：Rendering Engine，中文翻译很多，排版引擎、解释引擎、渲染引擎，现在流行称为浏览器内核.
+首先解释一下浏览器内核是什么东西。英文叫做：Rendering Engine，中文翻译很多，排版引擎、解释引擎、渲染引擎，现在流行称为浏览器内核。
 
 ```
 负责读取网页内容，整理讯息，计算网页的显示方式并显示页面.
@@ -88,7 +84,7 @@ typora-copy-images-to: media
 | firefox |     Gecko      | 可惜这几年已经没落了，打开速度慢、升级频繁、猪一样的队友flash、神一样的对手chrome。 |
 | Safari  |     webkit     | 现在很多人错误地把webkit叫做chrome内核（即使chrome内核已经是 blink了）。苹果感觉像被别人抢了媳妇，都哭晕再厕所里面了。 |
 | chrome  | Chromium/Blink | 在 Chromium 项目中研发 Blink 渲染引擎（即浏览器核心），内置于 Chrome 浏览器之中。Blink 其实是 WebKit 的分支。大部分国产浏览器最新版都采用Blink内核。二次开发 |
-| Opera   |     blink      | 现在跟随chrome用blink内核。                                  |
+| Opera   |     Blink      | 现在跟随chrome用blink内核。                                  |
 
 **拓展阅读：**
 ```
@@ -114,7 +110,7 @@ W3C 万维网联盟是国际最著名的标准化组织。1994年成立后，至
 
 **w3c就类似于现实世界中的联合国。**
 
-### 4.3.1 为什么要遵循WEB标准呢？
+### 4.3.1 遵循WEB标准呢？
 
  通过以上浏览器不同内核不同，我们知道他们显示页面或者排版就有些许差异。
 
@@ -176,7 +172,7 @@ W3C 万维网联盟是国际最著名的标准化组织。1994年成立后，至
   浏览器内核包括两部分，渲染引擎和js引擎。渲染引擎负责读取网页内容，整理讯息，计算网页的显示方式并显示页面，js引擎是解析执行js获取网页的动态效果。 后来 JS 引擎越来越独立，内核就倾向于只指渲染引擎。
   IE：Trident 
   firefox：Gecko 
-  chrom、safari：webkit 
+  chrom、safari：webkit
   Opera：Presto 
   Microsoft Edge：EdgeHTML
 

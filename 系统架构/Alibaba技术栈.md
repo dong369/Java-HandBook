@@ -2,6 +2,10 @@
 
 抛出问题，解决思路，业界方案，阿里组件，代码展示，必要补充。
 
+系统架构是软件的内部，经过综合各种因素的考量、权衡，选择特定的技术，将系统划分成不同的部分并使这些部分相互分工、彼此协作，为用户提供需要的价值。
+
+业务需求、技术栈、成本、组织架构、可扩展性、维护性。
+
 ## 1.1 系统架构演变
 
 随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。
@@ -16,12 +20,14 @@
 
 比如说一个电商系统，里面会包含很多用户管理、商品管理、订单管理、物流管理、CMS等等很多模块，我们会把它们做成一个web项目，然后部署到一台tomcat服务器上。
 
+![image-20200705212818392](../插图/image-20200705212818392.png)
+
 优点：
 
 - 项目架构简单，小型项目的话， 开发成本低
 
 
-- 项目部署在一个节点上， 维护方便
+- 项目部署在一个节点上，维护方便
 
 
 缺点：
@@ -53,12 +59,14 @@ CRM：
 
 这样拆分完毕之后，一旦用户访问量变大，只需要增加电商系统的节点就可以了，而无需增加后台和CMS的节点。
 
+![image-20200705213843793](../插图/image-20200705213843793.png)
+
 优点：
 
-- 系统拆分实现了流量分担，解决了并发问题，而且可以针对不同模块进行优化和水平扩展
+- 系统拆分实现了流量分担，解决了并发问题，而且可以针对不同模块**进行优化和水平扩展**
 
 
-- 一个系统的问题不会影响到其他系统，提高容错率
+- 一个系统的问题不会影响到其他系统，**提高容错率**
 
 
 缺点：
@@ -77,7 +85,7 @@ CRM：
 
 优点 ：
 
-- 抽取公共的功能为服务层，提高代码复用性
+- **抽取公共**的功能为服务层，提高**代码复用性**
 
 
 缺点 ：
@@ -91,12 +99,12 @@ CRM：
 
 优点:
 
-- 使用注册中心解决了服务间调用关系的自动调节
+- 使用注册中心解决了服务间调用关系的**自动调节**
 
 
 缺点:
 
-- 服务间会有依赖关系，一旦某个环节出错会影响较大( 服务雪崩 )，对服务的拆分不彻底。
+- 服务间会有依赖关系，一旦某个环节出错会影响较大( 服务雪崩 )，对服务的**拆分不彻底**。
 
 
 - 服务关心复杂，运维、测试部署困难
@@ -108,7 +116,7 @@ CRM：
 
 优点 ：
 
-- 服务原子化拆分，独立打包、部署和升级，保证每个微服务清晰的任务划分，利于扩展
+- 服务**原子化拆分**，独立打包、部署和升级，保证每个微服务清晰的任务划分，利于扩展
 
 
 - 微服务之间采用Restful等轻量级http协议相互调用
@@ -116,7 +124,7 @@ CRM：
 
 缺点 ：
 
-- 分布式系统开发的技术成本高（容错、分布式事务等）
+- 分布式系统开发的**技术成本高**（容错、分布式事务等）
 
 ### 1.1.6 服务网格架构
 
@@ -131,7 +139,7 @@ Service Mesh
 
 一旦采用微服务系统架构，就势必会遇到这样几个问题：
 
-这么多小服务，如何**管理**他们？（服务治理、注册中心[服务注册 发现 剔除]）
+这么多小服务，如何**管理**他们？（服务治理、注册中心[服务注册、发现、剔除]）
 
 这么多小服务，他们之间如何**通讯**？（ restful、rpc）
 
@@ -166,7 +174,7 @@ Service Mesh
 
 这是一种HTTP调用的格式，更标准，更通用，无论哪种语言都支持http协议
 
-- RPC （Remote Promote Call）
+- RPC （Remote Promote Call）主要实现有Dubbo、Motan、Thrift、GRPC
 
 
 一种**进程间通信**方式。允许像**调用本地服务一样调用远程服务**。RPC框架的主要目标就是让远程服务调用更简单、透明。RPC框架负责屏蔽底层的传输方式、序列化方式和通信细节。开发人员在使用的时候只需要了解谁在什么位置提供了什么样的远程服务接口即可，并不需要关心底层通信细节和调用过程。
@@ -240,9 +248,9 @@ Spring Cloud并没有重复制造轮子，它只是将目前各家公司开发�
 
 出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
 
-#### 1.2.3.3 Alibaba
+#### 1.2.3.3 Cloud Alibaba
 
-Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过 Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。
+Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用微服务的必需组件，方便开发者通过Spring Cloud编程模型轻松使用这些组件来开发分布式应用服务。
 
 ## 1.3 SpringCloud Alibaba介绍
 
@@ -252,17 +260,17 @@ Spring Cloud Alibaba 致力于提供微服务开发的**一站式解决方案**�
 
 ### 1.3.1 主要功能
 
-服务限流降级 ：默认支持 WebServlet、WebFlux、OpenFeign、RestTemplate、Spring Cloud Gateway、Zuul， Dubbo 和 RocketMQ 限流降级功能的接入，可以在运行时通过控制台实时修改限流降级规则，还支持查看限流降级 Metrics 监控。
+服务限流降级 ：默认支持 WebServlet、WebFlux、OpenFeign、RestTemplate、Spring Cloud Gateway、Zuul， Dubbo 和 RocketMQ 限流降级功能的接入，可以在运行时通过控制台实时修改限流降级规则，还支持查看限流降级Metrics监控。
 
-服务注册与发现 ：适配 Spring Cloud 服务注册与发现标准，默认集成了 Ribbon 的支持。
+服务注册与发现：适配Spring Cloud服务注册与发现标准，默认集成了Ribbon 的支持。
 
-分布式配置管理 ：支持分布式系统中的外部化配置，配置更改时自动刷新。
+分布式配置管理：支持分布式系统中的外部化配置，配置更改时自动刷新。
 
-消息驱动能力 ：基于 Spring Cloud Stream 为微服务应用构建消息驱动能力。
+消息驱动能力：基于 Spring Cloud Stream 为微服务应用构建消息驱动能力。
 
-分布式事务 ：使用@GlobalTransactional 注解， 高效并且对业务零侵入地解决分布式事务问题。
+分布式事务：使用@GlobalTransactional注解， 高效并且对业务零侵入地解决分布式事务问题。
 
-阿里云对象存储 ：阿里云提供的海量、安全、低成本、高可靠的云存储服务。支持在任何应用、任何时间、任何地点存储和访问任意类型的数据。
+阿里云对象存储：阿里云提供的海量、安全、低成本、高可靠的云存储服务。支持在任何应用、任何时间、任何地点存储和访问任意类型的数据。
 
 分布式任务调度 ：提供秒级、精准、高可靠、高可用的定时（基于 Cron 表达式）任务调度服务。同时提供分布式的任务执行模型，如网格任务。网格任务支持海量子任务均匀分配到所有Worker（schedulerx-client）上执行。
 
@@ -304,7 +312,7 @@ Alibaba Cloud SMS：覆盖全球的短信服务，友好、高效、智能的互
 | 调用链监控                   | skywalking                      | V8.0     | [Skywalking官网](http://skywalking.apache.org/)             |
 | 认证授权                     | JWT oauth2                      |          |                                                             |
 | 信息检索                     | Elastic Stack                   | V7.3     | [Elastk-Stack官网](https://www.elastic.co/guide/index.html) |
-| 时序监控                     | Prometheus                      |          |                                                             |
+| 时序监控                     | Prometheus、grafana             |          |                                                             |
 | CI/CD                        | GitLab Runner                   |          |                                                             |
 | 云原生应用改造，微服务的未来 | k8s、docker、kong tidb等        |          |                                                             |
 | 其它                         | netty、nginx、redis等会穿插着讲 |          |                                                             |
@@ -319,18 +327,18 @@ Alibaba Cloud SMS：覆盖全球的短信服务，友好、高效、智能的互
 
 1、架构图
 
-
+![image-20200705161019975](../插图/image-20200705161019975.png)
 
 2、项目结构
 
 | 平台名 | 分类    | 名称          | 例                                 |
 | ------ | ------- | ------------- | ---------------------------------- |
-|        | app     | 应用服务层    | yl-app-user                        |
-|        | base    | 基础服务层    | yl-base-order、yl-base-product     |
-|        | client  | 接口层        | yl-client-order、yl-client-product |
-|        | commons | 公共层        | yl-commons-pom、yl-commons-base    |
-|        | starter | 自定义starter | elasticsearch-spring-boot-starter  |
-|        | extends | 源码扩展层    | spring、nacos                      |
+| yl     | app     | 应用服务层    | yl-app-user                        |
+| yl     | base    | 基础服务层    | yl-base-order、yl-base-product     |
+| yl     | client  | 接口层        | yl-client-order、yl-client-product |
+| yl     | commons | 公共层        | yl-commons-pom、yl-commons-base    |
+| yl     | starter | 自定义starter | elasticsearch-spring-boot-starter  |
+| yl     | extends | 源码扩展层    | spring、nacos                      |
 
 3、包结构
 
@@ -380,7 +388,7 @@ shop-order订单微服务【端口: 809x】
 
 在这种场景下，订单微服务就是一个服务消费者， 商品微服务就是一个服务提供者。
 
-## 2.2 创建父工程
+## 2.2 父工程
 
 创建一个maven工程，然后在pom.xml文件中添加下面内容
 
@@ -394,30 +402,82 @@ shop-order订单微服务【端口: 809x】
     <!-- 项目基础信息 -->
     <groupId>com.io</groupId>
     <artifactId>yl</artifactId>
-    <version>${yl.version}</version>
+    <version>1.0.0.RELEASE</version>
 
+    <!-- 打包方式 -->
     <packaging>pom</packaging>
 
     <!-- 属性配置 -->
     <properties>
-        <yl.version>1.0.0.RELEASE</yl.version>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <DskipTests>true</DskipTests>
+    </properties>
+
+    <!-- 项目模块分类，按照下面的顺序进行打包流程（由于app、base会依赖commons、client，控制顺序） -->
+    <modules>
+        <!-- 公共层 -->
+        <module>commons</module>
+        <!-- 接口层 -->
+        <module>client</module>
+        <!-- 基础服务层：对内走base -->
+        <module>base</module>
+        <!-- 应用服务层，对外走app -->
+        <module>app</module>
+        <!-- 自定义starter -->
+        <module>starter</module>
+        <!-- extends属于源码扩展部分 -->
+        <module>extends</module>
+    </modules>
+
+    <developers>
+        <developer>
+            <id>001</id>
+            <name>guodd</name>
+            <email>18838177689@163.com</email>
+            <roles>
+                <role>注册中心开发</role>
+                <role>配置中心开发</role>
+                <role>公共模块开发</role>
+            </roles>
+        </developer>
+    </developers>
+
+</project>
+```
+
+版本对应：
+
+## 2.3 公共层
+
+1、创建yl-commons-pom模块，在pom.xml中添加依赖
+
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>yl</artifactId>
+        <groupId>com.io</groupId>
+        <version>1.0.0.RELEASE</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
+    <artifactId>yl-commons-pom</artifactId>
+
+    <!-- 属性配置 -->
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <DskipTests>true</DskipTests>
         <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
         <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
         <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
     </properties>
-
-    <!-- 项目模块分类 -->
-    <modules>
-        <!-- 公共层 -->
-        <module>commons</module>
-        <!-- 基础服务层 -->
-        <module>base</module>
-        <!-- 应用服务层 -->
-        <module>app</module>
-        <!-- 接口层 -->
-        <module>client</module>
-    </modules>
 
     <!-- 版本号 -->
     <dependencyManagement>
@@ -446,55 +506,11 @@ shop-order订单微服务【端口: 809x】
                 <scope>import</scope>
             </dependency>
             <!-- 模块 -->
-            <dependency>
-                <groupId>com.io</groupId>
-                <artifactId>yl-client-product</artifactId>
-                <version>${yl.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <!-- 基础依赖 -->
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- 监控 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
-        <finalName>${project.name}.${yl.version}</finalName>
+        <finalName>${project.name}</finalName>
         <pluginManagement>
             <plugins>
                 <!-- 一种是普通的jar包，另一种时可执行jar包 -->
@@ -513,18 +529,54 @@ shop-order订单微服务【端口: 809x】
             </plugins>
         </pluginManagement>
     </build>
+
+    <!-- 基础依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.3.0</version>
+        </dependency>
+        <!-- 加密 -->
+        <dependency>
+            <groupId>com.lambdaworks</groupId>
+            <artifactId>scrypt</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.2-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- 流量、容错 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
 ```
 
-版本对应：
-
-## 2.3 创建基础模块
-
-1、创建yl-commons-pom模块，在pom.xml中添加依赖
-
-```java
-
-```
+## 2.4 微服务层
 
 2、创建实体类
 
@@ -591,7 +643,7 @@ public class Order {
 }
 ```
 
-## 2.4 创建用户微服务
+### 2.4 创建用户微服务
 
 步骤:
 
@@ -623,7 +675,7 @@ public class Order {
 
 ```
 
-## 2.5 创建商品微服务
+### 2.5 创建商品微服务
 
 1、 创建一个名为shop_product的模块，并添加springboot依赖
 
@@ -648,7 +700,7 @@ INSERT INTO shop_product VALUE(NULL,'OPPO','4000','5000');
 
 8、通过浏览器访问服
 
-## 2.6 创建订单微服务
+### 2.6 创建订单微服务
 
 1、创建一个名为shop-order的模块,并添加springboot依赖
 
@@ -666,15 +718,114 @@ INSERT INTO shop_product VALUE(NULL,'OPPO','4000','5000');
 
 8、启动工程,通过浏览器访问服务进行测试
 
-## 2.7 传统服务调用
+## 2.5 接口调用层
+
+
+
+## 2.6 应用层
+
+## 2.7 服务调用
+
+1、声明RestTemplate
 
 ```java
+package com.io.config;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * The class/interface
+ *
+ * @author guodd
+ * @version 1.0 use jdk 1.8
+ */
+@Configuration
+public class RestTemplateConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @LoadBalanced
+    @Bean
+    public RestTemplate newRestTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+2、进行调用
+
+```java
+package com.io.web;
+
+import com.io.client.ProductClient;
+import com.io.dto.ProductReq;
+import com.io.dto.ProductRes;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+/**
+ * The class/interface
+ *
+ * @author guodd
+ * @version 1.0 use jdk 1.8
+ */
+@RestController
+@Slf4j
+public class OrderController {
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private RestTemplate newRestTemplate;
+
+    @Autowired
+    private ProductClient productClient;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
+
+    /**
+     * 方式一：普通restTemplate
+     * 1、一旦服务提供者的地址发生变化，我们就要去修改服务调用者的地址
+     * 2、一旦服务提供者做了集群，服务无法实现负载均衡的效果
+     * 3、一旦服务变得越来越多，如何管理服务清单（IP + Port）
+     */
+    @PostMapping(value = "/old/info")
+    public ProductRes getInfoOld(@RequestBody ProductReq productReqDTO) {
+        return restTemplate.postForObject("http://127.0.0.1:8070/product/info", productReqDTO, ProductRes.class);
+    }
+
+    /**
+     * 方式二：负载restTemplate
+     */
+    @PostMapping(value = "/new/info")
+    public ProductRes getInfoNew(@RequestBody ProductReq productReqDTO) {
+        return newRestTemplate.postForObject("http://yl-base-product/product/info", productReqDTO, ProductRes.class);
+    }
+
+    /**
+     * 方式三：feign，更方便，像使用本地方法一样进行服务方法的调用
+     */
+    @PostMapping(value = "/feign/info")
+    public ProductRes getInfoFeign(@RequestBody ProductReq productReqDTO) {
+        rocketMQTemplate.convertAndSend("base-order", productReqDTO);
+        return productClient.getInfo(productReqDTO);
+    }
+}
 ```
 
 ## 2.8 项目打包
 
-三类pom、 jar、war、jar一种是普通的jar包，另一种是可执行jar包下面是对应的配置。
+三类pom、 jar、war、jar（一种是普通的jar包，另一种是可执行jar包）下面是对应的配置。
 
 生成可执行的jar文件。
 
@@ -959,9 +1110,7 @@ Nacos很好的兼容了Feign，Feign 默认集成了 Ribbon，所以在Nacos下�
 
 1、配置文件相对分散。在一个微服务架构下，配置文件会随着微服务的增多变的越来越多，而且分散在各个微服务中，不好统一配置和管理。
 
-2、配置文件无法区分环境。微服务项目可能会有多个环境，例如：测试环境、预发布环境、生产环境。每一个环境所使用的配置理论上都是不同的，一旦需要修改，就需要我们去各个微服务下手动
-
-维护，这比较困难。
+2、配置文件无法区分环境。微服务项目可能会有多个环境，例如：测试环境、预发布环境、生产环境。每一个环境所使用的配置理论上都是不同的，一旦需要修改，就需要我们去各个微服务下手动维护，这比较困难。
 
 3、配置文件无法实时更新。我们修改了配置文件之后，必须重新启动微服务才能使配置生效，这对一基于上面这些问题，我们就需要 配置中心 的加入来解决这些问题。
 
@@ -1002,17 +1151,15 @@ SpringCloud Config
 
 接下来我们以商品微服务为例，学习nacos config的使用。
 
-1 搭建nacos环境【使用现有的nacos环境即可】
+1、搭建nacos环境【使用现有的nacos环境即可】
 
-2 在微服务中引入nacos的依赖
+2、在微服务中引入nacos的依赖
 
-3 在微服务中添加nacos config的配置
+3、在微服务中添加nacos config的配置
 
-注意:不能使用原来的application.yml作为配置文件，而是新建一个bootstrap.yml作为配置文件
+注意：不能使用原来的application.yml作为配置文件，而是新建一个bootstrap.yml作为配置文件配置文件优先级(由高到低):
 
-配置文件优先级(由高到低):
-
-bootstrap.properties -> bootstrap.yml -> application.properties -> application.yml
+bootstrap.properties=> bootstrap.yml=> application.properties=>application.yml
 
 ```java
 <dependency>
@@ -1021,7 +1168,7 @@ bootstrap.properties -> bootstrap.yml -> application.properties -> application.y
 </dependency>
 ```
 
-```java
+```yaml
 spring:
 	application:
 		name: service-product
@@ -1034,17 +1181,17 @@ spring:
 		active: dev # 环境标识
 ```
 
-4 在nacos中添加配置
+4、在nacos中添加配置
 
 点击配置列表，点击右边+号，新建配置。在新建配置过程中，要注意下面的细节：
 
-1 ）Data ID不能随便写，要跟配置文件中的对应，对应关系如图所示
+1）Data ID不能随便写，要跟配置文件中的对应，对应关系如图所示
 
-2 ）配置文件格式要跟配置文件的格式对应，且目前仅仅支持YAML和Properties
+2）配置文件格式要跟配置文件的格式对应，且目前仅仅支持YAML和Properties
 
-3 ）配置内容按照上面选定的格式书写
+3）配置内容按照上面选定的格式书写
 
-5 注释本地的application.yam中的内容， 启动程序进行测试
+5）注释本地的application.yam中的内容， 启动程序进行测试
 
 如果依旧可以成功访问程序，说明我们nacos的配置中心功能已经实现
 
@@ -1056,9 +1203,9 @@ spring:
 
 在nacos中的service-product-dev.yaml配置项中添加下面配置:
 
-方式一: 硬编码方式
+方式一：硬编码方式
 
-```
+```yaml
 config:
 	appName: product
 ```
@@ -1076,7 +1223,7 @@ public class NacosConfigController {
 }
 ```
 
-方式二: 注解方式 (推荐)
+方式二：注解方式 (推荐)
 
 ```java
 @RestController
@@ -1096,107 +1243,36 @@ public class NacosConfigController {
 
 当配置越来越多的时候，我们就发现有很多配置是重复的，这时候就考虑可不可以将公共配置文件提取出来，然后实现共享呢？当然是可以的。接下来我们就来探讨如何实现这一功能。
 
-**同一个微服务的不同环境之间共享配置**
+- 同一个微服务的不同环境之间共享配置
+
 
 如果想在同一个微服务的不同环境之间实现配置共享，其实很简单。
 
 只需要提取一个以spring.application.name命名的配置文件，然后将其所有环境的公共配置放在里面即可。
 
-1 新建一个名为service-product.yaml配置存放商品微服务的公共配置
+1）新建一个名为service-product.yaml配置存放商品微服务的公共配置
 
-2 新建一个名为service-product-test.yaml配置存放测试环境的配置
+2）新建一个名为service-product-test.yaml配置存放测试环境的配置
 
-```
-@RestController
-@RefreshScope//只需要在需要动态读取配置的类上添加此注解就可以
-public class NacosConfigController {
-```
+3）新建一个名为consumer-dev.yaml配置存放开发环境的配置
 
-```
-@Value("${config.appName}")
-private String appName;
-```
+4）添加测试方法
 
-```
-//2 注解方式
-@GetMapping("/nacos-config-test2")
-public String nacosConfingTest2() {
-return appName;
-}
-}
-```
+5）访问测试
 
-3 新建一个名为consumer-dev.yaml配置存放开发环境的配置
+6）接下来，修改bootstrap.yml中的配置，将active设置成test，再次访问，观察结果。
 
-4 添加测试方法
+- 不同微服务中间共享配置
 
-5 访问测试
+不同为服务之间实现配置共享的原理类似于文件引入，就是定义一个公共配置，然后在当前配置中引入。
 
-```
-@RestController
-@RefreshScope
-public class NacosConfigController {
-@Value("${config.env}")
-private String env;
-```
+1）在nacos中定义一个DataID为all-service.yaml的配置，用于所有微服务共享
 
-```
-//3 同一微服务的不同环境下共享配置
-@GetMapping("/nacos-config-test3")
-public String nacosConfingTest3() {
-return env;
-}
-}
-```
+2）在nacos的中修改service-product.yaml中为下面内容
 
-6 接下来，修改bootstrap.yml中的配置，将active设置成test，再次访问，观察结果
+3）修改bootstrap.yaml
 
-**不同微服务中间共享配置**
-
-不同为服务之间实现配置共享的原理类似于文件引入，就是定义一个公共配置，然后在当前配置中引
-
-入。
-
-1 在nacos中定义一个DataID为all-service.yaml的配置，用于所有微服务共享
-
-2 在nacos的中修改service-product.yaml中为下面内容
-
-3 修改bootstrap.yaml
-
-```
-spring:
-profiles:
-active: test # 环境标识
-```
-
-```
-spring:
-datasource:
-driver-class-name: com. mysql.jdbc.Driver
-url: jdbc:mysql:///shop?
-serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
-username: root
-password: root
-jpa:
-properties:
-hibernate:
-hbm2ddl:
-auto: update
-dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-cloud:
-nacos:
-discovery:
-server-addr: 127.0.0.1:8848
-```
-
-```
-server:
-port: 8081
-config:
-appName: product
-```
-
-4 启动商品微服务进行测试
+4）启动商品微服务进行测试
 
 # 5 Sentinel服务容错
 
@@ -2369,13 +2445,101 @@ route维度：即在Spring配置文件中配置的路由条目，资源名为对
 
 1、导入依赖
 
-```properties
-
+```java
+<dependency>
+	<groupId>com.alibaba.csp</groupId>
+	<artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+</dependency>
 ```
 
 2、编写配置类
 
-基于Sentinel 的Gateway限流是通过其提供的Filter来完成的，使用时只需注入对应的SentinelGatewayFilter实例以及 SentinelGatewayBlockExceptionHandler 实例即可。
+基于Sentinel 的Gateway限流是通过其提供的Filter来完成的，使用时只需注入对应的SentinelGatewayFilter实例以及SentinelGatewayBlockExceptionHandler实例即可。
+
+```java
+package com.io.config;
+
+import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule;
+import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayRuleManager;
+import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
+import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
+import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
+import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.reactive.result.view.ViewResolver;
+
+import javax.annotation.PostConstruct;
+import java.util.*;
+
+/**
+ * The class/interface 网关限流
+ *
+ * @author guodd
+ * @version 1.0 use jdk 1.8
+ */
+@Component
+public class GatewayLimiter {
+    private final List<ViewResolver> viewResolvers;
+    private final ServerCodecConfigurer serverCodecConfigurer;
+
+    public GatewayLimiter(ObjectProvider<List<ViewResolver>> viewResolversProvider, ServerCodecConfigurer serverCodecConfigurer) {
+        this.viewResolvers = viewResolversProvider.getIfAvailable(Collections::emptyList);
+        this.serverCodecConfigurer = serverCodecConfigurer;
+    }
+
+    // 初始化一个限流的过滤器
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public GlobalFilter sentinelGatewayFilter() {
+        return new SentinelGatewayFilter();
+    }
+
+    // 配置初始化的限流参数
+    @PostConstruct
+    public void initGatewayRules() {
+        Set<GatewayFlowRule> rules = new HashSet<>();
+        rules.add(
+                new GatewayFlowRule("product_route") //资源名称,对应路由id
+                        .setCount(1) // 限流阈值
+                        .setIntervalSec(1) // 统计时间窗口，单位是秒，默认是 1 秒
+        );
+        GatewayRuleManager.loadRules(rules);
+    }
+
+    // 配置限流的异常处理器
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SentinelGatewayBlockExceptionHandler
+    sentinelGatewayBlockExceptionHandler() {
+        return new SentinelGatewayBlockExceptionHandler(viewResolvers, serverCodecConfigurer);
+    }
+
+    // 自定义限流异常页面
+    @PostConstruct
+    public void initBlockHandlers() {
+        BlockRequestHandler blockRequestHandler = (serverWebExchange, throwable) -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("code", 0);
+            map.put("message", "接口被限流了");
+            return ServerResponse.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON_UTF8).
+                    body(BodyInserters.fromObject(map));
+        };
+        GatewayCallbackManager.setBlockHandler(blockRequestHandler);
+    }
+}
+```
+
+
 
 3、测试
 
@@ -2384,6 +2548,30 @@ route维度：即在Spring配置文件中配置的路由条目，资源名为对
 4、自定义API分组
 
 自定义API分组是一种更细粒度的限流规则定义
+
+```java
+//自定义API分组
+@PostConstruct
+private void initCustomizedApis() {
+    Set<ApiDefinition> definitions = new HashSet<>();
+    ApiDefinition api1 = new ApiDefinition("product_api1")
+            .setPredicateItems(new HashSet<ApiPredicateItem>() {{
+                // 以/product-serv/product/api1 开头的请求
+                add(new ApiPathPredicateItem().setPattern("/product_route/product/api1/**").
+                        setMatchStrategy(SentinelGatewayConstants.URL_MATCH_STRATEGY_PREFIX));
+            }});
+    ApiDefinition api2 = new ApiDefinition("product_api2")
+            .setPredicateItems(new HashSet<ApiPredicateItem>() {{
+                // 以/product-serv/product/api2/demo1 完成的url路径匹配
+                add(new ApiPathPredicateItem().setPattern("/product_route/product/api2/demo1"));
+            }});
+    definitions.add(api1);
+    definitions.add(api2);
+    GatewayApiDefinitionManager.loadApiDefinitions(definitions);
+}
+```
+
+
 
 # 7 Sleuth链路追踪
 
@@ -2416,7 +2604,7 @@ route维度：即在Spring配置文件中配置的路由条目，资源名为对
 - pinpoint
 
 
-Pinpoint是韩国人开源的基于字节码注入的调用链分析，以及应用监控分析工具。特点是支持多种插件，UI功能强大，接入端无代码侵入。
+Pinpoint是韩国人开源的基于字节码注入的调用链分析，以及应用监控分析工具。特点是支持多种插件，UI功能强大，接入端**无代码侵入**。
 
 - skywalking
 
@@ -2439,11 +2627,11 @@ SpringCloud Sleuth主要功能就是在分布式系统中提供追踪解决方�
 - Trace
 
 
-由一组Trace Id相同的Span串联形成一个树状结构。为了实现请求跟踪，当请求到达分布式系统的入口端点时，只需要服务跟踪框架为该请求创建一个唯一的标识（即TraceId），同时在分布式系
+由一组Trace Id相同的Span串联形成一个树状结构。为了实现请求跟踪，当请求到达分布式系统的入口端点时，只需要服务跟踪框架为该请求创建一个唯一的标识（即TraceId），同时在分布式系统内部流转的时候，框架始终保持传递该唯一值，直到整个请求的返回。那么我们就可以使用该唯一标识将所有的请求串联起来，形成一条完整的请求链路。
 
-统内部流转的时候，框架始终保持传递该唯一值，直到整个请求的返回。那么我们就可以使用该唯一标识将所有的请求串联起来，形成一条完整的请求链路。
+- Span 
 
-Span 代表了一组基本的工作单元。为了统计各处理单元的延迟，当请求到达各个服务组件的时候，也通过一个唯一标识（SpanId）来标记它的开始、具体过程和结束。通过SpanId的开始和结束时间戳，就能统计该span的调用时间，除此之外，我们还可以获取如事件的名称。请求信息等元数据。
+代表了一组基本的工作单元。为了统计各处理单元的延迟，当请求到达各个服务组件的时候，也通过一个唯一标识（SpanId）来标记它的开始、具体过程和结束。通过SpanId的开始和结束时间戳，就能统计该span的调用时间，除此之外，我们还可以获取如事件的名称。请求信息等元数据。
 
 - Annotation
 
@@ -2607,539 +2795,276 @@ java -javaagent:D:\\apache-skywalking-apm-6.4.0\\apache-skywalking-apm-bin\\agen
 
 ### 8.1.1 什么是MQ
 
-MQ（Message Queue）是一种跨进程的通信机制，用于传递消息。通俗点说，就是一个先进先出的数据结构。
+MQ（Message Queue）是一种**跨进程的通信机制**，用于传递消息。通俗点说，就是一个**先进先出的数据结构**。
 
-### 7.1.2 MQ的应用场景
+### 8.1.2 MQ的应用场景
 
-#### 7.1 .2 .1 异步解耦
+#### 8.1.2 .1 异步解耦
 
 最常见的一个场景是用户注册后，需要发送注册邮件和短信通知，以告知用户注册成功。传统的做法如下：
 
+![image-20200703125137700](../插图/image-20200703125137700.png)
+
 此架构下注册、邮件、短信三个任务全部完成后，才返回注册结果到客户端，用户才能使用账号登录。
 
-但是对于用户来说，注册功能实际只需要注册系统存储用户的账户信息后，该用户便可以登录，而后续
+但是对于用户来说，注册功能实际只需要注册系统存储用户的账户信息后，该用户便可以登录，而后续的注册短信和邮件**不是即时需要关注的步骤**。
 
-的注册短信和邮件不是即时需要关注的步骤。
+所以实际当数据写入注册系统后，注册系统就可以把其他的操作放入对应的消息队列MQ中然后马上返回用户结果，由消息队列MQ异步地进行这些操作。架构图如下：
 
-所以实际当数据写入注册系统后，注册系统就可以把其他的操作放入对应的消息队列 MQ 中然后马上返
+![image-20200703130125221](../插图/image-20200703130125221.png)
 
-回用户结果，由消息队列 MQ 异步地进行这些操作。架构图如下：
+异步解耦是消息队列 MQ 的主要特点，主要目的是减少请求响应时间和解耦。主要的使用场景就是将 比较耗时而且不需要即时（同步）返回结果 的操作作为消息放入消息队列。同时，由于使用了消息队列MQ，只要保证消息格式不变，消息的发送方和接收方并不需要彼此联系，也不需要受对方的影响，即解耦合。
 
-异步解耦是消息队列 MQ 的主要特点，主要目的是减少请求响应时间和解耦。主要的使用场景就是将 比
+#### 8.1.2 .2 流量削峰
 
-较耗时而且不需要即时（同步）返回结果 的操作作为消息放入消息队列。同时，由于使用了消息队列
+流量削峰也是消息队列 MQ 的常用场景，一般在秒杀或团队抢购(**高并发**)活动中使用广泛。
 
-MQ，只要保证消息格式不变，消息的发送方和接收方并不需要彼此联系，也不需要受对方的影响，即
-
-解耦合。
-
-#### 7.1 .2 .2 流量削峰
-
-流量削峰也是消息队列 MQ 的常用场景，一般在秒杀或团队抢购(高并发)活动中使用广泛。
-
-在秒杀或团队抢购活动中，由于用户请求量较大，导致流量暴增，秒杀的应用在处理如此大量的访问流
-
-量后，下游的通知系统无法承载海量的调用量，甚至会导致系统崩溃等问题而发生漏通知的情况。为解
-
-决这些问题，可在应用和下游通知系统之间加入消息队列 MQ。
+在秒杀或团队抢购活动中，由于用户请求量较大，导致流量暴增，秒杀的应用在处理如此大量的访问流量后，下游的通知系统无法承载海量的调用量，甚至会导致系统崩溃等问题而发生漏通知的情况。为解决这些问题，可在应用和下游通知系统之间加入消息队列 MQ。
 
 秒杀处理流程如下所述：
 
-1. 用户发起海量秒杀请求到秒杀业务处理系统。
+1、用户发起海量秒杀请求到秒杀业务处理系统。
 
-2. 秒杀处理系统按照秒杀处理逻辑将满足秒杀条件的请求发送至消息队列 MQ。
+2、秒杀处理系统按照秒杀处理逻辑将满足秒杀条件的请求发送至消息队列 MQ。
 
-3. 下游的通知系统订阅消息队列 MQ 的秒杀相关消息，再将秒杀成功的消息发送到相应用户。
+3、下游的通知系统订阅消息队列 MQ 的秒杀相关消息，再将秒杀成功的消息发送到相应用户。
 
-4. 用户收到秒杀成功的通知。
+4、用户收到秒杀成功的通知。
 
-### 7.1.3 常见的MQ产品
+### 8.1.3 常见的MQ产品
 
 目前业界有很多MQ产品，比较出名的有下面这些：
 
-ZeroMQ
+- ZeroMQ
 
-号称最快的消息队列系统，尤其针对大吞吐量的需求场景。扩展性好，开发比较灵活，采用C语言
 
-实现，实际上只是一个socket库的重新封装，如果做为消息队列使用，需要开发大量的代码。
+号称最快的消息队列系统，尤其针对大吞吐量的需求场景。扩展性好，开发比较灵活，采用C语言实现，实际上只是一个socket库的重新封装，如果做为消息队列使用，需要开发大量的代码。
 
-ZeroMQ仅提供非持久性的队列，也就是说如果down机，数据将会丢失。
+ZeroMQ仅提供**非持久性**的队列，也就是说如果down机，数据将会丢失。
 
-RabbitMQ
+- RabbitMQ
 
-使用erlang语言开发，性能较好，适合于企业级的开发。但是不利于做二次开发和维护。
 
-ActiveMQ
+使用**erlang语言**开发，性能较好，适合于企业级的开发。但是不利于做二次开发和维护。
 
-历史悠久的Apache开源项目。已经在很多产品中得到应用，实现了JMS1.1规范，可以和spring-
+- ActiveMQ
 
-jms轻松融合，实现了多种协议，支持持久化到数据库，对队列数较多的情况支持不好。
 
-RocketMQ
+历史悠久的Apache开源项目。已经在很多产品中得到应用，实现了JMS1.1规范，可以和spring-jms轻松融合，实现了多种协议，**支持持久化**到数据库，对队列数较多的情况支持不好。
 
-阿里巴巴的MQ中间件，由java语言开发，性能非常好，能够撑住双十一的大流量，而且使用起来
+- RocketMQ
 
-很简单。
 
-Kafka
+阿里巴巴的MQ中间件，由java语言开发，性能非常好，能够撑住双十一的大流量，而且使用起来很简单。
 
-Kafka是Apache下的一个子项目，是一个高性能跨语言分布式Publish/Subscribe消息队列系统，
+- Kafka
 
-相对于ActiveMQ是一个非常轻量级的消息系统，除了性能非常好之外，还是一个工作良好的分布
 
-式系统。
+Kafka是Apache下的一个子项目，是一个高性能跨语言分布式Publish/Subscribe消息队列系统，相对于ActiveMQ是一个非常轻量级的消息系统，除了性能非常好之外，还是一个工作良好的分布式系统。
 
 ## 8.2 RocketMQ入门
 
-RocketMQ是阿里巴巴开源的分布式消息中间件，现在是Apache的一个顶级项目。在阿里内部使用
+RocketMQ是阿里巴巴开源的分布式消息中间件，现在是Apache的一个顶级项目。在阿里内部使用非常广泛，已经经过了"双11"这种万亿级的消息流转。
 
-非常广泛，已经经过了"双11"这种万亿级的消息流转。
-
-### 7.2.1 RocketMQ环境搭建
+### 8.2.1 环境搭建
 
 接下来我们先在linux平台下安装一个RocketMQ的服务
 
 
 #### 7.2.1.1 环境准备
 
-下载RocketMQ
+1、下载RocketMQ
 
 http://rocketmq.apache.org/release_notes/release-notes-4.4.0/
 
-环境要求
+2、环境要求
 
-Linux 64位操作系统
-
-64bit JDK 1.8+
+Linux 64位操作系统、64bit JDK 1.8+
 
 #### 7.2.1.2 安装RocketMQ
 
-1 上传文件到Linux系统
+1、上传文件到Linux系统
 
-2 解压到安装目录
-
-#### 7.2.1.3 启动RocketMQ
-
-1 切换到安装目录
-
-2 启动NameServer
-
-3 启动Broker
-
-#### 7.2.1.4 测试RocketMQ
-
-1 测试消息发送
-
-```
-[root@heima rocketmq]# ls /usr/local/src/
+```properties
+[root]# ls /usr/local/src/
 rocketmq-all-4.4.0-bin-release.zip
 ```
 
-```
-[root@heima src]# unzip rocketmq-all-4.4.0-bin-release.zip
-[root@heima src]# mv rocketmq-all-4.4.0-bin-release ../rocketmq
+2、解压到安装目录
+
+```properties
+[root]# unzip -d rocketmq-all rocketmq-all-4.4.0-bin-release.zip
+[root]# mv rocketmq-all-4.4.0-bin-release ../rocketmq
 ```
 
-```
-[root@heima rocketmq]# ls
+#### 7.2.1.3 启动RocketMQ
+
+1、切换到安装目录
+
+```properties
+[root]# ls
 benchmark bin conf lib LICENSE NOTICE README.md
 ```
 
-```
-[root@heima rocketmq]# nohup ./bin/mqnamesrv &
+2、启动NameServer
+
+```properties
+[root]# nohup ./bin/mqnamesrv &
 [1] 1467
 # 只要进程不报错,就应该是启动成功了,可以查看一下日志
-[root@heima rocketmq]# tail -f /root/logs/rocketmqlogs/namesrv.log
+[root]# tail -f /root/logs/rocketmqlogs/namesrv.log
 ```
 
-```
+3、启动Broker
+
+```properties
 # 编辑bin/runbroker.sh 和 bin/runserver.sh文件,修改里面的
 # JAVA_OPT="${JAVA_OPT} -server -Xms8g -Xmx8g -Xmn4g"
-# 为J AVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m"
-[root@heima rocketmq]# nohup bin/mqbroker -n localhost:9876 &
-[root@heima rocketmq]# tail -f /root/logs/rocketmqlogs/broker.log
+# 为JAVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m -Xmn128m"
+[root]# nohup bin/mqbroker -n localhost:9876 &
+[root]# tail -f /root/logs/rocketmqlogs/broker.log
+
+[root]# nohup ./bin/mqbroker -n localhost:9876 &
+[root]# nohup ./bin/mqbroker -n 192.168.10.62:9876 autoCreateTopicEnable=true & 
 ```
 
-2 测试消息接收
+#### 7.2.1.4 测试RocketMQ
+
+1、测试消息发送
+
+```properties
+[root]# export NAMESRV_ADDR=localhost:9876
+[root]# ./bin/tools.sh org.apache.rocketmq.example.quickstart.Producer
+```
+
+2、测试消息接收
+
+```properties
+[root]# export NAMESRV_ADDR=localhost:9876
+[root]# ./bin/tools.sh org.apache.rocketmq.example.quickstart.Consumer
+```
 
 #### 7.2.1.5 关闭RocketMQ
 
-### 7.2.2 RocketMQ的架构及概念
+```properties
+[root]# ./bin/mqshutdown broker
+[root]# ./bin/mqshutdown namesrv
+```
+
+### 7.2.2 架构及概念
 
 如上图所示，整体可以分成 4 个角色，分别是：NameServer，Broker，Producer，Consumer。
 
-Broker(邮递员)
+Producer(寄件人)：消息的生产者，需要从NameServer获取Broker信息，然后与Broker建立连接，向Broker发送消息。
 
-Broker是RocketMQ的核心，负责消息的接收，存储，投递等功能
+Consumer(收件人)：消息的消费者，需要从NameServer获取Broker信息，然后与Broker建立连接，从Broker获取消息。
 
-NameServer(邮局)
+NameServer(邮局)：消息队列的协调者，Broker向它注册路由信息，同时Producer和Consumer向其获取路由信息。
 
-消息队列的协调者，Broker向它注册路由信息，同时Producer和Consumer向其获取路由信息
+Broker(邮递员)：Broker是RocketMQ的核心，负责消息的接收，存储，投递等功能。
 
-Producer(寄件人)
+Topic(地区)：用来区分不同类型的消息，发送和接收消息前都需要先创建Topic，针对Topic来发送和接收消息
 
-消息的生产者，需要从NameServer获取Broker信息，然后与Broker建立连接，向Broker发送消息
+Message Queue(邮件)：为了提高性能和吞吐量，引入了Message Queue，一个Topic可以设置一个或多个Message Queue，这样消息就可以并行往各个Message Queue发送消息，消费者也可以并行的从多个Message Queue读取消息。
 
-Consumer(收件人)
+Message：Message是消息的载体。
 
-```
-[root@heima rocketmq]# export NAMESRV_ADDR=localhost:9876
-[root@heima rocketmq]# bin/tools.sh
-org.apache.rocketmq.example.quickstart.Producer
-```
+Producer Group：生产者组，简单来说就是多个发送同一类消息的生产者称之为一个生产者组。
 
-```
-[root@heima rocketmq]# export NAMESRV_ADDR=localhost:9876
-[root@heima rocketmq]# bin/tools.sh
-org.apache.rocketmq.example.quickstart.Consumer
-```
-
-```
-[root@heima rocketmq]# bin/ mqshutdown broker
-[root@heima rocketmq]# bin/mqshutdown namesrv
-```
-
-消息的消费者，需要从NameServer获取Broker信息，然后与Broker建立连接，从Broker获取消息
-
-##### Topic(地区)
-
-##### 用来区分不同类型的消息，发送和接收消息前都需要先创建Topic，针对Topic来发送和接收消息
-
-##### Message Queue(邮件)
-
-##### 为了提高性能和吞吐量，引入了Message Queue，一个Topic可以设置一个或多个Message
-
-##### Queue，这样消息就可以并行往各个Message Queue发送消息，消费者也可以并行的从多个
-
-##### Message Queue读取消息
-
-##### Message
-
-##### Message 是消息的载体。
-
-##### Producer Group
-
-##### 生产者组，简单来说就是多个发送同一类消息的生产者称之为一个生产者组。
-
-##### Consumer Group
-
-##### 消费者组，消费同一类消息的多个 consumer 实例组成一个消费者组。
+Consumer Group：消费者组，消费同一类消息的多个 consumer 实例组成一个消费者组。
 
 ### 7.2.3 RocketMQ控制台安装
 
-##### 1 下载
+1、下载
 
-##### 2 修改配置文件
-
-##### 3 打成jar包，并启动
-
-##### 4 访问控制台
-
-```
-# 在g it上下载下面的工程 rocketmq-console-1.0.0
+```properties
+# 在git上下载下面的工程 rocketmq-console-1.0.0
 https://github.com/apache/rocketmq-externals/releases
 ```
 
-```
+2、修改配置文件
+
+```properties
 # 修改配置文件 rocketmq-console\src\main\resources\application.properties
-server.port=7777 #项目启动后的端口号
-rocketmq.config.namesrvAddr=192.168.109.131:9876 #nameserv的地址，注意防火墙要开启
-9876 端口
+server.port=7777 # 项目启动后的端口号
+rocketmq.config.namesrvAddr=192.168.109.131:9876 # nameserv的地址，注意防火墙要开启9876端口
 ```
 
-```
+3、打成jar包，并启动
+
+```properties
 # 进入控制台项目，将工程打成jar包
 mvn clean package -Dmaven.test.skip=true
 # 启动控制台
 java -jar target/rocketmq-console-ng-1.0.0.jar
 ```
 
+4、访问控制台
+
 ## 8.3 消息发送和接收演示
 
-##### 接下来我们使用Java代码来演示消息的发送和接收
+接下来我们使用Java代码来演示消息的发送和接收
 
 ### 7.3.1 发送消息
 
-##### 消息发送步骤:
+消息发送步骤:
 
-##### 1. 创建消息生产者, 指定生产者所属的组名
+1、创建消息生产者，指定生产者所属的组名
 
-##### 2. 指定Nameserver地址
+2、指定Nameserver地址
 
-##### 3. 启动生产者
+3、启动生产者
 
-##### 4. 创建消息对象，指定主题、标签和消息体
+4、创建消息对象，指定主题、标签和消息体
 
-##### 5. 发送消息
+5、发送消息
 
-##### 6. 关闭生产者
-
-```
-<dependency>
-<groupId>org.apache.rocketmq</groupId>
-<artifactId>rocketmq-spring-boot-starter</artifactId>
-<version>2.0.2</version>
-</dependency>
-```
-
-###### //发送消息
-
-```
-public class RocketMQSendTest {
-public static void main(String[] args) throws Exception {
-//1. 创建消息生产者, 指定生产者所属的组名
-DefaultMQProducer producer = new DefaultMQProducer("myproducer-group");
-//2. 指定Nameserver地址
-producer.setNamesrvAddr("192.168.109.131:9876");
-//3. 启动生产者
-producer.start();
-//4. 创建消息对象，指定主题、标签和消息体
-Message msg = new Message("myTopic", "myTag",
-("RocketMQ Message").getBytes());
-```
+6、关闭生产者
 
 ### 7.3.2 接收消息
 
 消息接收步骤:
 
-1. 创建消息消费者, 指定消费者所属的组名
+1、创建消息消费者, 指定消费者所属的组名
 
-2. 指定Nameserver地址
+2、指定Nameserver地址
 
-3. 指定消费者订阅的主题和标签
+3、指定消费者订阅的主题和标签
 
-4. 设置回调函数，编写处理消息的方法
+4、设置回调函数，编写处理消息的方法
 
-5. 启动消息消费者
+5、启动消息消费者
 
 ## 8.4 案例
 
 接下来我们模拟一种场景: 下单成功之后，向下单用户发送短信。设计图如下：
 
-//5. 发送消息
-
-```
-SendResult sendResult = producer.send(msg,10000);
-System.out.println(sendResult);
-//6. 关闭生产者
-producer.shutdown();
-}
-}
-```
-
-###### //接收消息
-
-```
-public class RocketMQReceiveTest {
-public static void main(String[] args) throws MQClientException {
-//1. 创建消息消费者, 指定消费者所属的组名
-DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("myconsumer-
-group");
-//2. 指定Nameserver地址
-consumer.setNamesrvAddr("192.168.109.131:9876");
-//3. 指定消费者订阅的主题和标签
-consumer.subscribe("myTopic", "*");
-//4. 设置回调函数，编写处理消息的方法
-consumer.registerMessageListener(new MessageListenerConcurrently() {
-@Override
-public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt>
-msgs,
-ConsumeConcurrentlyContext
-context) {
-System.out.println("Receive New Messages: " + msgs);
-//返回消费状态
-return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-}
-});
-//5. 启动消息消费者
-consumer.start();
-System.out.println("Consumer Started.");
-}
-}
-```
-
 ### 7.4.1 订单微服务发送消息
 
-##### 1 在shop-order中添加rocketmq的依赖
+1、在shop-order中添加rocketmq的依赖
 
-##### 2 添加配置
+2、添加配置
 
-##### 3 编写测试代码
-
-```
-<!--rocketmq-->
-<dependency>
-<groupId>org.apache.rocketmq</groupId>
-<artifactId>rocketmq-spring-boot-starter</artifactId>
-<version>2.0.2</version>
-</dependency>
-<dependency>
-<groupId>org.apache.rocketmq</groupId>
-<artifactId>rocketmq-client</artifactId>
-<version>4.4.0</version>
-</dependency>
-```
-
-```
+```yaml
 rocketmq:
-name-server: 192.168.109.131:9876 #rocketMQ服务的地址
-producer:
-group: shop-order # 生产者组
+	name-server: 192.168.109.131:9876 #rocketMQ服务的地址
+	producer:
+		group: shop-order # 生产者组
 ```
 
-```
-@RestController
-@Slf4j
-public class OrderController2 {
-@Autowired
-private OrderService orderService;
-@Autowired
-private ProductService productService;
-@Autowired
-private RocketMQTemplate rocketMQTemplate;
-```
-
-```
-//准备买 1 件商品
-@GetMapping("/order/prod/{pid}")
-public Order order(@PathVariable("pid") Integer pid) {
-log.info(">>客户下单,这时候要调用商品微服务查询商品信息");
-```
-
-```
-//通过fegin调用商品微服务
-Product product = productService.findByPid(pid);
-```
-
-```
-if (product == null){
-```
+3、编写测试代码
 
 ### 7.4.2 用户微服务订阅消息
 
-##### 1 修改shop-user模块配置
+1 修改shop-user模块配置
 
-```
-Order order = new Order();
-order.setPname("下单失败");
-return order;
-}
-```
+2 修改主类
 
-```
-log.info(">>商品信息,查询结果:" + JSON.toJSONString(product));
-```
+3 修改配置文件
 
-```
-Order order = new Order();
-order.setUid(1);
-order.setUsername("测试用户");
-order.setPid(product.getPid());
-order.setPname(product.getPname());
-order.setPprice(product.getPprice());
-order.setNumber(1);
-orderService.save(order);
-```
+4 编写消息接收服务
 
-```
-//下单成功之后,将消息放到mq中
-rocketMQTemplate.convertAndSend("order-topic", order);
-```
-
-```
-return order;
-}
-}
-```
-
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-http://maven.apache.org/xsd/maven-4.0.0.xsd">
-<parent>
-<artifactId>springcloud-alibaba</artifactId>
-<groupId>com.itheima</groupId>
-<version>1.0-SNAPSHOT</version>
-</parent>
-<modelVersion>4.0.0</modelVersion>
-```
-
-```
-<artifactId>shop-user</artifactId>
-```
-
-```
-<dependencies>
-<dependency>
-<groupId>com.itheima</groupId>
-<artifactId>shop-common</artifactId>
-<version>1.0-SNAPSHOT</version>
-</dependency>
-<dependency>
-<groupId>com.alibaba.cloud</groupId>
-```
-
-##### 2 修改主类
-
-##### 3 修改配置文件
-
-```
-<artifactId>spring-cloud-starter-alibaba-nacos-
-discovery</artifactId>
-</dependency>
-<dependency>
-<groupId>org.apache.rocketmq</groupId>
-<artifactId>rocketmq-spring-boot-starter</artifactId>
-<version>2.0.2</version>
-</dependency>
-<dependency>
-<groupId>org.apache.rocketmq</groupId>
-<artifactId>rocketmq-client</artifactId>
-<version>4.4.0</version>
-</dependency>
-</dependencies>
-</project>
-```
-
-```
-@SpringBootApplication
-@EnableDiscoveryClient
-public class UserApplication {
-public static void main(String[] args) {
-SpringApplication.run(UserApplication.class, args);
-}
-}
-```
-
-```
-server:
-port: 8071
-spring:
-application:
-name: service-user
-datasource:
-driver-class-name: com. mysql.jdbc.Driver
-url: jdbc:mysql:///shop?
-serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
-username: root
-password: root
-jpa:
-properties:
-hibernate:
-hbm2ddl:
-auto: update
-dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-cloud:
-nacos:
-discovery:
-server-addr: 127.0.0.1:8848
-```
-
-##### 4 编写消息接收服务
-
-##### 5 启动服务，执行下单操作，观看后台输出
+5 启动服务，执行下单操作，观看后台输出
 
 ## 8.5 发送不同类型的消息
 
@@ -3147,317 +3072,82 @@ server-addr: 127.0.0.1:8848
 
 RocketMQ提供三种方式来发送普通消息：可靠同步发送、可靠异步发送和单向发送。
 
-可靠同步发送
-
-同步发送是指消息发送方发出数据后，会在收到接收方发回响应之后才发下一个数据包的通讯方
-
-式。
-
-##### 此种方式应用场景非常广泛，例如重要通知邮件、报名短信通知、营销短信系统等。
-
-##### 可靠异步发送
-
-##### 异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。发送
-
-##### 方通过回调接口接收服务器响应，并对响应结果进行处理。
-
-##### 异步发送一般用于链路耗时较长，对 RT 响应时间较为敏感的业务场景，例如用户视频上传后通知
-
-##### 启动转码服务，转码完成后通知推送转码结果等。
-
-##### 单向发送
-
-##### 单向发送是指发送方只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不
-
-##### 等待应答。
-
-##### 适用于某些耗时非常短，但对可靠性要求并不高的场景，例如日志收集。
-
-```
-rocketmq:
-name-server: 192.168.109.131:9876
-```
-
-```
-package com.itheima.service;
-```
-
-```
-//发送短信的服务
-@Slf4j
-@Service
-@RocketMQMessageListener(consumerGroup = "shop-user", topic = "order-topic")
-public class SmsService implements RocketMQListener<Order> {
-@Override
-public void onMessage(Order order) {
-log.info("收到一个订单信息{},接下来发送短信", JSON.toJSONString(order));
-}
-}
-```
-
-###### <!--依赖-->
-
-<dependency>
-<groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-test</artifactId>
-</dependency>
-<dependency>
-<groupId>junit</groupId>
-<artifactId>junit</artifactId>
-</dependency>
-
-###### //测试
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = OrderApplication.class)
-public class MessageTypeTest {
-@Autowired
-private RocketMQTemplate rocketMQTemplate;
-
-//同步消息
-@Test
-public void testSyncSend() {
-//参数一: topic， 如果想添加tag 可以使用"topic:tag"的写法
-//参数二: 消息内容
-SendResult sendResult =
-rocketMQTemplate.syncSend("test-topic-1", "这是一条同步消息");
-System.out.println(sendResult);
-}
-
-//异步消息
-@Test
-public void testAsyncSend() throws InterruptedException {
-public void testSyncSendMsg() {
-//参数一: topic, 如果想添加tag 可以使用"topic:tag"的写法
-//参数二: 消息内容
-//参数三: 回调函数, 处理返回结果
-rocketMQTemplate.asyncSend("test-topic-1", "这是一条异步消息", new
-SendCallback() {
-@Override
-public void onSuccess(SendResult sendResult) {
-System.out.println(sendResult);
-}
-
-@Override
-public void onException(Throwable throwable) {
-System.out.println(throwable);
-}
-});
-//让线程不要终止
-Thread.sleep(30000000);
+- 可靠同步发送
 
 
-##### 发送方式 发送 TPS 发送结果反馈 可靠性
+同步发送是指消息发送方发出数据后，会在收到接收方发回响应之后才发下一个数据包的通讯方式。此种方式应用场景非常广泛，例如重要通知邮件、报名短信通知、营销短信系统等。
 
-##### 同步发送 快 有 不丢失
+- 可靠异步发送
 
-##### 异步发送 快 有 不丢失
 
-##### 单向发送 最快 无 可能丢失
+异步发送是指发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。发送方通过回调接口接收服务器响应，并对响应结果进行处理。异步发送一般用于链路耗时较长，对 RT 响应时间较为敏感的业务场景，例如用户视频上传后通知启动转码服务，转码完成后通知推送转码结果等。
 
-##### 三种发送方式的对比
+- 单向发送
+
+
+单向发送是指发送方只负责发送消息，不等待服务器回应且没有回调函数触发，即只发送请求不等待应答。适用于某些耗时非常短，但对可靠性要求并不高的场景，例如日志收集。
+
+
+
+发送方式 发送 TPS 发送结果反馈 可靠性
+
+同步发送 快 有 不丢失
+
+异步发送 快 有 不丢失
+
+单向发送 最快 无 可能丢失
+
+三种发送方式的对比
 
 ### 7.5.2 顺序消息
 
-##### 顺序消息是消息队列提供的一种严格按照顺序来发布和消费的消息类型。
+顺序消息是消息队列提供的一种严格按照顺序来发布和消费的消息类型。
 
 ### 7.5.3 事务消息
 
-##### RocketMQ提供了事务消息，通过事务消息就能达到分布式事务的最终一致。
+RocketMQ提供了事务消息，通过事务消息就能达到分布式事务的最终一致。
 
-##### 事务消息交互流程:
+事务消息交互流程
 
-###### }
+同步顺序消息[异步顺序 单向顺序写法类似]
 
-###### //单向消息
+两个概念:
 
-```
-@Test
-public void testOneWay() {
-rocketMQTemplate.sendOneWay("test-topic-1", "这是一条单向消息");
-}
-}
-```
+半事务消息：暂不能投递的消息，发送方已经成功地将消息发送到了RocketMQ服务端，但是服务端未收到生产者对该消息的二次确认，此时该消息被标记成“暂不能投递”状态，处于该种状态下的消息即半事务消息。
 
-###### //同步顺序消息[异步顺序 单向顺序写法类似]
+消息回查：由于网络闪断、生产者应用重启等原因，导致某条事务消息的二次确认丢失，RocketMQ服务端通过扫描发现某条消息长期处于“半事务消息”时，需要主动向消息生产者询问该消息的最终状态（Commit 或是 Rollback），该询问过程即消息回查。
 
-```
-public void testSyncSendOrderly() {
-//第三个参数用于队列的选择
-rocketMQTemplate.syncSendOrderly("test-topic-1", "这是一条异步顺序消息",
-"xxxx");
-}
-```
+- 事务消息发送步骤：
 
-##### 两个概念:
+1、发送方将半事务消息发送至RocketMQ服务端。
 
-##### 半事务消息：暂不能投递的消息，发送方已经成功地将消息发送到了RocketMQ服务端，但是服务
+2、RocketMQ服务端将消息持久化之后，向发送方返回Ack确认消息已经发送成功，此时消息为半事务消息。
 
-##### 端未收到生产者对该消息的二次确认，此时该消息被标记成“暂不能投递”状态，处于该种状态下的
+3、发送方开始执行本地事务逻辑。
 
-##### 消息即半事务消息。
+4、发送方根据本地事务执行结果向服务端提交二次确认（Commit 或是 Rollback），服务端收到Commit 状态则将半事务消息标记为可投递，订阅方最终将收到该消息；服务端收到 Rollback 状态则删除半事务消息，订阅方将不会接受该消息。
 
-##### 消息回查：由于网络闪断、生产者应用重启等原因，导致某条事务消息的二次确认丢失，
+- 事务消息回查步骤 ：
 
-##### RocketMQ服务端通过扫描发现某条消息长期处于“半事务消息”时，需要主动向消息生产者询问该
+1、在断网或者是应用重启的特殊情况下，上述步骤 4 提交的二次确认最终未到达服务端，经过固定时间后服务端将对该消息发起消息回查。
 
-##### 消息的最终状态（Commit 或是 Rollback），该询问过程即消息回查。
+2、发送方收到消息回查后，需要检查对应消息的本地事务执行的最终结果。
 
-##### 事务消息发送步骤：
+3、发送方根据检查得到的本地事务的最终状态再次提交二次确认，服务端仍按照步骤 4 对半事务消息进行操作。
 
-##### 1. 发送方将半事务消息发送至RocketMQ服务端。
-
-##### 2. RocketMQ服务端将消息持久化之后，向发送方返回Ack确认消息已经发送成功，此时消息为半事
-
-##### 务消息。
-
-##### 3. 发送方开始执行本地事务逻辑。
-
-##### 4. 发送方根据本地事务执行结果向服务端提交二次确认（Commit 或是 Rollback），服务端收到
-
-##### Commit 状态则将半事务消息标记为可投递，订阅方最终将收到该消息；服务端收到 Rollback 状
-
-##### 态则删除半事务消息，订阅方将不会接受该消息。
-
-##### 事务消息回查步骤 ：
-
-##### 1. 在断网或者是应用重启的特殊情况下，上述步骤 4 提交的二次确认最终未到达服务端，经过固定时
-
-##### 间后服务端将对该消息发起消息回查。
-
-##### 2. 发送方收到消息回查后，需要检查对应消息的本地事务执行的最终结果。
-
-##### 3. 发送方根据检查得到的本地事务的最终状态再次提交二次确认，服务端仍按照步骤 4 对半事务消息
-
-##### 进行操作。
-
-###### //事物日志
-
-```
-@Entity(name = "shop_txlog")
-@Data
-public class TxLog {
-@Id
-private String txLogId;
-private String content;
-private Date date;
-}
-```
-
-```
-@Service
-public class OrderServiceImpl4 {
-```
-
-```
-@Autowired
-```
-
-private OrderDao orderDao;
-
-@Autowired
-private TxLogDao txLogDao;
-
-@Autowired
-private RocketMQTemplate rocketMQTemplate;
-
-public void createOrderBefore(Order order) {
-String txId = UUID.randomUUID().toString();
-
-//发送半事务消息
-rocketMQTemplate.sendMessageInTransaction(
-"tx_producer_group",
-"tx_topic",
-MessageBuilder.withPayload(order).setHeader("txId",
-txId).build(),
-order
-);
-}
-
-//本地事物
-@Transactional
-public void createOrder(String txId, Order order) {
-//本地事物代码
-orderDao.save(order);
-
-//记录日志到数据库,回查使用
-TxLog txLog = new TxLog();
-txLog.setTxLogId(txId);
-txLog.setContent("事物测试");
-txLog.setDate(new Date());
-txLogDao.save(txLog);
-}
-}
-
-@RocketMQTransactionListener(txProducerGroup = "tx_producer_group")
-public class OrderServiceImpl4Listener implements
-RocketMQLocalTransactionListener {
-
-@Autowired
-private TxLogDao txLogDao;
-
-@Autowired
-private OrderServiceImpl4 orderServiceImpl4;
-
-```
-//执行本地事物
-@Override
-```
+事物日志
 
 ## 8.6 消息消费要注意的细节
 
 RocketMQ支持两种消息模式:
 
-广播消费: 每个消费者实例都会收到消息,也就是一条消息可以被每个消费者实例处理；
+广播消费：每个消费者实例都会收到消息，也就是一条消息可以被每个消费者实例处理；
 
-集群消费: 一条消息只能被一个消费者实例消费
+集群消费：一条消息只能被一个消费者实例消费
 
 # 9 SMS短信服务
 
 ## 9.1 短信服务介绍
-
-```
-public RocketMQLocalTransactionState executeLocalTransaction(Message msg,
-Object arg) {
-try {
-//本地事物
-orderServiceImpl4.createOrder((String) msg.getHeaders().get("txId"),
-(Order) arg);
-return RocketMQLocalTransactionState.COMMIT;
-} catch (Exception e) {
-return RocketMQLocalTransactionState.ROLLBACK;
-}
-}
-```
-
-```
-//消息回查
-@Override
-public RocketMQLocalTransactionState checkLocalTransaction(Message msg) {
-//查询日志记录
-TxLog txLog = txLogDao.findById((String)
-msg.getHeaders().get("txId")).get();
-```
-
-```
-if (txLog == null) {
-return RocketMQLocalTransactionState.COMMIT;
-} else {
-return RocketMQLocalTransactionState.ROLLBACK;
-}
-}
-}
-```
-
-```
-@RocketMQMessageListener(
-consumerGroup = "shop",//消费者分组
-topic = "order-topic",//要消费的主题
-consumeMode = ConsumeMode.CONCURRENTLY, //消费模式:无序和有序
-messageModel = Mess ageModel.CLUSTERING, //消息模式:广播和集群,默认是集群
-)
-public class SmsService implements RocketMQListener<Order> {}
-```
 
 短信服务（Short Message Service）是阿里云为用户提供的一种通信服务的能力。
 
@@ -3475,244 +3165,45 @@ public class SmsService implements RocketMQListener<Order> {}
 
 #### 8.2.1.1 实名认证
 
-https://help.aliyun.com/document_detail/48263.html?spm=a2c4g.11186623.2.25.1f9415ec9MLqK
-
-D
+https://help.aliyun.com/document_detail/48263.html?spm=a2c4g.11186623.2.25.1f9415ec9MLqKD
 
 #### 8.2.1.2 开通短信服务
+
+![image-20200709131510494](../插图/image-20200709131510494.png)
 
 #### 8.2.1.3 申请认证秘钥
 
 
-##### 名称 类型
-
-##### 是否必
-
-##### 选
-
-##### 示例值 描述
-
-##### PhoneNumbers String 是 15900000000 接收短信的手机号码。
-
-##### SignName String 是 阿里云 短信签名名称。
-
-##### TemplateCode String 是 SMS_153055065 短信模板ID。
-
-##### TemplateParam String 否 {"code":"1111"}
-
-##### 短信模板变量的值，JSON格
-
-##### 式
 
 #### 8.2.1.4 申请短信签名
 
+
+
 #### 8.2.1.5 申请短信模板
+
+
 
 ### 8.2.2 短信服务API介绍
 
-#### 8.2 .2 .1 短信发送(SendSms)
+#### 8.2.2.1 短信发送
 
-##### 调用SendSms发送短信。
+(SendSms)
 
-##### 请求参数
+##### 
 
-##### 返回数据
+#### 8.2.2.2 短信查询
 
+(QuerySendDetails)
 
-##### 名称 类型 示例值 描述
-
-##### BizId String 900619746936498440^0
-
-##### 发送回执ID，可根据它查询具体的发送
-
-##### 状态。
-
-##### Code String OK 请求状态码。返回OK代表请求成功。
-
-##### Message String OK 状态码的描述。
-
-##### RequestId String
-
-##### F655A8D5-B967-440B-
-
-##### 8683
-
-##### 请求ID。
-
-##### 名称 类型
-
-##### 是否必
-
-##### 选
-
-##### 示例值 描述
-
-##### CurrentPage Long 是 1
-
-##### 分页查看，指定发送记录的的当
-
-##### 前页码。
-
-##### PageSize Long 是 10
-
-##### 分页查看，指定每页显示的短信
-
-##### 记录数量。
-
-##### PhoneNumber String 是 15900000000 接收短信的手机号码。
-
-##### SendDate String 是 20181228
-
-##### 短信发送日期，支持查询最近 30
-
-##### 天的记录。
-
-##### BizId String 否 134523^4351232 发送回执ID，即发送流水号。
-
-##### 名称 类型 示例值 描述
-
-##### Code String OK 请求状态码。返回OK代表请求成功。
-
-##### Message String OK 状态码的描述。
-
-##### RequestId String 819BE656-D2E0 请求ID。
-
-##### SmsSendDetailDTOs Array 短信发送明细。
-
-##### TotalCount String 1 短信发送总条数。
-
-#### 8.2 .2 .2 短信查询(QuerySendDetails)
-
-##### 调用QuerySendDetails接口查看短信发送记录和发送状态。
-
-##### 请求参数
-
-##### 返回数据
-
-#### 8.2 .2 .3 功能测试
-
-##### 第 1 步: 引入阿里云服务依赖
+调用QuerySendDetails接口查看短信发送记录和发送状态。
 
 
-##### 第 2 步: 使用阿里云提供的Demo测试短信发送
 
-###### <!--短信发送-->
+#### 8.2.2.3 功能测试
 
-```
-<dependency>
-<groupId>com.alibaba.cloud</groupId>
-<artifactId>spring-cloud-alicloud-sms</artifactId>
-</dependency>
-```
+第 1 步: 引入阿里云服务依赖
 
-```
-public class SmsDemo {
-```
-
-```
-//产品名称:云通信短信API产品,开发者无需替换
-static final String product = "Dysmsapi";
-//产品域名,开发者无需替换
-static final String domain = "dysmsapi.aliyuncs.com";
-```
-
-```
-// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-static final String accessKeyId = "yourAccessKeyId";
-static final String accessKeySecret = "yourAccessKeySecret";
-```
-
-```
-//短信发送
-public static SendSmsResponse sendSms() throws ClientException {
-//可自助调整超时时间
-System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-```
-
-```
-//初始化acsClient,暂不支持region化
-IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou",
-accessKeyId, accessKeySecret);
-DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product,
-domain);
-IAcsClient acsClient = new DefaultAcsClient(profile);
-```
-
-```
-//组装请求对象-具体描述见控制台-文档部分内容
-SendSmsRequest request = new SendSmsRequest();
-//必填:待发送手机号
-request.setPhoneNumbers("15000000000");
-//必填:短信签名-可在短信控制台中找到
-request.setSignName("云通信");
-//必填:短信模板-可在短信控制台中找到
-request.setTemplateCode("SMS_1000000");
-//可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,
-此处的值为
-request.setTemplateParam("{\"name\":\"Tom\", \"code\":\"123\"}");
-```
-
-```
-//选填-上行短信扩展码(无特殊需求用户请忽略此字段)
-//request.setSmsUpExtendCode("90997");
-```
-
-```
-//可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
-request.setOutId("yourOutId");
-```
-
-//hint 此处可能会抛出异常,注意catch
-SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-
-return sendSmsResponse;
-}
-
-//短信查询
-public static QuerySendDetailsResponse querySendDetails(String bizId) throws
-ClientException {
-
-//可自助调整超时时间
-System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-
-//初始化acsClient,暂不支持region化
-IClientProfile prof ile = DefaultProfile.getProfile("cn-hangzhou",
-accessKeyId, accessKeySecret);
-DefaultProfile.addE ndpoint("cn-hangzhou", "cn-hangzhou", product,
-domain);
-IAcsClient acsClient = new DefaultAcsClient(profile);
-
-//组装请求对象
-QuerySendDetailsRequest request = new QuerySendDetailsRequest();
-//必填-号码
-request.setPhoneNumber("15000000000");
-//可选-流水号
-request.setBizId(bizId);
-//必填-发送日期 支持 30 天内记录查询,格式yyyyMMdd
-SimpleDateFormat ft = new SimpleDateFormat("yyyyMMdd");
-request.setSendDate(ft.format(new Date()));
-//必填-页大小
-request.setPageSize(10L);
-//必填-当前页码从 1 开始计数
-request.setCurrentPage(1L);
-
-//hint 此处可能会抛出异常,注意catch
-QuerySendDetailsResponse querySendDetailsResponse =
-acsClient.getAcsResponse(request);
-
-return querySendDetailsResponse;
-}
-
-```
-public static void main(String[] args) throws ClientException,
-InterruptedException {
-```
-
-//发短信
-SendSmsResponse response = sendSms();
-System.out.println("短信接口返回的数据----------------");
+第 2 步: 使用阿里云提供的Demo测试短信发送
 
 
 ## 8.3 下单之后发送短信
@@ -3769,7 +3260,7 @@ querySendDetailsResponse.getRequestId());
 
 2 将阿里短信给出的demo封装成工具类
 
-###### <!--短信发送-->
+<!--短信发送-->
 
 ```
 <dependency>
@@ -3899,310 +3390,257 @@ e.printStackTrace();
 
 # 10 Seata分布式事务
 
-## 10 .1 分布式事务基础
+## 10.1 分布式事务基础
 
-## 10 .1.1 事务
+## 10.1.1 事务
 
-##### 事务指的就是一个操作单元，在这个操作单元中的所有操作最终要保持一致的行为，要么所有操作
+事务指的就是一个操作单元，在这个操作单元中的所有操作最终要保持一致的行为，要么所有操作都成功，要么所有的操作都被撤销。简单地说，事务提供一种“要么什么都不做，要么做全套”机制。
 
-##### 都成功，要么所有的操作都被撤销。简单地说，事务提供一种“要么什么都不做，要么做全套”机制。
+## 10.1.2 本地事物
 
-## 10 .1.2 本地事物
+本地事物其实可以认为是**数据库提供的事务机制**。说到数据库事务就不得不说，数据库事务中的四大特性:
 
-```
-spring:
-application:
-name: service-product
-cloud:
-nacos:
-config:
-server-addr: 127.0.0.1:8848 #nacos中心地址
-file-extension: yaml # 配置文件格式
-shared-dataids: all-service.yaml # 配置要引入的配置
-refreshable-dataids: all-service.yaml # 配置要实现动态配置刷新的配置
-profiles:
-active: dev # 环境标识
-```
+A：原子性(Atomicity)，一个事务中的所有操作，要么全部完成，要么全部不完成
 
-##### 本地事物其实可以认为是数据库提供的事务机制。说到数据库事务就不得不说，数据库事务中的四
+C：一致性(Consistency)，在一个事务执行之前和执行之后数据库都必须处于一致性状态
 
-##### 大特性:
+I：隔离性(Isolation)，在并发环境中，当不同的事务同时操作相同的数据时，事务之间互不影响
 
-##### A：原子性(Atomicity)，一个事务中的所有操作，要么全部完成，要么全部不完成
+D：持久性(Durability)，指的是只要事务成功结束，它对数据库所做的更新就必须永久的保存下来
 
-##### C：一致性(Consistency)，在一个事务执行之前和执行之后数据库都必须处于一致性状态
+数据库事务在实现时会将一次事务涉及的所有操作全部纳入到一个不可分割的执行单元，该执行单元中的所有操作要么都成功，要么都失败，只要其中任一操作执行失败，都将导致整个事务的回滚
 
-##### I：隔离性(Isolation)，在并发环境中，当不同的事务同时操作相同的数据时，事务之间互不影响
+### 10.1.3 分布式事务
 
-##### D：持久性(Durability)，指的是只要事务成功结束，它对数据库所做的更新就必须永久的保存下来
+分布式事务指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布式系统的不同节点之上。
 
-##### 数据库事务在实现时会将一次事务涉及的所有操作全部纳入到一个不可分割的执行单元，该执行单
+简单的说，就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。
 
-##### 元中的所有操作要么都成功，要么都失败，只要其中任一操作执行失败，都将导致整个事务的回滚
+本质上来说，分布式事务就是为了保证**不同数据库的数据一致性**。
 
-### 10 .1.3 分布式事务
+### 10.1.4 分布式事务的场景
 
-##### 分布式事务指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于不同的分布
+单体系统访问多个数据库
 
-##### 式系统的不同节点之上。
+一个服务需要调用多个数据库实例完成数据的增删改操作
 
-##### 简单的说，就是一次大的操作由不同的小操作组成，这些小的操作分布在不同的服务器上，且属于不同
+多个微服务访问同一个数据库
 
-##### 的应用，分布式事务需要保证这些小操作要么全部成功，要么全部失败。
+多个服务需要调用一个数据库实例完成数据的增删改操作
 
-##### 本质上来说，分布式事务就是为了保证不同数据库的数据一致性。
+多个微服务访问多个数据库
 
-### 10 .1.4 分布式事务的场景
+多个服务需要调用一个数据库实例完成数据的增删改操作
 
-##### 单体系统访问多个数据库
+## 10.2 分布式事务解决方案
 
-##### 一个服务需要调用多个数据库实例完成数据的增删改操作
+### 10.2.1 全局事务
 
-##### 多个微服务访问同一个数据库
+全局事务基于DTP模型实现。DTP是由X/Open组织提出的一种分布式事务模型——X/Open Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：
 
-##### 多个服务需要调用一个数据库实例完成数据的增删改操作
+AP：Application 应用系统 (微服务)
 
+TM：Transaction Manager 事务管理器 (全局事务管理)
 
-##### 多个微服务访问多个数据库
+RM：Resource Manager 资源管理器 (数据库)
 
-##### 多个服务需要调用一个数据库实例完成数据的增删改操作
+整个事务分成两个阶段:
 
-## 10 .2 分布式事务解决方案
+阶段一: 表决阶段，所有参与者都将本事务执行预提交，并将能否成功的信息反馈发给协调者。 
 
-### 10 .2.1 全局事务
+阶段二: 执行阶段，协调者根据所有参与者的反馈，通知所有参与者，步调一致地执行提交或者回滚。 
 
-##### 全局事务基于DTP模型实现。DTP是由X/Open组织提出的一种分布式事务模型——X/Open
+优点
 
-##### Distributed Transaction Processing Reference Model。它规定了要实现分布式事务，需要三种角色：
+提高了数据一致性的概率，实现成本较低
 
-##### AP: Application 应用系统 (微服务)
+缺点
 
-##### TM: Transaction Manager 事务管理器 (全局事务管理)
+单点问题: 事务协调者宕机
 
-##### RM: Resource Manager 资源管理器 (数据库)
+同步阻塞: 延迟了提交时间，加长了资源阻塞时间
 
-##### 整个事务分成两个阶段:
+数据不一致: 提交第二阶段，依然存在commit结果未知的情况，有可能导致数据不一致
 
-##### 阶段一: 表决阶段，所有参与者都将本事务执行预提交，并将能否成功的信息反馈发给协调者。 9
+### 10.2.2 可靠消息服务
 
-##### 阶段二: 执行阶段，协调者根据所有参与者的反馈，通知所有参与者，步调一致地执行提交或者回
+基于可靠消息服务的方案是通过消息中间件保证上、下游应用数据操作的一致性。假设有A和B两个系统，分别可以处理任务A和任务B。此时存在一个业务流程，需要将任务A和任务B在同一个事务中处理。就可以使用消息中间件来实现这种分布式事务。
 
-##### 滚。 1
+第一步: 消息由系统A投递到中间件
 
+1、在系统A处理任务A前，首先向消息中间件发送一条消息
 
-##### 优点
+2、消息中间件收到后将该条消息持久化，但并不投递。持久化成功后，向A回复一个确认应答
 
-##### 提高了数据一致性的概率，实现成本较低
+3、系统A收到确认应答后，则可以开始处理任务A
 
-##### 缺点
+4、任务A处理完成后，向消息中间件发送Commit或者Rollback请求。该请求发送完成后，对系统A而言，该事务的处理过程就结束了
 
-##### 单点问题: 事务协调者宕机
+6、如果消息中间件收到Commit，则向B系统投递消息；如果收到Rollback，则直接丢弃消息。但是如果消息中间件收不到Commit和Rollback指令，那么就要依靠"超时询问机制"。
 
-##### 同步阻塞: 延迟了提交时间，加长了资源阻塞时间
+超时询问机制
 
-##### 数据不一致: 提交第二阶段，依然存在commit结果未知的情况，有可能导致数据不一致
+系统A除了实现正常的业务流程外，还需提供一个事务询问的接口，供消息中间件调用。当消息中间件收到发布消息便开始计时，如果到了超时没收到确认指令，就会主动调用系统A提供的事务询问接口询问该系统目前的状态。该接口会返回三种结果，中间件根据三种结果做出不同反应：
 
-### 10 .2.2 可靠消息服务
+提交:将该消息投递给系统B
 
-##### 基于可靠消息服务的方案是通过消息中间件保证上、下游应用数据操作的一致性。假设有A和B两个
+回滚:直接将条消息丢弃
 
-##### 系统，分别可以处理任务A和任务B。此时存在一个业务流程，需要将任务A和任务B在同一个事务中处
+处理中:继续等待
 
-##### 理。就可以使用消息中间件来实现这种分布式事务。
+第二步: 消息由中间件投递到系统B
 
+消息中间件向下游系统投递完消息后便进入阻塞等待状态，下游系统便立即进行任务的处理，任务
 
-##### 第一步: 消息由系统A投递到中间件
+处理完成后便向消息中间件返回应答。
 
-##### 1. 在系统A处理任务A前，首先向消息中间件发送一条消息
+如果消息中间件收到确认应答后便认为该事务处理完毕
 
-##### 2. 消息中间件收到后将该条消息持久化，但并不投递。持久化成功后，向A回复一个确认应答
+如果消息中间件在等待确认应答超时之后就会重新投递，直到下游消费者返回消费成功响应为止。
 
-##### 3. 系统A收到确认应答后，则可以开始处理任务A
+一般消息中间件可以设置消息重试的次数和时间间隔，如果最终还是不能成功投递，则需要手工干
 
-##### 4. 任务A处理完成后，向消息中间件发送Commit或者Rollback请求。该请求发送完成后，对系统A而
+预。这里之所以使用人工干预，而不是使用让Ａ系统回滚，主要是考虑到整个系统设计的复杂度问
 
-##### 言，该事务的处理过程就结束了
+题。
 
-##### 5. 如果消息中间件收到Commit，则向B系统投递消息；如果收到Rollback，则直接丢弃消息。但是
+基于可靠消息服务的分布式事务，前半部分使用异步，注重性能；后半部分使用同步，注重开发成本。
 
-##### 如果消息中间件收不到Commit和Rollback指令，那么就要依靠"超时询问机制"。
+### 10.2.3 最大努力通知
 
-##### 超时询问机制
+最大努力通知也被称为定期校对，其实是对第二种解决方案的进一步优化。它引入了本地消息表来记录错误消息，然后加入失败消息的定期校对功能，来进一步保证消息会被下游系统消费。
 
-##### 系统A除了实现正常的业务流程外，还需提供一个事务询问的接口，供消息中间件调
+第一步: 消息由系统A投递到中间件
 
-##### 用。当消息中间件收到发布消息便开始计时，如果到了超时没收到确认指令，就会主动调用
+1、处理业务的同一事务中，向本地消息表中写入一条记录
 
-##### 系统A提供的事务询问接口询问该系统目前的状态。该接口会返回三种结果，中间件根据三
+2、准备专门的消息发送者不断地发送本地消息表中的消息到消息中间件，如果发送失败则重试
 
-##### 种结果做出不同反应：
+第二步: 消息由中间件投递到系统B
 
-##### 提交:将该消息投递给系统B
+1、消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行
 
-##### 回滚:直接将条消息丢弃
+2、当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该
 
-##### 处理中:继续等待
+事务完成
 
-##### 第二步: 消息由中间件投递到系统B
+3、对于投递失败的消息，利用重试机制进行重试，对于重试失败的，写入错误消息表
 
-##### 消息中间件向下游系统投递完消息后便进入阻塞等待状态，下游系统便立即进行任务的处理，任务
+4、消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费
 
-##### 处理完成后便向消息中间件返回应答。
+这种方式的优缺点：
 
-##### 如果消息中间件收到确认应答后便认为该事务处理完毕
+优点： 一种非常经典的实现，实现了最终一致性。
 
-##### 如果消息中间件在等待确认应答超时之后就会重新投递，直到下游消费者返回消费成功响应为止。
+缺点： 消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。
 
-##### 一般消息中间件可以设置消息重试的次数和时间间隔，如果最终还是不能成功投递，则需要手工干
+### 10.2.4 TCC事务
 
-##### 预。这里之所以使用人工干预，而不是使用让Ａ系统回滚，主要是考虑到整个系统设计的复杂度问
+TCC即为Try Confirm Cancel，它属于补偿型分布式事务。TCC实现分布式事务一共有三个步骤：
 
-##### 题。
+Try：尝试待执行的业务
 
+这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源
 
-##### 基于可靠消息服务的分布式事务，前半部分使用异步，注重性能；后半部分使用同步，注重开发成本。
+Confirm：确认执行业务
 
-### 10 .2.3 最大努力通知
+确认执行业务操作，不做任何业务检查， 只使用Try阶段预留的业务资源。通常情况下，采用TCC
 
-##### 最大努力通知也被称为定期校对，其实是对第二种解决方案的进一步优化。它引入了本地消息表来
+则认为 Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。若Confirm阶段真的
 
-##### 记录错误消息，然后加入失败消息的定期校对功能，来进一步保证消息会被下游系统消费。
+出错了，需引入重试机制或人工处理。
 
-##### 第一步: 消息由系统A投递到中间件
+Cancel：取消待执行的业务
 
-##### 1. 处理业务的同一事务中，向本地消息表中写入一条记录
+取消Try阶段预留的业务资源。通常情况下，采用TCC则认为Cancel阶段也是一定成功的。若
 
-##### 2. 准备专门的消息发送者不断地发送本地消息表中的消息到消息中间件，如果发送失败则重试
+Cancel阶段真的出错了，需引入重试机制或人工处理。
 
-##### 第二步: 消息由中间件投递到系统B
+TCC两阶段提交与XA两阶段提交的区别是：
 
-##### 1. 消息中间件收到消息后负责将该消息同步投递给相应的下游系统，并触发下游系统的任务执行
+XA是资源层面的分布式事务，强一致性，在两阶段提交的整个过程中，一直会持有资源的锁。
 
-##### 2. 当下游系统处理成功后，向消息中间件反馈确认应答，消息中间件便可以将该条消息删除，从而该
+TCC是业务层面的分布式事务，最终一致性，不会一直持有资源的锁。
 
-##### 事务完成
+TCC事务的优缺点：
 
-##### 3. 对于投递失败的消息，利用重试机制进行重试，对于重试失败的，写入错误消息表
+优点 ：把数据库层的二阶段提交上提到了应用层来实现，规避了数据库层的2PC性能低下问题。
 
-##### 4. 消息中间件需要提供失败消息的查询接口，下游系统会定期查询失败消息，并将其消费
+缺点 ：TCC的Try、Confirm和Cancel操作功能需业务提供，开发成本高。
 
-##### 这种方式的优缺点：
+## 10.3 Seata介绍
 
-##### 优点： 一种非常经典的实现，实现了最终一致性。
+2019 年 1 月，阿里巴巴中间件团队发起了开源项目 Fescar （Fast & EaSy Commit And
 
-##### 缺点： 消息表会耦合到业务系统中，如果没有封装好的解决方案，会有很多杂活需要处理。
+Rollback），其愿景是让分布式事务的使用像本地事务的使用一样，简单和高效，并逐步解决开发者们
 
-### 10 .2.4 T CC事务
+遇到的分布式事务方面的所有难题。后来更名为 Seata ，意为：Simple Extensible Autonomous
 
-##### TCC即为Try Confirm Cancel，它属于补偿型分布式事务。TCC实现分布式事务一共有三个步骤：
+Transaction Architecture，是一套分布式事务解决方案。
 
-##### Try：尝试待执行的业务
+Seata的设计目标是对业务无侵入，因此从业务无侵入的2PC方案着手，在传统2PC的基础上演进。
 
-##### 这个过程并未执行业务，只是完成所有业务的一致性检查，并预留好执行所需的全部资源
+它把一个分布式事务理解成一个包含了若干分支事务的全局事务。全局事务的职责是协调其下管辖的分
 
-##### Confirm：确认执行业务
+支事务达成一致，要么一起成功提交，要么一起失败回滚。此外，通常分支事务本身就是一个关系数据
 
-##### 确认执行业务操作，不做任何业务检查， 只使用Try阶段预留的业务资源。通常情况下，采用TCC
+库的本地事务。
 
-##### 则认为 Confirm阶段是不会出错的。即：只要Try成功，Confirm一定成功。若Confirm阶段真的
+Seata主要由三个重要组件组成：
 
-##### 出错了，需引入重试机制或人工处理。
+TC：Transaction Coordinator 事务协调器，管理全局的分支事务的状态，用于全局性事务的提交
 
-##### Cancel：取消待执行的业务
+和回滚。
 
-##### 取消Try阶段预留的业务资源。通常情况下，采用TCC则认为Cancel阶段也是一定成功的。若
+TM：Transaction Manager 事务管理器，用于开启、提交或者回滚全局事务。
 
-##### Cancel阶段真的出错了，需引入重试机制或人工处理。
+RM：Resource Manager 资源管理器，用于分支事务上的资源管理，向TC注册分支事务，上报分
 
+支事务的状态，接受TC的命令来提交或者回滚分支事务。
 
-##### TCC两阶段提交与XA两阶段提交的区别是：
+Seata的执行流程如下:
 
-##### XA是资源层面的分布式事务，强一致性，在两阶段提交的整个过程中，一直会持有资源的锁。
+1. A服务的TM向TC申请开启一个全局事务，TC就会创建一个全局事务并返回一个唯一的XID
 
-##### TCC是业务层面的分布式事务，最终一致性，不会一直持有资源的锁。
+2. A服务的RM向TC注册分支事务，并及其纳入XID对应全局事务的管辖
 
-##### TCC事务的优缺点：
+3. A服务执行分支事务，向数据库做操作
 
-##### 优点 ：把数据库层的二阶段提交上提到了应用层来实现，规避了数据库层的2PC性能低下问题。
+4. A服务开始远程调用B服务，此时XID会在微服务的调用链上传播
 
-##### 缺点 ：TCC的Try、Confirm和Cancel操作功能需业务提供，开发成本高。
+5. B服务的RM向TC注册分支事务，并将其纳入XID对应的全局事务的管辖
 
-## 10 .3 Seata介绍
+6. B服务执行分支事务，向数据库做操作
 
-##### 2019 年 1 月，阿里巴巴中间件团队发起了开源项目 Fescar （Fast & EaSy Commit And
+7. 全局事务调用链处理完毕，TM根据有无异常向TC发起全局事务的提交或者回滚
 
-##### Rollback），其愿景是让分布式事务的使用像本地事务的使用一样，简单和高效，并逐步解决开发者们
+8. TC协调其管辖之下的所有分支事务， 决定是否回滚
 
-##### 遇到的分布式事务方面的所有难题。后来更名为 Seata ，意为：Simple Extensible Autonomous
+Seata实现2PC与传统2PC的差别 ：
 
-##### Transaction Architecture，是一套分布式事务解决方案。
+1. 架构层次方面，传统2PC方案的 RM 实际上是在数据库层，RM本质上就是数据库自身，通过XA协
 
-##### Seata的设计目标是对业务无侵入，因此从业务无侵入的2PC方案着手，在传统2PC的基础上演进。
+议实现，而 Seata的RM是以jar包的形式作为中间件层部署在应用程序这一侧的。
 
-##### 它把一个分布式事务理解成一个包含了若干分支事务的全局事务。全局事务的职责是协调其下管辖的分
+2. 两阶段提交方面，传统2PC无论第二阶段的决议是commit还是rollback，事务性资源的锁都要保
 
-##### 支事务达成一致，要么一起成功提交，要么一起失败回滚。此外，通常分支事务本身就是一个关系数据
+持到Phase2完成才释放。而Seata的做法是在Phase1 就将本地事务提交，这样就可以省去Phase2
 
-##### 库的本地事务。
-
-
-##### Seata主要由三个重要组件组成：
-
-##### TC：Transaction Coordinator 事务协调器，管理全局的分支事务的状态，用于全局性事务的提交
-
-##### 和回滚。
-
-##### TM：Transaction Manager 事务管理器，用于开启、提交或者回滚全局事务。
-
-##### RM：Resource Manager 资源管理器，用于分支事务上的资源管理，向TC注册分支事务，上报分
-
-##### 支事务的状态，接受TC的命令来提交或者回滚分支事务。
-
-##### Seata的执行流程如下:
-
-##### 1. A服务的TM向TC申请开启一个全局事务，TC就会创建一个全局事务并返回一个唯一的XID
-
-##### 2. A服务的RM向TC注册分支事务，并及其纳入XID对应全局事务的管辖
-
-##### 3. A服务执行分支事务，向数据库做操作
-
-
-##### 4. A服务开始远程调用B服务，此时XID会在微服务的调用链上传播
-
-##### 5. B服务的RM向TC注册分支事务，并将其纳入XID对应的全局事务的管辖
-
-##### 6. B服务执行分支事务，向数据库做操作
-
-##### 7. 全局事务调用链处理完毕，TM根据有无异常向TC发起全局事务的提交或者回滚
-
-##### 8. TC协调其管辖之下的所有分支事务， 决定是否回滚
-
-##### Seata实现2PC与传统2PC的差别 ：
-
-##### 1. 架构层次方面，传统2PC方案的 RM 实际上是在数据库层，RM本质上就是数据库自身，通过XA协
-
-##### 议实现，而 Seata的RM是以jar包的形式作为中间件层部署在应用程序这一侧的。
-
-##### 2. 两阶段提交方面，传统2PC无论第二阶段的决议是commit还是rollback，事务性资源的锁都要保
-
-##### 持到Phase2完成才释放。而Seata的做法是在Phase1 就将本地事务提交，这样就可以省去Phase2
-
-##### 持锁的时间，整体提高效率。
+持锁的时间，整体提高效率。
 
 ## 10 .4 Seata实现分布式事务控制
 
-##### 本示例通过Seata中间件实现分布式事务，模拟电商中的下单和扣库存的过程
+本示例通过Seata中间件实现分布式事务，模拟电商中的下单和扣库存的过程
 
-##### 我们通过订单微服务执行下单操作，然后由订单微服务调用商品微服务扣除库存
+我们通过订单微服务执行下单操作，然后由订单微服务调用商品微服务扣除库存
 
 ### 10 .4.1 案例基本代码
 
 #### 10 .4 .1 .1 修改order微服务
 
-##### controller
+controller
 
-
-##### OrderService
+OrderService
 
 ```
 @RestController
@@ -4269,17 +3707,17 @@ log.info("创建订单成功,订单信息为{}", JSON.toJSONString(order));
 productService.reduceInventory(pid, order.getNumber());
 ```
 
-##### ProductService
+ProductService
 
-#### 10 .4 .1 .2 修改Product微服务
+#### 10.4.1.2 修改Product微服务
 
-##### controller
+controller
 
-##### service
+service
 
-#### 10 .4 .1 .3 异常模拟
+#### 10.4.1.3 异常模拟
 
-##### 在ProductServiceImpl的代码中模拟一个异常, 然后调用下单接口
+在ProductServiceImpl的代码中模拟一个异常, 然后调用下单接口
 
 ```
 //4 向m q中投递一个下单成功的消息
@@ -4320,25 +3758,25 @@ productDao.save(product);
 }
 ```
 
-### 10 .4.2 启动Seata
+### 10.4.2 启动Seata
 
-#### 10 .4 .2 .1 下载seata
+#### 10.4 .2 .1 下载seata
 
-##### 下载地址：https://github.com/seata/seata/releases/v0.9.0/
+下载地址：https://github.com/seata/seata/releases/v0.9.0/
 
-#### 10 .4 .2 .2 修改配置文件
+#### 10.4 .2 .2 修改配置文件
 
-##### 将下载得到的压缩包进行解压，进入conf目录，调整下面的配置文件：
+将下载得到的压缩包进行解压，进入conf目录，调整下面的配置文件：
 
-##### registry.conf
+registry.conf
 
-##### nacos-config.txt
+nacos-config.txt
 
-##### 这里的语法为：service.vgroup_mapping.${your-service-gruop}=default ，中间的
+这里的语法为：service.vgroup_mapping.${your-service-gruop}=default ，中间的
 
-##### ${your-service-gruop}为自己定义的服务组名称， 这里需要我们在程序的配置文件中配置。
+${your-service-gruop}为自己定义的服务组名称， 这里需要我们在程序的配置文件中配置。
 
-#### 10 .4 .2 .3 初始化seata在nacos的配置
+#### 10.4 .2 .3 初始化seata在nacos的配置
 
 ```
 @Override
@@ -4380,25 +3818,25 @@ service.vgroup_mapping.service-product=default
 service.vgroup_mapping.service-order=default
 ```
 
-##### 执行成功后可以打开Nacos的控制台，在配置列表中，可以看到初始化了很多Group为SEATA_GROUP
+执行成功后可以打开Nacos的控制台，在配置列表中，可以看到初始化了很多Group为SEATA_GROUP
 
-##### 的配置。
+的配置。
 
 #### 10 .4 .2 .4 启动seata服务
 
-##### 启动后在 Nacos 的服务列表下面可以看到一个名为 serverAddr 的服务。
+启动后在 Nacos 的服务列表下面可以看到一个名为 serverAddr 的服务。
 
 ### 10 .4.3 使用Seata实现事务控制
 
 #### 10 .4 .3 .1 初始化数据表
 
-##### 在我们的数据库中加入一张undo_log表,这是Seata记录事务日志要用到的表
+在我们的数据库中加入一张undo_log表,这是Seata记录事务日志要用到的表
 
 #### 10 .4 .3 .2 添加配置
 
-##### 在需要进行分布式控制的微服务中进行下面几项配置:
+在需要进行分布式控制的微服务中进行下面几项配置:
 
-##### 添加依赖
+添加依赖
 
 ```
 # 初始化seata 的n acos配置
@@ -4431,15 +3869,15 @@ AUTO_INCREMENT = 1
 DEFAULT CHARSET = utf8;
 ```
 
-##### DataSourceProxyConfig
+DataSourceProxyConfig
 
-##### Seata 是通过代理数据源实现事务分支的，所以需要配置 io.seata.rm.datasource.DataSourceProxy 的
+Seata 是通过代理数据源实现事务分支的，所以需要配置 io.seata.rm.datasource.DataSourceProxy 的
 
-##### Bean，且是 @Primary默认的数据源，否则事务不会回滚，无法实现分布式事务
+Bean，且是 @Primary默认的数据源，否则事务不会回滚，无法实现分布式事务
 
-##### registry.conf
+registry.conf
 
-##### 在resources下添加Seata的配置文件 registry.conf
+在resources下添加Seata的配置文件 registry.conf
 
 ```
 <dependency>
@@ -4494,11 +3932,11 @@ namespace = "public"
 cluster = "default"
 ```
 
-##### bootstrap.yaml
+bootstrap.yaml
 
-#### 10 .4 .3 .3 在order微服务开启全局事务
+#### 10.4.3 .3 在order微服务开启全局事务
 
-#### 10 .4 .3 .4 测试
+#### 10.4.3 .4 测试
 
 ##### 再次下单测试
 
@@ -4572,11 +4010,11 @@ Spring-cloud-alibaba-dubbo 是基于SpringCloudAlibaba技术栈对dubbo技术的
 
 ### 11 .2.2 提供服务提供者
 
-##### 1 添加依赖
+1 添加依赖
 
-##### 2 添加dubbo配置
+2 添加dubbo配置
 
-##### 3 编写并暴露服务
+3 编写并暴露服务
 
 ```
 public interface ProductService {
@@ -4606,11 +4044,11 @@ address: spring-cloud://localhost # 注册中心
 
 ### 11 .2.3 提供服务消费者
 
-##### 1 添加依赖
+1 添加依赖
 
-##### 2 添加dubbo配置
+2 添加dubbo配置
 
-##### 3 引用服务
+3 引用服务
 
 ```
 //暴露服务:注意这里使用的是dubbo提供的注解@Service,而不是Spring的
@@ -4701,28 +4139,211 @@ return order;
 
 ## 12.1 实际使用
 
+# 13 微服务安全
+
+## 13.1 API安全
+
+信息安全、网络安全、应用安全
+
+1、API安全的目标：CIA
+
+机密性（ Confidentiality）。确保信息只被预期的读者访问
+
+完整性（ Integrity）。防止未授权的创建，修改和删除
+
+可用性（ Availability）。当用户需要访问API时，API总是可用的
+
+2、常见的API风险： STRIDE
+
+Spoofing：欺骗。伪装成某人。
+
+Tampering：干预。将不希望被修改的数据、消息或设置改掉。
+
+Repudiation：否认。拒绝承认做过的事。
+
+Information disclosure：信息泄露。将你希望保密的信息披露出来。
+
+Denial of service：拒绝服务。阻止用户访问信息和服务。
+
+Elevation of privilege：越权。做了你不希望他能做的事。
+
+3、风险与安全机制的对应关系
+
+认证：（欺骗）。确保你的用户或客户端真的是他（它）们自己
+
+授权：（信息泄漏）/(干预）/(越权）
+
+确保每个针对API的访问都是经过授权的
+
+审计：（否认）。确保所有的操作都被记录，以便追溯和监控
+
+流控：（拒绝服务）。防止用户请求淹没你的API
+
+![image-20200705091844882](../插图/image-20200705091844882.png)
+
+4、各种校验
+
+SQL注入：http://localhost:8071/getUserByName?name=' or 1=1 or name= '
+
+校验、权限、第三方库（JPA）
+
+登录：是获取身份证明的一个过程
+
+认证：验证身份是否合法的过程
+
+授权：是不是可以访问
+
+5、密码加密
+
+MD5（信息摘要）、可逆的加密、非对称加密
+
+6、HTTPS访问
+
+保证访问的服务一定是真实的
+
+![image-20200705145619814](../插图/image-20200705145619814.png)
+
+7、登录
+
+基于token的身份认证
+
+![image-20200705151257269](../插图/image-20200705151257269.png)
+
+具体实现方式：基于cookie和session的实现（具有局限性，不推荐使用）
+
+![image-20200705151422117](../插图/image-20200705151422117.png)
+
+8、访问控制
+
+ACL. Access Control Lists
+
+简单易用，实现容易。无法满足复杂的业务需求，不易管理
+
+RBAC: Role Based Access Contro
+
+引入角色概念，简化管理。开发起来相对于ACL复杂
+
+9、风险与安全机制的对应关系
+认证：（欺骗）。确保你的用户或客户端真的是他（它）们自己
+
+授权：（信息泄漏）/(干预）/(越权）确保每个针对API的访问都是经过授权的
+
+审计：（否认）。确保所有的操作都被记录，以便追溯和监控
+
+流控：（拒绝服务）。防止用户请求淹没你的API
+
+加密：（信息泄漏）。确保出入API的数据是私密的。
+
+## 13.2 网关安全
+
+- 微服务安全面临的挑战
+
+更多的入口点，更高的安全风险
+
+![image-20200705155939585](../插图/image-20200705155939585.png)
+
+性能问题
+
+服务间通讯安全
+
+跨多个微服务的请求难以追踪（log）
+
+**容器化部署**导致的证书和访问控制问题
+
+如何在微服务间共享用户登录状态
+
+多语言架构要求每个团队都有一定的安全经验
+
+![image-20200705161019975](../插图/image-20200705161019975.png)
+
+- Oauth2协议与微服务安全
+
+![image-20200705161801540](../插图/image-20200705161801540.png)
+
+- 微服务网关安全
+
+![image-20200705175136546](../插图/image-20200705175136546.png)
+
+## 13.3 认证和SSO
 
 
-# 13 CI/CD
 
-## 13.1 基础了解
+## 13.4 通讯安全
+
+
+
+## 13.5 监控报警
+
+
+
+# 14 服务容器部署
+
+## 14.1 传统服务部署
+
+
+
+## 14.2 服务Docker化
+
+### 14.2.1 调整配置
+
+
+
+### 14.2.2 制作镜像
+
+```bash
+#!/usr/bin/env bash
+mvn clean package
+docker build -t hub.mooc.com:8080/micro-service/course-service:latest .
+```
+
+## 14.3 Docker仓库
+
+### 14.2 Harbor
+
+```bash
+docker run -it --entrypoint bash java:11
+docker push hub.mooc.com:8080/micro-service/course-service:latest
+```
+
+## 14.4 容器编排
+
+### 14.4.1 Mesos
+
+
+
+### 14.4.2 DockerSwarm
+
+
+
+### 14.4.3 K8s
+
+
+
+# 15 DevOps
+
+## 15.1 基础了解
+
+aa
+
+# 16 CI/CD
+
+## 16.1 基础了解
 
 怎么来的，git+Jenkins+kubernetes
 
-# 14 DevOps
-
-## 14.1 基础了解
 
 
+# 17 参考资料
 
-# 15 参考资料
-
-## 12.1 官网
+## 17.1 官网
 
 
 
-## 12.2 视频
+## 17.2 视频
 
 https://www.bilibili.com/video/BV1R7411774f?p=45
 
 https://www.bilibili.com/video/BV1y7411H7ug
+
+领域模型设计=>服务拆分=>组件开发=>架构设计=>服务安全
+
