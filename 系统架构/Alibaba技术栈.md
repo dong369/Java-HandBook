@@ -4315,7 +4315,7 @@ docker push hub.mooc.com:8080/micro-service/course-service:latest
 
 
 
-### 14.4.3 K8s
+### 14.4.3 Kubernetes
 
 
 
@@ -4333,13 +4333,29 @@ aa
 
 
 
-# 17 参考资料
+# 17 微服务扩展
 
-## 17.1 官网
+## 17.1 Service Mech
 
 
 
-## 17.2 视频
+## 17.2 Istio
+
+参考视频：https://www.bilibili.com/video/BV1vE411p7wX、https://www.bilibili.com/video/BV1vt411H755
+
+
+
+## 17.3 Rancher
+
+
+
+# 18 参考资料
+
+## 18.1 官网
+
+
+
+## 18.2 视频
 
 https://www.bilibili.com/video/BV1R7411774f?p=45
 

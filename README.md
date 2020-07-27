@@ -585,7 +585,7 @@ TODO
 
 * [《微服务架构核⼼20讲》](https://static.geekbang.org/PDF-%E4%BF%AE%E6%94%B9%E7%89%88-%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4-%E5%9B%BE%E7%89%87-%E6%9D%A8%E6%B3%A2-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84.pdf)
 
-# 运维 & 统计 & 技术支持 
+# 6 运维 & 统计 & 技术支持 
 
 ## 常规监控
 
@@ -751,7 +751,7 @@ APM —  Application Performance Management
 * GitLab
 * Wiki
 
-# 中间件
+# 7 中间件
 
 ## Web Server
 
@@ -1037,7 +1037,7 @@ servlet 3.0 异步特性可用于配置中心的客户端
 * [《Spring Cloud Gateway 源码解析》](http://www.iocoder.cn/categories/Spring-Cloud-Gateway/?vip&architect-awesome)
 * [《HTTP API网关选择之一Kong介绍》](https://mp.weixin.qq.com/s/LIq2CiXJQmmjBC0yvYLY5A)
 
-# 网络
+# 8 网络
 
 
 ## 协议
@@ -1129,7 +1129,7 @@ Goolge出品、占用空间和效率完胜其他序列化类库，如Hessian；�
 * [《简单的使用 protobuf 和 protostuff》](https://blog.csdn.net/eric520zenobia/article/details/53766571)
 	* protostuff 的好处是不用写 .proto 文件，Java 对象直接就可以序列化。
 
-# 数据库
+# 9 数据库
 ## 基础理论
 ### 数据库设计的三大范式
 * [《数据库的三大范式以及五大约束》](https://www.cnblogs.com/waj6511988/p/7027127.html)
@@ -1213,7 +1213,7 @@ MyISAM 是非聚集，InnoDB 是聚集
 	* rowkey 按照字典顺序排列，便于批量扫描。
 	* 通过散列可以避免热点。
 
-# 搜索引擎
+# 10 搜索引擎
 
 ## 搜索引擎原理
 
@@ -1234,7 +1234,7 @@ MyISAM 是非聚集，InnoDB 是聚集
 ## sphinx 
 * [《Sphinx 的介绍和原理探索》](http://blog.jobbole.com/101672/)
 
-# 性能
+# 11 性能
 
 ## 性能优化方法论
 
@@ -1262,7 +1262,7 @@ MyISAM 是非聚集，InnoDB 是聚集
 * [《九大Java性能调试工具，必备至少一款》](https://blog.csdn.net/yethyeth/article/details/73266455)
 
 
-# 大数据
+# 12 大数据
 
 ## 流式计算
 
@@ -1305,7 +1305,7 @@ MyISAM 是非聚集，InnoDB 是聚集
 * [《Spark(一): 基本架构及原理》](http://www.cnblogs.com/tgzhu/p/5818374.html)
 
 
-# 安全
+# 13 安全
 
 ## web 安全
 
@@ -1431,7 +1431,7 @@ TODO
 
 * [CAS单点登录框架](https://github.com/apereo/cas)
 
-# 常用开源框架
+# 14 常用开源框架
 
 ## 开源协议
 

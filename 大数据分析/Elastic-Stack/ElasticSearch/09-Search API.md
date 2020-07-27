@@ -82,7 +82,7 @@ GET test_search_index/_search
 
 ## 2.3 term与phrase
 
-term是一个个的单词，phrase是一个词语是有顺序的！！！
+term是一个个的单词，phrase是一个词语是**有顺序**的！！！
 
 alfred way等效于alfred OR way，满足其中一个就会返回。
 

@@ -25,6 +25,12 @@ ps: 默认使用的是Monokai主题，看起来非常舒适。
 
 ### 3.2 设置中文编码
 
+chcp 65001  就是换成UTF-8代码页
+
+chcp 936 可以换回默认的GBK
+
+chcp 437 是美国英语 
+
 1. 查看编码命令：chcp（936代表简体中文；65001代表UTF-8）
 
 2. 设置中文编码：右击cmd窗口，点击setting，在Start-up下的environment中加入：`set LANG=zh_CN.UTF8`或`chcp 65001`

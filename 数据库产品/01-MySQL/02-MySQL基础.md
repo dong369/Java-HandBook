@@ -1957,6 +1957,10 @@ show table status from test where name='b';
 
 mysql> Show variables like '%charact%';
 
+![image-20200725105213799](../../插图/image-20200725105213799.png)
+
+character_set_system是个只读数据不能更改。也没多少改的意义，他是元数据的编码，相信不会有人用中文做数据库名和字段名之类的吧，这个字段和具体存储的数据无关。
+
 解决乱码的问题？
 
 mysql>Set names gbk;

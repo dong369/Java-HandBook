@@ -204,9 +204,11 @@ Docker版本：docker version（查看安装版本）
 重启Docker：systemctl restart docker（service docker restart）
 拉取镜像：docker pull [OPTIONS] NAME[:TAG] NAME：代表拉取镜像的名称
 查看镜像：docker images [OPTIONS][REPOSITORY] [:TAG]
-删除镜像：docker rmi (-f) [容器名称&ID]
+删除镜像：docker rmi (-f) [容器名称&ID]（docker rmi $(docker images -a -q)）
 运行镜像：docker run [OPTIONS] IMAGE[:TAG][COMMAND] [ARG…]
 前台运行：docker run [容器名称&ID]
+停止所有容器：docker stop $(docker ps -a -q)
+删除所有：docker rm $(docker ps -a -q)
 后台运行：docker run --name demo-name -p 宿主机端口:容器端口 –d [容器名称&ID]
 查看运行的容器：docker ps
 查看所以的容器：docker ps -a（docker stop CONTAINER ID、docker rm CONTAINER ID）

@@ -43,7 +43,7 @@ IDEA中的JDK的位置：SDKs、Project、Modules、Java Compiler、Runner（Use
 
 [JDK参考资料](https://segmentfault.com/a/1190000018708356)
 
-1. 单个JDK配置（maven的settings中指定）
+1、单个JDK配置（maven的settings中指定）
 
 ```xml
 <profiles>
@@ -62,9 +62,9 @@ IDEA中的JDK的位置：SDKs、Project、Modules、Java Compiler、Runner（Use
 </profiles>
 ```
 
-2. 多JDK配置（maven的settings中指定）
+2、多JDK配置（maven的settings中指定）
 
-```properties
+```xml
 <profile> 
   <id>java8-compiler</id>  
   <properties> 
@@ -109,6 +109,7 @@ settings.xml中配置maven镜像地址
 ```xml
 <!—1.配置jar包的仓库地址-->
 <localRepository>D:/mavenrepository</localRepository>
+
 <!—2.配置jar包的下载镜像地址-->
 <mirror>
     <id>alimaven</id>
@@ -143,7 +144,7 @@ settings.xml中配置maven镜像地址
 
 [Jar包下载地址03](http://search.maven.org/)
 
-3. 插件配置
+3、插件配置
 
 ```xml
 <plugins>
@@ -173,7 +174,7 @@ settings.xml中配置maven镜像地址
 </plugins>
 ```
 
-4. 项目打包配置
+4、项目打包配置
 
 ```xml
 <build>
@@ -194,7 +195,7 @@ settings.xml中配置maven镜像地址
 </build>
 ```
 
-5. 镜像地址
+5、镜像地址
 
 ```xml
 <repositories>
@@ -208,24 +209,33 @@ settings.xml中配置maven镜像地址
 
 ## 3.3 Gradle
 
-1. 下载安装
-2. 配置环境变量（GRADLE_HOME、GRADLE_USER_HOME）
-3. 安装检验：gradle -v
-4. 配置IDEA
+1、下载安装
+
+2、配置环境变量（GRADLE_HOME、GRADLE_USER_HOME）
+
+3、安装检验：gradle -v
+
+4、配置IDEA
 
 ## 3.4 SVN
 
-1. 下载客户端（服务端，非必须）
-2. 安装客户端（注意打勾，否则找不到exe文件）
-3. 安装检查：右键鼠标
-4. 配置IDEA
+1、下载客户端（服务端，非必须）
+
+2、安装客户端（注意打勾，否则找不到exe文件）
+
+3、安装检查：右键鼠标
+
+4、配置IDEA
 
 ## 3.5 Git
 
-1. 下载
-2. 安装配置
-3. 安装检查：git version
-4. 配置IDEA
+1、下载
+
+2、安装配置
+
+3、安装检查：git version
+
+4、配置IDEA
 
 ## 3.6 编码乱码
 
@@ -359,7 +369,7 @@ Global Data Sources
 
    >进行Gitlab服务地址的配置
 
-   ![配置Gitlab服务地址](D:\dev\2019dev\code\idea-workspace\Java-HandBook\插图\Windows操作系统\配置GitLab服务器地址.png)
+   ![配置Gitlab服务地址](../\插图\Windows操作系统\配置GitLab服务器地址.png)
 
 3. 申请Token
 
@@ -633,7 +643,7 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 
 
-# 1 基本环境配置
+# 11 基本环境配置
 
 ## 1.1 统一项目编码
 
@@ -813,7 +823,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-# 2 版本控制
+# 12 版本控制
 
 ### 4.1 SVN项目提交
 
@@ -874,9 +884,9 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-# 3 项目构建
+# 13 项目构建
 
-# 4 插件配置
+# 14 插件配置
 
 ### 6.1 lombok
 
