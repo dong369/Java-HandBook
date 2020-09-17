@@ -15,13 +15,17 @@
 进入到idea的安装目录，idea.properties文件，添加自己指定的路径地址。
 
 ```properties
-idea.config.path=D:/dev/2019dev/soft/IDE/ideaIU-2019.2.win/user/config
-idea.system.path=D:/dev/2019dev/soft/IDE/ideaIU-2019.2.win/user/system
+idea.config.path=${idea.home.path}/user/config
+idea.system.path=${idea.home.path}/user/system
 ```
 
 ## 1.4 激活
 
 > 更多激活方法可以参考[JetBrains破解](https://www.jianshu.com/p/a459c90f6a0e)文章。
+
+## 1.5 工具的看法
+
+思想是战略上的高度，工具是战术上的高度！！！
 
 # 2 IntelliJ IDEA & Eclipse
 
@@ -66,18 +70,18 @@ IDEA中的JDK的位置：SDKs、Project、Modules、Java Compiler、Runner（Use
 
 ```xml
 <profile> 
-  <id>java8-compiler</id>  
+  <id>java8-compiler</id>
+  <!-- activeByDefault=true代表如果不指定某个固定id的profile，那么就使用这个环境 -->  
+  <activation> 
+    <activeByDefault>true</activeByDefault> 
+  </activation>
   <properties> 
     <JAVA_HOME>D:\dev\soft\JDK\jdk8u114</JAVA_HOME>  
     <JAVA_VERSION>1.8</JAVA_VERSION>  
     <maven.compiler.source>1.8</maven.compiler.source>  
     <maven.compiler.target>1.8</maven.compiler.target>  
     <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion> 
-  </properties>  
-  <!-- activeByDefault=true代表如果不指定某个固定id的profile，那么就使用这个环境 -->  
-  <activation> 
-    <activeByDefault>true</activeByDefault> 
-  </activation> 
+  </properties> 
 </profile>
 
 <profile> 
@@ -236,6 +240,8 @@ settings.xml中配置maven镜像地址
 3、安装检查：git version
 
 4、配置IDEA
+
+5、命令行执行：git config --global http.postBuffer 524288000 
 
 ## 3.6 编码乱码
 
@@ -516,12 +522,14 @@ $END$
 
 >翻译工具。全局配置快捷键为ctrl+1，配置有道的翻译，音标的字体设置为Arial。
 
+电脑安装的有翻译工具，就无须安装了。
+
 ## 9.2 Maven Helper
 >maven管理工具。
 
-![.\插图\Windows操作系统\Idea-Maven-Helper.jpg)
+![../插图\Windows操作系统\Idea-Maven-Helper.jpg)
 
-## 9.3 lombok
+## 9.3 Lombok
 
 >get、set等pojo简写。
 
@@ -557,7 +565,7 @@ $END$
 
 > shell脚本开发和bat脚本，2019后的idea虽然自带的也，但是不好用。
 >
-> 推荐安装：Batch Scripts Supports（执行bat脚本）、BashSupport（执行shell脚本，需要禁用自带的shell）
+> 推荐安装：Batch Scripts Supports（执行bat脚本）、BashSupport pro（执行shell脚本，需要禁用自带的shell）
 
 ## 9.11 Stackoverflow
 
@@ -581,21 +589,31 @@ $END$
 
 ## 9.15 VisualVM Launcher
 
-
+JVM虚拟机信息！！！
 
 ## 9.15 CodeGlance
 
-
+便于代码的拖拽查看！！！
 
 ## 9.16 IdeaJad
 
+Jad反编译工具！！！
 
+## 9.17 Statistic
 
-## 9.17 Material Theme UI Plugin
+代码量统计！！！
 
-工具的颜值也很重要，好的主题让人赏心悦目，有码代码的欲望。今天推荐一个IDEA颜值类插件：Material Theme UI
+1、打开IDEA 菜单 View
 
-个人感觉不太好用！！！
+2、选择 Tool window
+
+3、点击 Statistic
+
+4、可以看到不同类型文件的统计
+
+5、refresh 重新统计
+
+6、上面的tab 切换可以查看不同类型文件的统计
 
 # 10 Debug调试
 
@@ -681,7 +699,7 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 ![添加dubbo](http://upload-images.jianshu.io/upload_images/8185387-12c7cff55d200c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 4.5.1 忽略JQuery.min.js报错的警告
+### 4.5.1 忽略JQuery.min.js
 
 打开项目下的.project文件夹,把以下内容注释！![注释内容](http://upload-images.jianshu.io/upload_images/8185387-42b599efdb90e066.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -710,7 +728,7 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 ```
 
 
-#### 4.6.2 eclipse中Tomcat的配置
+#### 4.6.2 Tomcat的配置
 
 ![图-07](http://upload-images.jianshu.io/upload_images/8185387-8ac9c587d8046cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -825,18 +843,18 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 # 12 版本控制
 
-### 4.1 SVN项目提交
+## 4.1 SVN项目提交
 
-#### 4.1.1配置SVN
+### 4.1.1配置SVN
 
 ***步骤一：提交项目到SVN***
 ![忽略不需要提交的内容](http://upload-images.jianshu.io/upload_images/8185387-0a01b1f66907027f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 4.1.2 项目提交
+### 4.1.2 项目提交
 
 
 
-#### 4.1.3 项目检出
+### 4.1.3 项目检出
 
 ***步骤一：从SVN下载项目代码***
 ![图-05](http://upload-images.jianshu.io/upload_images/8185387-fa5c315193092bb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -844,47 +862,55 @@ E:\dev\soft\jdk8\bin\javaw.exe
 ***步骤二：将项目代码转成maven项目***
 ![图-06](http://upload-images.jianshu.io/upload_images/8185387-16f1ab5d13674b1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 4.1.4 项目打分支
+### 4.1.4 项目打分支
 
 
 
-#### 4.1.5 项目分支合并
+### 4.1.5 项目分支合并
 
 
 
-#### 4.1.6 项目Tag标签
+### 4.1.6 项目Tag标签
 
 
 
-### 4.2 Git使用
+## 4.2 Git使用
 
 > eclipse和sts都内置有git插件。
 
-#### 4.2.1 配置Git
+### 4.2.1 配置Git
 
 
 
-#### 4.2.2 提交项目
+### 4.2.2 提交项目
 
 
 
-#### 4.2.3 检出项目
+### 4.2.3 检出项目
 
 
 
-#### 4.2.4 项目打分支
+### 4.2.4 项目打分支
 
 
 
-#### 4.2.5 项目合并
+### 4.2.5 项目合并
 
 
 
-#### 4.2.6 项目Tag标签
+### 4.2.6 项目Tag标签
 
 
 
 # 13 项目构建
+
+## 13.1 Gradle
+
+
+
+## 13.2 Maven
+
+
 
 # 14 插件配置
 

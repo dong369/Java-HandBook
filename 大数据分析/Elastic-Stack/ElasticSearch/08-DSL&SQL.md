@@ -4,21 +4,21 @@
 
 在业务开发中，我们往往会陷入开发的细枝末节之中，而忽略了事物的本源。经常有同学问到：
 
-* 1, 业务代码实现结果和Kibana验证不一致。
+1、业务代码实现结果和Kibana验证不一致。
 
-  比如：我的Python或者Java程序检索结果怎么和Kibana里面不一致？
+比如：我的Python或者Java程序检索结果怎么和Kibana里面不一致？
 
-* 2, 我的某个关键词明明匹配，但怎么检索不到？
+2、我的某个关键词明明匹配，但怎么检索不到？
 
-  比如：星球群讨论的 “三星”ik_max_word + match_phrase 匹配问题。
+比如：星球群讨论的 “三星”ik_max_word + match_phrase匹配问题。
 
-* 3, 熟悉 sql，但转 dsl 就不会写了。
+3、熟悉 sql，但转 dsl 就不会写了。
 
-  比如：做聚合搜索的话，select * from user where usrid >5  group by userid having count(userid) >3这个功能能在一个 dsl 实现吗 ？
+比如：做聚合搜索的话，select * from user where usrid >5  group by userid having count(userid) >3这个功能能在一个dsl实现吗？
 
-* 4, 查询慢，但不知道什么原因导致的。
+4、查询慢，但不知道什么原因导致的。
 
-  比如：ElasticSearch有8亿数据查询慢是怎么回事，有什么办法优化。
+比如：ElasticSearch有8亿数据查询慢是怎么回事，有什么办法优化。
 
 
 等等等等…..
@@ -27,9 +27,9 @@
 
 比如：分词match_phrase拆解成各term组合，最终传给lucene 处理。
 
-亮出你的DSL, 确保编程里的实现和你的Kibana或者Head 插件一致是非常重要、很容易被忽视的工作。
+亮出你的DSL，确保编程里的实现和你的Kibana或者Head 插件一致是非常重要、很容易被忽视的工作。
 
-如果对DSL拆解不理解，那就再加上 profile:true 或者 explain:true 拆解结果一目了然。
+如果对DSL拆解不理解，那就再加上profile：true 或者explain：true 拆解结果一目了然。
 
 ## 1.2 定义
 
@@ -45,7 +45,7 @@ Elasticsearch提供基于Json的完整查询DSL来定义查询。 将 Query DSL 
 
 2、复合查询子句
 
-复合查询子句可以组合其他叶子或复合查询，用于以逻辑方式组合多个查询（例如 bool 或 dis_max 查询），或更改其行为（例如constant_score 查询）。
+复合查询子句可以组合其他叶子或复合查询，用于以逻辑方式组合多个查询（例如bool或dis_max查询），或更改其行为（例如constant_score 查询）。
 
 给个例子，一看就明白。
 
@@ -74,9 +74,7 @@ GET /_search
 2 DSL的全局认知
 ===========
 
-Elasticsearch相关的核心操作，广义上可做如下解读，不一定涵盖全，仅抛砖引玉，说明 DSL 的重要性。
-
-从大到小。
+Elasticsearch相关的核心操作，广义上可做如下解读，不一定涵盖全，仅抛砖引玉，说明 DSL 的重要性，从大到小。
 
 2.1 维度1：集群的管理
 ---------------
@@ -135,7 +133,7 @@ GET index1,index2/_recovery?human
 
 ### 2.2.4 死：删除索引
 
-DELETE my_index  
+DELETE my_index
 
 高版本的索引生命周期管理推荐使用：ILM 功能。
 
@@ -150,9 +148,9 @@ DELETE my_index
 
 举例：
 
-1POST _bulk  
-2{ "index" : { "_index" : "test", "_id" : "1" } }  
-3{ "field1" : "value1" }  
+1、POST _bulk 
+2、{ "index" : { "_index" : "test", "_id" : "1" } } 
+3、{ "field1" : "value1" }  
 
 ### 2.3.2 删
 

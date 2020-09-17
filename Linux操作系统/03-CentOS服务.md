@@ -90,11 +90,11 @@ java -version
 1. firewalld的基本使用
 
 ```properties
-启动： systemctl start firewalld
-关闭： systemctl stop firewalld
-查看状态： systemctl status firewalld
-开机禁用  ： systemctl disable firewalld
-开机启用  ： systemctl enable firewalld
+启动：systemctl start firewalld
+关闭：systemctl stop firewalld
+查看状态：systemctl status firewalld
+开机禁用：systemctl disable firewalld
+开机启用：systemctl enable firewalld
 ```
 
 2. systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
@@ -114,16 +114,16 @@ java -version
 3. 配置firewalld-cmd
 
 ```properties
-查看版本： firewall-cmd --version
-查看帮助： firewall-cmd --help
-显示状态： firewall-cmd --state
-查看所有打开的端口： firewall-cmd --zone=public --list-ports
-更新防火墙规则： firewall-cmd --reload
-查看区域信息:  firewall-cmd --get-active-zones
-查看指定接口所属区域： firewall-cmd --get-zone-of-interface=eth0
+查看版本：firewall-cmd --version
+查看帮助：firewall-cmd --help
+显示状态：firewall-cmd --state
+查看所有打开的端口：firewall-cmd --zone=public --list-ports
+更新防火墙规则：firewall-cmd --reload
+查看区域信息：firewall-cmd --get-active-zones
+查看指定接口所属区域：firewall-cmd --get-zone-of-interface=eth0
 拒绝所有包：firewall-cmd --panic-on
-取消拒绝状态： firewall-cmd --panic-off
-查看是否拒绝： firewall-cmd --query-panic
+取消拒绝状态：firewall-cmd --panic-off
+查看是否拒绝：firewall-cmd --query-panic
 ```
 
 4. CentOS 7怎么开启一个端口
@@ -141,26 +141,39 @@ firewall-cmd --zone=public --remove-port=80/tcp --permanent
 firewall-cmd --reload
 ```
 
-# 3 文件传输
+# 3 传输服务
 
-## 3.1 SCP
+## 3.1 Scp
 
-```properties
-scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
-scp /usr/local/soft/ root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz
+安全远程文件复制程序,基于ssh；不支持符号连接；支持两个远程主机之间的复制。
+
+```shell
+$> scp -r ~/xxx.txt ubuntu@s101:/home/ubuntu/		//递归复制
+$> scp root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz /usr/local/soft/
+$> scp /usr/local/soft/ root@10.248.2.10:/usr/local/service/jdk/jdk-8u201-linux-x64.tar.gz
 ```
 
 ## 3.2 Rsync
 
-# 4 文件共享
+远程同步工具，主要用于备份和镜像；支持符号链接、设备等等；速度快，避免复制相同内容的文件数据；不支持两个远程主机之间的复制。
 
-## 4.1 安装samba
+```shell
+$> rsync -rvl ~/hello.txt root@s101:/home/ubuntu/
+```
+
+# 4 共享服务
+
+## 4.1 Samba服务
+
+### 4.1.1 服务端
+
+4.1 安装Samba
 
 ```properties
 yum -y install samba
 ```
 
-## 4.2 配置共享文件夹
+4.2 配置共享文件夹
 
 > samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
 
@@ -171,7 +184,7 @@ writable = yes
 public=yes
 ```
 
-## 4.3 配置免密码模式
+4.3 配置免密码模式
 
 > samba配置文件在`/etc/samba/smb.conf`，修改这个配置文件在最后加入下面的配置
 
@@ -182,7 +195,7 @@ public=yes
 	map to guest = Bad User
 ```
 
-## 4.4 启动samba
+4.4 启动samba
 
 ```properties
 systemctl start smb nmb
@@ -191,7 +204,7 @@ ps -ef | grep -E 'smb|nmb'
 netstat -tunlp | grep -E 'smbd|nmbd'
 ```
 
-## 4.5 关闭SElinux
+4.5 关闭SElinux
 
 ```properties
 vi /etc/selinux/config（vi /etc/sysconfig/selinux）
@@ -204,7 +217,7 @@ reboot # 进行重启操作
 getenforce  # 检查是否生效
 ```
 
-## 4.6 访问
+4.6 访问
 
 ```properties
 \\192.168.100.12
@@ -212,13 +225,98 @@ file://192.168.100.12/share/
 file:///192.168.100.12
 ```
 
-## 4.7 开机启动
+4.7 开机启动
 
 ```properties
 
 ```
 
+## 4.2 NFS服务
 
+### 4.2.1 服务端
+
+1、安装服务
+yum install -y nfs-utils
+
+2、vi /etc/exports //NFS配置文件
+
+/home/nfs *(rw,sync,no_root_squash)
+
+3、启动服务
+
+systemctl start rpcbind
+
+systemctl start nfs
+
+netstat -anptu | grep rpcbind
+
+rpm -ql nfs-utils | grep show
+
+4、查看发布的NFS共享目录
+
+showmount -e 172.16.7.121
+
+### 4.2.2 客户端
+
+1、安装
+
+yum install nfs-utils
+
+2、挂载
+
+mount -t nfs 172.16.7.121:/home/nfs /data/soft/br_data_bak
+
+3、设置自动挂载
+
+## 4.3 挂载Win10共享
+
+### 4.3.1 服务
+
+文件共享部分：
+1、选好需要共享的文件夹D:\share
+
+2、对share文件夹右击——>共享——>特定用户
+
+3、下拉菜单中——>选择everyone ——>点击添加
+
+4、确定共享
+网络部分：
+1、右击网络选属性——>更改高级共享设置
+
+2、在所有网络中拉到最下面——>密码保护的共享
+
+3、选择关闭密码保护共享，WIN+R输入\192.168.80.10 (此处为vnet1虚拟网卡的地址）
+
+1、安装共享必备工具
+
+```
+yum install samba-client cifs-utils -y //安装samba客户软件和文件系统管理工具
+```
+
+2、查询共享文件夹
+
+`smbclient -L //192.168.80.10/`
+
+诉查询命令对于查询win7共享目录是可以实现的，这是因为win7和samba客户端CentOS7都是使用的SMB1的协议，而win10已经使用SMB2协议了，因此不能正常访问。
+**解决办法如下：**
+1）smbclient -L //192.168.80.10/ -m SMB2 //加入-m参数指定协议类型
+
+2）-m参数只是临时的，因此可以通过在主配置文件/etc/samba/smb.conf中加入client max protocol = SMB2
+
+3、samba客户端挂载
+
+```
+mkdir /abc   //新建挂载目录
+mount.cifs //192.168.80.10/share /abc    // 挂载
+```
+
+同样该命令对于win7可以使用，但是win8和win10，对于挂载共享目录来说需要用以下标准语法：mount -t cifs //IP地址/共享名称 挂载点 -o username=用户名,password=密码,其他选项
+**解决办法如下：**
+
+mount -t cifs //192.168.80.10/share /abc -o username=root,password=root,vers=2.0
+**验证挂载成功**
+
+`df -hT`
 
 # 5 图形界面
 
@@ -249,9 +347,11 @@ echo '/dev/vdb1 /data0 ext3 defaults 0 0' >> /etc/fstab
 ```properties
 # ext3转ext4
 umount /dev/vdb1
-lsblk -f
 mkfs.ext4 /dev/vdb1
 mount -t ext4 /dev/vdb1 /data/
+# 查看格式
+lsblk -f
+df -tH（df -hl）
 ```
 
 # 7 第三方库

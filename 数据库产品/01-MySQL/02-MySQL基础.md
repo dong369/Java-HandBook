@@ -10,15 +10,15 @@
 
 ### 1.1.1 安装版
 
-1.运行apt-get update命令以确保您的软件包列表是最新的。
+1、运行apt-get update命令以确保您的软件包列表是最新的。
 
 root@ubuntuServer:~# apt-get update
 
-2.安装mySQL服务
+2、安装mySQL服务
 
 root@ubuntuServer:~#apt-get install mysql-server
 
-3. 安装Navicat数据库可视化工具
+3、安装Navicat数据库可视化工具
 
 安装MySQL服务是否成功：打开Windows命令提示符, 执行命令: mysqld --install MySQL --defaults-file="my.ini
 
@@ -36,13 +36,13 @@ root@ubuntuServer:~#apt-get install mysql-server
 
 ## 1.2 远程连接
 
-1. 默认mySQL只允许本地连接，需要更改配置文件。
+1、默认mySQL只允许本地连接，需要更改配置文件。
 
 root@ubuntuServer:~# vi /etc/mysql/my.cnf
 
 注释掉红色部分。
 
-2. 打开MySQL数据库远程访问的权限
+2、打开MySQL数据库远程访问的权限
 
 ### 1.2.1 改表法
 
@@ -54,7 +54,7 @@ mysql>use mysql;
 
 mysql>update user set host = '%' where user = 'root';
 
-​    注意：mysql>update user set host = '%' where user ='root'; #修改host值（以通配符%的内容增加主机/IP地址，当然也可以直接增加某个特定IP地址，如果执行update语句时出现ERROR 1062 (23000): Duplicate entry '%-root' for key 'PRIMARY' 错误，需要**select host from user where user = 'root'**;
+注意：mysql>update user set host = '%' where user ='root'; #修改host值（以通配符%的内容增加主机/IP地址，当然也可以直接增加某个特定IP地址，如果执行update语句时出现ERROR 1062 (23000): Duplicate entry '%-root' for key 'PRIMARY' 错误，需要**select host from user where user = 'root'**;
 
 查看一下host是否已经有了%这个值，如果有了直接执行下面的flush privileges;即可）
 
@@ -138,7 +138,7 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 库（database）：多张表；表（table）：多行多列的数据；视图（view）：
 
-创建数据库：create database if not exists dbName charset utf8;
+创建数据库：create database if not exists dbName charset = utf8mb4;
 
 删除数据库：drop database dbName;
 
@@ -202,11 +202,9 @@ insert：所有的行；insert：指定的行
 
 语法2：insert into 表名 values(全部的值);
 
-语法3：Insert插入表数据：insert into 表名 set(全部的值);
+语法3：insert into 表名 values (1,22),(2,33),(3,44);，添加多行
 
-例子代码：
-
-insert into users(userid, username, password) values(1, 'mysql', 'mysql');
+例子：insert into users(userid, username, password) values(1, 'mysql', 'mysql');
 
 **注意**：列和值要严格的对应！数字不需要加单引号，但是字符串**一定要**加单引号！
 
@@ -230,17 +228,19 @@ Update t1,t2 set t1.pwd=’AAA’,t2.pwd=’BBB’ where t1.id=t2.id;
 
 ## 2.4 Delete操作(删)
 
-Delete:所有的行
+思考：为什么不需要指定列？
 
-Delete:部分的行
+Delete：所有的行
 
-Delete:指定的行
+Delete：部分的行
 
-**删**除操作：!你要删除哪张表的数据?你要删掉哪些行?
+Delete：指定的行
 
-语法1：**delete from** 表名 **where** 字段=值;  
+**删**除操作：你要删除哪张表的数据?你要删掉哪些行?
 
-语法2：**delete from** 表名;(会删除所有数据!**特别注意!**)
+语法1：**delete from** 表名 **where** 字段=值；
+
+语法2：**delete from** 表名；（会删除所有数据!**特别注意!**）
 
 例子代码：delete from users where userid = 1;
 
@@ -306,33 +306,33 @@ Where 条件;
 
 # 3 Select查询模型
 
-## 3.1 认识查询模型（where）
+## 3.1 认识where查询模型
 
 ```
- （1）条件查询where 
-        a. 条件表达式的意义，表达式为真，则取出该行
-        b. 比较运算符  = ，!=，< > <=  >=
-        c. like, not like('%'匹配任意多个字符,'_'匹配任意单个字符)，in, not in, between and
-        d. is null , is not null                       
- （2）分组group by（一般要配合5个聚合函数使用:max,min,sum,avg,count）
- （3）筛选       having
- （4）排序       order by
- （5）限制       limit
+（1）条件查询where 
+    a、条件表达式的意义，表达式为真，则取出该行
+    b、比较运算符  =、!=、< >、<=、>=
+    c、like、not like('%'匹配任意多个字符，'_'匹配任意单个字符)、in、not in、between and
+    d、is null、is not null                       
+（2）分组group by（一般要配合5个聚合函数使用：max、min、sum、avg、count）
+（3）筛选       having
+（4）排序       order by
+（5）限制       limit
 ```
 
  Select查询：Where、Group by、Having、Order by、Limit
 
-1. 列是变量，可以放入函数中（**大胆的把列看成变量，可以放入函数中**）
+1、列是**变量**，可以放入函数中（**大胆的把列看成变量，可以放入函数中**）
 
-2. 变量可以计算（sql>select name age+1 from user where 1;）
+2、变量**可以计算**（sql>select name age+1 from user where 1;）
 
-3. Where是表达式，值为真取出来（sql>select * from user where 1;）
+3、Where是**表达式**，值**为真取出来**（sql>select * from user where 1;）
 
-**投影运算：本有三列，但是取出来两列**
+投影运算：本有三列，但是取出来两列
 
-**广义投影：通过投影的数据进行运算操作得到的列** 。
+广义投影：通过投影的数据进行运算操作得到的列。
 
-**注意：认识in、between和like两个运算符**
+注意：认识in、between和like两个运算符
 
 In：代表的是在某**集合内(关键字：查询属于什么)**
 
@@ -348,9 +348,24 @@ As：将广义投影给一个新的变量
 
 现有一张goods表：包括的字段有goods_id(主键)、goods_name、cat_id（栏目）、brand_id、goods_number、shop_price、market_price、click_count（点击量）
 
+```sql
+CREATE TABLE `goods` (
+  `goods_id` mediumint unsigned NOT NULL AUTO_INCREMENT,
+  `goods_name` varchar(120) NOT NULL DEFAULT '',
+  `cat_id` smallint unsigned NOT NULL DEFAULT '0',
+  `brand_id` smallint unsigned NOT NULL DEFAULT '0',
+  `goods_sn` char(15) NOT NULL DEFAULT '',
+  `goods_number` smallint unsigned NOT NULL DEFAULT '0',
+  `shop_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
+  `market_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
+  `click_count` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`goods_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+```
+
 基础查询 where的练习：查出满足以下条件的商品
 
-1:主键为32的商品
+1、主键为32的商品
 
 mysql> select goods_id,goods_name,cat_id
 
@@ -358,7 +373,7 @@ mysql> select goods_id,goods_name,cat_id
 
 ​    -> where goods_id=32;
 
-2:**不属**第3栏目的所有商品
+2、**不属**第3栏目的所有商品
 
 mysql> select goods_id,goods_name,cat_id
 
@@ -366,7 +381,9 @@ mysql> select goods_id,goods_name,cat_id
 
 -> where cat_id**!=**3;
 
-3:本店价格高于3000元的商品
+!=可以使用<>替换。
+
+3、本店价格**高于**3000元的商品
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -374,7 +391,7 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> where shop_price>=3000;
 
-4:本店价格低于或等于100元的商品
+4、本店价格**低于或等于**100元的商品
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -382,7 +399,7 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> where shop_price<=100;
 
-5:取出**第4栏目或第11栏目**的商品(不许用or)
+5、取出**第4栏目或第11栏目**的商品（不许用or）
 
 mysql> select goods_id,goods_name,cat_id
 
@@ -390,7 +407,9 @@ mysql> select goods_id,goods_name,cat_id
 
 ​    -> where cat_id **in(4,11)**;
 
-6:取出**100<=价格<=500**的商品(不许用and)
+||单价与or
+
+6、取出**属于**100<=价格<=500的商品（不许用and）
 
 mysql> select goods_id,goods_name,cat_id,shop_price
 
@@ -398,7 +417,9 @@ mysql> select goods_id,goods_name,cat_id,shop_price
 
 ​    -> where shop_price **between 100 and 500**;
 
-7:取出不属于第3栏目且不属于第11栏目的商品(and,或not in分别实现)
+&&单价与and
+
+7、取出**不属于**第3栏目且不属于第11栏目的商品（and，或not in分别实现）
 
 方法1：mysql> select goods_id,goods_name,cat_id
 
@@ -410,9 +431,11 @@ mysql> select goods_id,goods_name,cat_id,shop_price
 
 ​    -> from goods
 
-​    -> where cat_id!=3 and cat_id!=11;
+​    -> where cat_id!=3 and cat_id**!=**11;
 
-8:取出价格大于等于100且小于等于300,**或者**大于等于4000且小于等于5000的商品()
+not等价!
+
+8、取出价格大于等于100且小于等于300，**或者**大于等于4000且小于等于5000的商品
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -424,7 +447,7 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> shop_price between 4000 and 5000;
 
-9:取出第3个栏目下面价格<1000或>3000,**并且**点击量>5的系列商品
+9、取出第3个栏目下面价格<1000或>3000，**并且**点击量>5的系列商品
 
 mysql> select goods_id,goods_name,cat_id,click_count,shop_price
 
@@ -432,17 +455,19 @@ mysql> select goods_id,goods_name,cat_id,click_count,shop_price
 
 ​    -> where cat_id=3 and (shop_price<100 or shop_price>3000) and clicK_count>5;
 
-**10:**取出第1个栏目下面的商品(注意:1栏目下面没商品,但其子栏目下有)
+and优先级大于or
+
+10、取出第1个栏目下面的商品（注意：1栏目下面没商品，但其子栏目下有）
 
 mysql> select goods_id,goods_name,cat_id
 
 ​    -> from goods
 
--> where cat_id in(2,3,4,5);
+-> where cat_id **in**(2,3,4,5);
 
 **注意：后面通过子查询来实现**
 
-11:取出名字以"诺基亚"开头的商品
+11、取出名字以"诺基亚"开头的商品
 
 mysql> select goods_id,goods_name
 
@@ -452,23 +477,23 @@ mysql> select goods_id,goods_name
 
 注意：**like后面没有等于号**
 
-12:取出名字为"诺基亚Nxx"的手机
+12、取出名字为"诺基亚Nxx"的手机
 
 mysql> select goods_id,cat_id,goods_name,shop_price
 
 ​    -> from goods
 
-​    -> where goods_name like '诺基亚n__';
+​    -> where goods_name **like** '诺基亚n__';
 
-13:取出名字不以"诺基亚"开头的商品
+13、取出名字不以"诺基亚"开头的商品
 
 mysql> select goods_id,goods_name
 
 ​    -> from goods
 
-​    -> where goods_name not like '诺基亚';
+​    -> where goods_name **not like** '诺基亚';
 
-**14:**取出第3个栏目下面价格在1000到3000之间,并且点击量>5 "诺基亚"开头的系列商品
+14、取出第3个栏目下面价格在1000到3000之间,并且点击量>5 "诺基亚"开头的系列商品
 
 select goods_id,cat_id,goods_name,shop_price  from goods where 
 
@@ -480,23 +505,21 @@ shop_price between 1000 and 3000 and cat_id=3  and click_count>5 and goods_name 
 
 ### 3.1.2 面试题
 
-有mian表和数组表中:floor向下取整，把num值处于[20,29]之间,改为20，num值处于[30,39]之间的改为30。
+1、有mian表和数组表中：floor向下取整，把num值处于[20,29]之间,改为20，num值处于[30,39]之间的改为30。
 
-答案：
-
-```
 mysql> update mian set num = floor(num/10)*10
     -> where
--> num between 20 and 39;
-2.把good表中商品名为'诺基亚xxxx'的商品,改为'HTCxxxx',
-提示:大胆的把列看成变量,参与运算,甚至调用函数来处理 .
+    -> num between 20 and 39;
+
+2、把good表中商品名为'诺基亚xxxx'的商品，改为'HTCxxxx'，提示：大胆的把列看成变量，参与运算，甚至调用函数来处理。
+
 substring()字符串的截取函数
+
 concat()字符串的拼接函数
-答案：
+
 mysql> select goods_id,concat('htc',substring(goods_name,4)),shop_price
     -> from goods
     -> where goods_name like '诺基亚%';
-```
 
 ### 3.1.3 奇怪的null
 
@@ -691,51 +714,16 @@ select database(),version(),user();
 selectbenchmark(9999999,log(rand()*pi()));#该例中,mysql计算log(rand()*pi())表达式9999999次。
 ```
 
-### 3.2.2 Group分组统计的语法
-
-1：按照栏目统计出商品的平均价格？
-
-mysql> select goods_id,goods_name,cat_id,avg(shop_price)
-
-​    -> from goods
-
-​    -> group by cat_id;
-
-**原理：先按照cat_id进行排序，在进行挨个统计，操作浪费资源！**
-
-2：查看每个栏目下商品的数量？
-
-mysql> select goods_id,goods_name,cat_id,shop_price,**count(\*)**
-
-​    -> from goods
-
-​    -> group by cat_id;
-
-3：查看每个栏目下最贵的商品价格？
-
-mysql>select goods_id,goods_name,shop_price,max(shop_price),min(shop_price)
-
-​    -> from goods
-
-​    -> group by cat_id;
-
-注意：Select **goods_id** cat_id count(*) from goods **group by** cat_id;
-
-**语义上是不正确**的，但是在mysql中可以取到！
-
-### 3.2.3 分组查询练习group by
-
-```properties
-1:查出最贵的商品的价格
+1、查出最贵的商品的价格
 mysql> select max(shop_price)
     -> from goods;
-2:查出最大(最新)的商品编号
+2、查出最大(最新)的商品编号
 mysql> select max(goods_id)
     -> from goods;
-3:查出最便宜的商品的价格
+3、查出最便宜的商品的价格
 mysql> select min(shop_price)
     -> from goods;
-4:查出最旧(最小)的商品编号
+4、查出最旧(最小)的商品编号
 mysql> select min(goods_id)
     -> from goods;
 5:查询该店所有商品的库存总量
@@ -747,15 +735,56 @@ mysql> select avg(shop_price)
 7:查询该店一共有多少种商品
 mysql> select count(*)
     -> from goods;
-8:查询每个栏目下面
+
+### 3.2.2 Group分组统计的语法
+
+1、按照栏目统计出商品的平均价格？
+
+mysql> select goods_id,goods_name,cat_id,avg(shop_price)
+
+​    -> from goods
+
+​    -> group by cat_id;
+
+**原理：先按照cat_id进行排序，在进行挨个统计，操作浪费资源！**
+
+2、查看每个栏目下商品的数量？
+
+mysql> select goods_id,goods_name,cat_id,shop_price,**count(\*)**
+
+​    -> from goods
+
+​    -> group by cat_id;
+
+3、查看每个栏目下最贵的商品价格？
+
+mysql>select goods_id,goods_name,shop_price,max(shop_price),min(shop_price)
+
+​    -> from goods
+
+​    -> group by cat_id;
+
+注意：Select **goods_id** cat_id count(*) from goods **group by** cat_id;
+
+**语义上是不正确**的，但是在mysql中可以取到！MySQL8中直接不通过，报错。
+
+### 3.2.3 分组查询练习group by
+
+查询**每个栏目**下面
+
 最贵商品价格
+
 最低商品价格
+
 商品平均价格
+
 商品库存量
+
 商品种类
+
 提示:(5个聚合函数,sum,avg,max,min,count与group综合运用)
+
 select cat_id,max(shop_price) from ecs_goods  group by cat_id;
-```
 
 ## 3.3 Having筛选
 
@@ -769,30 +798,26 @@ as关键字是可以省略的，但是为了用户的可读性，最好都不要
 
 Where：针对的是磁盘上的数据文件发挥作用的。
 
-1：查询该goods店中，本店价格比市场价格所节省的价格？
+1、查询该goods店中，本店价格比市场价格所节省的价格？
 
 mysql> select market_price,shop_price,market_price-shop_price
 
 -> from goods;
 
-```
-2:查询每个商品所积压的货款(提示:库存*单价)
-```
+2、查询每个商品所积压的货款(提示:库存*单价)
 
 mysql> select goods_number,shop_price,goods_number*shop_price
 
 ​    -> from goods;
 
-```
-3:查询该店积压的总货款
+3、查询该店积压的总货款
 mysql> select sum(goods_number*shop_price)
     -> from goods;
-4:查询该店每个栏目下面积压的货款。
+4、查询该店每个栏目下面积压的货款。
 mysql> select cat_id,sum(goods_number*shop_price) as k
     -> from goods
 -> group by cat_id;
-5:查询比市场价省钱200元以上的商品及该商品所省的钱(where和having分别实现)
-```
+5、查询比市场价省钱200元以上的商品及该商品所省的钱(where和having分别实现)
 
 方式1：mysql> select market_price,shop_price,market_price-shop_price
 
@@ -818,11 +843,9 @@ ERROR 1054 (42S22): Unknown column 'sheng' in 'where clause'注意：会报错
 
 -> **having** sheng>20;
 
-注意：方式2**与方式3的区别！having必须放在where的后面！
+注意：方式2与方式3的区别！having必须放在where的后面！
 
-```
-6:查询积压货款超过2W元的栏目,以及该栏目积压的货款
-```
+6、查询积压货款超过2W元的栏目,以及该栏目积压的货款
 
 mysql> select cat_id,sum(goods_number*shop_price) as s
 
@@ -831,6 +854,10 @@ mysql> select cat_id,sum(goods_number*shop_price) as s
 ​    -> group by cat_id
 
 ​    -> having s>20000;
+
+7、重复数据条数
+
+select cat_id,count(1) from goods group by cat_id having count(1)>1;
 
 ## 3.4 Order by排序
 
@@ -852,7 +879,7 @@ mysql> select cat_id,sum(goods_number*shop_price) as s
 
 ### 3.5.2 练习题
 
-1：在test数据库中的goods表中按照shop_price进行升序排序？
+1、在test数据库中的goods表中按照shop_price进行**升序**排序？
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -862,7 +889,7 @@ mysql> select goods_id,goods_name,shop_price
 
 注意：默认是升序排列！asc可以省略，但是最后写上，移植性好！
 
-2：在test数据库中的goods表中按照shop_price进行降序排序？
+2、在test数据库中的goods表中按照shop_price进行**降序**排序？
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -870,17 +897,17 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> order by shop_price **desc**;
 
-3：通过一个字段不能够确定顺序的情况？ 
+3、通过一个字段不能够确定顺序的情况？ 
 
 mysql> select goods_name,cat_id,shop_price
 
 ​    -> from goods
 
--> order by shop_price asc,cat_id desc;
+​    -> order by shop_price asc,cat_id desc;
 
 Like查询
 
-#### Regexp运算符练习题：
+### 3.5.3 Regexp运算符
 
 查询姓李的同学的学号，姓名和专业名。
 
@@ -894,9 +921,9 @@ mysql> select 学号,姓名,专业名 from xs where 学号 regexp '[4,5,6]';
 
 mysql> select 学号,姓名,专业名 from xs where 学号 regexp '^08.*01$';
 
-#### 1order by 与 limit查询
+### 3.5.4 order by与limit查询
 
-1:按价格由高到低排序
+1、按价格由高到低排序
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -904,7 +931,7 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> order by shop_price desc;
 
-2:接栏目由低到高排序,栏目内部按价格由高到低排序
+2、接栏目由低到高排序,栏目内部按价格由高到低排序
 
 mysql> select goods_id,cat_id,goods_name,shop_price
 
@@ -912,7 +939,7 @@ mysql> select goods_id,cat_id,goods_name,shop_price
 
 -> order by cat_id asc,shop_price desc; 
 
-3:取出价格最高的前三名商品
+3、取出价格最高的前三名商品
 
 mysql> select goods_id,goods_name,shop_price
 
@@ -920,7 +947,7 @@ mysql> select goods_id,goods_name,shop_price
 
 ​    -> order by shop_price desc **limit 3;**
 
-5:取出点击量前3名到前5名的商品
+4、取出点击量前3名到前5名的商品
 
 分析：第N名到第M名的商品
 
@@ -930,7 +957,7 @@ mysql> select goods_id,goods_name,click_count
 
 ​    -> order by click_count desc **limit 2,3;**
 
-#### where-having-group
+### 3.5.5 where-having-group
 
 Where-having-group综合
 
@@ -1077,8 +1104,6 @@ mysql> select name,sum(score < 60) as gk ,avg(score) as pj from stu group by nam
 2 rows in set (0.00 sec)
 ```
 
- 
-
 # 4 子查询
 
 ## 4.1 子句的查询陷阱
@@ -1087,12 +1112,14 @@ mysql> select name,sum(score < 60) as gk ,avg(score) as pj from stu group by nam
 
 ```
 问题1：查询每个栏目下的最新产品（goods_id最大的为最新）
-问题2:查询出编号为19的商品的栏目名称(用左连接查询和子查询分别)
+问题2：查询出编号goods_id为19的商品的栏目名称(用左连接查询和子查询分别)
+连接查询：select goods_id,g.cat_id,goods_name,cat_name from goods as g left join category c on g.cat_id=c.cat_id where goods_id = 19;
+子查询：select * from category where cat_id = (select cat_id from goods where goods_id = 19);
 ```
 
 ## 4.2 where型的子查询
 
-**内层的查询结果作为外层sql的比较条件！**
+内层的查询结果作为外层sql的比较**条件**！
 
 ```properties
 # 在test库中的goods表中，找出最新的商品？（cat_id最大是最新，不使用排序）
@@ -1107,7 +1134,7 @@ mysql> select goods_id,goods_name,cat_id
 
 ## 4.3 from型的子查询
 
-**概念：就是把子查询的结果作为一个表，供你的外边的查询语句使用，这个你所指的子查询里面所有的查询结果字段就是你外面SELECT的范围。FROM** **后边的都是表名，你不要当成这个是子查询，只把这当成一张表就好了。只不过这个表的数据不是你平时理解的那种固定的表，而是通过一个查询来构建出来的。这个表的数据就是这个查询查出来的结果。**
+概念：就是把子查询的结果**作为一个表**，供你的外边的查询语句使用，这个你所指的子查询里面所有的查询结果字段就是你外面SELECT的范围。FROM后边的都是表名，你不要当成这个是子查询，只把这当成一张表就好了。只不过这个表的数据不是你平时理解的那种固定的表，而是通过一个查询来构建出来的。这个表的数据就是这个查询查出来的结果。
 
 ```properties
 # 用from型子查询把goods表中的每个栏目下面最新的商品取出来
@@ -1118,7 +1145,7 @@ mysql> select *
 
 ## 4.3 exists型的子查询
 
-**使用 exists 关键字引入子查询后，子查询的作用就相当于进行存在测试。外部查询的 where 子句测试子查询返回的行是否存在。子查询实际上不产生任何数据，它只返回 ture 或 false 值，**可以通过in代替！
+使用 exists 关键字引入子查询后，子查询的作用就相当于进行**存在测试**。外部查询的 where子句测试子查询返回的行是否存在。子查询实际上不产生任何数据，它只返回ture或false值，可以通过in代替！
 
 ```properties
 # 用exists型子查询，查出所有有商品的栏目
@@ -1129,31 +1156,27 @@ mysql> select *
 
 ## 4.4 比较子查询
 
-```properties
-# 查找xs表中比所有计算机系的学生年龄都大的学生学号，姓名，专业名和出生日期。
-mysql> select 学号,姓名,专业名,出生日期 from xs where 出生日期<all
-    -> (select 出生日期 from xs where 专业名='计算机');
-```
+子查询一共返回了3个结果，我们没有指定是大于这3个结果中的哪一个，那么这就要涉及到另外几个关键字。他们分别是ANY、SOM、ALL，也就是说如果你的子查询在返回多个结果的时候，可以使用ANY、SOME或ALL来做修饰。其中ANY和SOME 是等价的，就是说只要符合其中一个就行，而ALL是要符合全部。
+
+1、查找商品表中比所有13号栏目的商品ID都大的商品
+
+select * from goods where goods_id > all (select goods_id from goods where cat_id =13 );
 
 ## 4.5 Select子查询
 
-从xs表中查找所有女学生的姓名，学号，以及与081101号学生的年龄差距。
+从student表中查找所有男同胞的姓名，学号，以及与s001号学生的年龄差距。
 
-select 学号,姓名,year(出生日期)-year (
-
-(select 出生日期 from xs where 学号=’081101’)
-
-)as 年龄世界
-
-from xs where 性别=’0’;
+select sname,sno,sage-(select sage from student where sno = 's001') as cha from student where ssex='男';
 
 # 5 连接查询
 
 ## 5.1 基本的语法
 
-
+inner join ... on、left join ... on、right join ... on
 
 ## 5.2 1+N问题
+
+本来一个语句的事情，却写成两个，通过for循环进行实现！！！
 
 # 6 连接查询操作
 
@@ -1161,7 +1184,7 @@ Select xxxx from
 
 Table1 连接查询的类型 table2 on table1xx=table2xx;
 
-## 6.1内连接
+## 6.1 内连接
 
 取两张表的交集！
 
@@ -1175,7 +1198,7 @@ mysql> select boy.hid,boy.bname,girl.hid,girl.gname
 
 ​    -> boy inner join girl on boy.hid=girl.hid;
 
-## 6.2左连接
+## 6.2 左连接
 
 以右边的表为主要的查询，左边进行配对，没有的补null
 
@@ -1193,7 +1216,7 @@ mysql> select * from t
 
 **注意：左连接和右连接，永远是以左表为准！**
 
-## 6.3右连接
+## 6.3 右连接
 
 以左边的数据为主进行查询，右表进行配对，没有的补null。
 
@@ -1205,65 +1228,33 @@ mysql> select boy.hid,boy.bn  ame,girl.hid,girl.gname
 
 ​    -> boy **right join** girl **on** boy.hid=girl.hid;
 
-**注：boy****在girl****的右边，即girl****在左边！则girl****全部输出，而没有匹配的boy****补null****。**
+注：boy在girl的右边，即girl在左边！则girl全部输出，而没有匹配的boy补null。
 
-## 6.4左外连接
+## 6.4 左外连接
 
 （右外连接right outer join）
 
-查找所有学生情况及他们选修的课程号，若学生未选修任何课，也要包括其情况。
+select * from girl left outer join boy on girl.hid=boy.hid;
 
- Select xs.*,课程号
+select * from girl right outer join boy on girl.hid=boy.hid;
 
-From xs left outer join xs_kc on xs.学号=xs_kc.学号;
-
-## 6.5外连接
+## 6.5 外连接
 
 取两张表的并集！
 
 在mysql中不存在外连接的。
 
-## 6.6多表关联
+## 6.6 多表关联
 
 两表关联：
 
-例子：查找数据库中所有学生选过的课程名和课程号；
 
-Select distinct kc.课程名,xs_kc.课程号
-
-From kc,xs_kc
-
-Where kc.课程号=xs_kc.课程号；全连接
-
-或者：
-
-Select distinct 课程名,xs_kc.课程号
-
-From kc inner join xs_kc
-
-On (kc.课程号=xs_kc.课程号);内连接
-
-例子：查找选修了206课程且成绩在80分以上的学生姓名及成绩。
-
-Select 姓名，成绩
-
-From xs join xs_kc on xs.学号=xs_kc.学号;内连接
 
 三表关联：
 
-例子：查找选修了“计算机基础”课程且成绩在80分以上的学生学号，姓名，课程名及成绩。 
 
-```sql
-Select xs.学号,姓名,课程名,成绩
 
-From xs join xs_kc on xs.学号=xs_kc.学号
-
-    Join kc on xs_kc.课程号=kc.课程号
-
-Where 课程名='计算机基础' and 成绩>=80;
-```
-
-多表删除：
+## 6.7 多表删除
 
 假设存在三个表t1,t2,t3，它们都含有id列。要删除t1中id值等于t2的id值的所有行和t2中id值等于t3的id值的所有行。
 
@@ -1273,11 +1264,11 @@ Delete t1,t2 from t1,t2,t3 where t1.id=t2.id and t2.id=t3.id;
 
 Delete from t1,t2 using t1,t2,t3 where t1.id=t2.id and t2.id=t3.id;
 
-## 6.7 连接查询练习
+## 6.8 连接查询练习
 
 连接查询
 
-1:取出所有**商品**的商品名,栏目名,价格
+1、取出所有**商品**的商品名,栏目名,价格
 
 mysql> select goods_name,cat_name,shop_price
 
@@ -1285,7 +1276,7 @@ mysql> select goods_name,cat_name,shop_price
 
 ​    -> goods left join category on goods.cat_id=category.cat_id;
 
-2:取出第4个栏目下的商品的商品名,栏目名,价格
+2、取出第4个栏目下的商品的商品名,栏目名,价格
 
 mysql> select goods_name,cat_name,shop_price
 
@@ -1295,7 +1286,7 @@ mysql> select goods_name,cat_name,shop_price
 
 ​    -> where goods.cat_id=4;
 
-3:取出第4个栏目下的商品的商品名,栏目名,与品牌名
+3、取出第4个栏目下的商品的商品名,栏目名,与品牌名
 
 select goods_name,cat_name,brand_name from 
 
@@ -1309,11 +1300,7 @@ on goods.brand_id=brand.brand_id
 
 where goods.cat_id = 4;
 
- 
-
-4: 用友面试题
-
- 
+4、用友面试题
 
 根据给出的表结构按要求写出SQL语句。
 
@@ -1327,9 +1314,7 @@ Match 赛程表
 | matchResult | varchar(20) | 比赛结果，如（2:0） |
 | matchTime   | date        | 比赛开始时间        |
 
- 
 
- 
 
 Team 参赛队伍表
 
@@ -1338,9 +1323,7 @@ Team 参赛队伍表
 | teamID   | int         | 主键     |
 | teamName | varchar(20) | 队伍名称 |
 
- 
-
- 
+  
 
 Match的hostTeamID与guestTeamID都与Team中的teamID关联
 
@@ -1422,8 +1405,6 @@ mysql> select hid,t1.tname as hname ,mres,gid,t2.tname as gname,matime
 
 4 rows in set (0.00 sec)
 
- 
-
 # 7 Union查询
 
 ## 7.1 union的使用
@@ -1436,9 +1417,9 @@ Sql2语句返回M行
 
 则sql1 **union** sql2语句返回的是N+M行
 
-1. 必须满足的条件是：各语句取出的列必须是相同的，列的名称不需要一定一样，列名会以第条sql语句名称为准！
+1、必须满足的条件是：各语句取出的**列必须是相同**的，列的名称不需要一定一样，列名会以第条sql语句名称为准！
 
-2. 完全相等的行会进行合并！**比较消耗资源**
+2、完全相等的行会进行合并！**比较消耗资源**
 
 ## 7.2 union all的使用
 
@@ -1446,7 +1427,7 @@ Sql2语句返回M行
 
 讨论：union all的**子句**中不需要使用order by，因为SQL合并后可以使用order by，子句是失去意义。
 
-## 7.3 union练习题：
+## 7.3 union练习题
 
 ```properties
 1:把ecs_comment,ecs_feedback两个表中的数据,各取出4列,并把结果集union成一个结果集.
@@ -1538,9 +1519,9 @@ mysql> select id,sum(num) from (select * from ta union all select * from tb) as 
 
 ## 8.1 创建表
 
-问题：创建表的过程就是声明表头的过程。
+问题：创建表的过程就是**声明表头的过程**。
 
-建表的过程中，就是添加表头的过程，列名称是什么？什么类型的列？列给的属性是什么？注释信息是什么？
+建表的过程中，就是**添加表头的过程**，列名称是什么？什么类型的列？列给的属性是什么？注释信息是什么？
 
 数据类型的认识？MySQL数据库中提供了整数类型、浮点数类型、定点数类型、日期和时间类型、字符串类型。
 
@@ -1550,35 +1531,20 @@ create tabel tableName (
 
 ​	列1 列类型[类属性 默认值],
 
-​	列1 列类型[类属性 默认值],
+​	列1 列类型[类属性 默认值]
 
-​	.......
-
-)
-
-engine = 存储引擎
-
-cha'rset = 字符集
+) engine = 存储引擎  default charset = 字符集;
 
 ```mysql
-CREATE TABLE device_master
-(
-    id                INT(11)        NOT NULL AUTO_INCREMENT COMMENT '功能描述：主键id',
-    create_date       DATETIME       NOT NULL DEFAULT '1000-01-01 00:00:00' COMMENT '功能描述：创建时间',
-    update_date       DATETIME       NOT NULL DEFAULT '1000-01-01 00:00:00' COMMENT '功能描述：更新时间时间',
-    del_flag          VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：删除',
-    remarks           VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：备注',
-    hospital          VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：医院名称',
-    device_ip         VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：设备ip',
-    device_name       VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：设备名称',
-    device_type       VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：设备类型',
-    `month`           VARCHAR(50)    NOT NULL DEFAULT '' COMMENT '属性描述：年份-月份',
-    device_income     DECIMAL(13, 2) NOT NULL DEFAULT -1 COMMENT '属性描述：设备总收入',
-    check_count       INT(11)        NOT NULL DEFAULT -1 COMMENT '属性描述：设备检查量',
-    exception_count   INT(11)        NOT NULL DEFAULT -1 COMMENT '属性描述：异常数量',
-    examination_count INT(11)        NOT NULL DEFAULT -1 COMMENT '属性描述：体检量',
-    PRIMARY KEY (id)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT '设备信息表';
+-- drop table if exists tb_info;
+create table tb_info(
+	id int (11) not null auto_increment comment '主键id',
+	info_name varchar (50) not null default '' comment '名称',
+	create_time datetime not null default '1000-01-01 00:00:00' comment '创建时间',
+	del_flag tinyint(1) not null default -1 comment '0-停止，1-运行',
+	index(info_name),
+	primary key (id)
+)engine=innodb default charset=utf8mb4 comment '创建表信息';
 ```
 
 ## 8.2 表的复制
@@ -1587,15 +1553,15 @@ Create table tab1_name **like** old_tab1_name;
 
 假设存在一个表test，创建test表的一个名为test_copy的拷贝
 
-create  table test_copy like test;
+create  table test_copy **like** test;
 
 假设存在一个表test，创建test表的一个名为test_copy的拷贝，并且复制其内容；
 
-create table goods_copy as (select * from goods);
+create table goods_copy **as** (select * from goods);
 
 ## 8.3 整形列
 
-### 8.3.1 整数类型包括
+### 8.3.1 类型包括
 
 整数类型包括：tinyint(1)、smallint(2)、mediumint(3)、int(4)、integer(4)、bigint(8)
 
@@ -1605,7 +1571,7 @@ create table goods_copy as (select * from goods);
 
 上面六种整数类型所占字节数分别为1字节、2字节、3字节、4字节、4字节、8字节。
 
-### 8.3.2 整数类列的可选参数
+### 8.3.2 可选参数
 
 alter table tb_number add num01 tinyint unsigned;
 
@@ -1623,7 +1589,7 @@ mysql> **alter** table t1 **add** sn tinyint(M) zerofill;
 
 浮点数包括，float和double两种类型。
 
-其中FLOAT占4字节，DOUBLE占8字节。
+其中float占4字节，double占8字节。
 
 在选择使用哪种数据类型的时候，可以根据需要存储的小数数据的小数位数来判断，如果需要精确到小数后10位以上的时候，选用DOUBLE类型，否则可以使用FLOAT类型。
 
@@ -1631,27 +1597,59 @@ mysql> **alter** table t1 **add** sn tinyint(M) zerofill;
 
 定点类型：decimal更加的精确。
 
-Float（M,D）:M代表的是精度，D代表小数点后面的位数。（包含小数点的总位数）
+float(M,D)：M代表的是精度，D代表小数点后面的位数，有精度丢失问题。
+
+double(M,D)：有进度丢失问题
+
+decimail(M,D)：定点类型，更精确
 
 ## 8.5 定点列
 
-DEC、DECIMAL类型。当要求小数数据精度非常高的时候，则可以选择DEC和DECIMAL类型，他们的精度比DOUBLE类型还要高。
+dec、decimail类型。当要求小数数据精度非常高的时候，则可以选择dec和decimail类型，他们的精度比DOUBLE类型还要高。
 
 定点类型：**DECIMAL**。
 
-## 8.6 日期和时间类型
+## 8.6 字符串类型
+
+char、varchar、text这三个经常使用
+
+BINARY、VARBINARY、BLOB、ENUM和SET。
+
+### 8.6.1 char
+
+对比结果可以看到，CHAR(4) 定义了**固定长度**为4的列，不管存入的数据长度为多少，所占用的空间均为4个字节。
+
+优点是便于寻址，效率更快！！！
+
+### 8.6.2 varchar
+
+varchar(4)定义的列所占的字节数为**实际长度加1**。
+
+char型如果不够M个**字符**内部用空格补齐取岀时再把**右侧空格删掉**，注这薏味看如果右侧本身有空格将会丢失。
+
+```properties
+列             实存字符i          实占空间            利用率
+char(M)        0<=i<=M          M                  i/m<=100%
+varchar(M)     0<=i<=M          i+1,2              i/i+1/2<100%
+```
+
+注意：char(M)限制的是**字符，不是字节**，即char(2) charset=utf8，能存2个utf8字符。MySQL之前推出的utf8字符集中，一个汉字占**3个字节**，新的utf8mb4字符集中一个汉字占**4个字节**。
+
+验证：
+
+## 8.7 日期和时间类型
 
 year(一个字节)、date、time、datetime、timestamp。
 
 MySQL中有多种表示日期和时间的类型。
 
-YEAR表示年：[00-69]：2000+、[70-99]：1900+
+YEAR表示年：[00-69]：+2000、[70-99]：+1900
 
-DATE表示年月日
+date表示年月日
 
-TIME表示时分秒
+time表示时分秒
 
-DATETIME表示年月日时分秒
+datetime表示年月日时分秒
 
 TIMESTAMP经常插入或更新日期时使用（**时间戳**）
 
@@ -1664,30 +1662,6 @@ time       HH:MM:SS    如:19:26:32
 datetime   YYYY-MM-DD  HH:MM:SS 如:2010-03-14 19:26:32
 timestamp  YYYY-MM-DD  HH:MM:SS 特性:不用赋值,该列会为自己赋当前的具体时间 
 ```
-
-## 8.7 字符串类型
-
-CHAR、VARCHAR、TEXT这三个经常使用
-
-BINARY、VARBINARY、BLOB、ENUM和SET。
-
-### 8.7.1 CHAR
-
-对比结果可以看到，CHAR(4) 定义了**固定长度**为4的列，不管存入的数据长度为多少，所占用的空间均为4个字节。
-
-### 8.7.2 VARCHAR
-
-varchar(4)定义的列所占的字节数为实际长度加1。
-
-char型如果不够M个**字符**内部用空格补齐取岀时再把**右侧空格删掉**，注这薏味看如果右侧本身有空格将会丢失。
-
-```properties
-列             实存字符i          实占空间            利用率
-char(M)        0<=i<=M          M                  i/m<=100%
-varchar(M)     0<=i<=M          i+1,2              i/i+1/2<100%
-```
-
-注意：char(M)限制的是字符，不是字节，即char(2) charset=utf8，能存2个utf8字符。
 
 ## 8.8 Text和blob
 
@@ -1707,13 +1681,11 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 
 ## 9.1 默认值null
 
-1.Null的查询不方便
+1、Null的查询不方便
 
-2.Null的效率不是很高
+2、Null的效率不是很高
 
-实际应用中，要避免null的默认值
-
-如何进行避免：声明列为**not null default** **默认值**
+实际应用中，要避免null的默认值，如何进行避免：声明列为**not null default** **默认值**。
 
 # 10 主键
 
@@ -1723,7 +1695,7 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 
 是能过区分没有行的列！
 
-注意：一张表只能有一个auto_increment，而且此列必须加索引（index）
+注意：一张表**只能有一个**auto_increment，而且此列**必须加索引**（index）
 
 # 11 建表练习
 
@@ -1731,9 +1703,9 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 
 **优化的一种：定长与变长分离！常用列与不常用列分离！**
 
-| 主键 | 用户名   | 性别   | 体重   | 生日  | 薪水   | 最后   登录 | 个人   简介 |
-| ---- | -------- | ------ | ------ | ----- | ------ | ----------- | ----------- |
-| Id   | Username | gender | weight | brith | salary | lastlogin   | intro       |
+| 主键 | 用户名   | 性别   | 体重   | 生日  | 薪水   | 最后登录  | 个人简介 |
+| ---- | -------- | ------ | ------ | ----- | ------ | --------- | -------- |
+| Id   | Username | gender | weight | brith | salary | lastlogin | intro    |
 
  
 
@@ -1760,7 +1732,7 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 | weight    | Tinyint   unsigned   |        |            |
 | brith     | date                 |        |            |
 | salary    | Decimal(8,2)         |        |            |
-| lastLogin | Int   unsigned       |        |            |
+| lastLogin | **Int   unsigned**   |        |            |
 
 改进2：单独摘除intro到另一张表中：
 
@@ -1814,7 +1786,7 @@ mysql> CREATE TABLE `form` (
 
 更改表名：rename table table1Name to table2Name; 
 
-## 12.1 添加表中列的语法
+## 12.1 添加表中列
 
 Alter table tableName **add** 列名 列属性；  默认放在最后
 
@@ -1832,7 +1804,7 @@ mysql> alter table t_admin
 
 ​    -> age int(4) **after** name;
 
-## 12.2 删除表中列的语法
+## 12.2 删除表中列
 
 Alter table tableName **drop column** 列名；column可以省略。
 
@@ -1842,15 +1814,15 @@ mysql> alter table t_admin
 
 ​    -> age;
 
-## 12.3 更改表中列的语法
+## 12.3 更改表中列
 
-Alter table tableName **change height** 原列名 新列名 列的新属性；
+Alter table tableName **change** 原列名 新列名 列的新属性；
 
 可以使用modify进行更改，但是只能更改属性，不能更改列名
 
 Alter table tableName **modify** 列名 新属性；
 
-# 13 视图（view）
+# 13 视图(view)
 
 ## 13.1 概念
 
@@ -1876,26 +1848,23 @@ mysql>select * from viewname;
 
 ## 13.3 视图的作用
 
-1.权限控制的作用
+1、权限控制的作用，比如某些列允许用户查看，有些列不允许用户查看
 
- 比如某些列允许用户查看，有些列不允许用户查看
+2、简化复杂的查询
 
-2.简化复杂的查询
-
-## 13.4 视图能不能更新和修改删除
+## 13.4 能不能更新和修改删除
 
 **物理视图**和**虚拟视图**的区别！
 
-1. 完全可逆函数，如果视图上的每一列都和物理表是一一对应的物理视图改变，虚拟视图也改变！虚拟视图也改变，物理视图改变！view的列，如果物理表上的**列经过多行列计算得到的**，那么不能改变！函数的关系（一对一关系）
-2. 
+1、完全可逆函数，如果视图上的每一列都和物理表是一一对应的物理视图改变，虚拟视图也改变！虚拟视图也改变，物理视图改变！view的列，如果物理表上的**列经过多行列计算得到的**，那么不能改变！函数的关系（一对一关系）
 
 ## 13.5 View的algorithm
 
 视图储存的都是sql语句，两种方式？
 
-1. algorithm=merge（建视图view的简单语句，直接对view查询条件进行合并）
+1、algorithm=merge（建视图view的简单语句，直接对view查询条件进行合并）
 
-2. algorithm=temptable（建视图view的复杂语句，先内存形成的临时表，然后去临时表查）
+2、algorithm=temptable（建视图view的复杂语句，先内存形成的临时表，然后去临时表查）
 
 ## 13.6 基本的语法结构
 
@@ -1905,7 +1874,7 @@ mysql>select * from viewname;
 
 方式3：create view v1 as select goods_id,goods_name from goods;
 
-# 14 存储引擎（Engine）
+# 14 存储引擎(Engine)
 
 ## 14.1 存储文件
 
@@ -1938,14 +1907,14 @@ Innodb支持事务和行级锁，是innodb的最大特色；myisam只支持表�
 ### 14.2.3 操作
 
 ```sql
-show table status from test where name='b';
+show table status from test where name='b' \G;
 ```
 
 # 15 字符集与乱码的问题
 
 ## 15.1 字符集
 
-字符集：utf-8
+字符集：utf-8、utf8mb4
 
 ## 15.2 校对集
 
@@ -1971,7 +1940,7 @@ mysql>Set names gbk;
 
 世界银行进行存钱。（客户-转换器-世界银行）
 
-# 16 索引（index）
+# 16 索引(index)
 
 MYI：索引文件，索引是数据的目录，能快速定位数据的位置。
 
@@ -1997,7 +1966,7 @@ fulltext：全文索引（中文环境下，全文索引无效，要分词+索�
 
 多列索引：把两列或多列看成一个整体，然后建索引。
 
-查看索引是否生效：explain select \* from goods where goods_id=1 /G
+查看索引是否生效：explain select * from goods where goods_id=1;
 
 左前缀原则的索引是可以生效的！
 
@@ -2005,13 +1974,9 @@ fulltext：全文索引（中文环境下，全文索引无效，要分词+索�
 
 查看：show index from tableName;
 
-
-
 增加（普通的）：alter table tableName add index indexName;
 
 删除：alter table tableName drop index indexName;（drop index indexName on tableName ）
-
-
 
 增加主键索引：alter table tableName add primary key（列名）;
 
@@ -2019,19 +1984,19 @@ fulltext：全文索引（中文环境下，全文索引无效，要分词+索�
 
 ## 16.4 索引练习题
 
-1. 根据xs表的学号列上的前5个字符建立一个升序索引。
+1、根据xs表的学号列上的前5个字符建立一个升序索引。
 
 Create index xh_xs on xs(学号（5） asc);
 
-2.在xs_kc表的学号列和课程号列上建立一个复合索引。
+2、在xs_kc表的学号列和课程号列上建立一个复合索引。
 
 Create index xskc_in on xs_kc(学号,课程号);
 
-3.在xs表的姓名列上创建一个非唯一的索引。
+3、在xs表的姓名列上创建一个非唯一的索引。
 
 Alter table xs add index xs_xm using btree(姓名);
 
-4.以xs为例（假设xs表中主键未定），创建这样的索引，以加速表的检索速度。
+4、以xs为例（假设xs表中主键未定），创建这样的索引，以加速表的检索速度。
 
 Alter table xs add primary key(学号),
 
@@ -2132,5 +2097,133 @@ from cte1,
 where cte1.hid = cte2.hid;
 ```
 
+# 21 基础总结
+
+1、查询“c001”课程比“c002”课程成绩高的所有学生的学号；
+
+```sql
+select a.* from
+	(select * from score a where a.cno='c001') a,
+    (select * from score b where b.cno='c002') b
+    where a.sno=b.sno and a.score > b.score;
+    
+select * from score a
+	where a.cno='c001' and 
+	exists(
+        select * from score b where b.cno='c002' and a.score>b.score and a.sno = b.sno
+    );
+```
 
 
+
+ 2、查询平均成绩大于60 分的同学的学号和平均成绩；
+
+```sql
+select sno,avg(score) as a from score 
+	group by sno having a>60;
+```
+
+
+
+ 3、查询所有同学的学号、姓名、选课数、总成绩；
+
+```sql
+select a.*,s.sname from 
+	(select sno,sum(score),count(cno) from score group by sno) a ,student s 
+	where a.sno=s.sno;
+
+select * from 
+	(select sno,count(1),sum(score) from score group by sno) as a 
+	left join student s on a.sno=s.sno;
+```
+
+
+
+ 4、查询姓“刘”的老师的个数；
+
+```sql
+select count(1) from teacher where tname like '刘%';
+```
+
+
+
+ 5、查询没学过“谌燕”老师课的同学的学号、姓名；
+
+```sql
+SELECT
+	a.sno,
+	a.sname 
+FROM
+	student a 
+WHERE
+	a.sno NOT IN (
+	SELECT DISTINCT
+		s.sno 
+	FROM
+		score s,
+		(
+		SELECT
+			c.* 
+		FROM
+			course c,
+			( SELECT tno FROM teacher t WHERE tname = '谌燕' ) t 
+		WHERE
+			c.tno = t.tno 
+		) b 
+	WHERE
+	s.cno = b.cno 
+	);
+```
+
+
+
+ 6、查询学过“c001”并且也学过编号“c002”课程的同学的学号、姓名；
+
+```sql
+
+```
+
+
+
+ 7、查询学过“谌燕”老师所教的所有课的同学的学号、姓名；
+
+ 8、查询课程编号“c002”的成绩比课程编号“c001”课程低的所有同学的学号、姓名；
+
+ 9、查询所有课程成绩小于60 分的同学的学号、姓名；
+ 10、查询没有学全所有课的同学的学号、姓名；
+ 11、查询至少有一门课与学号为“s001”的同学所学相同的同学的学号和姓名；
+ 12、查询至少学过学号为“s001”同学所有一门课的其他同学学号和姓名；
+ 13、把“SC”表中“谌燕”老师教的课的成绩都更改为此课程的平均成绩；
+ 14、查询和“s001”号的同学学习的课程完全相同的其他同学学号和姓名；
+ 15、删除学习“谌燕”老师课的SC 表记录；
+ 16、向SC 表中插入一些记录，这些记录要求符合以下条件：没有上过编号“c002”课程的同学学号、“c002”号课的平均成绩；
+ 17、查询各科成绩最高和最低的分：以如下形式显示：课程ID，最高分，最低分
+ 18、按各科平均成绩从低到高和及格率的百分数从高到低顺序
+ 19、查询不同老师所教不同课程平均分从高到低显示
+ 20、统计列印各科成绩,各分数段人数:课程ID,课程名称,[100-85],[85-70],[70-60],[ <60]
+ 21、查询各科成绩前三名的记录:(不考虑成绩并列情况)
+ 22、查询每门课程被选修的学生数
+ 23、查询出只选修了一门课程的全部学生的学号和姓名
+ 24、查询男生、女生人数
+ 25、查询姓“张”的学生名单
+ 26、查询同名同性学生名单，并统计同名人数
+ 27、1981 年出生的学生名单(注：Student 表中Sage 列的类型是number)
+ 28、查询每门课程的平均成绩，结果按平均成绩升序排列，平均成绩相同时，按课程号降序排列
+ 29、查询平均成绩大于85 的所有学生的学号、姓名和平均成绩
+ 30、查询课程名称为“数据库”，且分数低于60 的学生姓名和分数
+ 31、查询所有学生的选课情况；
+ 32、查询任何一门课程成绩在70 分以上的姓名、课程名称和分数；
+ 33、查询不及格的课程，并按课程号从大到小排列
+ 34、查询课程编号为c001 且课程成绩在80 分以上的学生的学号和姓名；
+ 35、求选了课程的学生人数
+ 36、查询选修“谌燕”老师所授课程的学生中，成绩最高的学生姓名及其成绩
+ 37、查询各个课程及相应的选修人数
+ 38、查询不同课程成绩相同的学生的学号、课程号、学生成绩
+ 39、查询每门功课成绩最好的前两名
+ 40、统计每门课程的学生选修人数（超过10 人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列
+ 41、检索至少选修两门课程的学生学号
+ 42、查询全部学生都选修的课程的课程号和课程名
+ 43、查询没学过“谌燕”老师讲授的任一门课程的学生姓名
+ 44、查询两门以上不及格课程的同学的学号及其平均成绩
+ 45、检索“c004”课程分数小于60，按分数降序排列的同学学号
+ 46、删除“s002”同学的“c001”课程的成绩

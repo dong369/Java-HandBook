@@ -1,6 +1,6 @@
 # 1 Win环境
 
-Stable Version：MySQL-8.0.19
+Stable Version：MySQL-8.0.21
 
 ## 1.1 安装版
 
@@ -8,11 +8,9 @@ Stable Version：MySQL-8.0.19
 
 ## 1.2 绿色版
 
-1、MySQL8.0.16解压
+1、MySQL8.0.21解压，其中`dada`文件夹和`my.ini`配置文件是解压后手动加入的，如下图所示
 
-其中`dada`文件夹和`my.ini`配置文件是解压后手动加入的，如下图所示
-
-2、新建配置文件`my.ini`放在`D:\dev\soft\SQL\mysql-8.0.20-winx64`目录下
+2、新建配置文件`my.ini`放在`D:\dev\soft\SQL\mysql-8.0.21-winx64`目录下
 
 ```properties
 [mysqld]
@@ -56,13 +54,13 @@ mysqld --initialize --console
 4、安装MySQL服务，并启动服务，安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8.0.20作为服务名。
 
 ```properties
-mysqld --install mysql8.0.20
+mysqld --install mysql8.0.21
 ```
 
 5、启动服务命令为：net start 服务名
 
 ```bash
-net start mysql8.0.20
+net start mysql8.0.21
 ```
 
 5、登录MySQL并修改root密码，使用默认分配的密码（即diK3i1dH=k8b）进行登录，第三步会打印密码
@@ -74,6 +72,7 @@ mysql -uroot -pdiK3i1dH=k8b
 6、登录成功后，修改密码为password
 
 ```sql
+mysql -uroot -pdiK3i1dH=k8b
 alter user 'root'@'localhost' IDENTIFIED BY 'passw0rd';
 ```
 
@@ -337,7 +336,7 @@ order by data_length desc;
 
 情况二、特别注意：socket=/tmp/mysql.sock的位置，如果配置错误，MySQL服务将启动失败！但是要根据情况添加，有些服务是不能添加的，如果添加的话会报错！这个错误启动MySQL和连接MySQL都会出现的。
 
-## 7.1 远程连接
+## 7.2 远程连接
 
 报错信息：
 
@@ -377,9 +376,7 @@ ALTER USER 'username'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
 FLUSH PRIVILEGES;
 ```
 
-
-
-## 7.2 MySQL 8 
+## 7.3 MySQL 8 
 
 报错信息：
 
@@ -396,7 +393,7 @@ select @@global.sql_mode;
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
-## 7.3 时区错误
+## 7.4 时区错误
 
 ```properties
 Server returns invalid timezone. Go to 'Advanced' tab and set 'serverTimezon'
@@ -414,7 +411,7 @@ set global time_zone='+8:00';
 flush privileges;
 ```
 
-## 7.4 最大连接数
+## 7.5 最大连接数
 
 max_connections：mysql的最大连接数。
 
@@ -433,3 +430,34 @@ max_used_connections：针对某一个账号的所有客户端并行连接到MYS
 这个时候设置的是最理想的。
 
 当然在现实项目中，出现高并发的问题，不可能按着当前的服务器响应最大连接数去设置，应该将最大连接数设置到最大，等项目差不多稳定了，或者在日志中分析出，高并发的数量，从而去调整最大连接数。
+
+## 7.6 版本差异
+
+
+
+# 8 存储对比
+
+## 8.1 MySQL
+
+
+
+## 8.2 Polardb
+
+
+
+## 8.3 Greenplum
+
+
+
+## 8.4 PostgreSQL
+
+
+
+## 8.5 Tidb
+
+
+
+## 8.6 Mariadb
+
+
+

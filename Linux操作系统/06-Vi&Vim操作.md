@@ -2,12 +2,19 @@
 ## 1.1 文件
 
 白色：表示普通文件
+
 蓝色：表示目录
+
 绿色：表示可执行文件
+
 红色：表示压缩文件
+
 浅蓝色：链接文件
+
 红色闪烁：表示链接的文件有问题
+
 黄色：表示设备文件
+
 灰色：表示其它文件
 
 > 本篇文章引导你通过熟练使用Linux
@@ -190,8 +197,8 @@ syntax on
 set number
 set norelativenumber
 set relativenumber
-set cursorline
-set wrap
+set cursorline   // 显示线
+set wrap // 
 set showcmd
 set wildmenu
 set scrolloff=5
@@ -222,3 +229,7 @@ map R :source $MYVIMRC<CR>
 4、normal模式下输入q，结束宏录制。
 
 5、在normal模式下输入@a，以播放我们刚录制好的存在寄存器a中的宏。
+
+## 4.3 快捷键
+
+shift+a、shift+i、o、shift+o

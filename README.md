@@ -2,14 +2,14 @@
 
 # 1. 数据结构
 
-## 数组（Array）
+## 1.1 数组（Array）
 >  不能就行
 
 ### 关联数组
 
 * [《Java map 详解 - 用法、遍历、排序、常用API等》](https://baike.xsoftlab.net/view/250.html)
 
-## 栈（Stack）
+## 1.2 栈（Stack）
 
   栈是一种用于存储数据的简单数据结构，有点类似链表或者顺序表（统称线性表），栈与线性表的最大区别是数据的存取的操作，我们可以这样认为栈(Stack)是一种特殊的线性表，其插入和删除操作只允许在线性表的一端进行，一般而言，把允许操作的一端称为栈顶(Top)，不可操作的一端称为栈底(Bottom)，同时把插入元素的操作称为入栈(Push),删除元素的操作称为出栈(Pop)。若栈中没有任何元素，则称为空栈。
 
@@ -19,7 +19,7 @@
   - Stack 是线程安全的。
   - 内部使用数组保存数据，不够时翻倍。
 
-## 队列（Queue）
+## 1.3 队列（Queue）
 
 ​    队列同样是一种特殊的线性表，其插入和删除的操作分别在表的两端进行，队列的特点就是先进先出(First In First Out)。我们把向队列中插入元素的过程称为入队(Enqueue)，删除元素的过程称为出队(Dequeue)并把允许入队的一端称为队尾，允许出的的一端称为队头，没有任何元素的队列则称为空队。
 
@@ -38,22 +38,22 @@
 
 
 
-## 链表（Linked）
+## 1.4 链表（Linked）
 * [《Java集合详解--什么是List》](https://blog.csdn.net/wz249863091/article/details/52853360)
 
-## 集合（set）
+## 1.5 集合（set）
 
 - [《Java Set集合的详解》](https://blog.csdn.net/qq_33642117/article/details/52040345)
 
-## 映射（Map）
+## 1.6 映射（Map）
 
 * [《Java map 详解 - 用法、遍历、排序、常用API等》](https://baike.xsoftlab.net/view/250.html)
 
-## 哈希表（HashTable）
+## 1.7 哈希表（HashTable）
 
 
 
-## 堆（Heap）
+## 1.8 堆（Heap）
 
 
 
@@ -83,14 +83,14 @@
 
 
 
-## BitSet
+## 1.9 BitSet
 
 经常用于大规模数据的排重检查。
 
 - [《Java Bitset类》](http://www.runoob.com/java/java-bitset-class.html)
 - [《Java BitSet（位集）》](https://blog.csdn.net/caiandyong/article/details/51581160)
 
-## 树（Tree）
+## 1.10 树（Tree）
 
 ### 二叉树
 
@@ -315,21 +315,21 @@ KMP：Knuth-Morris-Pratt算法（简称KMP）
 
 # 3. 并发
 
-## Java 并发
+## 3.1 Java 并发
 
 * [Java 并发知识合集](https://github.com/CL0610/Java-concurrency)
 * [JAVA并发知识图谱](https://github.com/CL0610/Java-concurrency/blob/master/Java并发知识图谱.png)
 
-## 多线程
+## 3.2 多线程
 
 * [《40个Java多线程问题总结》](http://www.importnew.com/18459.html)
 * 多线程：原子性、可见性、有序性
 
-## 线程安全
+## 3.3 线程安全
 
 * [《Java并发编程——线程安全及解决机制简介》](https://www.cnblogs.com/zhanht/p/5450325.html)
 
-## 一致性、事务
+## 3.4 一致性、事务
 
 ### 事务ACID特性
 
@@ -369,7 +369,7 @@ KMP：Knuth-Morris-Pratt算法（简称KMP）
 	
 
 
-## 锁
+## 3.5 锁
 
 ### Java中的锁和同步类
 
@@ -1489,7 +1489,7 @@ TODO
 * [《Google guava 中文教程》](http://ifeve.com/google-guava/)
 
 
-# 分布式设计
+# 15 分布式设计
 
 ## 扩展性设计
 
@@ -1741,7 +1741,7 @@ Java、Spring、Dubbo 优雅关闭方式。
 
 * [《一致性哈希算法》](https://coderxing.gitbooks.io/architecture-evolution/di-san-pian-ff1a-bu-luo/631-yi-zhi-xing-ha-xi.html)
 
-# 设计思想 & 开发模式
+# 16 设计思想 & 开发模式
 
 ## DDD(Domain-driven Design - 领域驱动设计)
 
@@ -1834,7 +1834,7 @@ TODO
 * [《初识 Service Mesh》](https://www.jianshu.com/p/e23e3e74538e)
 
 
-# 项目管理
+# 17 项目管理
 
 ## 架构评审
 * [《架构设计之如何评审架构设计说明书》](http://developer.51cto.com/art/201506/478486.htm)

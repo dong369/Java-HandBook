@@ -27,7 +27,7 @@ http://192.168.2.117:5560/isqlplus/
 
 # 3 PL SQL
 
-## 环境配置
+## 1.1 环境配置
 
 进入目录D:\dev\soft\SQL\PLSQL Developer\instantclient_11_2\NETWORK\ADMIN打开tnsnames.ora文件，修改数据库连接地址，用记事本等文件打开，修改172.16.6.01为自己需要连接数据库的地址
 
@@ -65,6 +65,36 @@ TEST =
 D:\dev\soft\SQL\PLSQL Developer\instantclient_11_2
 
 D:\dev\soft\SQL\PLSQL Developer\instantclient_11_2\oci.dll
+
+## 1.2 配置编码
+
+select userenv('language') from dual;
+select * from V$NLS_PARAMETERS;
+
+设置系统环境变量：创建一个名为“NLS_LANG”的系统环境变量
+
+1、gbk编码设置其值为“SIMPLIFIED CHINESE_CHINA.ZHS16GBK”；
+
+2、UTF8编码设置其值为“AMERICAN_AMERICA.UTF8”
+
+3、然后重新启动 pl/sql developer 即可
+
+```sql
+drop table student;
+
+create table student(
+ sno varchar2(10) primary key,
+ sname varchar2(20),
+ sage number(2),
+ ssex varchar2(5)
+ );
+ 
+ insert into student values ('s001','张三',23,'男');
+ 
+ select * from student;
+ 
+ select * from user_tab_columns where table_name='STUDENT'  // 命令窗口：desc 表名
+```
 
 # 4 Toad
 

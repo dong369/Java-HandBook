@@ -229,8 +229,8 @@ Reading package lists... Done
 Building dependency tree         
 Reading state information... Done  
 E: Unable to locate package vim  
-这时候需要敲：apt-get update，这个命令的作用是：同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。  
-等更新完毕以后再敲命令：apt-get install vim命令即可。  
+这时候需要敲：apt-get update，这个命令的作用是：同步 /etc/apt/sources.list和 /etc/apt/sources.list.d中列出的源的索引，这样才能获取到最新的软件包。  
+等更新完毕以后再敲命令：apt-get install vim命令即可
 ```
 
 ## 4.2 MySQL服务
@@ -243,7 +243,8 @@ sudo docker run -p 3306:3306 \
     -v /home/mysql/conf:/etc/mysql/conf.d \
     -v /home/mysql/logs:/logs \
     -v /home/mysql/data:/var/lib/mysql \
-    -e MYSQL_ROOT_PASSWORD=your-password \
+    -e MYSQL_ROOT_PASSWORD=passw0rd \
+    --restart=always \
     -d mysql
 ```
 > `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
@@ -262,6 +263,12 @@ docker run --name oracle -d -p 1521:1521 \
            -v /home/docker/data/oracle_data:/data/oracle_data \
            -e ORACLE_ALLOW_REMOTE=true \
            --restart=always wnameless/oracle-xe-11g
+
+// 进行连接
+sid: xe
+service name: xe
+username: system
+password: oracle
                      
 docker exec -it 容器id /bin/bash
 
@@ -282,12 +289,6 @@ grant connect,resource,dba to system;
 grant dba to TEST; // 授予dba权限后，这个用户能操作所有用户的表
 
 drop user TEST cascade; // 删除用户
-
-// 进行连接
-sid: xe
-service name: xe
-username: system
-password: oracle
 ```
 
 ## 4.4 Tomcat服务
@@ -331,6 +332,10 @@ docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID]
 docker pull rabbitmq:management
 docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:management
 ```
+## 4.9 Prometheus服务
+
+
+
 # 5 IDEA整合Docker
 
 ## 5.1 安装插件

@@ -341,7 +341,6 @@ var baseUrl = "192.168.100.12:11601";
 > 注意：测试为了以后添加方便进行配置分离，完全可以都写在一个文件中。
 
 ```properties
-
 #user  nobody;
 worker_processes  1;
 
