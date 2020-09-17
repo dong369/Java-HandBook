@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+  <ul id="ul">
+    <li>西施</li>
+    <li>貂蝉</li>
+    <li>昭君</li>
+    <li>凤姐</li>
+    <li>芙蓉姐姐</li>
+  </ul>
+  <input type="button" value="按钮" id="btn" />
+  <script>
+    // 利用事件委托（事件冒泡），给新创建的元素也注册上事件
+    var ul = document.getElementById('ul');
+    ul.onclick = function (e) {
+      e.target.style.backgroundColor = 'red';
+    }
+    // 单击按钮，添加一个新的li
+    var btn = document.getElementById('btn');
+    btn.onclick = function(){
+      var liObj = document.createElement('li');
+      liObj.innerHTML = '杨超越';
+      ul.insertBefore(liObj, ul.children[0]);
+    }
+  </script>
+</body>
+</html>

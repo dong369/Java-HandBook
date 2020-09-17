@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn1">按钮20</button>
+    <button id="btn2">按钮40</button>
+    <button id="btn3">按钮60</button>
+    <p>闭包把我搞的</p>
+    <script>
+        // 点击按钮改变页面上的文字大小
+        var btn1 = document.getElementById('btn1');
+        var btn2 = document.getElementById('btn2');
+        var btn3 = document.getElementById('btn3');
+        /*  // 定义一个函数 修改页面中字体大小
+         function setFont(fontSize) {
+             document.body.style.fontSize = fontSize + 'px';
+         }
+         // 为每一个按钮绑定点击事件,在事件处理的回调函数中执行上面定义的函数
+         btn1.onclick = function() {
+             setFont(20);
+         };
+
+         btn2.onclick = function() {
+             setFont(40);
+         };
+
+         btn3.onclick = function() {
+             setFont(60);
+         }; */
+        // 优化方案
+        // 定义一个函数 修改页面中字体大小 将设置的函数当做返回值传递
+        function setFont(fontSize) {
+            return function() {
+                document.body.style.fontSize = fontSize + 'px';
+            };
+        }
+        btn1.onclick = setFont(20);
+
+        btn2.onclick = setFont(40);
+
+        btn3.onclick = setFont(60);
+    </script>
+</body>
+
+</html>

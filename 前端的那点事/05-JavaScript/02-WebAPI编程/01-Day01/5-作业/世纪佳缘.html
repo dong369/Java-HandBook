@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .input_text {
+            border: 1px solid #d9d9d9;
+            color: #aaa;
+            outline: none;
+        }
+        
+        .input_text_focus {
+            border: 1px solid #ffd6db;
+            color: #888;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="new_header">
+        <div class="new_wrap">
+            <form id="hder_login_form_new" method="post">
+                <input type="text" class="input_text" id="uname" value="邮箱/ID/手机号">
+            </form>
+        </div>
+    </div>
+    <script>
+        var inputObj = document.getElementById('uname');
+        inputObj.onfocus = function() {
+            this.value = '';
+            this.className = 'input_text_focus';
+        }
+        inputObj.onblur = function() {
+            if (this.value == '') {
+                this.className = 'input_text';
+                this.value = '邮箱/ID/手机号';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .tn-person-r .tn-title {
+            float: left;
+            font-size: 14px;
+            position: relative;
+            margin-left: 20px;
+            width: 80px;
+        }
+        
+        .tn-person-r .tn-title .tn-tab {
+            border: 1px solid #FCFCFC;
+            border-width: 0 1px;
+            color: #4C4C4C;
+            display: inline-block;
+            cursor: pointer;
+            position: relative;
+            z-index: 9999;
+            padding: 0 2px 0 0;
+            text-decoration: none;
+            width: 76px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+        
+        .tn-person-r .tn-arrow {
+            display: inline-block;
+            width: 8px;
+            height: 5px;
+            margin: 0 0 0 5px;
+            overflow: hidden;
+            vertical-align: middle;
+            font-size: 12px;
+            line-height: 13px;
+            -webkit-transform: none;
+            -moz-transform: none;
+            -o-transform: none;
+            background: url(icon.png) 0 -977px no-repeat;
+        }
+        
+        .tn-person-r .tn-new {
+            margin-top: -10px;
+            position: absolute;
+            background: url(icon.png) 0 -1017px;
+            width: 14px;
+            height: 11px;
+        }
+        
+        .tn-person-r .tn-topmenulist-a-weibo,
+        .tn-topmenulist-a-other {
+            width: 77px;
+        }
+        
+        .tn-person-r .tn-topmenulist-a {
+            border: 1px solid #EBBE7A;
+            border-top: 0;
+            overflow: hidden;
+            -moz-box-shadow: 3px 3px 3px rgba(0, 0, 0, .1);
+            -webkit-box-shadow: 3px 3px 3px rgba(0, 0, 0, .1);
+            box-shadow: 3px 3px 3px rgba(0, 0, 0, .1);
+            top: 41px;
+            left: 0;
+        }
+        
+        .tn-person-r .tn-topmenulist .tn-text-list {
+            border-bottom: 1px solid #FECC5B;
+            margin: 0 0 -2px;
+            width: 80px;
+        }
+        
+        .tn-person-r .tn-topmenulist .tn-text-list li {
+            width: 50px;
+            line-height: 31px;
+            border-bottom: 1px solid #FECC5B;
+            color: #333;
+            padding: 0 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-nav">
+        <div class="tn-bg">
+            <div class="tn-header">
+                <div class="tn-person-r">
+                    <div class="tn-title " id="SI_Top_Weibo">
+                        <a target="_blank" href="javascript:;" class="tn-tab" id="weibo">
+                            <i>微博<em class="tn-new" style="display:none;"></em>
+                                <span class="tn-arrow"> </span>
+                            </i>
+                        </a>
+                        <div style="display: none;" class="tn-topmenulist tn-topmenulist-a tn-topmenulist-a-weibo" id="weibo_list">
+                            <ul class="tn-text-list">
+                                <li>私信</li>
+                                <li>评论</li>
+                                <li>@我</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var Top_Weibo = document.getElementById('SI_Top_Weibo');
+        var weibo = document.getElementById('weibo');
+        var weibo_list = document.getElementById('weibo_list');
+        var lis = document.querySelectorAll('li');
+        Top_Weibo.onmouseover = function() {
+            weibo.style.backgroundColor = '#ccc';
+            weibo_list.style.display = 'block';
+        }
+        Top_Weibo.onmouseout = function() {
+            weibo.style.backgroundColor = '';
+            weibo_list.style.display = 'none';
+        }
+        weibo.onmouseover = function() {
+            this.style.color = '#ff8400';
+        }
+        weibo.onmouseout = function() {
+            this.style.color = '#4c4c4c';
+        }
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].onmouseover = function() {
+                this.style.color = '#ff8400';
+                this.style.backgroundColor = '#fff5da';
+            }
+            lis[i].onmouseout = function() {
+                this.style.color = '#4c4c4c';
+                this.style.backgroundColor = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
