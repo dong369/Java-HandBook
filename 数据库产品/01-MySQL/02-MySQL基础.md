@@ -1834,7 +1834,7 @@ Create **view viewName as select** 列名…… from tableName;
 
 例子：
 
-mysql> create view viewName
+mysql > create view viewName
 
 ​    -> as
 
@@ -1842,9 +1842,9 @@ mysql> create view viewName
 
 ​    -> from
 
--> goods;
+​    -> goods;
 
-mysql>select * from viewname;
+mysql > select * from viewname;
 
 ## 13.3 视图的作用
 
@@ -1858,7 +1858,7 @@ mysql>select * from viewname;
 
 1、完全可逆函数，如果视图上的每一列都和物理表是一一对应的物理视图改变，虚拟视图也改变！虚拟视图也改变，物理视图改变！view的列，如果物理表上的**列经过多行列计算得到的**，那么不能改变！函数的关系（一对一关系）
 
-## 13.5 View的algorithm
+## 13.5 View的Algorithm
 
 视图储存的都是sql语句，两种方式？
 
