@@ -10,7 +10,7 @@
 
 随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。
 
-从互联网早起到现在，系统架构大体经历了下面几个过程：单体应用架构=>垂直应用架构=>分布式架构=>SOA架构=>微服务架构，当然还有悄然兴起的Service Mesh(服务网格化)。
+从互联网早起到现在，系统架构大体经历了下面几个过程：**单体**应用架构=>**垂直**应用架构=>**分布式**架构=>**SOA**架构=>**微服务**架构，当然还有悄然兴起的**服务网格化**（Service Mesh）。
 
 接下来我们就来了解一下每种系统架构是什么样子的， 以及各有什么优缺点。
 
@@ -95,7 +95,7 @@ CRM：人员管理、流程审批
 
 ### 1.1.4 SOA架构
 
-在分布式架构下，当服务越来越多，容量的评估，小服务资源的浪费等问题逐渐显现，此时需增加一个调度中心对集群进行实时管理。此时，用于资源调度和治理中心(SOA Service Oriented Architecture，面向服务的架构)是关键。
+在分布式架构下，当服务越来越多，容量的评估，小服务资源的浪费等问题逐渐显现，此时需增加一个调度中心对集群进行实时管理。此时，用于资源调度和治理中心（SOA Service Oriented Architecture，面向服务的架构）是关键。
 
 优点:
 
@@ -112,7 +112,7 @@ CRM：人员管理、流程审批
 
 ### 1.1.5 微服务架构
 
-微服务架构在某种程度上是面向服务的架构SOA继续发展的下一步，它更加强调服务的"彻底拆分"。
+微服务架构在某种程度上是面向服务的架构SOA继续发展的下一步，它更加强调服务的"**彻底拆分**"。
 
 优点 ：
 
@@ -124,7 +124,7 @@ CRM：人员管理、流程审批
 
 缺点 ：
 
-- 分布式系统开发的**技术成本高**（容错、分布式事务等）
+- 分布式系统开发的**技术成本高**（消息、容错、分布式事务等）
 
 ### 1.1.6 服务网格架构
 
@@ -292,22 +292,22 @@ Alibaba Cloud SMS：覆盖全球的短信服务，友好、高效、智能的互
 
 ### 1.4.1 技术选型
 
-| 技术                         | 技术选型                        | 使用版本 | 官方文档                                                    |
-| ---------------------------- | ------------------------------- | -------- | ----------------------------------------------------------- |
-| 注册中心                     | alibaba-nacos                   | V1.3.0   | [Nacos官网](https://nacos.io/zh-cn/index.html)              |
-| 负载均衡                     | ribbon                          |          |                                                             |
-| 配置中心                     | alibaba-nacos                   | V1.3.0   | [Nacos官网](https://nacos.io/zh-cn/index.html)              |
-| 服务调用                     | openfeign                       |          |                                                             |
-| 服务熔断                     | alibaba-sentinel                | V1.7.2   | [Sentinel官网](https://sentinelguard.io/zh-cn/index.html)   |
-| 路由网关                     | spring cloud gateway            |          |                                                             |
-| 消息队列                     | alibaba-rocketmq                | V4.7.0   | [RocketMq官网](http://rocketmq.apache.org/)                 |
-| 调用链监控                   | skywalking                      | V8.0     | [Skywalking官网](http://skywalking.apache.org/)             |
-| 认证授权                     | JWT oauth2                      |          |                                                             |
-| 信息检索                     | Elastic Stack                   | V7.3     | [Elastk-Stack官网](https://www.elastic.co/guide/index.html) |
-| 时序监控                     | Prometheus、grafana             |          |                                                             |
-| CI/CD                        | GitLab Runner                   |          |                                                             |
-| 云原生应用改造，微服务的未来 | k8s、docker、kong tidb等        |          |                                                             |
-| 其它                         | netty、nginx、redis等会穿插着讲 |          |                                                             |
+| 技术                         | 技术选型                       | 使用版本 | 官方文档                                                    |
+| ---------------------------- | ------------------------------ | -------- | ----------------------------------------------------------- |
+| 注册中心                     | alibaba-nacos                  | V1.3.0   | [Nacos官网](https://nacos.io/zh-cn/index.html)              |
+| 负载均衡                     | ribbon                         |          |                                                             |
+| 配置中心                     | alibaba-nacos                  | V1.3.0   | [Nacos官网](https://nacos.io/zh-cn/index.html)              |
+| 服务调用                     | openfeign                      |          |                                                             |
+| 服务熔断                     | alibaba-sentinel               | V1.7.2   | [Sentinel官网](https://sentinelguard.io/zh-cn/index.html)   |
+| 路由网关                     | spring cloud gateway           |          |                                                             |
+| 消息队列                     | alibaba-rocketmq               | V4.7.0   | [RocketMq官网](http://rocketmq.apache.org/)                 |
+| 调用链监控                   | skywalking                     | V8.0     | [Skywalking官网](http://skywalking.apache.org/)             |
+| 认证授权                     | JWT oauth2                     |          |                                                             |
+| 信息检索                     | Elastic Stack                  | V7.3     | [Elastk-Stack官网](https://www.elastic.co/guide/index.html) |
+| 时序监控                     | Prometheus、grafana            |          |                                                             |
+| CI/CD                        | GitLab Runner                  |          |                                                             |
+| 云原生应用改造，微服务的未来 | k8s、docker、kong、tidb等      |          |                                                             |
+| 其它                         | netty、FastDFS、nginx、redis等 |          |                                                             |
 
 ### 1.4.2 环境准备
 

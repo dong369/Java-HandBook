@@ -1,4 +1,4 @@
-平台开发（beam）、调度管理服务（）
+平台开发（beam）、调度管理服务
 
 # 1. 数据结构
 
@@ -768,7 +768,7 @@ APM —  Application Performance Management
 * [《浅谈 OpenResty》](http://www.linkedkeeper.com/detail/blog.action?bid=1034)
 	* 通过 Lua 模块可以在Nginx上进行开发。   
 * [agentzh 的 Nginx 教程](https://openresty.org/download/agentzh-nginx-tutorials-zhcn.html)  
-	
+
 ### Tengine
 * [官方网站](http://tengine.taobao.org/)  
 
@@ -1181,7 +1181,7 @@ MyISAM 是非聚集，InnoDB 是聚集
   * 原文中提到索引是按照“col1，col2，col3”的顺序创建的，而mysql在按照最左前缀的索引匹配原则，且会自动优化 where 条件的顺序，当条件中只有 col2=B AND col1=A 时，会自动转化为 col1=A AND col2=B，所以依然会使用索引。
 
 * [《MySQL查询where条件的顺序对查询效率的影响》](https://www.cnblogs.com/acode/p/7489258.html)
-	
+
 #### 自适应哈希索引(AHI)
 
 * [《InnoDB存储引擎——自适应哈希索引》](https://blog.csdn.net/Linux_ever/article/details/62043708)
@@ -1531,6 +1531,7 @@ TODO
 ### 软件负载均衡
 
 * [《几种负载均衡算法》](https://www.cnblogs.com/tianzhiliang/articles/2317808.html)
+
 	轮寻、权重、负载、最少连接、QoS
 * [《DNS负载均衡》](https://coderxing.gitbooks.io/architecture-evolution/di-san-pian-ff1a-bu-luo/611-dns-fang-shi.html)
 	* 配置简单，更新速度慢。 
@@ -2005,6 +2006,7 @@ TODO
 **国内：**
 
 * [CSDN](http://csdn.net)
+
 	 老牌技术社区、不必解释。
 * [51cto.com](http://www.51cto.com/)
 * [ITeye](http://www.iteye.com/)

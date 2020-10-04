@@ -46,7 +46,7 @@ root@ubuntuServer:~# vi /etc/mysql/my.cnf
 
 ### 1.2.1 改表法
 
-​     可能是你的帐号不允许从远程登陆，只能在localhost。这个时候只要在localhost的那台电脑，登入mysql后，更改 "mysql" 数据库里的 "user" 表里的 "host" 项，从"localhost"改称"%" 
+可能是你的帐号不允许从远程登陆，只能在localhost。这个时候只要在localhost的那台电脑，登入mysql后，更改 "mysql" 数据库里的 "user" 表里的 "host" 项，从"localhost"改称"%" 
 
 mysql -u root -p 
 
@@ -110,13 +110,13 @@ Goods表（商品表）、category表（栏目表）、boy表（男生表）、g
 
 SQL：是结构化查询语言（structured query language），是**what型语言**而非**how型语言**，Where后加的一般是**表达式（expr）**。
 
-**数据操纵语言（DML）: insert, delete, update, select(使用者的角度80%)**
+数据操纵语言（DML）: insert, delete, update, select(使用者的角度80%)
 
-**数据定义语言（DDL）: create, alter, drop(建设者的角度,建库、建表、建视图15%)**
+数据定义语言（DDL）: create, alter, drop(建设者的角度,建库、建表、建视图15%)
 
-**数据控制语言（DCL）: grant, revoke(管理员的角度5%)**
+数据控制语言（DCL）: grant, revoke(管理员的角度5%)
 
-**事务控制语言（TCL）: start transaction、commit、savepoint、rollback()**
+事务控制语言（TCL）: start transaction、commit、savepoint、rollback()
 
 # 2 DML基本语法
 
@@ -124,19 +124,19 @@ SQL：是结构化查询语言（structured query language），是**what型语�
 
 MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称；
 
-列(row): 具有相同数据类型的数据的集合；
+列(row)： 具有**相同数据类型**的数据的集合；
 
-行(col): 每一行用来描述某个人/物的具体信息；
+行(col)：每一行用来描述某个人/物的具体**完整信息**；
 
-值(value): 行的具体信息, 每个值必须与该列的数据类型相同；
+值(value)：行的具体信息，每个值必须与该列的数据类型相同；
 
-键(key): 表中用来识别某个特定的人\物的方法, 键的值在当前列中具有唯一性。
+键(key)：表中用来识别某个特定的人\物的方法, 键的值在当前列中具有唯一性。
 
 连接mysql数据库的服务：mysql –h localhost –uroot –proot
 
 **告诉mysql服务器我用的是什么编码：Set names gbk;**
 
-库（database）：多张表；表（table）：多行多列的数据；视图（view）：
+库（database）：多张表；表（table）：多行多列的数据；视图（view）：虚拟表
 
 创建数据库：create database if not exists dbName charset = utf8mb4;
 
@@ -168,23 +168,9 @@ MySQL为关系型数据库，定义表头(header)的过程： 每一列的名称
 
 查看表的详细信息：Show table status；show table status \G；show table status where name='goods' \G；
 
-更改表名：Rename table oldtable to newtable;
+更改表名：Rename table oldtable **to** newtable;
 
 修改表：在表xs中增加“奖学金等级”列并将表中的“姓名”列删除。
-
-mysql> use xscj
-
-Database changed
-
-mysql> alter table xs
-
-​    -> add `奖学金等级` tinyint null,
-
-​    -> drop column `姓名`;
-
-Query OK, 0 rows affected (0.48 sec)
-
-Records: 0  Duplicates: 0  Warnings: 0
 
 复制表：Create table tab1_name **like** old_tab1_name;
 
@@ -208,7 +194,7 @@ insert：所有的行；insert：指定的行
 
 **注意**：列和值要严格的对应！数字不需要加单引号，但是字符串**一定要**加单引号！
 
-values和value的区别：应该在**插入单行**的时候使用VALUES，在**插入多行**的时候使用VALUE
+values和value的区别：应该在**插入单行**的时候使用values，在**插入多行**的时候使用value。
 
 ## 2.3 Update操作(改)
 
@@ -508,8 +494,10 @@ shop_price between 1000 and 3000 and cat_id=3  and click_count>5 and goods_name 
 1、有mian表和数组表中：floor向下取整，把num值处于[20,29]之间,改为20，num值处于[30,39]之间的改为30。
 
 mysql> update mian set num = floor(num/10)*10
-    -> where
-    -> num between 20 and 39;
+
+​    -> where
+
+​    -> num between 20 and 39;
 
 2、把good表中商品名为'诺基亚xxxx'的商品，改为'HTCxxxx'，提示：大胆的把列看成变量，参与运算，甚至调用函数来处理。
 
@@ -518,8 +506,10 @@ substring()字符串的截取函数
 concat()字符串的拼接函数
 
 mysql> select goods_id,concat('htc',substring(goods_name,4)),shop_price
-    -> from goods
-    -> where goods_name like '诺基亚%';
+
+​    -> from goods
+
+​    -> where goods_name like '诺基亚%';
 
 ### 3.1.3 奇怪的null
 
@@ -1547,6 +1537,8 @@ create table tb_info(
 )engine=innodb default charset=utf8mb4 comment '创建表信息';
 ```
 
+特别注意：如果创建库名称或表名称，如：tb-info，可以加上**``** 
+
 ## 8.2 表的复制
 
 Create table tab1_name **like** old_tab1_name;
@@ -1633,9 +1625,9 @@ char(M)        0<=i<=M          M                  i/m<=100%
 varchar(M)     0<=i<=M          i+1,2              i/i+1/2<100%
 ```
 
-注意：char(M)限制的是**字符，不是字节**，即char(2) charset=utf8，能存2个utf8字符。MySQL之前推出的utf8字符集中，一个汉字占**3个字节**，新的utf8mb4字符集中一个汉字占**4个字节**。
+注意：char(M)限制的是**字符（4Byte），不是字节**，即char(2) charset=utf8，能存2个utf8字符。MySQL之前推出的utf8字符集中，一个汉字占**3个字节**，新的utf8mb4字符集中一个汉字占**4个字节**。
 
-验证：
+验证插入emoji表情：😲😳
 
 ## 8.7 日期和时间类型
 
@@ -1643,7 +1635,7 @@ year(一个字节)、date、time、datetime、timestamp。
 
 MySQL中有多种表示日期和时间的类型。
 
-YEAR表示年：[00-69]：+2000、[70-99]：+1900
+year表示年：[00-69]：+2000、[70-99]：+1900
 
 date表示年月日
 
@@ -1651,31 +1643,31 @@ time表示时分秒
 
 datetime表示年月日时分秒
 
-TIMESTAMP经常插入或更新日期时使用（**时间戳**）
+timestamp经常插入或更新日期时使用（**时间戳**）
 
 例如：在SQL查询窗口中输入查询语
 
-```
-year       YYYY 范围:1901~2155. 可输入值2位和4位(如98,2012)
+```sql
+year       YYYY 范围：1901~2155. 可输入值2位和4位(如98,2012)
 date       YYYY-MM-DD 如:2010-03-14
 time       HH:MM:SS    如:19:26:32
 datetime   YYYY-MM-DD  HH:MM:SS 如:2010-03-14 19:26:32
-timestamp  YYYY-MM-DD  HH:MM:SS 特性:不用赋值,该列会为自己赋当前的具体时间 
+timestamp  YYYY-MM-DD  HH:MM:SS 特性:不用赋值，该列会为自己赋当前的具体时间 
 ```
 
 ## 8.8 Text和blob
 
-BLOB：是二进制类型，用来存放图像、音频等二进制的信息
+blob：是二进制类型，用来存放图像、音频等二进制的信息
 
 **意义：**为了防止字符集的问题而引起数据的丢失
 
 ## 8.9 枚举类型
 
-Enum：检举型，是定义好值就在某几个值的范围内**选其一**！
+enum：检举型，是定义好值就在某几个值的范围内**选其一**！
 
 gender enum('男','女');
 
-Set：集合型，是定义好值就在某几个值的范围内**选其多个**！
+set：集合型，是定义好值就在某几个值的范围内**选其多个**！
 
 # 9 列的默认值
 
@@ -1699,6 +1691,8 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 
 # 11 建表练习
 
+## 11.1 案例
+
 建表案例：建立社交网站的数据表
 
 **优化的一种：定长与变长分离！常用列与不常用列分离！**
@@ -1719,6 +1713,8 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 | salary    | Decimal(8,2)         |        |            |
 | lastLogin | datetime             |        |            |
 | intro     | Varchar(1500)        |        |            |
+
+## 11.2 基本优化
 
 进行进一步的优化操作：如果表中的列都是定长的，可以大大的提高查询的速度！
 
@@ -1742,45 +1738,29 @@ Set：集合型，是定义好值就在某几个值的范围内**选其多个**�
 | Username | Varchar(20)    |        |            |
 | intro    | Varchar(1500)  |        |            |
 
-## 11.1建表案例
 
-mysql> CREATE TABLE `form` (
 
-​    ->   `id` varchar(36) NOT NULL,
-
-​    ->   `form_name` varchar(100) default NULL COMMENT '表单名称',
-
-​    ->   `form_desc` varchar(200) default NULL COMMENT '表单描述',
-
-​    ->   `form_style_id` varchar(36) default NULL COMMENT '模板样式',
-
-​    ->   `form_content` longtext COMMENT '表单编辑器文本',
-
-​    ->   `create_name` varchar(50) default NULL COMMENT '创建人名称',
-
-​    ->   `create_by` varchar(50) default NULL COMMENT '创建人登录名称',
-
-​    ->   `create_date` datetime default NULL COMMENT '创建日期',
-
-​    ->   `update_by` varchar(50) default NULL COMMENT '更新人登录名称',
-
-​    ->   `update_date` datetime default NULL COMMENT '更新日期',
-
-​    ->   `sys_org_code` varchar(50) default NULL COMMENT '所属部门',
-
-​    ->   `sys_company_code` varchar(50) default NULL COMMENT '所属公司',
-
-​    ->   `form_parse` longtext,
-
-​    ->   `main_table_source` varchar(50) default NULL COMMENT '主数据源',
-
-​    ->   `update_name` varchar(50) default NULL COMMENT '更新人名称',
-
-​    ->   PRIMARY KEY  (`id`),
-
-​    ->   UNIQUE KEY `form_name` (`form_name`)
-
-​    -> ) engine=InnoDB DEFAULT CHARSET=utf8;
+```sql
+CREATE TABLE `form` (
+	`id` VARCHAR ( 36 ) NOT NULL,
+	`form_name` VARCHAR ( 100 ) DEFAULT NULL COMMENT '表单名称',
+	`form_desc` VARCHAR ( 200 ) DEFAULT NULL COMMENT '表单描述',
+	`form_style_id` VARCHAR ( 36 ) DEFAULT NULL COMMENT '模板样式',
+	`form_content` LONGTEXT COMMENT '表单编辑器文本',
+	`create_name` VARCHAR ( 50 ) DEFAULT NULL COMMENT '创建人名称',
+	`create_by` VARCHAR ( 50 ) DEFAULT NULL COMMENT '创建人登录名称',
+	`create_date` datetime DEFAULT NULL COMMENT '创建日期',
+	`update_by` VARCHAR ( 50 ) DEFAULT NULL COMMENT '更新人登录名称',
+	`update_date` datetime DEFAULT NULL COMMENT '更新日期',
+	`sys_org_code` VARCHAR ( 50 ) DEFAULT NULL COMMENT '所属部门',
+	`sys_company_code` VARCHAR ( 50 ) DEFAULT NULL COMMENT '所属公司',
+	`form_parse` LONGTEXT,
+	`main_table_source` VARCHAR ( 50 ) DEFAULT NULL COMMENT '主数据源',
+	`update_name` VARCHAR ( 50 ) DEFAULT NULL COMMENT '更新人名称',
+	PRIMARY KEY ( `id` ),
+​ UNIQUE KEY `form_name` ( `form_name` ) 
+) ENGINE = INNODB DEFAULT CHARSET = utf8;
+```
 
 # 12 列操作
 
@@ -1836,31 +1816,35 @@ Create **view viewName as select** 列名…… from tableName;
 
 mysql > create view viewName
 
-​    -> as
+​    	-> as
 
-​    -> select goods_id,goods_name,cat_id
+​    	-> select goods_id,goods_name,cat_id
 
-​    -> from
+​    	-> from
 
-​    -> goods;
+​    	-> goods;
 
 mysql > select * from viewname;
 
 ## 13.3 视图的作用
 
-1、权限控制的作用，比如某些列允许用户查看，有些列不允许用户查看
+1、**权限**控制的作用，比如某些列允许用户查看，有些列不允许用户查看
 
-2、简化复杂的查询
+2、**简化**复杂的查询
 
 ## 13.4 能不能更新和修改删除
 
 **物理视图**和**虚拟视图**的区别！
 
-1、完全可逆函数，如果视图上的每一列都和物理表是一一对应的物理视图改变，虚拟视图也改变！虚拟视图也改变，物理视图改变！view的列，如果物理表上的**列经过多行列计算得到的**，那么不能改变！函数的关系（一对一关系）
+1、完全可逆函数，如果视图上的每一列都和物理表是一一对应的物理视图改变，虚拟视图也改变！
+
+2、虚拟视图也改变，物理视图改变！
+
+3、view的列，如果物理表上的**列经过多行列计算得到的**，那么不能改变！函数的关系（一对一关系）
 
 ## 13.5 View的Algorithm
 
-视图储存的都是sql语句，两种方式？
+视图储存的都是**sql语句**，两种方式？
 
 1、algorithm=merge（建视图view的简单语句，直接对view查询条件进行合并）
 
@@ -1898,13 +1882,13 @@ IBD文件：
 
 
 
-### 14.2.3 区别
+## 14.3 区别
 
 Myisam、InnoDB两者的区别？
 
 Innodb支持事务和行级锁，是innodb的最大特色；myisam只支持表级锁。
 
-### 14.2.3 操作
+## 14.4 操作
 
 ```sql
 show table status from test where name='b' \G;
@@ -1928,7 +1912,7 @@ mysql> Show variables like '%charact%';
 
 ![image-20200725105213799](../../插图/image-20200725105213799.png)
 
-character_set_system是个只读数据不能更改。也没多少改的意义，他是元数据的编码，相信不会有人用中文做数据库名和字段名之类的吧，这个字段和具体存储的数据无关。
+character_set_system是个只读数据不能更改。也没多少改的意义，他是元数据的编码，相信不会有人用**中文做数据库名和字段名**之类的吧，这个字段和具体存储的数据无关。
 
 解决乱码的问题？
 
@@ -2040,13 +2024,13 @@ Java语言、Eclipse开发工具、Mysql数据库、Navicat数据库可视化工
 
 Java应用程序访问数据库的过程： 
 
-　　①装载数据库驱动程序； 
+　①装载数据库驱动程序； 
 
-　　②通过JDBC建立数据库连接； 
+　②通过JDBC建立数据库连接； 
 
-　　③访问数据库，执行SQL语句； 
+　③访问数据库，执行SQL语句； 
 
-​       ④断开数据库连接。
+​     ④断开数据库连接。
 
 第一步，创建数据库，利用Navicat数据库可视化工具随便建立一个数据库，在库中建立一张表，表里给几个字段（记得给个id字段，唯一主键，自增序列），再随便给上两条数据便好，用来测试功能
 

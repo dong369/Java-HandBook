@@ -661,9 +661,11 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 
 
-# 11 基本环境配置
+# 11 STS基本环境
 
-## 1.1 统一项目编码
+[下载STS](https://spring.io/tools)软件
+
+## 11.1 统一项目编码
 
 ![Workspace编码](http://upload-images.jianshu.io/upload_images/8185387-e2f8f17905df507d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -673,40 +675,40 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 ![配置属性编码](http://upload-images.jianshu.io/upload_images/8185387-b30384c00e75887e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 1.2 统一代码格式
+## 11.2 统一代码格式
 
 ![统一代码格式](http://upload-images.jianshu.io/upload_images/8185387-cbf7cf2aff9d9b34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 1.3 统一项目视图
+## 11.3 统一项目视图
 
 > 切换到自己喜爱且方便的视图模式写，看个人情况。本次我们主要介绍两种视图，一种是Java包视图（package explorer），另一种是Java的项目视图（project explorer）。
 
 ### 1.3.1 package explorer
 
-> package explorer一般会在写Java简单项目和JavaWeb项目使用。
-> ![package explorer视图](http://upload-images.jianshu.io/upload_images/8185387-3075405ea0f68b85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+package explorer一般会在写Java简单项目和JavaWeb项目使用。
+
+<img src="../插图/sts02.png" />
 
 ### 1.3.2 project explorer
 
-> project explorer一般会在写maven的聚合项目使用，便于查看项目直接的相互依赖关系。
-> ![project explorer视图](http://upload-images.jianshu.io/upload_images/8185387-9218a71b3bdace89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+project explorer一般会在写maven的聚合项目使用，便于查看项目直接的相互依赖关系。
 
->
+<img src="../插图/sts01.png" />
 
-## 1.4 错误和警告
+## 11.4 错误和警告
 
 ### 1.4.1 忽略dubbo的错误信息
 
-![添加dubbo](http://upload-images.jianshu.io/upload_images/8185387-12c7cff55d200c72.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<img src="../插图/jQuery.png" />
 
 ### 4.5.1 忽略JQuery.min.js
 
 打开项目下的.project文件夹,把以下内容注释！![注释内容](http://upload-images.jianshu.io/upload_images/8185387-42b599efdb90e066.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-### 1.4.2 Tomcat的配置
+## 11.5 Tomcat的配置
 
-#### 4.6.1 Tomcat服务调优
+### 4.6.1 Tomcat服务调优
 
 关于TOMCAT端口的一些事情
 
@@ -728,7 +730,7 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 ```
 
 
-#### 4.6.2 Tomcat的配置
+### 4.6.2 Tomcat的配置
 
 ![图-07](http://upload-images.jianshu.io/upload_images/8185387-8ac9c587d8046cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -742,9 +744,9 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 ![图-12](http://upload-images.jianshu.io/upload_images/8185387-7bac0605c6455f34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 1.4.3 快捷键
+## 11.6 快捷键
 
-#### 4.7.1 常用快捷键
+### 4.7.1 常用快捷键
 
 ```properties
 Alt+/：代码提示
@@ -776,7 +778,7 @@ F7      不再观察，返回进入处
 F8      停止调试，直接正常执行完毕 
 ```
 
-#### 4.7.2 输入@给提示
+### 4.7.2 输入@给提示
 
 ![输入@自动提示](http://upload-images.jianshu.io/upload_images/8185387-46a6786d0609e9ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -812,9 +814,9 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-### 4.9 代码注释配置
+## 11.7 代码注释配置
 
-#### 4.9.1 类注释
+### 4.9.1 类注释
 
 ```java
 /**
@@ -829,7 +831,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-#### 4.9.2 方法注释
+### 4.9.2 方法注释
 
 ```java
  /**
@@ -841,14 +843,14 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-# 12 版本控制
+# 12 STS版本控制
 
 ## 4.1 SVN项目提交
 
 ### 4.1.1配置SVN
 
-***步骤一：提交项目到SVN***
-![忽略不需要提交的内容](http://upload-images.jianshu.io/upload_images/8185387-0a01b1f66907027f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+**步骤一：提交项目到SVN**
+<img src="../插图/sts-svn.png" />
 
 ### 4.1.2 项目提交
 
@@ -856,11 +858,13 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 ### 4.1.3 项目检出
 
-***步骤一：从SVN下载项目代码***
-![图-05](http://upload-images.jianshu.io/upload_images/8185387-fa5c315193092bb7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+**步骤一：从SVN下载项目代码**
 
-***步骤二：将项目代码转成maven项目***
-![图-06](http://upload-images.jianshu.io/upload_images/8185387-16f1ab5d13674b1e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+<img src="../插图/sts-svn-download.png" />
+
+**步骤二：将项目代码转成maven项目**
+
+<img src="../插图/sts-update.png" />
 
 ### 4.1.4 项目打分支
 
@@ -902,7 +906,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-# 13 项目构建
+# 13 STS项目构建
 
 ## 13.1 Gradle
 
@@ -912,7 +916,11 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-# 14 插件配置
+## 13.3 Boot项目
+
+
+
+# 14 STS插件配置
 
 ### 6.1 lombok
 
