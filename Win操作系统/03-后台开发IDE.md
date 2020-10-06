@@ -667,15 +667,25 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 ## 11.1 统一项目编码
 
+1、 workspace
+
 ![Workspace编码](http://upload-images.jianshu.io/upload_images/8185387-e2f8f17905df507d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+2、spelling
 
 ![Spelling](http://upload-images.jianshu.io/upload_images/8185387-d096eff491423615.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
+3、web JSP Files
+
 ![JSP等文件](http://upload-images.jianshu.io/upload_images/8185387-119af52e3ee62b83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+4、content types => Java Properties File
 
 ![配置属性编码](http://upload-images.jianshu.io/upload_images/8185387-b30384c00e75887e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 11.2 统一代码格式
+
+1、搜索form
 
 ![统一代码格式](http://upload-images.jianshu.io/upload_images/8185387-cbf7cf2aff9d9b34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

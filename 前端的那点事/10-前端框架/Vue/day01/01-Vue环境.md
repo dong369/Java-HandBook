@@ -60,8 +60,9 @@ D:\2018dev\code\WebStorm\nodejs\vue>npm run dev
 
 编写组件内容(组件就是把功能拆分出来，然后哪里需要这个组件，就在哪里去引入就行了)
 ![第二步.png](https://upload-images.jianshu.io/upload_images/8185387-d75dfd75ba2a4f12.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 ### 2.2.3 第三步
-修改路由，将新写的组件插入到路由里面去(找到src/router/router.js，将页面组件（如刚写的test.vue）添加到appRouter里面去)   
+修改路由，将新写的组件插入到路由里面去(找到src/router/router.js，将页面组件（如刚写的test.vue）添加到appRouter里面去) 
 ![第三步.png](https://upload-images.jianshu.io/upload_images/8185387-2ad0185e08806ff5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ## 3.2 框架选型
 ### 3.1 Ivue
