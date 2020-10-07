@@ -346,14 +346,14 @@ docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:manageme
 
 ## 5.2 修改Docker配置
 
-1. 修改vim /usr/lib/systemd/system/docker.service
+1、修改vim /usr/lib/systemd/system/docker.service
 
 ```properties
 [Service]
 ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
 ```
 
-2. 重启
+2、重启
 
 ```properties
 sudo systemctl daemon-reload
