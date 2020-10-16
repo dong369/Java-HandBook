@@ -6,13 +6,11 @@
 
 ## 1.2 下载
 
-> 高级传送门：[IDEA 终极版下载地址](https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows)，本文中所以的操作和实列都是在2019-02版本下！
+> 高级传送门：[IDEA 终极版下载地址](https://www.jetbrains.com/idea/download/download-thanks.html?platform=windows)，本文中所以的操作和实列都是在2020.2.2版本下！
 
 ## 1.3 配置默认路径
 
-> 很多软件默认安装路径都是C盘符，但是本人实在看不下去软件东西都放在C盘。
-
-进入到idea的安装目录，idea.properties文件，添加自己指定的路径地址。
+很多软件默认安装路径都是C盘符，但是本人实在看不下去软件东西都放在C盘。进入到idea的安装目录，idea.properties文件，添加自己指定的路径地址。
 
 ```properties
 idea.config.path=${idea.home.path}/user/config
@@ -21,11 +19,11 @@ idea.system.path=${idea.home.path}/user/system
 
 ## 1.4 激活
 
-> 更多激活方法可以参考[JetBrains破解](https://www.jianshu.com/p/a459c90f6a0e)文章。
+> 更多激活方法可以参考[JetBrains破解](https://www.jianshu.com/p/a459c90f6a0e)文章。也可以直接下载别人破解过的版本！！！
 
 ## 1.5 工具的看法
 
-思想是战略上的高度，工具是战术上的高度！！！
+思想是**战略**上的高度，工具是**战术**上的高度！！！
 
 # 2 IntelliJ IDEA & Eclipse
 
@@ -33,7 +31,7 @@ idea.system.path=${idea.home.path}/user/system
 
 ## 2.1 IntelliJ IDEA 
 
-> 谁用谁知道，话不多说！
+> 谁用谁知道，话不多说！！！
 
 ## 2.2 Eclipse (STS)
 
@@ -69,42 +67,42 @@ IDEA中的JDK的位置：SDKs、Project、Modules、Java Compiler、Runner（Use
 2、多JDK配置（maven的settings中指定）
 
 ```xml
-<profile> 
-  <id>java8-compiler</id>
-  <!-- activeByDefault=true代表如果不指定某个固定id的profile，那么就使用这个环境 -->  
-  <activation> 
-    <activeByDefault>true</activeByDefault> 
-  </activation>
-  <properties> 
-    <JAVA_HOME>D:\dev\soft\JDK\jdk8u114</JAVA_HOME>  
-    <JAVA_VERSION>1.8</JAVA_VERSION>  
-    <maven.compiler.source>1.8</maven.compiler.source>  
-    <maven.compiler.target>1.8</maven.compiler.target>  
-    <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion> 
-  </properties> 
-</profile>
+<profiles>
+    <profile> 
+        <id>java8-compiler</id>
+        <!-- activeByDefault=true代表如果不指定某个固定id的profile，那么就使用这个环境 -->  
+        <activation> 
+            <activeByDefault>true</activeByDefault> 
+        </activation>
+        <properties> 
+            <JAVA_HOME>D:\dev\soft\JDK\jdk8u114</JAVA_HOME>  
+            <JAVA_VERSION>1.8</JAVA_VERSION>  
+            <maven.compiler.source>1.8</maven.compiler.source>  
+            <maven.compiler.target>1.8</maven.compiler.target>  
+            <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion> 
+        </properties> 
+    </profile>
 
-<profile> 
-  <id>java11-compiler</id>  
-  <properties> 
-    <JAVA_HOME>D:\dev\soft\JDK\jdk-11.0.6</JAVA_HOME>  
-    <JAVA_VERSION>11</JAVA_VERSION>  
-    <maven.compiler.source>11</maven.compiler.source>  
-    <maven.compiler.target>11</maven.compiler.target>  
-    <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion> 
-  </properties> 
-</profile>
+    <profile> 
+        <id>java11-compiler</id>  
+        <properties> 
+            <JAVA_HOME>D:\dev\soft\JDK\jdk-11.0.6</JAVA_HOME>  
+            <JAVA_VERSION>11</JAVA_VERSION>  
+            <maven.compiler.source>11</maven.compiler.source>  
+            <maven.compiler.target>11</maven.compiler.target>  
+            <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion> 
+        </properties> 
+    </profile>
+</profiles>
 ```
 
 ## 3.2 Maven
 
 > File | Settings | Build, Execution, Deployment | Build Tools
 
-1、官网下载maven
+1、官网下载maven，下载地址：[Apache](http://apache.org/)。
 
 2、配置环境变量
-
-下载地址：[Apache](http://apache.org/)
 
 settings.xml中配置maven镜像地址
 
@@ -178,7 +176,7 @@ settings.xml中配置maven镜像地址
 </plugins>
 ```
 
-4、项目打包配置
+4、boot项目打包配置
 
 ```xml
 <build>
@@ -245,19 +243,21 @@ settings.xml中配置maven镜像地址
 
 ## 3.6 编码乱码
 
-> 项目源代码中文乱码：Settings > Editor > File Encodings > Global Encodings & Project Encodings 设置为：`UTF-8`
+> 项目源代码中文乱码：Settings > Editor > File Encodings > Global Encodings & Project Encodings 设置为：UTF-8
 
 
 
-> Main方法运行，控制台中文乱码：Settings > Build, Execution, Deployment > Compile > Java Compiler > Additional command line parameters > 设置为：`-encoding utf-8`
+> Main方法运行，控制台中文乱码：Settings > Build, Execution, Deployment > Compile > Java Compiler > Additional command line parameters > 设置为：-encoding utf-8
 
 
 
-> Tomcat运行，控制台中文乱码：Edit Configurations > Tomcat Server > server > VM options > 设置为：`-Dfile.encoding=UTF-8`。
+> Tomcat运行，控制台中文乱码：Edit Configurations > Tomcat Server > server > VM options > 设置为：
+>
+> -Dfile.encoding=UTF-8。
 
 
 
-> 如果还乱码，继续往下设置：idea > Help 菜单 > Edit Custom VM Options…菜单，编辑配置文件，在末尾添加：`-Dfile.encoding=UTF-8`。
+> 如果还乱码，继续往下设置：idea > Help 菜单 > Edit Custom VM Options…菜单，编辑配置文件，在末尾添加：-Dfile.encoding=UTF-8。
 
 ## 3.7 启动视图
 
@@ -268,16 +268,18 @@ Run Dashboard运行视图，修改项目.idea文件夹下的workspace.xml文件�
       <set>  
         <option value="SpringBootApplicationConfigurationType" />  
       </set>  
- </option>  
+ </option>
 ```
+
+新版本默认带的有就无需配置了！！！
 
 # 4 局部环境配置
 
 ## 4.1 字体和[主题01](http://www.riaway.com/)和[主题02](http://color-themes.com/?view=index)
 
-窗口字体：File | Settings | Appearance & Behavior | Appearance（勾选字体，选择自己的字体和大小12）
+窗口字体：File | Settings | Appearance & Behavior | Appearance（勾选字体，选择自己的字体和大小11）
 
-编辑文件字体：File | Settings | Editor | Font（勾选覆盖字体，选择自己的字体和大小14）
+编辑文件字体：File | Settings | Editor | Font（勾选覆盖字体，选择自己的字体和大小12）
 
 file => import setttings => 选中1中下载的主题jar文件 => 一路确认 => 重启
 
@@ -346,6 +348,8 @@ File | Settings | Editor | Color Scheme | General
 File | Settings | Languages & Frameworks | SQL Dialects选用你的数据库类型
 
 Global Data Sources
+
+![image-20201011092701841](../插图/image-20201011092701841.png)
 
 # 5 版本控制配置
 
@@ -501,18 +505,23 @@ $END$
 
 ```properties
 /**
- * Project -
+ * The class/interface
  *
  * @author ${USER}
  * @version 1.0
- * @date ${DATE}
- * @since 1.8
+ */
+ 
+ /**
+ * The class/interface
+ *
+ * @author ${USER}
+ * @version 1.0 use jdk 1.8
  */
 ```
 
 # 8 Postfix
 
-## 8.1 常用的postfix模板
+## 8.1 常用模板
 
 > postfix（for、sout、field、return、nn）
 
@@ -535,6 +544,10 @@ $END$
 
 ## 9.4 JRebel
 
+https://www.2loveyou.com/articles/2020/01/09/1578533228431.html
+
+https://www.guidgen.com/
+
 >热部署，自动编译https://jrebel.qekang.com/bb25c9bf-7695-48d6-b1a0-baf893ca7631（激活地址）
 >
 >注意配置：一定要设置！！！离线工作（work offline）
@@ -544,6 +557,12 @@ $END$
 >快速查找rest full接口，sts中自带的有。
 
 ## 9.6 MyBatisCodeHelperPro
+
+https://zhile.io/jetbrains-paid-plugins-license.html
+
+https://plugins.jetbrains.com/plugin/14522-mybatiscodehelperpro-marketplace-edition-/versions
+
+https://www.cnblogs.com/borber/p/MyBatisCodeHelper.html
 
 > mybatis插件，[破解下载](https://github.com/pengzhile/MyBatisCodeHelper-Pro-Crack/releases/tag/v2.0.2)，赶紧体验吧！
 
@@ -661,11 +680,15 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 
 
-# 11 STS基本环境
+# 11 认识STS
+
+## 11.1 下载配置
 
 [下载STS](https://spring.io/tools)软件
 
-## 11.1 统一项目编码
+# 12 全局配置
+
+## 12.1 统一项目编码
 
 1、 workspace
 
@@ -683,42 +706,42 @@ idea中设置远程调试前提是本机有项目的源代码 ，在需要的地
 
 ![配置属性编码](http://upload-images.jianshu.io/upload_images/8185387-b30384c00e75887e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 11.2 统一代码格式
+## 12.2 统一代码格式
 
 1、搜索form
 
 ![统一代码格式](http://upload-images.jianshu.io/upload_images/8185387-cbf7cf2aff9d9b34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 11.3 统一项目视图
+## 12.3 统一项目视图
 
 > 切换到自己喜爱且方便的视图模式写，看个人情况。本次我们主要介绍两种视图，一种是Java包视图（package explorer），另一种是Java的项目视图（project explorer）。
 
-### 1.3.1 package explorer
+### 12.3.1 package explorer
 
 package explorer一般会在写Java简单项目和JavaWeb项目使用。
 
 <img src="../插图/sts02.png" />
 
-### 1.3.2 project explorer
+### 12.3.2 project explorer
 
 project explorer一般会在写maven的聚合项目使用，便于查看项目直接的相互依赖关系。
 
 <img src="../插图/sts01.png" />
 
-## 11.4 错误和警告
+## 12.4 错误和警告
 
-### 1.4.1 忽略dubbo的错误信息
+### 12.4.1 忽略dubbo的错误信息
 
 <img src="../插图/jQuery.png" />
 
-### 4.5.1 忽略JQuery.min.js
+### 12.4.1 忽略JQuery.min.js
 
 打开项目下的.project文件夹,把以下内容注释！![注释内容](http://upload-images.jianshu.io/upload_images/8185387-42b599efdb90e066.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-## 11.5 Tomcat的配置
+## 12.5 Tomcat的配置
 
-### 4.6.1 Tomcat服务调优
+### 12.5.1 Tomcat服务调优
 
 关于TOMCAT端口的一些事情
 
@@ -740,7 +763,7 @@ project explorer一般会在写maven的聚合项目使用，便于查看项目�
 ```
 
 
-### 4.6.2 Tomcat的配置
+### 12.5.2 Tomcat的配置
 
 ![图-07](http://upload-images.jianshu.io/upload_images/8185387-8ac9c587d8046cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -754,9 +777,9 @@ project explorer一般会在写maven的聚合项目使用，便于查看项目�
 
 ![图-12](http://upload-images.jianshu.io/upload_images/8185387-7bac0605c6455f34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-## 11.6 快捷键
+## 12.6 快捷键
 
-### 4.7.1 常用快捷键
+### 12.6.1 常用快捷键
 
 ```properties
 Alt+/：代码提示
@@ -788,13 +811,13 @@ F7      不再观察，返回进入处
 F8      停止调试，直接正常执行完毕 
 ```
 
-### 4.7.2 输入@给提示
+### 12.6.2 输入@给提示
 
 ![输入@自动提示](http://upload-images.jianshu.io/upload_images/8185387-46a6786d0609e9ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
-### 4.8 Eclipse.ini文件的配置
+### 12.6.3 Eclipse.ini文件的配置
 
 ```properties
 -startup
@@ -824,9 +847,9 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-## 11.7 代码注释配置
+## 12.7 代码注释配置
 
-### 4.9.1 类注释
+### 12.7.1 类注释
 
 ```java
 /**
@@ -841,7 +864,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-### 4.9.2 方法注释
+### 12.7.2 方法注释
 
 ```java
  /**
@@ -853,11 +876,11 @@ E:\dev\soft\jdk8\bin\javaw.exe
  */
 ```
 
-# 12 STS版本控制
+# 13 STS版本控制
 
 ## 4.1 SVN项目提交
 
-### 4.1.1配置SVN
+### 13.1配置SVN
 
 **步骤一：提交项目到SVN**
 <img src="../插图/sts-svn.png" />
@@ -916,7 +939,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-# 13 STS项目构建
+# 14 STS项目构建
 
 ## 13.1 Gradle
 
@@ -930,7 +953,7 @@ E:\dev\soft\jdk8\bin\javaw.exe
 
 
 
-# 14 STS插件配置
+# 15 STS插件配置
 
 ### 6.1 lombok
 

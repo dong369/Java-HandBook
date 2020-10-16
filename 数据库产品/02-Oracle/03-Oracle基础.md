@@ -1,3 +1,5 @@
+
+
 create table student(
  sno varchar2(10) primary key,
  sname varchar2(20),

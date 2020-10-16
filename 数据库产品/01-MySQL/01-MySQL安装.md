@@ -19,9 +19,9 @@ port=3306
 # 时区为东八区
 default-time_zone='+8:00'
 # 设置mysql的安装目录
-basedir=D:\dev\soft\SQL\mysql-8.0.20-winx64
+basedir=D:\dev\soft\SQL\mysql-8.0.21-winx64
 # 设置mysql数据库的数据的存放目录
-datadir=D:\dev\soft\SQL\mysql-8.0.20-winx64\data
+datadir=D:\dev\soft\SQL\mysql-8.0.21-winx64\data
 # 允许最大连接数
 max_connections=200
 # 允许连接失败的次数。
@@ -45,13 +45,13 @@ default-character-set=utf8mb4
 
 3、初始化MYSQL配置
 
-管理员身份打开，并进入`D:\dev\soft\SQL\mysql-8.0.20-winx64\bin`目录，执行如下命令：
+管理员身份打开，并进入`D:\dev\soft\SQL\mysql-8.0.21-winx64\bin`目录，执行如下命令：
 
 ```properties
 mysqld --initialize --console
 ```
 
-4、安装MySQL服务，并启动服务，安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8.0.20作为服务名。
+4、安装MySQL服务，并启动服务，安装服务的命令为：mysqld --install 服务名，由于我电脑已配置安装了mysql服务，此处用mysql8.0.21作为服务名。
 
 ```properties
 mysqld --install mysql8.0.21
@@ -174,20 +174,20 @@ source /etc/profile
 mysqld --initialize --console（./bin/mysqld --initialize --user=mysql --basedir=/opt/soft/db/mysql --datadir=/opt/soft/db/mysql/data/）一般使用简写方式
 ```
 
-## 5.6 启动服务
+## 2.7 启动服务
 
 ```properties
 cd support-files/
 ./mysql.server start
 ```
 
-## 1.4. 查看初始化密码
+## 2.8 查看初始化密码
 
 ```properties
 cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
 ```
 
-## 1.6. 登录修改root密码
+## 2.9 登录修改root密码
 
 ```properties
 mysql -uroot -p
@@ -198,7 +198,7 @@ ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
 alter user  'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
 ```
 
-## 1.7. 开机启动
+## 2.10 开机启动
 
 ```properties
 cp /usr/local/db/mysql/support-files/mysql.server /etc/init.d/mysql
@@ -228,7 +228,7 @@ service mysql start
 
 # 3 配置远程登录
 
-## 2.1. 改表法
+## 3.1 改表法
 
 ```properties
 use mysql;
@@ -236,7 +236,7 @@ update user set host = '%' where user = 'root';
 flush privileges;
 ```
 
-## 2.2 配置账号授权
+## 3.2 配置账号授权
 
 ```properties
 use mysql;
@@ -249,7 +249,7 @@ grant all privileges on *.* to 'username'@'%';  // 授权
 grant all privileges on onedatabase.* to 'username'@'%';
 ```
 
-## 2.3 远程连接
+## 3.3 远程连接
 
 ```properties
 mysql -h 192.168.100.11 -P3306 -uroot -ppassw0rd
@@ -458,6 +458,10 @@ max_used_connections：针对某一个账号的所有客户端并行连接到MYS
 
 
 ## 8.6 Mariadb
+
+
+
+## 8.7 达梦
 
 
 
