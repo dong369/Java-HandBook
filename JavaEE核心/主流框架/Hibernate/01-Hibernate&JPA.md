@@ -528,7 +528,7 @@ public String getName() {
 
 }
 
-# 核心幵发接口介绍
+# 11 核心幵发接口介绍
 
 1   hibernate_0500_CoreAPI
 
@@ -664,7 +664,7 @@ b)  建议的学习方法，动手实验
 
 c)  细节问题参考补充视频
 
-# 三种对象状态
+# 12 三种对象状态
 
 ![img](../../../插图/clip_image004.jpg)
 
@@ -696,21 +696,21 @@ b)  进行正常人的思考
 
 c)  绝对不要去背这些东西！背过也并不代表你有多牛！
 
-# 关系映射(重要)
+# 13 关系映射(重要)
 
-# 对象之间的关系
+## 13.1 对象之间的关系
 
-1    这里的关系映射指的是对象之间的关系，并不是指数据库的关系，本章解决的问题是当对象之间处于
+1、这里的关系映射指的是对象之间的关系，并不是指数据库的关系，本章解决的问题是当对象之间处于
 
 下列关系之一时，数据库表该如何映射，编程上该如何对待(红色为重点中的重点)
 
-2    简化问题：
+2、简化问题
 
 a)  怎么写  Annotation
 
 b)  增删改査CRUD怎么写
 
-3    —对一
+3、—对一
 
 a)  **单向（主键、外键）**
 
@@ -718,39 +718,37 @@ b)  双向（主键、外键）
 
 c)  中间表
 
-4    —对多
+4、—对多
 
 a)  一张主表，多张子表
 
-5    多对一
+5、多对一
 
-6    多对多
+6、多对多
 
-7    组件映射
+7、组件映射
 
 a)  @Embeddable
 
 b)  @ Embedded
 
+## 13.2 一对一关联
 
-
-# 一对一关联
-
-1    一对一单向外键关联
+1、一对一单向外键关联
 
 a)  项目名称：hibernate_0600_one2one_uni_fk
 
 b)  Annotation: 在被约束表字段的**get方法**上加@0ne20ne @JoinColumn
 
-   @OneToOne
+@OneToOne
 
-​     @JoinColumn(name="wifeid") //指定生成的数据库字段名
+@JoinColumn(name="wifeid") //指定生成的数据库字段名
 
-​     public Wife getWife() {
+public Wife getWife() {
 
 ​         return wife;
 
-​     }
+}
 
 c)  xml: 在被约束表的xml配置文件中加<many-to-one unique
 
@@ -772,17 +770,17 @@ c)  xml: 在被约束表的xml配置文件中加<many-to-one unique
 
 unique="true"是保证生成的字段唯一,这样<many-to-one 也达到了一对一的效果
 
-2     一对一双向外键关联
+2、一对一双向外键关联
 
 a)  项目名称：hibernate_0700_one2one_bi_fk^
 
 b)  Annotation: @0ne20ne(mappedBy=”另一个类里定义的属性名”)
 
-​    **规律：凡是双向关联，必设mappedBy**
+**规律：凡是双向关联，必设mappedBy**
 
-  在Wife类中 写Husband对象属性 并添加注解@OneToOne(mappedBy="wife") mappedBy作用
+在Wife类中 写Husband对象属性 并添加注解@OneToOne(mappedBy="wife") 
 
-是指定这个一对一关联是被Husband类的wife属性(准确说是getWife方法)**做的映射**
+mappedBy作用是指定这个一对一关联是被Husband类的wife属性(准确说是getWife方法)**做的映射**
 
 @OneToOne(mappedBy="wife")
 
@@ -792,19 +790,19 @@ b)  Annotation: @0ne20ne(mappedBy=”另一个类里定义的属性名”)
 
 ​    }
 
-​    在 类中写Wife对象属性
+在 类中写Wife对象属性
 
-​     @OneToOne
+@OneToOne
 
-​     @JoinColumn(name="wifeid") //指定生成的数据库字段名
+@JoinColumn(name="wifeid") //指定生成的数据库字段名
 
-​     public Wife getWife() {
+public Wife getWife() {
 
 ​         return wife;
 
-​     }
+}
 
-​    此注释将由Husband表中生成wifeid字段作为fk外键,wife表中不生成额外的Husbandid字段
+此注释将由Husband表中生成wifeid字段作为fk外键,wife表中不生成额外的Husbandid字段
 
 c)  xml: many-to-one unique <one-to-one property-ref
 
@@ -824,11 +822,9 @@ c)  xml: many-to-one unique <one-to-one property-ref
 
 特别说明: 一对一单向外键关联与一对一双向外键关联在数据库的表的格式是一样的,区别在于
 
-java程序中. 双向外键关联可通过Hibernate在两个类间互相调用彼此,而单向外键关联只能单方向调用.
+java程序中. 双向外键关联可通过Hibernate在两个类间互相调用彼此,而单向外键关联只能单方向调用
 
- 
-
-3    一对一单向主键关联（不重要，忘记）
+3、一对一单向主键关联（不重要，忘记）
 
 a)  项目名称：hibernate_0800_one2one_uni_pk
 
@@ -836,7 +832,7 @@ b)  @primaryKeyJoinColumn
 
 c)  xml: <one-to-one id 使用 foreign class
 
-4    一对一双向主键关联（不重要，忘记）
+4、一对一双向主键关联（不重要，忘记）
 
 a)  项目名称：hibernate_0900_one2one_bi_pk
 
@@ -844,7 +840,7 @@ b)  @**primaryKeyJoinColumn**（不常用，了解）
 
 c)  xml: <one-to-one id 使用foreign class和<one-to-one property-ref
 
-5    联合主键
+5、联合主键
 
 a)  项目名称：hibernate_1000_one2one_uni_fk_composite
 
@@ -870,15 +866,15 @@ b)  @JoinColumns
 
  public Wife getWife() {……}
 
-# 联合组件映射
+## 13.3 联合组件映射
 
-1    项目：hibernate_1100_component
+1、项目：hibernate_1100_component
 
-2    对象关系：一个对象是另外一个对象的一部分
+2、对象关系：一个对象是另外一个对象的一部分
 
-3    数据库表：一张表
+3、数据库表：一张表
 
-4    annotation: @ Embeddable @Embbeded
+4、annotation: @ Embeddable @Embbeded
 
 ​    对象模型
 
@@ -886,7 +882,7 @@ Husband(id,name,wife)
 
 Wife(name,age)
 
- 
+
 
 Annotation:
 
@@ -924,7 +920,7 @@ Public Wift getWife(){
 
 **public** **class** Wife {… …}
 
-5    xml: 使用<component,例如:
+5、xml: 使用<component,例如:
 
    
 
@@ -948,9 +944,9 @@ Public Wift getWife(){
 
 </class>
 
-# 多对一与一对多
+## 13.4 多对一与一对多
 
-1    多对一单向关联
+1、多对一单向关联
 
 a)  项目名称：hibernate_1200_many2one_uni
 
@@ -960,7 +956,7 @@ User(id,name,group)多
 
  Group(id,name)一
 
-b)  **数据库表设计：在多方加****外****键**
+b)  **数据库表设计：在多方加**外键
 
 错误做法：在一方加**冗余**
 
@@ -980,9 +976,7 @@ b)  **数据库表设计：在多方加****外****键**
 
 **必须有主键，列不可分、联合主键不能存在部分依赖、不能存在传递依赖**
 
-c)  annotaion: @Many
-
-2One
+c)  annotaion: @Many2One
 
 只需要在**多的一端**User属性group进行注解配置
 
@@ -1014,9 +1008,7 @@ d)  xml： <many-to-one
 
  
 
-2    一对多单向关联
-
-
+2、一对多单向关联
 
 a)  项目名称：hibernate_1300_one2many_uni
 
@@ -1088,7 +1080,7 @@ XML配置中配置一的那一端Group
 
 ​    Set<User> users=new HashSet<User>()
 
-​    **配置规则****:****一般以多的一端为主****,****先配置多的一端**
+​    **配置规则**:**一般以多的一端为主**,**先配置多的一端**
 
 ​    在多的一端User端配置group
 
@@ -1096,7 +1088,7 @@ XML配置中配置一的那一端Group
 
 ​    @JoinColumn(name="groupid")
 
-​    在一的一端Group端配置时,**在****users****只需要加个****mappedBy="groupid"**
+​    在一的一端Group端配置时,**在**users**只需要加个**mappedBy="groupid"
 
 ​    @OneToMany(mappedBy="group")
 
@@ -1124,7 +1116,7 @@ XML配置中配置一的那一端Group
 
 
 
-# 多对多
+## 13.5 多对多
 
 1    单向关联：
 
@@ -1258,7 +1250,7 @@ Teacher那一端配置
 
  生成的数据库表和上面是一样的
 
-# 关联关系中的CRUD
+# 14 关联关系中的CRUD
 
 **Cascade_Fetch**
 
@@ -1268,7 +1260,7 @@ Teacher那一端配置
 
 3    cascade仅仅是帮我们**省了编程**的麻烦而已，不要把它的作用看的太大
 
-a)  **Cascade****的属性**是数组格式，指明做什么操作的时候关联对象是绑在一起的
+a)  **Cascade**的属性是数组格式，指明做什么操作的时候关联对象是绑在一起的
 
 b)  refresh = A里面需要读B改过之后的数据
 
@@ -1278,35 +1270,35 @@ b)  refresh = A里面需要读B改过之后的数据
 
 CascadeType取值
 
-**ALL   Cascade all operations****所有情况**
+**ALL   Cascade all operations**所有情况
 
 MERGE  Cascade merge operation合并(merge=save+update)
 
-**PERSIST  Cascade persist operation****存储** **persist()**
+**PERSIST  Cascade persist operation**存储**persist()**
 
 REFRESH  Cascade refresh operation刷新
 
-**REMOVE  Cascade remove operation****删除**
+**REMOVE  Cascade remove operation**删除
 
  
 
-4    **规律：****双向关系在程序中要设定双向关联****（添加****get****）**
+4    **规律：**双向关系在程序中要设定双向关联**（添加**get）
 
-5    **规律：双向映射的时候设置****mappedBy****，设置在多的一方。**
+5    **规律：双向映射的时候设置**mappedBy**，设置在多的一方。**
 
 6    Fetch（查询操作）
 
-a)  **铁律：双向不要两边设置****Eager****(****会有多余的査询语句发出****)**
+a)  **铁律：双向不要两边设置**Eager**(**会有多余的査询语句发出)
 
-b)  **对多方设置****fetch****的时候要谨慎**，结合具体应用，一般用Lazy不用eager，特殊情况（多方数量不多的时候可以考虑，提高效率的时候可以考虑）
+b)  **对多方设置**fetch**的时候要谨慎**，结合具体应用，一般用Lazy不用eager，特殊情况（多方数量不多的时候可以考虑，提高效率的时候可以考虑）
 
 @OneToMany(**mappedBy="group",**
 
-**cascade={CascadeType.\*ALL\*}, //****控制增删改****(****即****CUD)**
+**cascade={CascadeType.ALL}, //**控制增删改**(**即**CUD)**
 
-**fetch=FetchType.\*EAGER\* //****控制查询****(****即****R)** EAGER值代表取出关联 LAZY值为不取关联 
+**fetch=FetchType.EAGER //**控制查询**(**即**R)** EAGER值代表取出关联 LAZY值为不取关联 
 
-​                  //**多的一方****fetch****取值默认为****LAZY** **一的一方默认为****EAGER**
+​                  //**多的一方**fetch**取值默认为**LAZY **一的一方默认为**EAGER
 
  )
 
@@ -1320,9 +1312,9 @@ session.getTransaction().commit();
 
 常规设计：
 
-**多对一使用：****EAGER**
+**多对一使用：**EAGER
 
-**一对多使用：****LAZY**   
+**一对多使用：**LAZY
 
 7    Update时@ManyToOne()中的cascade参数关系
 
@@ -1330,7 +1322,7 @@ session.getTransaction().commit();
 
 ​    User user = (User)session.load(User.**class**,1);
 
-​    //user对象属性改变 **事务****commit**时自动判断与数据库原有数据不同可自动update
+​    //user对象属性改变 **事务**commit时自动判断与数据库原有数据不同可自动update
 
 ​    //此时的update与@ManyToOne()中的cascade或fetch参数取值无关
 
@@ -1471,7 +1463,7 @@ c)  数据査询语言
 | t2      | s1      |
 | t2      | s2      |
 
-# 关系映射总结
+# 15 关系映射总结
 
 1    对象是什么样的关系？设计什么样的表？进行什么样的映射（写annotation）？
 
