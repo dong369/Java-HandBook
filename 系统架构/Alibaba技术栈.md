@@ -309,7 +309,7 @@ Alibaba Cloud SMS：覆盖全球的短信服务，友好、高效、智能的互
 | 认证授权                     | JWT oauth2                     |          |                                                             |
 | 信息检索                     | Elastic Stack                  | V7.3     | [Elastk-Stack官网](https://www.elastic.co/guide/index.html) |
 | 时序监控                     | Prometheus、grafana            |          |                                                             |
-| CI/CD                        | GitLab Runner                  |          |                                                             |
+| CI/CD                        | GitLab Runner、Jenkins         |          |                                                             |
 | 云原生应用改造，微服务的未来 | k8s、docker、kong、tidb等      |          |                                                             |
 | 其它                         | netty、FastDFS、nginx、redis等 |          |                                                             |
 

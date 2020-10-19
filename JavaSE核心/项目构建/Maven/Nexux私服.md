@@ -1,6 +1,9 @@
+# 1 基础配置
+
 nexus服务配置，在搭建号nexus服务中，有两个类型的库可以推送，分别是releases和snapshots，在本地搭建的nexus服务中，找到这两个库对应的URL
 
  http://localhost:8082/repository/maven-releases/
+
  http://localhost:8082/repository/maven-snapshots/
 
 在安装好的maven服务中，找到settingxml 配置文件，作如下配置：

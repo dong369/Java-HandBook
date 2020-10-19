@@ -1471,7 +1471,7 @@ c)  数据査询语言
 
 3    CRUD,按照自然的理解即可（动手测试）
 
-# 集合映射（不太重要）
+# 16 集合映射（不太重要）
 
 1    项目名称：hibernate_1800_Collections_Mapping
 
@@ -1485,7 +1485,7 @@ a) @OrderBy，按照主键排序
 
 a) @Mapkey(name=字段名)
 
-# 继承映射（不太重要）
+# 17 继承映射（不太重要）
 
 1    三种方式
 
@@ -1507,7 +1507,7 @@ i. hibernate_2100_lnheritence_Mapping_JOINED
 
 **public** **class** Person {... ...}
 
-# 作业
+## 作业
 
 1    学生、课程、分数的设计(重要) 
 
@@ -1591,7 +1591,7 @@ a) 在同—个类中使用One2Many和Many20ne
 
 
 
-# Hibernate查询
+# 18 Hibernate查询
 
 Query Language
 
@@ -1601,7 +1601,7 @@ Query Language
 
 2    总结：QL应该和导航关系结合，共同为査询提供服务。
 
-# 性能优化
+# 19 性能优化
 
 1    注意session.clear()的运用，尤其在不断分页循环的时候
 
