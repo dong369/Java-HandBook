@@ -1,5 +1,21 @@
 # 1 Vue-cli
 
+技术选项
+
+1、安装Vue脚手架
+
+2、通过Vue脚手架创建项目
+
+3、配置Vue的路由功能
+
+4、配置element-UI组件
+
+5、网络交互Axios
+
+6、初始化Git仓库
+
+7、将项目移交到GitLab或公有Git上
+
 ## 1.1 安装升级
 
 ```properties
@@ -64,7 +80,21 @@ D:\2018dev\code\WebStorm\nodejs\vue>npm run dev
 ### 2.2.3 第三步
 修改路由，将新写的组件插入到路由里面去(找到src/router/router.js，将页面组件（如刚写的test.vue）添加到appRouter里面去) 
 ![第三步.png](https://upload-images.jianshu.io/upload_images/8185387-2ad0185e08806ff5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+
+```vue
+<template>
+  <div id="app">
+    <router-view v-loading="loading"></router-view>
+  </div>
+</template>
+```
+
+
+
 ## 3.2 框架选型
+
 ### 3.1 Ivue
 ```properties
 git clone -b clean https://gitee.com/log4j/pig-ui    // clean分支

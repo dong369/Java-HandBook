@@ -21,7 +21,7 @@ ps: 默认使用的是Monokai主题，看起来非常舒适。
 
 ### 3.1 添加右键菜单
 
-> 添加到环境变量后，管理员身份运行cmd， 并输入该命令： `Cmder.exe /REGISTER ALL`
+> 添加到环境变量后，管理员身份运行cmd， 并输入该命令： Cmder.exe /REGISTER ALL
 
 ### 3.2 设置中文编码
 
