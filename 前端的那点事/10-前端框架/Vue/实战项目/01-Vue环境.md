@@ -51,6 +51,8 @@ vue init webpack vue
 npm install sass-loader --save;
 npm install node-sass --save;
 ```
+如果安装过程报错，可以采用cnpm！！！
+
 ## 2.2 卸载依赖
 
 ```properties
