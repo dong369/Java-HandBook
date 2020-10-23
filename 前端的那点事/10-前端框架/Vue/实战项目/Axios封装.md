@@ -3,122 +3,73 @@
 
 在做 vue 中大型项目的时候，官方推荐使用 axios，但是原生的 axios 可能对项目的适配不友好，所以，在工程开始的来封装一下 axios，保持全项目数据处理的统一性。此文主要讲在 vue-cil 项目中如何封装 axios，封装请求，封装公共的 api，页面如何调用请求。
 
-2 正文
-==
-
-2.1 前期配置
--------------
+2 前期配置
+=============
 
 新建 vue 项目，下载 axios，并在 main.js 中导入 axios
 
-```
+```js
 npm i axios -S
 ```
 
-```
+```js
 // main.js
 import axios from "axios";
 ```
 
-2.2 代理地址
---------------------
+3 代理地址
+====================
 
-在项目 config 目录下的修改 index.js 文件，这里是主要书写配置多个后台接口。关于代理可能出现的问题，可以查看我的另一篇文档 [VueCil 代理本地 proxytable 报错的解析](https://blog.csdn.net/weixin_43216105/article/details/105844391)；
+代理的作用是：**把请求代理转发到其他服务器的中间件**；
 
-### 2.2.1 旧版本
+例如：我们当前主机为`http://localhost:8080/`，现在我们有一个需求，如果我们请求`/api`，我们不希望由3000来处理这个请求，而希望由另一台服务器`https://www.example.org/api`来处理这个请求怎么办？
+
+这时候就要使用代理来解决！
+
+在项目 config 目录下的修改 index.js 文件，这里是主要书写配置多个后台接口。
+
+## 3.1 旧版本
 
 vue cil2 旧版本的代理配置——config/index.js
 
 ```js
-'use strict'
-// Template version: 1.3.1
-// see http://vuejs-templates.github.io/webpack for documentation.
-const path = require('path')
 module.exports = {
-  dev: {
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {
-      '/api': {
-        //http://10.4.135.165:8133  李葳    http://10.4.135.207:8133  见长
-        // target: 'http://10.4.135.211:8133', // 郭东
-        // target: 'http://10.4.135.165:8133', // 李葳
-        target: 'http://10.4.135.211:8133', // 见长
-        // target: 'http://10.4.128.172:8089/yxgl', // 服务器
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': '/'
+    dev: {
+        proxyTable: {
+            // 第一个代理
+            '/api-test': {
+                target: 'https://www.example.org:', /// 目标服务器 host
+                ws: true, //是否启用websocket
+                secure: true, // 如果是https接口，需要配置这个参数
+                changeOrigin: true, // // 默认false，是否需要改变原始主机头为目标URL，是否跨域
+                pathRewrite: {
+                    '^/api-test/old': '/api-test/new' // 重写请求，比如我们源访问的是api-test/old，那么请求会被解析为/api-test/new
+                }
+            },
+            // 第二个代理
+            '/api-else': {
+                target: 'https://197.32.22.33:8090',
+                ws: true, //是否启用websocket
+                secure: true,
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api-else': '' //默认写法，如果不写pathRewrite就是默认为空；
+                }
+            },
+            // 第三个代理
+            '/api-three': {
+                target: 'https://197.32.22.33:9090',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api-three': '/api-three' //重写请求，这样本地请求不会有两次/api-three
+                }
+            }
         }
-      },
-      '/apigis': {
-        target: 'http://10.4.135.211:8080',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/apigis': '/'
-        }
-      }
-    },
-    // Various Dev Server settings   //localhost  //10.4.135.221 10.4.135.221
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8099, // 
-    autoOpenBrowser: true, //自动打开浏览器
-    errorOverlay: true,
-    notifyOnErrors: true,
-    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-    // Use Eslint Loader?
-    // If true, your code will be linted during bundling and
-    // linting errors and warnings will be shown in the console.
-    useEslint: true,
-    // If true,eslint errors and warnings will also be shown in the error overlay
-    // in the browser.
-    showEslintErrorsInOverlay: false,
-    /**
-     * Source Maps
-     */
-    // https://webpack.js.org/configuration/devtool/#development
-    devtool: 'cheap-module-eval-source-map',
-
-    // If you have problems debugging vue-files in devtools,
-    // set this to false - it *may* help
-    // https://vue-loader.vuejs.org/en/options.html#cachebusting
-    cacheBusting: true,
-    cssSourceMap: true
-  },
-
-  build: {
-    // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-
-    /**
-     * Source Maps
-     */
-
-    productionSourceMap: false, //  减少打包体积 原为true
-    // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
-
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
-    productionGzip: true,
-    productionGzipExtensions: ['js', 'css'],
-
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
-    // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
-  }
+    }
 }
 ```
 
-### 2.2.2 新版本
+## 3.2 新版本
 
 vuecil 3+ 新版本的代理配置–vue.config.js 文件
 
@@ -166,8 +117,55 @@ module.exports = {
 
 如果有多后台，就可以在 api 文件夹下另外新建一个 elseApi.js ，书写当前 ip 下的接口请求。方法同上，只是 `let resquest = "/elseIp/request/"` 调用的时候把端口更改一下。
 
-2.3 封装axios
----------------------------
+## 3.3 代理规则
+
+1、在浏览器或postman中测试接口是否正常访问；（最重要！！不然改半天都没用）
+那怎么才是成功的访问呢？
+例如：拿第二个代理举例：你要访问的接口为`https://197.32.22.33:8090/api-else/getsomething.json`，在浏览器直接输入有返回值并测试无误后再进行下一步；
+
+2、要确保书写方式完全正确！
+
+- **2.1（参考写法2）** 这时候你本地去请求的接口地址会变成：`http://localhost:8080/api-else/api-else/getsomething.json`才是正常的！
+  是不是会好奇为什么会有两个`/api-else`，因为在本地：`http://localhost:8080/api-else`相当于：`https://197.32.22.33:8090`，这才是正常的！
+
+- **2.2 (参考写法3)**
+  在按上述写法还是有误的情况下，可以参考写法3的路由去更改测试。例：你要访问的接口为`https://197.32.22.33:9090/api-three/getThreething.json`，本地配置后：`http://localhost:8080/api-three/getThreething.json`。
+
+  多说一句，为什么要提第三种写法？
+
+  这种适用于前后端分离多后台项目，后台项目的包名为：api-three，使用第2中写法，在打包之后部署生产环境会出现请求的问题（我们自己项目踩过的坑，偶发），所以之后规定代理和后台包名统一，并且不能直接写在请求中，而是在配置代理后，重写代理的请求，指向包名；
+
+3、**请修改完config的index.js后，答应我一定重启下项目`npm run dev`；**
+
+4、**也是我这次bug的原因（正经脸，这个超级细微！）**
+**在配置多个代理的情况下，代理名称不能相同，也不能出现重叠的情况！**
+
+## 3.4 代理失效
+
+```js
+ proxyTable: {
+    	// 第一个代理
+      '/api-test': {  
+        target: 'https://www.example.org:', /// 目标服务器 host
+        },
+        //第二个代理
+      '/api-testAAA': {  
+        target: 'https://197.32.22.33:8090', 
+}
+```
+
+是的！他用的是`indexOf() === 0`来判断的！！！所以如果你的多个代理重叠`/api-testAAA`和`/api-test`这样出现的话，他们是都会返回`true`的！
+但是`/api-test`更快判断完，**所以`/api-testAAA`就失效了**！！！
+
+```js
+function matchSingleStringPath(context, uri) {
+  const pathname = getUrlPathName(uri);
+  return pathname.indexOf(context) === 0;
+}
+```
+
+4 封装axios
+===========================
 
 在项目 src 目录下新建 utils 文件夹，然后在其中新建 request.js 文件，这个文件是主要书写 axios 的封装过程。
 
@@ -297,8 +295,8 @@ export default service
 > 我已经举了很清晰的例子，写代码的过程是自己动脑去搭建工程的，希望能看到我文章的各位，善于搜索，善于思考，善于总结；  
 > 当然我很喜欢帮大家解决问题，但是相关的基础问题，还是建议自己去学习掌握。
 
-2.4 封装请求
----------------
+5 封装请求
+===============
 
 在项目 src 目录下的 utils 文件夹中新建 http.js 文件，这个文件是主要书写几种请求的封装过程。
 
@@ -350,8 +348,8 @@ const http = {
 export default http
 ```
 
-2.5 封装 API
--------------------------
+6 封装 API
+=========================
 
 用于发送请求——api.js
 
@@ -423,8 +421,8 @@ const service = axios.create({
 
 **以上 关于配置环境 和接口 基本搭建完毕，下面看一下调用：**
 
-2.6 文件中调用
----------------
+7 文件中调用
+===============
 
 方法一：用到哪个 api 就调用哪个接口——适用于上文接口分类导出；
 
@@ -471,7 +469,7 @@ const service = axios.create({
 
 ```
 
-3 结语
+8 结语
 ==
 
 > 如果你能看到这里，鉴于有很多小白可能会参考我这篇文章来进行前期配置，特说明下配置学习路线：

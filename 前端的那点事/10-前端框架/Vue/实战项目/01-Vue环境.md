@@ -60,7 +60,7 @@ npm uninstall babel-plugin-transform-runtime --save
 
 ## 2.3 运行项目
 ```properties
-D:\2018dev\code\WebStorm\nodejs\vue>npm run dev
+npm run dev 或 npm run serve
 ```
 
 # 3 页面开发
