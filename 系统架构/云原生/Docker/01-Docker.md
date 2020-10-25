@@ -219,6 +219,24 @@ Docker版本：docker version（查看安装版本）
 查看容器日志：docker logs -f [容器名称]
 ```
 
+## 3.2 导出导入
+
+1、镜像导入导出
+
+```properties
+docker save eb40dcf64078 > /root/xx.tar
+docker load < /root/xx.tar
+docker tag eb40dcf64078 django:latest
+docker run -itd django:latest
+```
+
+2、容器导入导出
+
+```properties
+docker export CONTAINER(容器) > /home/xx.tar
+docker import /home/xx.tar
+```
+
 # 4 服务安装
 
 ## 4.1 安装vim
@@ -333,6 +351,34 @@ docker pull rabbitmq:management
 docker run -d --hostname my-rabbit --name rabbit -p 5672:15672 rabbitmq:management
 ```
 ## 4.9 Prometheus服务
+
+
+
+## 4.10 gitlab
+
+```ruby
+docker pull gitlab/gitlab-ce
+$ docker run -d  -p 443:443 -p 80:80 -p 222:22 --name gitlab --restart always -v /home/gitlab/config:/etc/gitlab -v /home/gitlab/logs:/var/log/gitlab -v /home/gitlab/data:/var/opt/gitlab gitlab/gitlab-ce
+# -d：后台运行
+# -p：将容器内部端口向外映射
+# --name：命名容器名称
+# -v：将容器内数据文件夹或者日志、配置等文件夹挂载到宿主机指定目录
+
+# gitlab.rb文件内容默认全是注释
+vim /home/gitlab/config/gitlab.rb
+
+
+# 配置http协议所使用的访问地址,不加端口号默认为80
+external_url 'http://192.168.199.231'
+
+# 配置ssh协议所使用的访问地址和端口
+gitlab_rails['gitlab_ssh_host'] = '192.168.199.231'
+gitlab_rails['gitlab_shell_ssh_port'] = 222 # 此端口是run时22端口映射的222端口
+:wq #保存配置文件并退出
+
+# 重启gitlab容器
+docker restart gitlab
+```
 
 
 

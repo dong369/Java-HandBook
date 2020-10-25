@@ -85,6 +85,65 @@ set persist time_zone='+8:00';
 flush privileges;
 ```
 
+## 1.3 脚本安装
+
+```bash
+@echo off
+echo 初始化MySQL服务
+
+set Pan=D:\
+set PanDir=dev\soft\SQL\mysql-8.0.21-winx64
+
+rd /s /q %Pan%%PanDir%\data
+
+cd /d %Pan%%PanDir%/bin
+mysqld --remove MySQL-8.0.21
+mysqld --initialize-insecure --user=mysql
+mysqld --install MySQL-8.0.21
+
+pause
+exit
+```
+
+
+
+```bash
+@echo off
+echo 启动MySQL服务...
+set Pan=D:\
+set PanDir=dev\soft\SQL\mysql-8.0.21-winx64
+
+net start MySQL-8.0.21
+
+cd /d %Pan%%PanDir%/bin
+mysql -uroot -p
+
+pause
+exit
+
+@echo off
+echo 停止MySQL服务...
+
+net stop MySQL-8.0.21
+
+pause
+exit
+
+@echo off
+echo 删除MySQL服务
+
+set Pan=D:\
+set PanDir=dev\soft\SQL\mysql-8.0.21-winx64\bin\
+
+cd /d %Pan%%PanDir%
+mysqld --remove MySQL-8.0.21
+
+pause
+exit
+```
+
+
+
 # 2 Linux环境
 
 ## 21 下载
@@ -193,7 +252,6 @@ cat /usr/local/soft/mysql/mysql-8.0.15/logs/error.log
 mysql -uroot -p
 alter user 'root'@'localhost' identified by 'your_password';
 
-
 ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '你的密码';
 alter user  'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
 ```
@@ -201,8 +259,8 @@ alter user  'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0r
 ## 2.10 开机启动
 
 ```properties
+方式1
 cp /usr/local/db/mysql/support-files/mysql.server /etc/init.d/mysql
-方式1：
 vim /usr/lib/systemd/system/mysqld.service
 [Unit]
 Description=mysql server

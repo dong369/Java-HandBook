@@ -23,6 +23,7 @@
 说明：别想了，mysql没有开窗函数，代码实现吧
 
 oracle与mysql之语法的区别：
+
 `connect by…start with` ==> `无`；说明：别想了，mysql没有递归查询，代码实现吧
 
 `rownum` ==> `limit`；说明：分页

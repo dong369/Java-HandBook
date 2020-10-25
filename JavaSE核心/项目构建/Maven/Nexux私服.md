@@ -76,3 +76,42 @@ mvn deploy:deploy-file
 
 
 https://www.cnblogs.com/chywx/p/11227151.html
+
+
+
+1、先将本地maven/repository仓库打一个完整的zip压缩包
+2、上传到linux目录，如：/opt
+3、解压repository.zip
+4、进入repository目录
+5、创建touch mavenimport.sh脚本，写入以下内容；、
+
+```shell
+#!/bin/bash
+# copy and run this script to the root of the repository directory containing files
+# this script attempts to exclude uploading itself explicitly so the script name is important
+# Get command line params
+
+while getopts ":r:u:p:" opt; do
+	case $opt in
+		r) REPO_URL="$OPTARG"
+		;;
+		u) USERNAME="$OPTARG"
+		;;
+		p) PASSWORD="$OPTARG"
+		;;
+	esac
+done
+
+find . -type f -not -path './mavenimport\.sh*' -not -path '*/\.*' -not -path '*/\^archetype\-catalog\.xml*' -not -path '*/\^maven\-metadata\-local*\.xml' -not -path '*/\^maven\-metadata\-deployment*\.xml' | sed "s|^\./||" | xargs -I '{}' curl -u "$USERNAME:$PASSWORD" -X PUT -v -T {} ${REPO_URL}/{} ;
+```
+
+6、输入chmod a+x mavenimport.sh进行可执行授权
+7、执行导入命令
+
+```shell
+./mavenimport.sh -u admin -p admin123 -r http://ip:8081/repository/maven-releases/
+```
+
+8、等待全部导入完毕后，在Nexus上刷新即可看到已导入的jar
+
+Nexus3界面上传jar包
