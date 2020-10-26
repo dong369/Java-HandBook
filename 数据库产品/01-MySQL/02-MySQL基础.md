@@ -1515,6 +1515,17 @@ mysql> select id,sum(num) from (select * from ta union all select * from tb) as 
 5 rows in set (0.00 sec)
 ```
 
+## 7.4 union构建树
+
+核心是组装：SID,PARENTID
+
+```sql
+select SID,PARENTID,NAME from SYS_COMMON_CLASS
+union all
+select rep.SID as sid,rep.YEAR as PARENTID,rep.REPORTNAME as name
+from YW_XJ_REPORTMOULE as rep inner join SYS_COMMON_CLASS as com on rep.YEAR=com.SID;
+```
+
 # 8 DDL的基本语法
 
 ## 8.1 创建表
