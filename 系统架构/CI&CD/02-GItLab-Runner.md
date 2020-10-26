@@ -2,6 +2,8 @@
 
 ## 1.1 什么是GitLab的CD
 
+GitLab-CI就是一套配合GitLab使用的持续集成系统（当然，还有其它的持续集成系统，同样可以配合GitLab使用，比如Jenkins）。而且GitLab8.0以后的版本是默认集成了GitLab-CI并且默认启用的。
+
 gitlab-ci全称是gitlab continuous integration的意思，也就是持续集成。中心思想是当每一次push到gitlab的时候，都会触发一次脚本执行，然后脚本的内容包括了测试，编译，部署等一系列自定义的内容。
 
 原理
@@ -18,9 +20,15 @@ gitlab-ci全称是gitlab continuous integration的意思，也就是持续集成
 
 ## 1.3 GitLab-Runner
 
+GitLab-Runner是配合GitLab-CI进行使用的。一般地，GitLab里面的每一个工程都会定义一个属于这个工程的软件集成脚本，用来自动化地完成一些软件集成工作。当这个工程的仓库代码发生变动时，比如有人push了代码，GitLab就会将这个变动通知GitLab-CI。这时GitLab-CI会找出与这个工程相关联的Runner，并通知这些Runner把代码更新到本地并执行预定义好的执行脚本。
+
+所以，GitLab-Runner就是一个用来执行软件集成脚本的东西。你可以想象一下：Runner就像一个个的工人，而GitLab-CI就是这些工人的一个管理中心，所有工人都要在GitLab-CI里面登记注册，并且表明自己是为哪个工程服务的。当相应的工程发生变化时，GitLab-CI就会通知相应的工人执行软件集成脚本。
+
 这个是脚本执行的承载者，.gitlab-ci.yml的script部分的运行就是由runner来负责的。GitLab-CI浏览过项目里的.gitlab-ci.yml文件之后，根据里面的规则，分配到各个Runner来运行相应的脚本script。这些脚本有的是测试项目用的，有的是部署用的。
 
- 
+ GitLab-Runner可以分类两种类型：Shared Runner（共享型）和Specific Runner（指定型）。
+Shared Runner：这种Runner是所有工程都能够用的。只有系统管理员能够创建Shared Runner。
+Specific Runner：这种Runner只能为指定的工程服务。拥有该工程访问权限的人都能够为该工程创建Shared Runner。
 
  .gitlab-ci.yml 这个是在git项目的根目录下的一个文件，记录了一系列的阶段和执行规则。GitLab-CI在push后会解析它，根据里面的内容调用runner来运行。
 
@@ -122,6 +130,8 @@ scarletsky: https://scarletsky.github.io/2016/07/29/use-gitlab-ci-for-continuous
 
 # 2 GitLab
 
+## 2.1 安装配置
+
 1、获取镜像
 
 ```ruby
@@ -183,9 +193,11 @@ unicorn['worker_timout'] = 60
 unicorn['worker_processes'] = 2
 ```
 
-# 2 GitLab-Runner
+## 2.2 基础使用
 
-## 2.1 docker-compose
+# 3 GitLab-Runner
+
+## 3.1 docker-compose
 
 1、原生的docker-compose安装Gitlab-Runner
 
@@ -211,7 +223,7 @@ b)直接继承Gitlab-Runner 在上面做修改
 
 由于方法二的代码改动量较少,此时列出方法2的Dockerfile和docker-compose.yml(未整理)
 
-## 2.2 docker
+## 3.2 docker
 
 1、拉取镜像
 
@@ -228,7 +240,7 @@ docker run -d --name gitlab-runner --restart always \
   gitlab/gitlab-runner:latest
 ```
 
-## 2.3 注册runner
+## 3.3 注册runner
 
 这里使用的是specific Runner方式。在gitlab中 设置 --> CI/CD --> Runner(展开) 找到对应的配置信息。
 
