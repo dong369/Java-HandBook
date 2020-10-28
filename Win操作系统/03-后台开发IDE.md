@@ -10,7 +10,9 @@
 
 ## 1.3 配置默认路径
 
-很多软件默认安装路径都是C盘符，但是本人实在看不下去软件东西都放在C盘。进入到idea的安装目录，idea.properties文件，添加自己指定的路径地址。
+很多软件默认安装路径都是C盘符，但是本人实在看不下去软件东西都放在C盘。
+
+进入到idea的安装目录，idea.properties文件，添加自己指定的路径地址。
 
 ```properties
 idea.config.path=${idea.home.path}/user/config
@@ -19,13 +21,25 @@ idea.system.path=${idea.home.path}/user/system
 
 ## 1.4 激活
 
-> 更多激活方法可以参考[JetBrains破解](https://www.jianshu.com/p/a459c90f6a0e)文章。也可以直接下载别人破解过的版本！！！
+关于这个“key is invalid”的问题，在网站（www.jiweichengzhu.com）上已经写了好几篇文章了，从早期的idea版本到2020的版本，但是有很多人都不仔细看，也从来不会做总结。归根到底，无外乎就两种可能（看仔细了）。
+
+1、激活补丁不是最新的版本；
+
+2、之前的配置文件没有清理干净；
+
+C:\Users\guodd\AppData\Local\JetBrains
+
+激活失败，以及出现“key is invalid”问题的很大概率所在，看好了我图中的目录，是Local，而不是Roaming，网上很多人的教学，上来就是让你们删Roaming文件夹，这个其实并不是必须的，基本上将这个Local删了就能解决一大半，如果依旧还是没能搞定，那再删除Roaming不迟。
+
+我为什么反对你们上来就删除Roaming目录？
+
+因为这个Roaming目录里面存放了很多的配置信息，包括你的一些快捷键设置、代码格式等等，如果你上来就直接删除了，那痛苦的只有你自己，就算是非要删除，也务必要将配置做好存档，导出settings.jar。
 
 ## 1.5 工具的看法
 
 思想是**战略**上的高度，工具是**战术**上的高度！！！
 
-# 2 IntelliJ IDEA & Eclipse
+# 2 IDEA & Eclipse
 
 ![对比](https://upload-images.jianshu.io/upload_images/8185387-459f402d8321801c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/648/format/webp)
 
@@ -243,21 +257,13 @@ settings.xml中配置maven镜像地址
 
 ## 3.6 编码乱码
 
-> 项目源代码中文乱码：Settings > Editor > File Encodings > Global Encodings & Project Encodings 设置为：UTF-8
+1、项目源代码中文乱码：Settings > Editor > File Encodings
 
+2、Main方法运行，控制台中文乱码：Settings > Build, Execution, Deployment > Compile > Java Compiler > Additional command line parameters > 设置为：-encoding utf-8
 
+3、Tomcat运行，控制台中文乱码：Edit Configurations > Tomcat Server > server > VM options > 设置为：-Dfile.encoding=UTF-8
 
-> Main方法运行，控制台中文乱码：Settings > Build, Execution, Deployment > Compile > Java Compiler > Additional command line parameters > 设置为：-encoding utf-8
-
-
-
-> Tomcat运行，控制台中文乱码：Edit Configurations > Tomcat Server > server > VM options > 设置为：
->
-> -Dfile.encoding=UTF-8。
-
-
-
-> 如果还乱码，继续往下设置：idea > Help 菜单 > Edit Custom VM Options…菜单，编辑配置文件，在末尾添加：-Dfile.encoding=UTF-8。
+4、如果还乱码，继续往下设置：idea > Help 菜单 > Edit Custom VM Options…菜单，编辑配置文件，在末尾添加：-Dfile.encoding=UTF-8
 
 ## 3.7 启动视图
 
