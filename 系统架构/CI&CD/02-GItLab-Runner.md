@@ -1,5 +1,7 @@
 开发团队、运维团队、QA团队
 
+Version：GitLab Community Edition 13.5.1
+
 # 1 CI/CD介绍
 
 ## 1.1 CI/CD
@@ -275,11 +277,13 @@ docker run -d --name gitlab-runner --restart always \
   gitlab/gitlab-runner:latest
 ```
 
-## 3.3 注册runner
+## 3.3 注册Runner
 
 1、在gitlab中 设置 --> CI/CD --> Runner(展开) 找到对应的配置信息。
 
 ![image-20201025195245176](../../插图/image-20201025195245176.png)
+
+![image-20201029172418047](../../插图/image-20201029172418047.png)
 
 2、写一个 gitlab-ci.yml
 
@@ -318,11 +322,59 @@ gitlab-runner list
 gitlab-runner verify
 ```
 
-## 3.4 流程语法
+# 4 流程语法
+
+## 4.1 第一部分
 
 job、script、before_script、after_script、stages、stage、variables、.pre、.post
 
-tags、only
+```yaml
+before_script:
+  - "echo job1"
+
+variables:
+  NAME: com.io
+
+stages:
+  - build
+  - test
+  - codescan
+  - deploy
+  
+job1-1:
+  stage: build
+  script: 
+    - "echo job1-1"
+job1-2:
+  stage: build
+  script: 
+    - "echo job1-2"
+
+job2:
+  before_script:
+    -  "echo job2 before"
+  stage: test
+  script: 
+    - "echo job2"
+  after_script:
+    - 'echo job2 after'
+
+job3:
+  stage: codescan
+  script: 
+    - 'echo $NAME'
+
+pre:
+  stage: .pre
+  script: "echo job3"
+
+post:
+  stage: .post
+  script: "echo job4"
+
+after_script:
+    - "end init"
+```
 
 1、job
 
@@ -345,38 +397,94 @@ job2:
 
 用于定义作业使用的阶段，并且是全局定义，同一阶段的作业并行运行，不同阶段顺序执行。
 
-```yaml
-before_script:
-    - 'start_init'
+4、stage
 
-variables:
-    NAME: com.io
+具体的任务
 
-stages:
-    - build
-    - test
-    - codescan
-    - deploy
+5、运行效果
 
-job1:
-    before_script: 
-        - 'start'
-    stage: build
-    script: 
-        - echo "$NAME"
-    after_script:
-        - 'end'
+![image-20201029173809110](../../插图/image-20201029173809110.png)
 
-job2:
-    script: 'aa'
 
-job3:
-    stage: .pre
-    script:
-        - 'job pre'
-    
-after_script:
-    - 'end_init'
-```
+
+![image-20201029171240667](../../插图/image-20201029171240667.png)
+
+
+
+![image-20201029171728649](../../插图/image-20201029171728649.png)
 
 vi /etc/gitlab-runner/config.toml，修改每次运行任务的个数。
+
+## 4.2 第二部分
+
+tags、allow_failure、when、retry、timeout、parallel、only
+
+```yaml
+job1-1:
+  stage: build
+  script: 
+    - "echo job1-1"
+job1-2:
+  stage: build
+  script: 
+    - "echo job1-2"
+```
+
+1、tags
+
+标签，用于指定特定运行的Runner
+
+2、allow_failure
+
+允许作业的失败，失败后是一个叹号，不会影响后面的流程线执行
+
+```yaml
+job1-1:
+  stage: build
+  script: 
+    - "echo job1-1"
+job1-2:
+  stage: build
+  script: 
+    - "ech job1-2"
+  allow_failure: true
+```
+
+![image-20201029181606917](../../插图/image-20201029181606917.png)
+
+3、when
+
+on_sucess：默认，前面所有阶段都成功才执行作业
+
+on_failure：当前面阶段出现失败时执行
+
+always：总是执行作业
+
+manual：手动执行作业
+
+```yaml
+deploy:
+  stage: deploy
+  script:
+    - echo aa
+  when: manual
+```
+
+![image-20201029182616723](../../插图/image-20201029182616723.png)
+
+delayed：延迟执行作业
+
+```yaml
+job2:
+  before_script:
+    -  "echo job2 before"
+  stage: test
+  script: 
+    - "echo job2"
+  after_script:
+    - 'echo job2 after'
+  when: delayed
+  start_in: '30'
+```
+
+![image-20201029183152515](../../插图/image-20201029183152515.png)
