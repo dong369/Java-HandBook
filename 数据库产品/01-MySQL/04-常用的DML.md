@@ -276,11 +276,7 @@ GROUP BY
 ```sql
 to_char(a.create_time,'yyyy-mm-dd hh24:mi:ss') create_time
 date_format(a.create_time,'%Y-%m-%d %H:%i:%s') create_time
-```
 
-
-
-```sql
 trunc(a.create_time, 'dd') >=to_date(:startDate,'yyyy-mm-dd')
 date_format(a.create_time, '%Y-%m-%d') >=:startDate
 ```

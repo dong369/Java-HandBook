@@ -1,8 +1,10 @@
+开发团队、运维团队、QA团队
+
 # 1 CI/CD介绍
 
 ## 1.1 CI/CD
 
-持续集成、持续交付
+CI持续集成、CD持续交付（部署）
 
 GitLab-CI就是一套配合GitLab使用的持续集成系统（当然，还有其它的持续集成系统，同样可以配合GitLab使用，比如Jenkins）。而且GitLab8.0以后的版本是默认集成了GitLab-CI并且默认启用的。
 
@@ -275,11 +277,11 @@ docker run -d --name gitlab-runner --restart always \
 
 ## 3.3 注册runner
 
-这里使用的是specific Runner方式。在gitlab中 设置 --> CI/CD --> Runner(展开) 找到对应的配置信息。
+1、在gitlab中 设置 --> CI/CD --> Runner(展开) 找到对应的配置信息。
 
 ![image-20201025195245176](../../插图/image-20201025195245176.png)
 
-4、写一个 gitlab-ci.yml
+2、写一个 gitlab-ci.yml
 
 ```yaml
 stages:
@@ -290,20 +292,91 @@ stages:
 我在搞代码:
   stage: 拉取代码
   script:
-  - 'ls -al'
-  - 'pwd'
+    - 'ls -al'
+    - 'pwd'
 我在打包:
   stage: MAVEN打包
   script:
-  - 'echo $JAVA_HOME'
+    - 'echo $JAVA_HOME'
 发布到测试环境:
   stage: 发布到远程服务器
   script:
-  - 'echo Hello World'
+    - 'echo Hello World'
 发布到正式环境环境:
   stage: 发布到远程服务器
   script:
-  - 'echo Hello Java'
+    - 'echo Hello Java'
 ```
 
 ![image-20201025195424055](../../插图/image-20201025195424055.png)
+
+3、基础命令
+
+```shell
+gitlab-runner register
+gitlab-runner list
+gitlab-runner verify
+```
+
+## 3.4 流程语法
+
+job、script、before_script、after_script、stages、stage、variables、.pre、.post
+
+tags、only
+
+1、job
+
+一个.gitlab-ci.yml可以有多个作业job
+
+```yaml
+job1:
+  script: "echo job1"
+job2:
+  script: "echo job2"
+```
+
+在一个pipeline中包含两个作业
+
+2、script、before_script、after_script
+
+运行shell脚本，可以是一个或多个，数组格式！
+
+3、stages
+
+用于定义作业使用的阶段，并且是全局定义，同一阶段的作业并行运行，不同阶段顺序执行。
+
+```yaml
+before_script:
+    - 'start_init'
+
+variables:
+    NAME: com.io
+
+stages:
+    - build
+    - test
+    - codescan
+    - deploy
+
+job1:
+    before_script: 
+        - 'start'
+    stage: build
+    script: 
+        - echo "$NAME"
+    after_script:
+        - 'end'
+
+job2:
+    script: 'aa'
+
+job3:
+    stage: .pre
+    script:
+        - 'job pre'
+    
+after_script:
+    - 'end_init'
+```
+
+vi /etc/gitlab-runner/config.toml，修改每次运行任务的个数。
