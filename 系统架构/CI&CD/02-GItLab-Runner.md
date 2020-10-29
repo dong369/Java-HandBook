@@ -417,7 +417,7 @@ vi /etc/gitlab-runner/config.toml，修改每次运行任务的个数。
 
 ## 4.2 第二部分
 
-tags、allow_failure、when、retry、timeout、parallel、only
+tags、allow_failure、when、retry、timeout、parallel
 
 ```yaml
 job1-1:
@@ -488,3 +488,91 @@ job2:
 ```
 
 ![image-20201029183152515](../../插图/image-20201029183152515.png)
+
+4、retry
+
+失败重试次数
+
+5、timeout
+
+超时时间设置（Runner>作业>项目）
+
+```yaml
+job2:
+  before_script:
+    -  "echo job2 before"
+  stage: test
+  script: 
+    - "echo job2"
+  after_script:
+    - 'echo job2 after'
+  when: delayed
+  start_in: '30'
+  timeout: 3 hours 30 minutes
+```
+
+6、parallel
+
+2<=parallel<=50
+
+## 4.3 第三部分
+
+only、except、rules、workflow
+
+1、only、except
+
+用分支策略来限制jobs的构建
+
+only定义哪些分支被job执行
+
+except定义哪些分支不被job执行
+
+2、rules
+
+按照顺序进行匹配规则，直到匹配并为作业提供动态属性
+
+rules不能喝only、except同时使用
+
+if（条件匹配）、changes（文件变化）、exists（文件存在）
+
+3、workflow
+
+是否创建管道pipeline
+
+always是默认、never
+
+## 4.4 第四部分
+
+cache、artifacts、dependencies
+
+项目运行时的依赖项
+
+```yaml
+before_script:
+  - "echo job1"
+
+variables:
+  NAME: com.io
+  
+cache:
+  paths:
+    - target/
+
+stages:
+  - build
+  - test
+  - deploy
+  
+build:
+  stage: build
+  tags: 
+    - build
+  only: 
+    - master
+  script: 
+    - ls 
+    - id
+    - mvn clean package -DskipTests
+    - ls target
+```
+
