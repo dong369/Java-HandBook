@@ -54,9 +54,10 @@ mvn -s D:\dev\maven\apache-maven-3.6.3\conf\settings.xml deploy:deploy-file -Dur
 2、Java程序
 
 ```java
-package com.yrec.admin.server;
+package com.io;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -65,13 +66,13 @@ import java.util.regex.Pattern;
 /**
  * The class/interface
  *
- * @author guodd
+ * @author guod
  * @version 1.0 use jdk 1.8
  */
 public class Deploy {
     public static void main(String[] args) {
-        deploy(Objects.requireNonNull(new File("D:\\dev\\maven\\maven-repository\\com\\alibaba\\fastjson").listFiles()));
-//        if (checkArgs(args)) {
+        deploy(Objects.requireNonNull(new File("D:\\dev\\maven\\maven-repository\\antlr\\antlr").listFiles()));
+//        if(checkArgs(args)){
 //            File file = new File(args[0]);
 //            deploy(file.listFiles());
 //        }
@@ -86,8 +87,8 @@ public class Deploy {
     /**
      * mvn -s F:\.m2\settings.xml
      * org.apache.maven.plugins:maven-deploy-plugin:2.8.2:deploy-file
-     * -Durl=http://10.4.128.97:8081/repository/maven-releases/
-     * -DrepositoryId=maven-releases
+     * -Durl=http://IP:PORT/nexus/content/repositories/thirdpart
+     * -DrepositoryId=thirdpart
      * -Dfile=antlr-2.7.2.jar
      * -DpomFile=antlr-2.7.2.pom
      * -Dpackaging=jar
@@ -96,11 +97,11 @@ public class Deploy {
      * -Djavadoc=./path/to/artifact-name-1.0-javadoc.jar
      */
     public static final String BASE_CMD = "cmd /c mvn " +
-            "-s D:\\dev\\maven\\apache-maven-3.6.3\\conf\\settings.xml " +
+            "-s D:/dev/maven/apache-maven-3.6.3/conf/settings.xml " +
             "deploy:deploy-file " +
-            "-Durl=http://10.4.128.97:8081/repository/maven-releases/ " +
+            "-Durl=http://xx.xx.xx.xx:8081/repository/maven-releases/ " +
             "-DrepositoryId=maven-releases " +
-            "-DgroupId=yxgl " +
+            "-DgroupId=com.io " +
             "-DgeneratePom=false";
 
     public static final Pattern DATE_PATTERN = Pattern.compile("-[\\d]{8}\\.[\\d]{6}-");
@@ -114,7 +115,7 @@ public class Deploy {
     static {
         Writer err = null;
         try {
-            err = new OutputStreamWriter(new FileOutputStream("deploy-error.log"), "utf-8");
+            err = new OutputStreamWriter(new FileOutputStream("deploy-error.log"), StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -155,7 +156,7 @@ public class Deploy {
         } else if (files[0].isDirectory()) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    deploy(file.listFiles());
+                    deploy(Objects.requireNonNull(file.listFiles()));
                 }
             }
         } else if (files[0].isFile()) {
@@ -195,7 +196,7 @@ public class Deploy {
                     new BufferedReader(new InputStreamReader(new FileInputStream(pom)));
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().contains("<packaging>pom</packaging>")) {
+                if (line.trim().contains("pom")) {
                     return true;
                 }
             }
@@ -203,7 +204,6 @@ public class Deploy {
             e.printStackTrace();
         } finally {
             try {
-                assert reader != null;
                 reader.close();
             } catch (Exception ignored) {
             }
@@ -212,73 +212,79 @@ public class Deploy {
     }
 
     public static void deployPom(final File pom) {
-        EXECUTOR_SERVICE.execute(() -> {
-            StringBuilder cmd = new StringBuilder(BASE_CMD);
-            cmd.append(" -DpomFile=").append(pom.getName());
-            cmd.append(" -Dfile=").append(pom.getName());
-            try {
-                final Process proc = CMD.exec(cmd.toString(), null, pom.getParentFile());
-                InputStream inputStream = proc.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                String line;
-                StringBuffer logBuffer = new StringBuffer();
-                logBuffer.append("\n\n\n==================================\n");
-                while ((line = reader.readLine()) != null) {
-                    if (line.startsWith("[INFO]") || line.startsWith("Upload")) {
-                        logBuffer.append(Thread.currentThread().getName()).append(" : ").append(line).append("\n");
+        EXECUTOR_SERVICE.execute(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder cmd = new StringBuilder(BASE_CMD);
+                cmd.append(" -DpomFile=").append(pom.getName());
+                cmd.append(" -Dfile=").append(pom.getName());
+                try {
+                    final Process proc = CMD.exec(cmd.toString(), null, pom.getParentFile());
+                    InputStream inputStream = proc.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader reader = new BufferedReader(inputStreamReader);
+                    String line;
+                    StringBuffer logBuffer = new StringBuffer();
+                    logBuffer.append("\n\n\n==================================\n");
+                    while ((line = reader.readLine()) != null) {
+                        if (line.startsWith("[INFO]") || line.startsWith("Upload")) {
+                            logBuffer.append(Thread.currentThread().getName() + " : " + line + "\n");
+                        }
                     }
-                }
-                System.out.println(logBuffer);
-                int result = proc.waitFor();
-                if (result != 0) {
+                    System.out.println(logBuffer);
+                    int result = proc.waitFor();
+                    if (result != 0) {
+                        error("上传失败：" + pom.getAbsolutePath());
+                    }
+                } catch (IOException | InterruptedException e) {
                     error("上传失败：" + pom.getAbsolutePath());
+                    e.printStackTrace();
                 }
-            } catch (IOException | InterruptedException e) {
-                error("上传失败：" + pom.getAbsolutePath());
-                e.printStackTrace();
             }
         });
     }
 
     public static void deploy(final File pom, final File jar, final File source, final File javadoc) {
-        EXECUTOR_SERVICE.execute(() -> {
-            StringBuilder cmd = new StringBuilder(BASE_CMD);
-            cmd.append(" -DpomFile=").append(pom.getName());
-            if (jar != null) {
-                // 当有bundle类型时，下面的配置可以保证上传的jar包后缀为.jar
-                cmd.append(" -Dpackaging=jar -Dfile=").append(jar.getName());
-            } else {
-                cmd.append(" -Dfile=").append(pom.getName());
-            }
-            if (source != null) {
-                cmd.append(" -Dsources=").append(source.getName());
-            }
-            if (javadoc != null) {
-                cmd.append(" -Djavadoc=").append(javadoc.getName());
-            }
+        EXECUTOR_SERVICE.execute(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder cmd = new StringBuilder(BASE_CMD);
+                cmd.append(" -DpomFile=").append(pom.getName());
+                if (jar != null) {
+                    //当有bundle类型时，下面的配置可以保证上传的jar包后缀为.jar
+                    cmd.append(" -Dpackaging=jar -Dfile=").append(jar.getName());
+                } else {
+                    cmd.append(" -Dfile=").append(pom.getName());
+                }
+                if (source != null) {
+                    cmd.append(" -Dsources=").append(source.getName());
+                }
+                if (javadoc != null) {
+                    cmd.append(" -Djavadoc=").append(javadoc.getName());
+                }
 
-            try {
-                final Process proc = CMD.exec(cmd.toString(), null, pom.getParentFile());
-                InputStream inputStream = proc.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader reader = new BufferedReader(inputStreamReader);
-                String line;
-                StringBuffer logBuffer = new StringBuffer();
-                logBuffer.append("\n\n\n=======================================\n");
-                while ((line = reader.readLine()) != null) {
-                    if (line.startsWith("[INFO]") || line.startsWith("Upload")) {
-                        logBuffer.append(Thread.currentThread().getName()).append(" : ").append(line).append("\n");
+                try {
+                    final Process proc = CMD.exec(cmd.toString(), null, pom.getParentFile());
+                    InputStream inputStream = proc.getInputStream();
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader reader = new BufferedReader(inputStreamReader);
+                    String line;
+                    StringBuffer logBuffer = new StringBuffer();
+                    logBuffer.append("\n\n\n=======================================\n");
+                    while ((line = reader.readLine()) != null) {
+                        if (line.startsWith("[INFO]") || line.startsWith("Upload")) {
+                            logBuffer.append(Thread.currentThread().getName() + " : " + line + "\n");
+                        }
                     }
-                }
-                System.out.println(logBuffer);
-                int result = proc.waitFor();
-                if (result != 0) {
+                    System.out.println(logBuffer);
+                    int result = proc.waitFor();
+                    if (result != 0) {
+                        error("上传失败：" + pom.getAbsolutePath());
+                    }
+                } catch (IOException | InterruptedException e) {
                     error("上传失败：" + pom.getAbsolutePath());
+                    e.printStackTrace();
                 }
-            } catch (IOException | InterruptedException e) {
-                error("上传失败：" + pom.getAbsolutePath());
-                e.printStackTrace();
             }
         });
     }
@@ -303,6 +309,8 @@ http://localhost:8082/repository/maven-snapshots/
 2、在安装好的maven服务中，找到settingxml 配置文件，作如下配置：
 
 ```xml
+<localRepository>D:/dev/maven/maven-repository</localRepository>
+
 <mirrors>
     <mirror>
         <id>alimaven</id>
@@ -328,11 +336,7 @@ http://localhost:8082/repository/maven-snapshots/
 
 ## 3.2 项目pom
 
-在全局配置文件setting.xml，只配置一个中央仓库的镜像，即mirrorOf为central的镜像只配置一个，此处的mirrorOf不能随便写，要和repository name标签的一致，maven获取真正起作用的repository集合流程：首先会获取pom.xml里的repository集合，然后在settings.xml里找mirrors元素。
-
-如果**repository的id和mirror的mirrorOf**的值相同，则该mirror替代该repository。如果该repository找不到对应的mirror，则使用其本身，依此可以得到最终起作用的repository集合Internal Artifactory Maven repository作为私服，mirrorOf配置为*来提供中央仓库中不存在的jar包。
-
-1、Maven推送，在项目pom.xml文件中，做如下配置
+1、Maven推送当前项目到私服，在项目pom.xml文件中，做如下配置
 
 ```xml
 <distributionManagement>
@@ -348,6 +352,12 @@ http://localhost:8082/repository/maven-snapshots/
 ```
 
 配置完成后，回到该项目文件的根目录先后执行 maven clean install / maven clean deploy
+
+2、从远程仓库下载，做如下配置
+
+在全局配置文件setting.xml，只配置一个中央仓库的镜像，即mirrorOf为central的镜像只配置一个，此处的mirrorOf不能随便写，要和repository name标签的一致。
+
+maven获取真正起作用的repository集合流程：首先会获取pom.xml里的repository集合，然后在settings.xml里找mirrors元素。如果**repository的id和mirror的mirrorOf**的值相同，则该mirror替代该repository。如果该repository找不到对应的mirror，则使用其本身，依此可以得到最终起作用的repository集合Internal Artifactory Maven repository作为私服，mirrorOf配置为*来提供中央仓库中不存在的jar包。
 
 注意：id和name和代理仓库的Name一致
 
@@ -366,3 +376,7 @@ http://localhost:8082/repository/maven-snapshots/
 	</repository>
 </repositories>
 ```
+
+![image-20201030190555530](../../../插图/image-20201030190555530.png)
+
+先从私服中找，如果没有会去阿里云中心仓库中获取！！！
