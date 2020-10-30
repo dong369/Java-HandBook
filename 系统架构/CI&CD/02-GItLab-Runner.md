@@ -281,7 +281,7 @@ docker run -d --name gitlab-runner --restart always \
 
 1、在gitlab中 设置 --> CI/CD --> Runner(展开) 找到对应的配置信息。
 
-![image-20201025195245176](../../插图/image-20201025195245176.png)
+![image-20201030163432250](../../插图/image-20201030163432250.png)
 
 ![image-20201029172418047](../../插图/image-20201029172418047.png)
 
@@ -324,7 +324,7 @@ gitlab-runner verify
 
 # 4 流程语法
 
-## 4.1 第一部分
+## 4.1 基础流程
 
 job、script、before_script、after_script、stages、stage、variables、.pre、.post
 
@@ -415,20 +415,9 @@ job2:
 
 vi /etc/gitlab-runner/config.toml，修改每次运行任务的个数。
 
-## 4.2 第二部分
+## 4.2 任务限制
 
 tags、allow_failure、when、retry、timeout、parallel
-
-```yaml
-job1-1:
-  stage: build
-  script: 
-    - "echo job1-1"
-job1-2:
-  stage: build
-  script: 
-    - "echo job1-2"
-```
 
 1、tags
 
@@ -515,7 +504,7 @@ job2:
 
 2<=parallel<=50
 
-## 4.3 第三部分
+## 4.3 执行策略
 
 only、except、rules、workflow
 
@@ -541,7 +530,7 @@ if（条件匹配）、changes（文件变化）、exists（文件存在）
 
 always是默认、never
 
-## 4.4 第四部分
+## 4.4 缓存
 
 cache、artifacts、dependencies
 
@@ -549,11 +538,12 @@ cache、artifacts、dependencies
 
 ```yaml
 before_script:
-  - "echo job1"
+  - echo before script
 
 variables:
-  NAME: com.io
-  
+  DOMAIN: com.io
+  JAR_PATH: /opt/soft/jar
+
 cache:
   paths:
     - target/
@@ -562,17 +552,155 @@ stages:
   - build
   - test
   - deploy
-  
+
 build:
   stage: build
-  tags: 
+  tags:
     - build
-  only: 
+  only:
     - master
-  script: 
-    - ls 
+  script:
+    - ls
     - id
     - mvn clean package -DskipTests
     - ls target
+    - echo "$DOMAIN"
+    - false && true ; exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "command failed";fi;
+    - sleep 2;
+
+test:
+  stage: test
+  tags:
+    - build
+  only:
+    - master
+  script:
+    - echo "run test"
+    - echo 'test' >> target/a.txt
+    - ls target
+    - cat target/a.txt
+
+deploy:
+  stage: deploy
+  tags:
+    - build
+  only:
+    - master
+  script:
+    - echo "run deploy"
+    - ls target
+    - echo "deploy" >> target/a.txt
+    - cp -rf target/*.jar $JAR_PATH
+  retry:
+    max: 2
+    when:
+      - script_failure
+
+after_script:
+  - echo after script
 ```
 
+1、cache
+
+存储编译项目所需要的运行时依赖项，全局指定和单独job指定，job指定优先级高。
+
+```yaml
+build: 
+  script: test
+  cache: 
+    paths: 
+      - target/*.jar   // 可以多个
+```
+
+```yaml
+cache: 
+  paths: 
+    - my/file
+    
+build: 
+  script: test
+  cache: 
+    key: build
+    paths: 
+      - target/*.jar   // 当定义全局的cache会被job覆盖
+
+cache: 
+  key: ${CI_COMMIT_REF_SLUG}
+```
+
+key：是缓存标记，默认是default，为每一个job分配一个独立的cache。
+
+policy：参数pull跳过下载步骤、push跳过上传步骤。
+
+## 4.5 制品
+
+1、artifacts
+
+制品，用于指定在作业成功或失败时附加到作业的文件或目录的列表，作业完成后把制品发送到gitlab上，可以在gitlab的UI上进行下载。
+
+```yaml
+artifacts:
+  paths: 
+    - target/
+    
+test:
+  script:
+    - echo 1
+  artifacts:
+    expose_as: 'artifact 1' # 展示制品
+    name: "$CI_JOB_NAME" # $CI_COMMIT_REF_NAME 制品名称
+    when: on_success # on_failure、always 制品创建条件
+    expire_in: 1 week # 制品保留时间，默认30天，不指定单位是秒
+    reports: 
+      junit: target/surefire-reports/TEST-*.xml
+    paths: 
+      - path/to/file.txt
+```
+
+开启单测面板
+
+![image-20201030142739572](../../插图/image-20201030142739572.png)
+
+覆盖率
+
+3、dependencies
+
+
+
+# 5 部署项目
+
+## 5.1 构建打包
+
+1、编写脚本
+
+```yaml
+# 本次构建的阶段：build package
+stages:
+  - build
+  - package
+# 构建 Job
+build:
+  stage: build
+  script:
+    - echo "=== 开始编译构建任务 ==="
+    - mvn compile
+# 打包
+package:
+  stage: package
+  script:
+    - echo "=== 开始打包任务 ==="
+    - mvn package -Dmaven.test.skip=true
+```
+
+2、安装JDK和Maven环境
+
+![image-20201030080645335](../../插图/image-20201030080645335.png)
+
+3、设置maven仓库存储文件的权限，第一次构建和打包比较慢，因为要拉去镜像
+
+![image-20201030130811064](../../插图/image-20201030130811064.png)
+
+4、构建成功
+
+![image-20201030131214983](../../插图/image-20201030131214983.png)
