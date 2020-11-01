@@ -1,8 +1,35 @@
 # 1 Nexus环境
 
+局域网内jar包共享！！！
+
 ## 1.1 下载
 
 
+
+## 1.2 创建仓库
+
+1、创建npm(hosted)私有仓库
+
+hosted改成allow redeploy，这样才能运行重复上传一个包，不然会报400：bad request
+
+![image-20201101182601850](../../../插图/image-20201101182601850.png)
+
+2、创建npm(proxy)仓库
+
+proxy的remote storage设置：当私有仓库和代理仓库缓存包里无请求的包时，就会通过这里配置的地址去服务器下载需要的包，然后再缓存下来。我填的是淘宝镜像：https://registry.npm.taobo.org。npm官网的下载有点慢
+
+![image-20201101182703166](../../../插图/image-20201101182703166.png)
+
+3、创建npm(group)仓库
+
+name: npm-group，是仓库组的名称。可以包含任何npm的仓库。最终npm install等操作时的地址将会是这个仓库组的地址。group中，将刚创建的私有仓库（npm-hosted）和代理仓库(npm-proxy)拖动到右边。
+
+![image-20201101182753431](../../../插图/image-20201101182753431.png)
+
+4、配置权限
+一定不能忘，不然在adduser和publish会一直报错401：Unable to authenticate, need: BASIC realm=“Sonatype Nexus Repository Manager”
+
+![image-20201101182910257](../../../插图/image-20201101182910257.png)
 
 # 2 同步jar包
 
@@ -294,6 +321,10 @@ public class Deploy {
 3、检查上传的目标maven仓库配置Deployment Policy设置为Allow Redeploy而不是Disable Redeploy，这一步比较重要，是否允许重新发布上传。
 
 ![image-20201026110708639](../../../插图/image-20201026110708639.png)
+
+# 3 NPM包
+
+
 
 # 3 项目配置
 

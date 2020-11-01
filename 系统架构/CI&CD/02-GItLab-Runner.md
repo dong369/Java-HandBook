@@ -639,6 +639,25 @@ policy：参数pull跳过下载步骤、push跳过上传步骤。
 
 制品，用于指定在作业成功或失败时附加到作业的文件或目录的列表，作业完成后把制品发送到gitlab上，可以在gitlab的UI上进行下载。
 
+```shell
+default-job:
+  script: 
+    - mvn test -U
+  except:
+    - tages
+    
+release-job:
+  script: 
+    - mvn package -U
+  artifacts:
+    pahts: 
+      - target/*.war
+    only:
+      - tags
+```
+
+expose_as在UI上展示制品
+
 ```yaml
 artifacts:
   paths: 
@@ -658,19 +677,304 @@ test:
       - path/to/file.txt
 ```
 
-开启单测面板
+reports开启单测报告面板
+
+```properties
+su - git
+gitlab-rails console
+Feature.enable(:junit_pipeline_view)
+```
 
 ![image-20201030142739572](../../插图/image-20201030142739572.png)
 
-覆盖率
+cobertura开启覆盖率面板
 
-3、dependencies
+```properties
+su - git
+gitlab-rails console
+Feature.enable(:coverape_report_view)
+```
 
 
 
-# 5 部署项目
+```yaml
+buile:
+  script:
+    - mvn test
+    - mvn cobertura:cobertura
+  artifacts:
+    reports: 
+      junit: target/surefire-reports/TEST-*.xml
+      cobertura: target/site/cobertura/coverape.xml
+```
 
-## 5.1 构建打包
+
+
+## 4.6 获取制品
+
+dependencies获取制品
+
+```yaml
+test: 
+  script: echo aa
+  dependencies:
+    - build
+```
+
+定义要获取工件的作业列表，只能从当前阶段之前执行的阶段定义作业。定义一个空数组将跳过下载该作业的任何工件不会考虑先前作业的状态，因此，如果它失败或是未运行的手动作业，则不会发生错误。如果设置为依赖项的作业的工件已过期或除，那么依项作业将失败。
+
+## 4.7 阶段并行
+
+needs、include、extends、trigger
+
+可无序执行作业，无需按**阶段顺序**运行某些作业，可以让多个阶段同时运行。如果 needs：设置为指向因only/ except规则而来实，化的作业，或者不存在，则创建管道时会出现YAL铅误。
+
+## 4.8 导入配置
+
+1、local本地
+
+可以允许引入外部YAL文件，文件具有扩展名。yml或yaml
+
+使用合并功能可以自定义和覆盞包含本地定义的CI/CD配置
+
+引入同一存储库中的文件，使用相对于根目录的完整路径进行引用，与配置文件在同一分支上使用。
+
+```yaml
+include: 
+  local: 'ci/localci.yml'
+```
+
+2、project项目
+
+```yaml
+include:
+  project: demo-2
+  ref: master
+  file: '.gitlab.yaml'
+```
+
+3、template模板
+
+```yaml
+include:
+  template: '.gitlab.yaml'
+```
+
+4、remote远程配置
+
+```yaml
+include:
+  remote: 'https://gitlab.com/ci-template.yaml'
+```
+
+## 4.9 CI配置文件路径
+
+默认是当前项目的gitlab-ci.yml
+
+![image-20201101172505769](../../插图/image-20201101172505769.png)
+
+## 4.10 继承
+
+extends
+
+```yaml
+job1: 
+  stage: test
+  scripte: echo aa
+
+job2: 
+  stage: test
+  extends: job1
+  script: 
+    - echo bb
+```
+
+## 4.11 触发
+
+trigger触发下游项目！！！
+
+1、多项目管道：跨多个项目设置水线，以便一个项目中的管道可以触发另一个项目中的管道。（服务架构）
+
+```yaml
+job: 
+  trigger:
+    project: demo
+    branch: master
+    strategy: depend
+```
+
+
+
+2、父子管道：在同一项目中管道可以触发一组同时运行的子管道，子管道仍然按照阶段题序执行其每个作业，但是可以自由地继续执行各个阶段，而不必等待父管道中无关的作业完成。
+
+```yaml
+job: 
+  trigger:
+    include: 'ci.yaml'
+    strategy: depend
+```
+
+## 4.12 容器Runner
+
+1、image是起容器，在容器中进行构建。
+
+默认在注 runner的时侯霱要填写一个基础的镜像，请记住一点只要使用执行器为 docker类型的 runner
+所有的操作运行都会在容器中运行。如果全局指定了 lmages则所有作业使用此 imaget创建容器并在其中
+运行。全局未指定 lmage，再次查看job中是否有指定，如果有此job按照指定镜像创建容器并运行，没
+有则使用注册 runner时指定的默认镜像。
+
+```yaml
+image: maven:3.6.3-jdk-8
+```
+
+```yaml
+build: 
+  image: maven:3.6.3-jdk-8
+```
+
+2、services依赖其它服务。
+
+工作期间运行的另一个 Docker镜像，并link到 lmage关键字定义的 Docker像，这样，就可以在构建期间访问服务映像。
+
+服务映像可以运行任何应用程序，但是最常见的用例是运行据库容器，例如 mysql。与每次安装项目时都安装 mysql相比，使用现有映像并将其作为附加容运行更容易，更快接。
+
+```yaml
+services: 
+  - name: mysql:laster
+    alias: mysql
+```
+
+3、environment
+
+工作期间运行的另一个Docker映像，并link到 lmage关键字定义的 Dockers决像。这样，您就可以在构建
+期间访问服务映像。
+
+4、inherit
+
+inherit是12.9版本以后才有。
+
+使用或禁用全局定义的环境变量，默认是true。
+
+```yaml
+inherit:
+  default: false
+  variables: false
+```
+
+
+
+# 5 工具链
+
+## 5.1 基本规划
+
+1、创建一个git仓库用于存放模板
+
+2、创建一个 template目求存放所有pipeline的模板
+
+3、建一个jobs目录存放job模板
+
+这样我们可以将一些 maven、ant、 gradle、npm工具通过一个job模板和不同的构建命令实现。 templates的好处是我们在其中定义了模板流水线，这些流水线可以直接让项目使用。当遇到个性化项目的时候就可以在当前项目创建。 gitlab-ci.yml文件来引用模板文件，再进一步实现个性化需要。
+
+## 5.2 模板库
+
+1、创建项目组，
+
+2、创建项目和对应文件夹
+
+## 5.3 Maven工具集成
+
+1、安装maven环境
+
+2、创建作业模板build.yaml
+
+```yaml
+.build: 
+  stage: build
+  tags: 
+    - build
+  script:
+    - $BUILD_SHELL
+    - ls
+.test: 
+  stage: test
+  tages: 
+    - build
+  script:
+    - $TEST_SHELL
+    -ls
+  artifacts:
+    reports:
+      junit: ${JUNIT_REPORTS_PAHT}
+```
+
+3、创建流水线模板java-pipeline.yml
+
+```yaml
+include: 
+  - project: 'dev/dev-ci-service'
+    ref: master
+    file: 'job/build.yaml'
+    
+variables:
+  BUILD_SHELL: 'mvn clean package -DskipTests' # 构建命令
+  CACHE_DIR: 'target'
+  
+cache: 
+  paths: 
+    - ${CACHE_DIR}
+
+stages: 
+  - build
+  
+build:
+  stage: build
+  extends: .build
+```
+
+4、添加单元测试
+
+## 5.3 NPM工具集成
+
+1、npm环境安装
+
+2、补充build作业模板
+
+```yaml
+include: 
+  - project: 'dev/dev-ci-service'
+    ref: master
+    file: 'job/build.yaml'
+    
+variables:
+  BUILD_SHELL: 'npm run build' # 构建命令
+  CACHE_DIR: 'dist/'
+  
+cache: 
+  paths: 
+    - ${CACHE_DIR}
+    - node_models/
+
+stages: 
+  - install
+  - build
+  
+install: 
+  stage: install
+  script: 
+    - npm install
+  
+build:
+  stage: build
+  extends: .build
+```
+
+3、创建流水线模板
+
+4、添加单元测试
+
+# 6 部署项目
+
+## 6.1 构建打包
 
 1、编写脚本
 
