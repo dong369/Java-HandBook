@@ -972,6 +972,20 @@ build:
 
 4、添加单元测试
 
+## 5.4 SonarQube
+
+1、安装
+
+3、创建codeanalysis.yml
+
+
+
+## 5.5 Gitlab pull集成
+
+
+
+
+
 # 6 部署项目
 
 ## 6.1 构建打包
