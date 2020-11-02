@@ -364,7 +364,7 @@ npm login --registry=http://xx.xx.xx.xx:8081/repository/npm-hosted/ # 输入用�
 npm publish --registry=http://xx.xx.xx.xx:8081/repository/npm-hosted/
 ```
 
-![image-20201102185057901](../../../插图/image-20201102185057901.png)
+![image-20201102191300827](../../../插图/image-20201102191300827.png)
 
 5、执行下载
 
@@ -592,7 +592,7 @@ maven获取真正起作用的repository集合流程：首先会获取pom.xml里�
 	<repository>
 		<id>maven-public</id>
 		<name>maven-public</name>
-		<url>http://10.4.128.97:8081/repository/maven-public/</url>
+		<url>http://xx.xx.xx.xx:8081/repository/maven-public/</url>
 		<snapshots>
 			<enabled>false</enabled>
 		</snapshots>
