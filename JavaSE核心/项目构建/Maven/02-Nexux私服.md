@@ -8,28 +8,38 @@
 
 ## 1.2 创建仓库
 
-1、创建npm(hosted)私有仓库
+1、创建npm（hosted）私有仓库
 
 hosted改成allow redeploy，这样才能运行重复上传一个包，不然会报400：bad request
 
-![image-20201101182601850](../../../插图/image-20201101182601850.png)
+![image-20201102164205940](../../../插图/image-20201102164205940.png)
 
-2、创建npm(proxy)仓库
+选择对应的参考类型
 
-proxy的remote storage设置：当私有仓库和代理仓库缓存包里无请求的包时，就会通过这里配置的地址去服务器下载需要的包，然后再缓存下来。我填的是淘宝镜像：https://registry.npm.taobo.org。npm官网的下载有点慢
+![image-20201102164304871](../../../插图/image-20201102164304871.png)
 
-![image-20201101182703166](../../../插图/image-20201101182703166.png)
+
+
+![image-20201102164456715](../../../插图/image-20201102164456715.png)
+
+2、创建npm（proxy）仓库
+
+name：npm-proxy的remote storage设置：当私有仓库和代理仓库缓存包里无请求的包时，就会通过这里配置的地址去服务器下载需要的包，然后再缓存下来。我填的是淘宝镜像：https://registry.npm.taobo.org。npm官网的下载有点慢
+
+![image-20201101182703166](../../../插图/image-20201102164736374.png)
 
 3、创建npm(group)仓库
 
-name: npm-group，是仓库组的名称。可以包含任何npm的仓库。最终npm install等操作时的地址将会是这个仓库组的地址。group中，将刚创建的私有仓库（npm-hosted）和代理仓库(npm-proxy)拖动到右边。
+name：npm-group，是仓库组的名称。可以包含任何npm的仓库。最终npm install等操作时的地址将会是这个仓库组的地址。group中，将刚创建的私有仓库（npm-hosted）和代理仓库（npm-proxy）拖动到右边。
 
-![image-20201101182753431](../../../插图/image-20201101182753431.png)
+![image-20201102165414302](../../../插图/image-20201102165414302.png)
 
 4、配置权限
-一定不能忘，不然在adduser和publish会一直报错401：Unable to authenticate, need: BASIC realm=“Sonatype Nexus Repository Manager”
+一定不能忘，不然在adduser和publish会一直报错401：
 
-![image-20201101182910257](../../../插图/image-20201101182910257.png)
+Unable to authenticate, need: BASIC realm="Sonatype Nexus Repository Manager"
+
+![image-20201102165614340](../../../插图/image-20201102165614340.png)
 
 # 2 同步jar包
 
@@ -324,7 +334,192 @@ public class Deploy {
 
 # 3 NPM包
 
+```shell
+npm config set registry http://xx.xx.xx.xx:8081/repository/npm-hosted/
+```
 
+## 3.1 命令上传
+
+1、创建一个文件夹test-npm
+
+2、初始化package.json文件
+
+```js
+npm init -y
+```
+
+在文件夹中创建js文件如：index.js
+
+3、进入test-npm文件夹，登录私服
+
+当npm adduser和npm login时，操作的仓库**一定是hosted**，是私有的，不能是group。因为我们的包是要发布到hosted。
+
+```yaml
+npm login --registry=http://xx.xx.xx.xx:8081/repository/npm-hosted/ # 输入用户名、密码、邮箱
+```
+
+4、执行上传
+
+```yaml
+npm publish --registry=http://xx.xx.xx.xx:8081/repository/npm-hosted/
+```
+
+![image-20201102185057901](../../../插图/image-20201102185057901.png)
+
+5、执行下载
+
+```json
+npm install test-npm@1.0.0
+npm -loglevel info install test-npm@1.0.0
+```
+
+![image-20201102190326414](../../../插图/image-20201102190326414.png)
+
+## 3.2 批量上传
+
+```java
+package com.io.sync;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.Objects;
+
+/**
+ * The class/interface
+ * 如果你的nexus已经配置好，并且可以单个手动上传，那么可以试试下面的批量上传！！！
+ *
+ * @author guod
+ * @version 1.0 use jdk 1.8
+ */
+public class NpmDeploy {
+    /**
+     * 示例   我的 npm 包都在 F:\\file\\demo\\node_modules 下.
+     * 我就给这个路径
+     * 执行后会在我当前输入的路径后. F:\\file\\demo\\ 下生成两个txt文件.
+     * successLoad.txt 为npm包上传成功的文件信息
+     * errorLoad.txt 为npm包上传失败的文件信息!!
+     */
+    public static void main(String[] args) {
+        String files = NpmDeploy.getFiles("D:\\dev\\soft\\Webs\\node-v12.18.4-win-x64\\node_modules\\npm\\node_modules");
+        System.out.println(files);
+    }
+
+    /**
+     * 获取每一个上传的 npm 包的路径
+     *
+     * @param path = 根路径,比如项目文件 node_modules
+     */
+    public static String getFiles(String path) {
+        File file = new File(path);
+        int[] count = {0, 0};     //0 = 上传成功,  1= 上传失败
+        if (file.isDirectory()) {
+            // 获取路径下的所有文件
+            File[] files = file.listFiles();
+            for (int i = 0; i < Objects.requireNonNull(files).length; i++) {
+                //如果还是文件夹 递归获取里面的文件 文件夹
+                if (files[i].isDirectory()) {
+                    System.out.println("开始上传：" + files[i].getName() + "包\t" + "目录：" + files[i].getPath());
+                    //上传npm包
+                    System.out.println(isPackage(files[i], count));
+                } else {
+                    String message = (count[1] += 1) + "\t\t\t" + files[i].getName() + "文件不是 NPM 包 , 路径：" + files[i].getPath();
+                    System.out.println(message);
+                    //写入错误上传信息.该路径为 node_modules 包的父级路径下\\errorLoad.txt
+                    fileWrite(file, message, "errorLoad.txt");
+                }
+            }
+        } else {
+            return "路径输入错误,该路径不是node_modules集合：" + file.getPath();
+        }
+        return "上传完毕,成功上传" + count[0] + "个文件";
+    }
+
+
+    /**
+     * 上传npm包
+     *
+     * @param file  = 当前npm包的路径,
+     * @param count = 写入提示信息文件时的下标!!
+     * @return = 提示信息
+     */
+    public static String isPackage(File file, int[] count) {
+        InputStream error = null;
+        File[] files = file.listFiles();
+        for (int i = 0; i < Objects.requireNonNull(files).length; i++) {
+            if (files[i].isFile() && files[i].getName().equals("package.json")) {
+                try {
+                    //执行上传npm 包的语句
+                    //这里的 cmd /c F: 需要更改,你要上传的npm包在哪个盘你就改成什么
+                    //比如路径在 `D` 盘, 那么改成    command.append("cmd /c D:");
+                    String command = "cmd /c D:" +
+                            String.format(" && cd %s", file.getPath()) +
+                            //这里为自己的NPM私服路径
+                            " && npm publish -registry=http://xx.xx.xx.xx:8081/repository/npm-hosted/";
+                    Process p = Runtime.getRuntime().exec(command);
+                    error = p.getErrorStream(); //获取执行cmd命令后的错误信息
+
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(error, Charset.forName("GBK")));
+                    String s;
+                    //输出命令执行后的提示信息
+                    while ((s = errorReader.readLine()) != null) {
+                        System.out.println(s);
+                    }
+                    errorReader.close();
+                    p.waitFor();
+                    if (p.exitValue() != 0) {
+                        File errorFile = file.getParentFile();
+                        String message = (count[1] += 1) + "\t\t\t" + file.getName() + "文件上传失败,路径:" + file.getPath();
+                        fileWrite(errorFile, message, "errorLoad.txt");
+                        return file.getName() + "包上传失败";
+                    } else {
+                        File errorFile = file.getParentFile();
+                        String message = (count[0] += 1) + "\t\t\t" + file.getName() + "文件上传成功,路径:" + file.getPath();
+                        fileWrite(errorFile, message, "successLoad.txt");
+                        return file.getName() + "包上传成功";
+                    }
+                } catch (Exception e) {
+                    if (error != null) {
+                        try {
+                            error.close();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    return e.getMessage();
+                }
+            }
+        }
+        File errorFile = file.getParentFile();
+        String message = (count[1] += 1) + "\t\t\t" + file.getName() + "没有package.json 文件,路径:" + file.getPath();
+        fileWrite(errorFile, message, "errorLoad.txt");
+        return file.getName() + "上传失败,没有package.json文件";
+    }
+
+
+    /**
+     * 文件上传成功和失败后. 写入文件存储执行信息!
+     *
+     * @param file
+     * @param message
+     * @param fileName
+     */
+    private static void fileWrite(File file, String message, String fileName) {
+        try {
+            String path = file.getParent() + File.separator + fileName;
+            File parentDir = new File(path); // null
+            if (!file.exists()) {
+                boolean newFile = parentDir.createNewFile();//如果txt文件不存在,那么创建
+            }
+            FileWriter writer = new FileWriter(parentDir, true);
+            writer.write(message + System.getProperty("line.separator"));
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 
 # 3 项目配置
 
