@@ -28,7 +28,7 @@ name：npm-proxy的remote storage设置：当私有仓库和代理仓库缓存�
 
 ![image-20201101182703166](../../../插图/image-20201102164736374.png)
 
-3、创建npm(group)仓库
+3、创建npm（group）仓库
 
 name：npm-group，是仓库组的名称。可以包含任何npm的仓库。最终npm install等操作时的地址将会是这个仓库组的地址。group中，将刚创建的私有仓库（npm-hosted）和代理仓库（npm-proxy）拖动到右边。
 
@@ -42,6 +42,14 @@ Unable to authenticate, need: BASIC realm="Sonatype Nexus Repository Manager"
 ![image-20201102165614340](../../../插图/image-20201102165614340.png)
 
 # 2 同步jar包
+
+maven-releases，type是hosted
+
+maven-snapshots，type是hosted
+
+maven-central，type是proxy
+
+maven-public，type是group
 
 ## 2.1 Nexus3界面
 
@@ -521,7 +529,7 @@ public class NpmDeploy {
 }
 ```
 
-# 3 项目配置
+# 3 Maven项目
 
 ## 3.1 maven配置
 
@@ -606,3 +614,7 @@ maven获取真正起作用的repository集合流程：首先会获取pom.xml里�
 ![image-20201030190555530](../../../插图/image-20201030190555530.png)
 
 先从私服中找，如果没有会去阿里云中心仓库中获取！！！
+
+# 4 Npm项目
+
+## 4.1 
