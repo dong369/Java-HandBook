@@ -22,6 +22,10 @@ Stable Version：nginx-1.18.0
 yum install -y gcc gcc-c++ pcre pcre-devel zlib zlib-devel openssl openssl-devel
 ```
 
+![image-20201105133735139](../../插图/image-20201105133735139.png)
+
+![image-20201105133747814](../../插图/image-20201105133747814.png)
+
 ### 1.2.2 进行安装
 
 > 01解压源码
@@ -437,11 +441,11 @@ public class FileUploadUtils {
      * @throws Exception
      */
     private String executeUpload(String uploadDir, MultipartFile file) throws Exception {
-        //文件后缀名
+        // 文件后缀名
         String suffix = file.getOriginalFilename().substring(Objects.requireNonNull(file.getOriginalFilename()).lastIndexOf("."));
-        //上传文件名
+        // 上传文件名
         String filename = UUID.randomUUID() + suffix;
-        //服务器端保存的文件对象
+        // 服务器端保存的文件对象
         File serverFile = new File(uploadDir + filename);
         // 将上传的文件写入到服务器端文件内
         // file.transferTo(serverFile);
