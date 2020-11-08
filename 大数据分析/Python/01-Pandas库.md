@@ -20,3 +20,12 @@ pandas有两个主要数据结构：Series和DataFrame。
 
 
 
+# 2 数据类型
+
+int、float、bool、str、列表[]、元组()、集合{}、字典
+
+序列：str、list、tuple
+
+切片："hello"[1:-1]
+
+![image-20201108162623846](../../插图/image-20201108162623846.png)
