@@ -29,3 +29,24 @@ int、float、bool、str、列表[]、元组()、集合{}、字典
 切片："hello"[1:-1]
 
 ![image-20201108162623846](../../插图/image-20201108162623846.png)
+
+```python
+print(bin(3))
+print(oct(8))
+print(int(11))
+print(hex(17))
+a = 12
+b = 24.4
+c = "cc"
+d = []
+e = set()
+f = {1, 2}
+g = {}
+h = {'name': 'guo'}
+i = (1, 2)
+
+print(type(a), type(b), type(c), type(d), type(e), type(f), type(g), type(h), type(i))
+```
+
+
+
