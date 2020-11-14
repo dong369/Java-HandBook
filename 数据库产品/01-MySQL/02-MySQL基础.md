@@ -1050,9 +1050,9 @@ else [default result]
 end
 这种条件下，返回的结果取决于相应的条件测试是否为真。
 示例：
-mysql>select case 'green'
-     when 'red' then 'stop'
-     when 'green' then 'go' end;
+select case 'green'
+    when 'red' then 'stop'
+    when 'green' then 'go' end;
 select case 9 when 1 then 'a' when 2 then 'b' else 'n/a' end;
 select case when (2+2)=4 then 'ok' when(2+2)<>4 then 'not ok' end asstatus;
 select name,if((isactive = 1),'已激活','未激活') as result fromuserlogininfo;
@@ -1063,6 +1063,14 @@ when (math+sci+lit) between 151 and 250 then 'b'
 else 'a' end
 as grade from marks;
 select if(encrypt('sue','ts')=upass,'allow','deny') as loginresultfrom users where uname = 'sue';#一个登陆验证
+# 统计
+select
+  a.BILL_TYPE,
+  sum(a.PRICE_SUM) AS PRICE_SUM,
+  sum(CASE WHEN a.BILL_TYPE = 1 THEN a.PRICE_SUM ELSE 0 END) AS PRICE_SUM,
+  sum(CASE WHEN a.BILL_TYPE = 1 THEN a.TAX_SUM ELSE 0 END)  AS TAX_SUM
+from tb_bill_info a
+group by a.BILL_TYPE;
 
 七、格式化函数
 date_format(date,fmt)  依照字符串fmt格式化日期date值
@@ -1152,32 +1160,28 @@ begin end; ==> begin; commit;；说明：mysql事务控制begin后需要加分�
 select 1, 1 from dual
  `union`
  `select 1, 1 from dual`
- ==>
+
  `select 1 as a, 1 as b from dual`
  `union`
  `select 1 as a, 1 as b from dual`
 
- 说明：mysql的union查询的每个字段名必须不同
+说明：mysql的union查询的每个字段名必须不同
 
-**mapper.xml:**
+mapper.xml:
  `<selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >`
  `select seq_VEM_ORG.nextval from dual`
  `</selectKey>`
  `insert into VEM_ORG (ID, NAME)`
  `values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR})`
- ==>
+
  `<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >`
  `SELECT LAST_INSERT_ID()`
  `</selectKey>`
  `insert into vem_org (NAME)`
  `values (#{name,jdbcType=VARCHAR})`
 
- 说明：oracle使用sequence，在插入新值前查询下一个id。mysql使用自增主键，插入新值时无须显示为id赋值。在插入新值后通过SELECT LAST_INSERT_ID()可获取最新插入的值的id。
-
-
+说明：oracle使用sequence，在插入新值前查询下一个id。mysql使用自增主键，插入新值时无须显示为id赋值。在插入新值后通过SELECT LAST_INSERT_ID()可获取最新插入的值的id。
 ```
-
-
 
 # 4 子查询
 
