@@ -945,6 +945,13 @@ min(col)返回指定列的最小值
 max(col)返回指定列的最大值
 sum(col)返回指定列的所有值之和
 group_concat(col) 返回由属于一组的列值连接组合而成的结果
+select
+a.BILL_TYPE,
+sum(a.PRICE_SUM) AS PRICE_SUM,
+sum(CASE WHEN a.BILL_TYPE = 1 THEN a.PRICE_SUM ELSE 0 END) AS PRICE_SUM,
+sum(CASE WHEN a.BILL_TYPE = 1 THEN a.TAX_SUM ELSE 0 END)  AS TAX_SUM
+from tb_bill_info a
+group by a.BILL_TYPE;
 
 三、字符串函数
 ascii(char)返回字符的ascii码值
@@ -1055,22 +1062,14 @@ select case 'green'
     when 'green' then 'go' end;
 select case 9 when 1 then 'a' when 2 then 'b' else 'n/a' end;
 select case when (2+2)=4 then 'ok' when(2+2)<>4 then 'not ok' end asstatus;
-select name,if((isactive = 1),'已激活','未激活') as result fromuserlogininfo;
+select name,if((isactive = 1),'已激活','未激活') as result from userlogininfo;
 select fname,lname,(math+sci+lit) as total,
 case when (math+sci+lit) < 50 then 'd'
 when (math+sci+lit) between 50 and 150 then 'c'
 when (math+sci+lit) between 151 and 250 then 'b'
 else 'a' end
 as grade from marks;
-select if(encrypt('sue','ts')=upass,'allow','deny') as loginresultfrom users where uname = 'sue';#一个登陆验证
-# 统计
-select
-  a.BILL_TYPE,
-  sum(a.PRICE_SUM) AS PRICE_SUM,
-  sum(CASE WHEN a.BILL_TYPE = 1 THEN a.PRICE_SUM ELSE 0 END) AS PRICE_SUM,
-  sum(CASE WHEN a.BILL_TYPE = 1 THEN a.TAX_SUM ELSE 0 END)  AS TAX_SUM
-from tb_bill_info a
-group by a.BILL_TYPE;
+select if(encrypt('sue','ts')=upass,'allow','deny') as loginresult from users where uname = 'sue'; #一个登陆验证
 
 七、格式化函数
 date_format(date,fmt)  依照字符串fmt格式化日期date值
