@@ -1,4 +1,7 @@
+https://www.bilibili.com/video/BV1vp4y1179g?p=1
+
 # 1 课程介绍
+
 都在学习Vue基本的语法和概念；打包工具 Webpack , Gulp
 以项目驱动教学；
 
