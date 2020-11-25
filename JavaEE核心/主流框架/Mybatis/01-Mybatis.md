@@ -133,10 +133,6 @@ concat(concat('%',#{keyword},'%'))
 '%${param}%'
 ```
 
-
-
-
-
 # 3 数据分页
 
 ## 3.1 实例
@@ -215,15 +211,63 @@ otherwise属于可选的，当所有条件都不满足的时候，otherwise将�
 
 上面2个案例的sql中都有where 1=1这部分代码，虽然可以解决问题，但是看起来不美观，如果将where 1=1中1=1这部分干掉，上面的两个案例都会出问题，where后面会多一个AND符号，mybatis中已经考虑到这种问题了，属于通用性的问题，mybatis中通过where 元素来解决，当使用where元素的时候，mybatis会将where内部拼接的sql进行处理，会将这部分sql前面的AND 或者 OR给去掉，并在前面追加一个where，我们使用where元素来对上面的案例1进行改造。
 
+```sql
+<select id="getList2" resultType="com.javacode2018.chat05.demo8.model.UserModel" parameterType="map">
+    SELECT id,name,age FROM t_user
+    <where>
+        <choose>
+            <when test="id!=null">
+                AND id = #{id}
+            </when>
+            <when test="name!=null and name.toString()!=''">
+                AND name = #{name}
+            </when>
+            <when test="age!=null">
+                AND age = #{age}
+            </when>
+        </choose>
+    </where>
+</select>
+```
+
+
+
 ## 4.4 set元素
 
 
+
+```sql
+<update id="update1" parameterType="com.javacode2018.chat05.demo8.model.UserModel">
+    UPDATE t_user
+    <set>
+        <if test="name!=null">
+            name = #{name},
+        </if>
+        <if test="age!=null">
+            age = #{age},
+        </if>
+    </set>
+    <where>
+        <if test="id!=null">
+            AND id = #{id}
+        </if>
+    </where>
+</update>
+```
 
 
 
 ## 4.5 trim元素
 
+trim元素内部可以包含各种动态sql，如where、chose、sql等各种元素，使用trim包含的元素，mybatis处理过程：
 
+1. 先对trim内部的sql进行拼接，比如这部分sql叫做sql1
+2. 将sql1字符串前面的部分中包含trim的prefixOverrides指定的部分给去掉，得到sql2
+3. 将sql2字符串后面的部分中包含trim的suffixOverrides指定的部分给去掉，得到sql3
+4. 在sql3前面追加trim中prefix指定的值，得到sql4
+5. 在sql4后面追加trim中suffix指定的值，得到最终需要拼接的sql5
+
+了解了这个过程之后，说明可以通过trim来代替where和set
 
 
 
