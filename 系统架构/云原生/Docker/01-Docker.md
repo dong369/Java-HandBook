@@ -381,7 +381,7 @@ gitlab_rails['gitlab_shell_ssh_port'] = 222 # 此端口是run时22端口映射�
 docker restart gitlab
 ```
 
-
+docker run --name some-postgresql -e POSTGRES_PASSWORD=passw0rd -p 5432:5432 --restart=always -d postgres
 
 # 5 IDEA整合Docker
 
