@@ -194,6 +194,12 @@ ERROR: for nacos Cannot start service nacos: driver failed programming external 
 解决办法：
 systemctl restart docker
 
+
+
+## 2.6 离线安装
+
+https://www.cnblogs.com/songxingzhu/p/10651197.html
+
 # 3 命令操作
 
 ## 3.1 基础命令

@@ -253,6 +253,8 @@ server {
 
 ## 2.4 Server节点配置
 
+**特别注意：**如果要是多个服务对应server，html文件夹中的index.html和50x.html不要删除，否则会出现找不到页面的情况！！！
+
 ```properties
 server {
     listen 8081;
