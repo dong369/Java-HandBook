@@ -389,6 +389,23 @@ docker restart gitlab
 
 docker run --name some-postgresql -e POSTGRES_PASSWORD=passw0rd -p 5432:5432 --restart=always -d postgres
 
+
+
+```undefined
+docker search minio
+docker pull minio/minio
+docker run -it -p 9000:9000 -d minio/minio server /data
+
+
+docker run -p 9000:9000 --name minio \
+-d --restart=always \
+-e "MINIO_ACCESS_KEY=root" \
+-e "MINIO_SECRET_KEY=passw0rd" \
+-v /home/devuser/data:/data \
+-v /home/devuser/config:/root/.minio \
+minio/minio server /data
+```
+
 # 5 IDEA整合Docker
 
 ## 5.1 安装插件
