@@ -40,13 +40,15 @@ echo $JAVA_HOME
 yum search java|grep jdk
 yum install java-1.8.0-openjdk.x86_64
 ls /usr/lib/jvm
+
 vi /etc/profile
-	#set java environment
-	JAVA_HOME=/usr/lib/jvm/jdk1.8.0_202
-	JRE_HOME=$JAVA_HOME/jre
-	CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
-	PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
-	export JAVA_HOME JRE_HOME CLASS_PATH PATH
+# set java environment
+JAVA_HOME=/usr/lib/jvm/jdk1.8.0_202
+JRE_HOME=$JAVA_HOME/jre
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+
 source /etc/profile
 ```
 
@@ -64,7 +66,7 @@ java -version
 ```properties
 1、/etc/profile:在登录时,操作系统定制用户环境时使用的第一个文件,此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行。
 2、/etc/environment:在登录时操作系统使用的第二个文件,系统在读取你自己的profile前,设置环境文件的环境变量。
-3、~/.bash_profile:在登录时用到的第三个文件是.profile文 件,每个用户都可使用该文件输入专用于自己使用的shell信息,当用 户登录时,该 文件仅仅执行一次!默认情况下,他设置一些环境变游戏量,执 行用户的.bashrc文件。/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该 文件被读取.
+3、~/.bash_profile:在登录时用到的第三个文件是.profile文件,每个用户都可使用该文件输入专用于自己使用的shell信息,当用 户登录时,该 文件仅仅执行一次!默认情况下,他设置一些环境变游戏量,执 行用户的.bashrc文件。/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该 文件被读取.
 4、~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。
 ```
 
@@ -351,7 +353,7 @@ mkfs.ext4 /dev/vdb1
 mount -t ext4 /dev/vdb1 /data/
 # 查看格式
 lsblk -f
-df -tH（df -hl）
+df -hT（df -hl）
 ```
 
 # 7 第三方库
@@ -359,6 +361,6 @@ df -tH（df -hl）
 ## 7.1 Git
 
 ```properties
-yum install -y git
+yum -y install git
 ```
 
