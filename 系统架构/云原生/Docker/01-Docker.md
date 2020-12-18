@@ -349,8 +349,11 @@ docker run --name some-redis -p 6379:6379 -v redis-data:/data -d [REPOSITORY&IMA
 ```
 ## 4.7 Mongo服务
 ```
-docker pull nginx
+docker pull mongo
 docker run --name some-mongo -p 27017:27017 -d [REPOSITORY&IMAGE ID]
+
+
+docker run -d -p 27017:27017 --name some-mongo -e MONGO_INITDB_ROOT_USERNAME=用户名 -e MONGO_INITDB_ROOT_PASSWORD=密码 -v $PWD/db:/data/db mongo
 ```
 ## 4.8 RabbitMQ服务
 ```
