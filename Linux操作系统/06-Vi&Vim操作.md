@@ -2,15 +2,39 @@
 
 ## 1.1 使用目的
 
+在工作中，要对**服务器**上的文件进行**简单** 的修改，可以使用 `ssh` 远程登录到服务器上，并且使用 `vi` 进行快速的编辑即可。
 
+在没有图形界面的环境下，要编辑文件，vi是最佳选择。
+
+每一个要使用Linux的程序员，都应该或多或少的学习一些 `vi` 的常用命令。
 
 ## 1.2 Vi和Vim
 
+`vi` 是 `Visual interface` 的简称，是 `Linux` 中**最经典**的文本编辑器；`vi` 的核心设计思想是让程序员的手指始终**保持在键盘的核心区域**，就能完成所有的编辑操作。
+
+`vim` 是从 `vi` 发展出来的一个文本编辑器，支持**代码补全**、**编译**及**错误跳转**等方便编程的功能特别丰富，在程序员中被广泛使用，被称为 **编辑器之神**。
+
+在很多`Linux` 发行版中直接把 `vi` 做成 `vim` 的软连接。
+
+```shell
+# 查找 vi 的运行文件
+$ which vi
+$ ls -l /usr/bin/vi
+$ ls -l /etc/alternatives/vi
+$ ls -l /usr/bin/vim.basic
+
+# 查找 vim 的运行文件
+$ which vim
+$ ls -l /usr/bin/vim
+$ ls -l /etc/alternatives/vim
+$ ls -l /usr/bin/vim.basic 
+```
+
 ![001_vi键盘](../插图/001_vi键盘.png)
 
-## 3.1 安装
+## 3.1 安装Vim
 
-1. 没有安装前
+1、没有安装前
 
 ```properties
 [root@localhost ~]# rpm -qa|grep vim
@@ -18,7 +42,7 @@ vim-minimal-7.4.160-5.el7.x86_64
 [root@localhost ~]# 
 ```
 
-2. 安装后
+2、安装后
 
 ```properties
 [root@localhost ~]# rpm -qa|grep vim
@@ -29,7 +53,7 @@ vim-minimal-7.4.160-5.el7.x86_64
 [root@localhost ~]# 
 ```
 
-3. 安装操作（根据安装前返回列表和安装后的对比，缺少哪个安装哪个）
+3、安装操作（根据安装前返回列表和安装后的对比，缺少哪个安装哪个）
 
 ```properties
 yum -y install vim-enhanced
@@ -40,15 +64,15 @@ yum -y install vim*
 
 ## 2.1 文件
 
-白色：表示普通文件
+白色：表示**普通文件**
 
-蓝色：表示目录
+蓝色：表示**目录**
 
-绿色：表示可执行文件
+绿色：表示**可执行**文件
 
-红色：表示压缩文件
+红色：表示**压缩**文件
 
-浅蓝色：链接文件
+浅蓝色：**链接**文件
 
 红色闪烁：表示链接的文件有问题
 
@@ -60,43 +84,41 @@ yum -y install vim*
 
 > 本篇文章引导你通过熟练使用Linux
 
-```properties
-touch  filename                              // 创建文件
-echo content  >  filename                    // 给文件添加内容[覆盖添加内容，原内容被删除]
->  filename                                  // 置空文件
-echo content  >> filename                    // 给文件追加内容
-echo content  >/>>  newfilename              // 会创建一个新的文件，并且有添加内容[重定向方式]
-wc  文件               // 计算文件行数
-cat/more/less         // 输出文件内容
-head -n  文件          // 查看文件前n行内容
-tail -n  文件          // 查看文件末尾n行内容
-less -N  文件          // 带行号查看
+```shell
+$ touch  filename                    // 创建文件
+$ echo content  >  filename          // 给文件添加内容[覆盖添加内容，原内容被删除]
+$ >  filename                        // 置空文件
+$ echo content  >> filename          // 给文件追加内容
+$ echo content  >/>>  newfilename    // 会创建一个新的文件，并且有添加内容[重定向方式]
+$ wc  文件               // 计算文件行数
+$ cat/more/less         // 输出文件内容
+$ head -n  文件          // 查看文件前n行内容
+$ tail -n  文件          // 查看文件末尾n行内容
+$ less -N  文件          // 带行号查看
 ```
 
 ## 2.2 文件夹
 
-```properties
-mkdir  hehe/xixi
-mkdir -p first/second/third      // 递归创建3个目录 加-p选项
-mv book.txt  shu.txt             // 改名字，地址只要不存在就是改名字
-mv  ten/bread.ods  firstt        // 移动，只要地址是存在的目录就是移动
-cp -r /a /b                      // 复制"目录"需要添加参数-R
-rm -rf /a                        // 可以删除一切普通的目录或文件 递归
-mkdir -p server1/{data,log} server2/{data,log} server3/{data,log}   // 创建多个文件夹
-mkdir -pm 777 usedir // 指定文件夹的权限 
+```shell
+$ mkdir  hehe/xixi
+$ mkdir -p first/second/third      // 递归创建3个目录 加-p选项
+$ mv book.txt  shu.txt             // 改名字，地址只要不存在就是改名字
+$ mv  ten/bread.ods  firstt        // 移动，只要地址是存在的目录就是移动
+$ cp -r /a /b                      // 复制"目录"需要添加参数-R
+$ rm -rf /a                        // 可以删除一切普通的目录或文件 递归
+$ mkdir -p server1/{data,log} server2/{data,log} server3/{data,log}   // 创建多个文件夹
+$ mkdir -pm 777 usedir // 指定文件夹的权限 
 ```
 
 ## 2.3 异常处理
 
 如果 `vi` 异常退出，在磁盘上可能会保存有 **交换文件**
 
-下次再使用 `vi` 编辑该文件时，会看到以下屏幕信息，按下字母 `d` 可以 **删除交换文件** 即可
+下次再使用 `vi` 编辑该文件时，会看到以下屏幕信息，按下字母 `d` 可以 **删除交换文件**即可
 
 > 提示：按下键盘时，注意关闭输入法
 
 ![image-20201219122931679](../插图/image-20201219122931679.png)
-
-
 
 # 3 三种模式
 
@@ -145,7 +167,7 @@ mkdir -pm 777 usedir // 指定文件夹的权限
 | `I`    | 插入到行的开始位置 |
 | `a`    | 插入到光标的后面   |
 | `A`    | 插入到行的最后位置 |
-| `o, O` | 新开一行           |
+| `o, O` | 下、上新开一行     |
 | `Esc`  | 关闭插入模式       |
 
 ## 3.4 末行模式
@@ -534,7 +556,7 @@ egrep -v "^$|#" 文件名
 ls | grep vim
 ```
 
-# 9 分屏
+# 9 分屏操作
 
 属于`vi` 的高级命令 —— 可以 **同时编辑和查看多个文件**
 
@@ -577,14 +599,14 @@ ls | grep vim
 
 
 
-# 10 Vim配置
+# 10 偏好配置
 
-## 10.1 自定义vimrc
+## 10.1 vimrc
 
 * `vimrc` 是 `vim` 的配置文件，可以设置 vim 的配置，包括：**热键**、**配色**、**语法高亮**、**插件** 等
 * `Linux` 中 `vimrc` 有两个位置，**家目录下的配置文件优先级更高**
 
-```
+```shell
 /etc/vim/vimrc
 ~/.vimrc
 ```
