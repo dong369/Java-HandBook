@@ -1,12 +1,14 @@
-# 1 JDK配置
+# 1 Java环境
 
-## 1.1 官网下载
+## 1 JDK配置
+
+### 1.1 官网下载
 
 [163镜像中心下载地址](http://mirrors.163.com/)
 
 演示使用版本：CentOS-7-x86_64-Minimal-1810.iso
 
-## 1.2 官方JDK安装
+### 1.2 官方JDK安装
 
 第一步：打开	vi /etc/profile
 
@@ -32,7 +34,7 @@ source /etc/profile
 echo $JAVA_HOME
 ```
 
-## 1.3 OpenJDK 安装
+### 1.3 OpenJDK安装
 
 1. 安装
 
@@ -61,16 +63,17 @@ yum -y remove tzdata-java.noarch
 java -version
 ```
 
-## 1.4 环境变量
+### 1.4 环境变量
 
 ```properties
 1、/etc/profile:在登录时,操作系统定制用户环境时使用的第一个文件,此文件为系统的每个用户设置环境信息,当用户第一次登录时,该文件被执行。
 2、/etc/environment:在登录时操作系统使用的第二个文件,系统在读取你自己的profile前,设置环境文件的环境变量。
-3、~/.bash_profile:在登录时用到的第三个文件是.profile文件,每个用户都可使用该文件输入专用于自己使用的shell信息,当用 户登录时,该 文件仅仅执行一次!默认情况下,他设置一些环境变游戏量,执 行用户的.bashrc文件。/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该 文件被读取.
-4、~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。
+3、~/.bash_profile:在登录时用到的第三个文件是.profile文件,每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次!默认情况下,他设置一些环境变游戏量,执行用户的.bashrc文件。
+4、/etc/bashrc:为每一个运行bash shell的用户执行此文件.当bash shell被打开时,该文件被读取。
+5、~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。
 ```
 
-优先级：1>2>3>4
+优先级：1>2>3>4>5
 
 # 2 防火墙配置
 
@@ -89,7 +92,7 @@ java -version
 
 ## 2.2 V-7之后
 
-1. firewalld的基本使用
+1、firewalld的基本使用
 
 ```properties
 启动：systemctl start firewalld
@@ -99,7 +102,7 @@ java -version
 开机启用：systemctl enable firewalld
 ```
 
-2. systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
+2、systemctl是CentOS7的服务管理工具中主要的工具，它融合之前service和chkconfig的功能于一体。
 
 ```properties
 启动一个服务：systemctl start firewalld.service
@@ -113,7 +116,7 @@ java -version
 查看启动失败的服务列表：systemctl --failed
 ```
 
-3. 配置firewalld-cmd
+3、配置firewalld-cmd
 
 ```properties
 查看版本：firewall-cmd --version
@@ -128,7 +131,7 @@ java -version
 查看是否拒绝：firewall-cmd --query-panic
 ```
 
-4. CentOS 7怎么开启一个端口
+4、CentOS 7怎么开启一个端口
 
 > 22、80、8080、3306、6379
 

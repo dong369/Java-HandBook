@@ -47,6 +47,8 @@ show_channel_urls: true
 ssl_verify: true
 ```
 
+
+
 # 3 Conda
 
 ## 3.1 基本命令
