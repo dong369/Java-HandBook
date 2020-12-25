@@ -1,5 +1,3 @@
-Flask课堂笔记
-
 # 1 HTTP通信与Web框架
 
 ## 1.1 流程
@@ -22,41 +20,31 @@ Flask课堂笔记
 
 客户端不一定是浏览器，也可以是PC软件、手机APP、程序
 
-根据服务器端的工作，将其分为两部分：
+根据服务器端的工作，将其分为两部分：服务器、业务程序
 
 服务器：与客户端进行tcp通信，接收、解析、打包、发送http格式数据
 
 业务程序：根据解析后的请求数据执行逻辑处理，形成要返回的数据交给服务器
 
-服务器与Python业务程序的配合使用WSGI协议
+服务器与Python业务程序的配合使用**WSGI协议**。
 
 ## 1.3 Web框架
 
 能够被服务器调用起来，根据客户端的不同请求执行不同的逻辑处理形成要返回的数据的程序
 
- 
-
 核心：实现路由和视图（业务逻辑处理）
-
- 
 
 ## 1.4 框架的轻重
 
 重量级的框架：为方便业务程序的开发，提供了丰富的工具、组件，如Django
 
- 
-
 轻量级的框架：只提供Web框架的核心功能，自由、灵活、高度定制，如Flask、Tornado、Bottle
-
- 
 
 ## 1.5 明确Web开发的任务
 
 视图开发：根据客户端请求实现业务逻辑（视图）编写
 
 模板、数据库等其他的都是为了帮助视图开发，不是必备的
-
- 
 
 # 2 认识Flask
 
@@ -98,7 +86,7 @@ admin后台管理站点
 
 而这些，flask都没有，都需要扩展包来提供
 
-## 2.3 Flask扩展包：
+## 2.3 Flask扩展包
 
 Flask-SQLalchemy：操作数据库；
 
@@ -126,11 +114,13 @@ Flask-Moment：本地化日期和时间；
 
 # 3 创建虚拟环境
 
+## 3.1 Virtual
+
 虚拟环境是一个互相隔离的目录
 
-\1.    mkvirtualenv flask_py2
+1、mkvirtualenv flask_py2
 
-\2.    pip install flask==0.10.1
+2、pip install flask==0.10.1
 
  
 
@@ -138,11 +128,44 @@ pip freeze > requirements.txt
 
 pip install –r requirements.txt
 
-# 4 Flask的Hello world程序
+## 3.2 Conda
 
-![文本框: # coding:utf-8  # 导入Flask类 from flask import Flask  #Flask类接收一个参数__name__ app = Flask(../../../../Java-HandBook/插图/clip_image001.gif)  # 装饰器的作用是将路由映射到视图函数index @app.route('/') def index():     return 'Hello World'  # Flask应用程序实例的run方法启动WEB服务器 if __name__ == '__main__':     app.run() ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image001.gif)
+```py
+conda -V
+conda create -n py2.6 python=2.6
+conda activate py2.6
+activate py2.6
+deactivate
+```
 
- 
+# 4 视图
+
+```python
+# 导入Flask类
+from flask import Flask
+
+# Flask类接收一个参数__name__
+app = Flask(__name__)
+
+
+# 装饰器的作用是将路由映射到视图函数index
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
+@app.route('/java')
+def java():
+    return "java", 200
+
+
+# Flask应用程序实例的run方法启动WEB服务器
+if __name__ == '__main__':
+    app.run()
+
+```
+
+
 
 ## 4.1 Flask创建app对象
 
@@ -158,15 +181,19 @@ template_folder: 默认‘templates’
 
 ### 4.1.2 配置参数
 
-app.config.from_pyfile(“yourconfig.cfg”) 或
+app.config.from_pyfile(“yourconfig.cfg”) 
+
+或
 
 app.config.from_object()
 
- 
-
 ### 4.1.3 在视图读取配置参数
 
-app.config.get() 或者 current_app.config.get()
+app.config.get() 
+
+或 
+
+current_app.config.get()
 
 ### 4.1.4 app.run的参数
 
@@ -238,17 +265,13 @@ from flask import abort
 
 def error(e):
 
-  return '您请求的页面不存在了，请确认后再次访问！%s'%e
-
- 
+return '您请求的页面不存在了，请确认后再次访问！%s'%e
 
 ## 4.5 返回的响应数据 
 
 ### 4.5.1 元组
 
 可以返回一个元组，这样的元组必须是 **(response, status, headers)** 的形式，且至少包含一个元素。 status 值会覆盖状态代码， headers 可以是一个列表或字典，作为额外的消息标头值。
-
- 
 
 ### 4.5.2 make_response
 
@@ -257,8 +280,6 @@ resp = make_response()
 resp.headers[“sample”] = “value”
 
 resp.status = “404 not found”
-
- 
 
 ## 4.6 使用jsonify返回json数据
 
@@ -340,7 +361,9 @@ teardown_request(response)：在每次请求后运行，即使有未处理的异
 
  
 
-# 5.  Flask-Script扩展命令行
+# 5 Flask扩展
+
+## 5.1 Flask-Script
 
 pip install Flask-Script
 
@@ -348,7 +371,17 @@ pip install Flask-Script
 
 ![文本框: from flask import Flask from flask_script import Manager  app = Flask(../../../../Java-HandBook/插图/clip_image010.gif)  manager = Manager(app)  @app.route('/') def index():     return '床前明月光'  if __name__ == "__main__":     manager.run()    ... ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image010.gif)
 
-# 6.  Jinja2模板
+## 5.2 Flask-SQLalchemy
+
+```properties
+pip install flask-sqlalchemy
+
+pip install flask-mysqldb
+```
+
+
+
+# 6 Jinja2模板
 
 ## 6.1 基本流程
 
@@ -374,91 +407,62 @@ pip install Flask-Script
 
   <p>{{ '<em>hello</em>' | safe }}</p>
 
- 
-
 **capitalize****：把变量值的首字母转成大写，其余字母转小写；**
 
   <p>{{ 'hello' | capitalize }}</p>
-
- 
 
 **lower****：把值转成小写；**
 
   <p>{{ 'HELLO' | lower }}</p>
 
- 
-
 **upper****：把值转成大写；**
 
   <p>{{ 'hello' | upper }}</p>
-
- 
 
 **title****：把值中的每个单词的首字母都转成大写；**
 
   <p>{{ 'hello' | title }}</p>
 
- 
-
 **trim****：把值的首尾空格去掉；**
 
   <p>{{ ' hello world ' | trim }}</p>
-
- 
 
 **reverse:****字符串反转；**
 
   <p>{{ 'olleh' | reverse }}</p>
 
- 
-
 **format:****格式化输出；**
 
   <p>{{ '%s is %d' | format('name',17) }}</p>
-
- 
 
 **striptags****：渲染之前把值中所有的HTML****标签都删掉；**
 
   <p>{{ '<em>hello</em>' | striptags }}</p>
 
- 
-
 ### 6.3.2 支持链式使用过滤器
 
 <p>{{ “ hello world  “ | trim | upper }}</p>
-
 ### 6.3.3 列表过滤器
 
 **first****：取第一个元素**
 
   <p>{{ [1,2,3,4,5,6] | first }}</p>
 
- 
-
 **last****：取最后一个元素**
 
   <p>{{ [1,2,3,4,5,6] | last }}</p>
-
- 
 
 **length****：获取列表长度**
 
   <p>{{ [1,2,3,4,5,6] | length }}</p>
 
- 
-
 **sum****：列表求和**
 
   <p>{{ [1,2,3,4,5,6] | sum }}</p>
 
- 
-
 **sort****：列表排序**
 
   <p>{{ [6,2,3,1,5,4] | sort }}</p>
-
- 
 
 ### 6.3.4 自定义过滤器
 
@@ -630,4 +634,17 @@ include
 
  
 
- 
+# 7 数据库 
+
+
+
+
+
+# 8 测试
+
+
+
+
+
+# 9 部署
+

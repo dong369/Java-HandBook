@@ -1,4 +1,4 @@
-# 1  理论知识
+# e1  理论知识
 
 ## 1.1 概念
 
@@ -55,9 +55,9 @@ ssl_verify: true
 
 ```shell
 # 版本信息
-conda --version
+conda --version & conda -V
 # 当前环境信息
-conda info
+conda info & conda info
 ```
 
 ## 3.2 下载依赖
@@ -77,7 +77,7 @@ conda update --all
 
 ```python
 # 1、创建环境
-conda create --name <env_name> <package_names>
+conda create -n env_name python=3.6 & conda create --name env_name python=3.6
 conda create --name <new_env_name> --clone <copied_env_name>
 # 2、查看当前环境列表
 conda info --envs & conda info -e & conda env list
