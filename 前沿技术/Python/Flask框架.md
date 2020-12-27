@@ -144,7 +144,7 @@ deactivate
 # 导入Flask类
 from flask import Flask
 
-# Flask类接收一个参数__name__
+# Flask类接收一个参数__name__表示当前模块的名字。模块名，flask是以这个模块所在的目录为总目录，默认情况这个目录中的static为静态目录，templates为模板目录
 app = Flask(__name__)
 
 
@@ -406,39 +406,30 @@ pip install flask-mysqldb
 **safe****：禁用转义；**
 
   <p>{{ '<em>hello</em>' | safe }}</p>
-
 **capitalize****：把变量值的首字母转成大写，其余字母转小写；**
 
   <p>{{ 'hello' | capitalize }}</p>
-
 **lower****：把值转成小写；**
 
   <p>{{ 'HELLO' | lower }}</p>
-
 **upper****：把值转成大写；**
 
   <p>{{ 'hello' | upper }}</p>
-
 **title****：把值中的每个单词的首字母都转成大写；**
 
   <p>{{ 'hello' | title }}</p>
-
 **trim****：把值的首尾空格去掉；**
 
   <p>{{ ' hello world ' | trim }}</p>
-
 **reverse:****字符串反转；**
 
   <p>{{ 'olleh' | reverse }}</p>
-
 **format:****格式化输出；**
 
   <p>{{ '%s is %d' | format('name',17) }}</p>
-
 **striptags****：渲染之前把值中所有的HTML****标签都删掉；**
 
   <p>{{ '<em>hello</em>' | striptags }}</p>
-
 ### 6.3.2 支持链式使用过滤器
 
 <p>{{ “ hello world  “ | trim | upper }}</p>
@@ -447,23 +438,18 @@ pip install flask-mysqldb
 **first****：取第一个元素**
 
   <p>{{ [1,2,3,4,5,6] | first }}</p>
-
 **last****：取最后一个元素**
 
   <p>{{ [1,2,3,4,5,6] | last }}</p>
-
 **length****：获取列表长度**
 
   <p>{{ [1,2,3,4,5,6] | length }}</p>
-
 **sum****：列表求和**
 
   <p>{{ [1,2,3,4,5,6] | sum }}</p>
-
 **sort****：列表排序**
 
   <p>{{ [6,2,3,1,5,4] | sort }}</p>
-
 ### 6.3.4 自定义过滤器
 
 自定义的过滤器名称如果和内置的过滤器重名，会覆盖内置的过滤器。
@@ -648,3 +634,6 @@ include
 
 # 9 部署
 
+gunicorn 并不支持windows，只能在linux 上跑
+
+gunicorn -w 4 -b 127.0.0.1:5000 -D --access-logfile ./log/log main:app
