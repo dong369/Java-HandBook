@@ -1,4 +1,4 @@
-# e1  理论知识
+# 1  理论知识
 
 ## 1.1 概念
 
@@ -35,7 +35,7 @@ E:\Anaconda\Library\bin（jupyter notebook动态库）
 
 conda config --add channels r
 
-修改：C:\Users\guodd\\.condarc
+修改：C:\Users\guodd\\.condarc，如果是Linux系统，文件在/root下
 
 ```shell
 channels:
@@ -45,6 +45,14 @@ channels:
   - defaults
 show_channel_urls: true
 ssl_verify: true
+```
+
+
+
+```properties
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
 ```
 
 
@@ -77,7 +85,7 @@ conda update --all
 
 ```python
 # 1、创建环境
-conda create -n env_name python=3.6 & conda create --name env_name python=3.6
+conda create -n py3.6 python=3.6 & conda create --name env_name python=3.6
 conda create --name <new_env_name> --clone <copied_env_name>
 # 2、查看当前环境列表
 conda info --envs & conda info -e & conda env list

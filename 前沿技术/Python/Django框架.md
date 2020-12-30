@@ -308,13 +308,19 @@ from booktest.models import BookInfo,HeroInfo
 
 ## 1.7 后台管理
 
-1) 本地化
+### 1.7.1 初始化数据库
+
+
+
+
+
+### 1.7.2 本地化
 
 语言和时区的本地化。
 
 修改settings.py文件。
 
-2) 创建管理员
+### 1.7.3 创建管理员
 
 命令：python manage.py createsuperuser
 

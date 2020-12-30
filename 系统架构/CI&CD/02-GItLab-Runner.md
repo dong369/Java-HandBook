@@ -260,6 +260,10 @@ b)直接继承Gitlab-Runner 在上面做修改
 
 由于方法二的代码改动量较少,此时列出方法2的Dockerfile和docker-compose.yml(未整理)
 
+
+
+docker run -d --name gitlab-runner --restart always -v /home/devuser/gitlab-runner/config:/etc/gitlab-runner -v /home/devuser/run/docker.sock:/var/run/docker.sock -d gitlab-runner
+
 ## 3.2 docker
 
 1、拉取镜像
