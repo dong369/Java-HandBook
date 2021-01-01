@@ -270,7 +270,7 @@ sudo docker run -p 3306:3306 \
     -v /home/mysql/data:/var/lib/mysql \
     -e MYSQL_ROOT_PASSWORD=passw0rd \
     --restart=always \
-    -d mysql
+    -d mysql:5.7
 ```
 > `-p` 3306:3306：将容器的3306端口映射到主机的3306端口
 >  `-v` 将主机~/mysql/logs目录挂载到容器的/logs
