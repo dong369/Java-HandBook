@@ -284,7 +284,7 @@ sudo docker run -p 3306:3306 \
 ```shell
 docker pull wnameless/oracle-xe-11g
 
-docker run --name oracle -d -p 1521:1521 \
+docker run --name some-oracle -d -p 1521:1521 \
            -v /home/docker/data/oracle_data:/data/oracle_data \
            -e ORACLE_ALLOW_REMOTE=true \
            --restart=always wnameless/oracle-xe-11g
