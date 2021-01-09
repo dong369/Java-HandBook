@@ -2,7 +2,7 @@
 
 局域网内jar包共享！！！
 
-## 1.1 下载
+## 1.1 下载安装
 
 
 
@@ -85,7 +85,7 @@ mvn -s D:\dev\maven\apache-maven-3.6.3\conf\settings.xml deploy:deploy-file -Dur
 
 ## 2.3 批量上传
 
-1、maven配置
+1、maven配置settings.xml文件
 
 ```java
 <servers>
@@ -336,7 +336,7 @@ public class Deploy {
 }
 ```
 
-3、检查上传的目标maven仓库配置Deployment Policy设置为Allow Redeploy而不是Disable Redeploy，这一步比较重要，是否允许重新发布上传。
+3、检查上传的目标maven仓库配置Deployment Policy设置为Allow Redeploy而不是Disable Redeploy，这一步比较重要，**是否允许重新发布上传**。
 
 ![image-20201026110708639](../../../插图/image-20201026110708639.png)
 
@@ -570,7 +570,7 @@ http://localhost:8082/repository/maven-snapshots/
 
 ## 3.2 项目pom
 
-1、Maven推送当前项目到私服，在项目pom.xml文件中，做如下配置
+1、项目发布管理，Maven推送当前项目到私服，在项目pom.xml文件中，做如下配置
 
 ```xml
 <distributionManagement>
@@ -617,4 +617,6 @@ maven获取真正起作用的repository集合流程：首先会获取pom.xml里�
 
 # 4 Npm项目
 
-## 4.1 
+## 4.1 Npm配置
+
+1

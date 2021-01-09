@@ -1,12 +1,12 @@
 # 1 什么是spring?
 
-Spring是个java企业级应用的开源开发框架。Spring主要用来开发Java应用，但是有些扩展是针对构建J2EE平台的web应用。Spring框架目标是简化Java企业级应用开发，并通过POJO为基础的编程模型促进良好的编程习惯。
+Spring是个java企业级应用的开源开发框架。Spring主要用来开发Java应用，但是有些扩展是针对构建J2EE平台的web应用。Spring框架目标是**简化Java企业级应用开发**，并通过**POJO为基础的编程模型**促进良好的编程习惯。
 
 # 2 使用Spring框架的好处是什么？
 
-**轻量：**Spring是轻量的非侵入式，基本的版本大约2MB。
+**轻量：**Spring是轻量的**非侵入式**，基本的版本大约2MB。
 
-**控制反转：**Spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们。
+**控制反转(IOC)：**Spring通过控制反转实现了松散耦合，对象们给出它们的依赖，而不是创建或查找依赖的对象们。
 
 **面向切面的编程(AOP)：**Spring支持面向切面的编程，并且把应用业务逻辑和系统服务分开。
 
@@ -22,31 +22,7 @@ Spring是个java企业级应用的开源开发框架。Spring主要用来开发J
 
 以下是Spring框架的基本模块：
 
-·         Coremodule
-
-·         Beanmodule
-
-·         Contextmodule
-
-·         ExpressionLanguagemodule
-
-·         JDBCmodule
-
-·         ORMmodule
-
-·         OXMmodule
-
-·         JavaMessagingService(JMS)module
-
-·         Transactionmodule
-
-·         Webmodule
-
-·         Web-Servletmodule
-
-·         Web-Strutsmodule
-
-·         Web-Portletmodule
+![体系结构](../插图/系统架构/微服务/体系结构.png)
 
 # 4 核心容器（应用上下文)模块。
 
@@ -74,7 +50,7 @@ AOP模块用于发给我们的Spring应用做面向切面的开发，很多支�
 
 Spring通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring支持集成主流的ORM框架，如Hiberate,JDO和iBATISSQLMaps。Spring的事务管理同样支持以上所有ORM框架及JDBC。
 
-**10.****解释WEB模块。**
+# 10 解释WEB模块
 
 Spring的WEB模块是构建在applicationcontext模块基础之上，提供一个适合web应用的上下文。这个模块也包括支持多种面向web的任务，如透明地处理多个文件上传请求和程序级请求参数的绑定到你的业务对象。它也有对JakartaStruts的支持。
 
