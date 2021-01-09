@@ -263,7 +263,7 @@ E: Unable to locate package vim
 sudo docker pull mysql  # 拉取最新版本的镜像，当前为 MySQL 8 版本，tag 为 latest
 sudo docker pull mysql:5.7 # 指定拉取 MySQL 5.7 版本
 
-sudo docker run -p 3306:3306 \
+sudo docker run -p 3307:3306 \
     --name mysql \
     -v /home/mysql/conf:/etc/mysql/conf.d \
     -v /home/mysql/logs:/logs \
