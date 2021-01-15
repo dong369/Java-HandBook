@@ -43,6 +43,8 @@ docker run \
     beginor/gitlab-ce:11.3.0-ce.0
 ```
 
+进入容器，查看版本gitlab-rake gitlab:env:info
+
 ## 2.2 上传&运行
 
 1. 上传执行

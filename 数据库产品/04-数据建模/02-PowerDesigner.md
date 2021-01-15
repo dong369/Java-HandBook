@@ -17,6 +17,10 @@ MySQL的ODBC[下载地址](https://dev.mysql.com/downloads/connector/odbc/)，�
 
 自行查阅！！
 
+## 1.4 达梦
+
+
+
 # 2 数据库操作
 
 ## 2.1 Windows机器
@@ -42,6 +46,10 @@ MySQL的ODBC[下载地址](https://dev.mysql.com/downloads/connector/odbc/)，�
 1、操作：Database=>Edit Current DBMS，进入下图页面
 
 ![image-20200717114854250](../../插图/image-20200717114854250.png)
+
+特殊：达梦数据库选择ODBC 3.0
+
+![达梦数据库](../../../../Java-HandBook/插图/达梦数据库.png)
 
 ## 2.3 编码配置
 

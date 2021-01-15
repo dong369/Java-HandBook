@@ -1,8 +1,8 @@
-# 1 HTTP通信与Web框架
+# 1 HTTP通信
 
 ## 1.1 流程
 
-客户端将请求打包成HTTP的请求报文（HTTP协议格式的请求数据）
+客户端将**请求**打包成HTTP的请求报文（HTTP协议格式的请求数据）
 
 采用TCP传输发送给服务器端
 
@@ -28,43 +28,39 @@
 
 服务器与Python业务程序的配合使用**WSGI协议**。
 
-## 1.3 Web框架
+# 2 Web框架
+
+## 2.1 Web框架
 
 能够被服务器调用起来，根据客户端的不同请求执行不同的逻辑处理形成要返回的数据的程序
 
 核心：实现路由和视图（业务逻辑处理）
 
-## 1.4 框架的轻重
+## 2.2 框架的轻重
 
 重量级的框架：为方便业务程序的开发，提供了丰富的工具、组件，如Django
 
 轻量级的框架：只提供Web框架的核心功能，自由、灵活、高度定制，如Flask、Tornado、Bottle
 
-## 1.5 明确Web开发的任务
+## 2.3 Web开发的任务
 
 视图开发：根据客户端请求实现业务逻辑（视图）编写
 
 模板、数据库等其他的都是为了帮助视图开发，不是必备的
 
-# 2 认识Flask
+# 3 认识Flask
 
-## 2.1 简介
+## 3.1 简介
 
 Flask诞生于2010年，是Armin ronacher（人名）用Python语言基于Werkzeug工具箱编写的轻量级Web开发框架。它主要面向需求简单的小应用。
 
- 
-
 Flask本身相当于一个内核，其他几乎所有的功能都要用到扩展（邮件扩展Flask-Mail，用户认证Flask-Login），都需要用第三方的扩展来实现。比如可以用Flask-extension加入ORM、窗体验证工具，文件上传、身份验证等。Flask没有默认使用的数据库，你可以选择MySQL，也可以用NoSQL。其 WSGI 工具箱采用 Werkzeug（路由模块） ，模板引擎则使用 Jinja2 。
 
- 
+可以说Flask框架的**核心就是Werkzeug和Jinja2**。 
 
-可以说Flask框架的核心就是Werkzeug和Jinja2。
+Python最出名的框架要数Django，此外还有Flask、Tornado等框架。虽然Flask不是最出名的框架，但是Flask应该算是**最灵活**的框架之一，这也是Flask受到广大开发者喜爱的原因。
 
- 
-
-Python最出名的框架要数Django，此外还有Flask、Tornado等框架。虽然Flask不是最出名的框架，但是Flask应该算是最灵活的框架之一，这也是Flask受到广大开发者喜爱的原因。
-
-## 2.2 与Django对比
+## 3.2 与Django对比
 
 django提供了：
 
@@ -82,11 +78,9 @@ admin后台管理站点
 
 用户认证系统
 
- 
-
 而这些，flask都没有，都需要扩展包来提供
 
-## 2.3 Flask扩展包
+## 3.3 Flask扩展包
 
 Flask-SQLalchemy：操作数据库；
 
@@ -106,15 +100,15 @@ Flask-Bootstrap：集成前端Twitter Bootstrap框架；
 
 Flask-Moment：本地化日期和时间；
 
-## 2.4 Flask文档
+## 3.4 Flask文档
 
 中文文档： http://docs.jinkan.org/docs/flask/
 
 英文文档： http://flask.pocoo.org/docs/0.11/
 
-# 3 创建虚拟环境
+# 4 创建虚拟环境
 
-## 3.1 Virtual
+## 4.1 Virtual
 
 虚拟环境是一个互相隔离的目录
 
@@ -128,7 +122,7 @@ pip freeze > requirements.txt
 
 pip install –r requirements.txt
 
-## 3.2 Conda
+## 4.2 Conda
 
 ```py
 conda -V
@@ -138,7 +132,7 @@ activate py2.6
 deactivate
 ```
 
-# 4 视图
+# 5 视图
 
 ```python
 # 导入Flask类
@@ -167,10 +161,11 @@ if __name__ == '__main__':
 
 
 
-## 4.1 Flask创建app对象
+## 5.1 app对象
 
-### 4.1.1 初始化参数
+### 5.1.1 初始化参数
 
+```python
 import_name: 
 
 static_url_path:
@@ -178,102 +173,303 @@ static_url_path:
 static_folder: 默认‘static’
 
 template_folder: 默认‘templates’
+```
 
-### 4.1.2 配置参数
+### 5.1.2 配置参数
 
+```python
 app.config.from_pyfile(“yourconfig.cfg”) 
 
 或
 
 app.config.from_object()
+```
 
-### 4.1.3 在视图读取配置参数
+### 5.1.3 在视图读取配置参数
 
+```python
 app.config.get() 
-
 或 
-
 current_app.config.get()
+```
 
-### 4.1.4 app.run的参数
+### 5.1.4 app.run的参数
 
+```python
 app.run(host=”0.0.0.0”, port=5000)
+```
 
-## 4.2 路由
+### 5.1.5 应用配置
 
-### 4.2.1 app.url_map 查看所有路由
+在Django中，有一个程序的配置文件settings.py，但是在flask中并没有settings.py这个文件，不过不必担心，flask提供了3种应用配置的方式，分别如下：
+
+- app.config.from_pyfile(file)：使用配置文件
+- app.config.from_object(obj)：使用对象配置参数
+- app.config：直接操作全局对象
+
+1、文件配置
+
+```python
+DEBUG = True
+SQLALCHEMY_DATABASE_URI = mysql://root:passw0rd@127.0.0.1:3306/test
+SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_ECHO = True
+
+# 文件名: 配置文件一般是.cfg结尾
+app.config.from_pyfile("config.cfg")
+```
+
+2、对象配置
+
+```python
+class Config(object):
+    DEBUG = True
+    ITCAST = 'PYTHON'
+
+app.config.from_object(Config)
+```
+
+3、直接配置
+
+```python
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:passw0rd@127.0.0.1:3306/test'
+# 设置每次请求结束后会自动提交数据库中的改动
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# 查询时会显示原始SQL语句
+app.config['SQLALCHEMY_ECHO'] = True
+db = SQLAlchemy(app)
+```
+
+
+
+```python
+# 导入Flask类
+from flask import Flask, render_template, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+import json
+
+# Flask类接收一个参数__name__
+app = Flask(__name__)
+app.config.from_pyfile("config.cfg")
+db = SQLAlchemy(app)
+db.init_app(app)
+
+
+class Person(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(32), unique=True)
+    password = db.Column(db.String(32))
+    nickname = db.Column(db.String(32), default="", comment="信息")
+    age = db.Column(db.Integer, default=18)
+    gender = db.Column(db.String(16), default="男")
+    score = db.Column(db.Float, nullable=True)
+
+
+db.create_all()
+
+
+# 装饰器的作用是将路由映射到视图函数index
+@app.route('/')
+def hello_world():
+    return render_template("demo.html")
+
+
+@app.route('/hello', methods=["GET"])
+def hello():
+    return 'hello1'
+
+
+@app.route('/hello', methods=['POST'])
+def hello2():
+    return 'hello2'
+
+
+@app.route('/hi1')
+@app.route('/hi2')
+def hi():
+    return 'hi page'
+
+
+@app.route('/java/<userId>', methods=['GET'])
+def java(userId):
+    print(userId)
+    return "java", 200
+
+
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    # request中包含了前端发送过来的所有数据
+    # 通过request.form可以直接提取请求体中表单格式的数据，是一个类
+    name = request.form.get("name", "zhangsan")
+    age = request.form.get('age')
+    print(request.form)
+    return "hello name=%s, age=%s " % (name, age)
+
+
+@app.route('/json1')
+def json1():
+    # json就是字符串
+    data = {
+        "name": "ah",
+        "age": 24
+    }
+
+    # json.dumps(字典) 将python的字典转换为json字符串
+    # json.loads(字符串) 将字符串转换为python中的字典
+
+    json_str = json.dumps(data)
+    #
+    # return json_str, 200, {'Content-Type': 'application/json'}
+
+    # jsonify帮助转为json数据，并设置响应头 Content-Type 为 application/json
+    return jsonify(data)
+    # return jsonify(city='sz', country='china')
+
+
+# 定义错误的处理方法
+@app.errorhandler(404)
+def handle_404_error(err):
+    """自定义处理错误方法"""
+    # 这个函数的返回值会是前端用户看到的最终结果
+
+    return "出现了404错误，错误信息: %s" % err
+
+
+# Flask应用程序实例的run方法启动WEB服务器
+if __name__ == '__main__':
+    print(app.url_map)
+    app.run()
+
+```
+
+
+
+## 5.2 路由
+
+### 5.2.1 app.url_map查看所有路由
 
  
 
-### 4.2.2 同一路由装饰多个视图函数
+### 5.2.2 同一路由装饰多个视图函数
 
  
 
-### 4.2.3 同一视图多个路由装饰器
+### 5.2.3 同一视图多个路由装饰器
 
  
 
-### 4.2.4 利用methods限制访问方式
+### 5.2.4 利用methods限制访问方式
 
 @app.route('/sample', methods=['GET', 'POST'])
 
-### 4.2.5 使用url_for进行反解析
+### 5.2.5 使用url_for进行反解析
 
  
 
-### 4.2.5 动态路由
+### 5.2.6 动态路由
 
-![文本框: # 路由传递的参数默认当做string处理，这里指定int，尖括号中冒号后面的内容是动态的 @app.route(../../../../Java-HandBook/插图/clip_image002.gif'/user/<int:id>') def hello_itcast(id):     return 'hello itcast %d' %id ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image002.gif)
 
-![img](../../../../Java-HandBook/插图/clip_image004.gif)
 
-### 4.2.5 自定义转换器
+### 5.2.7 自定义转换器
 
-![文本框: from flask import Flask from werkzeug.routing import BaseConverter  class Regex_url(../../../../Java-HandBook/插图/clip_image005.gif):     def __init__(self,url_map,*args):         super(Regex_url,self).__init__(url_map)         self.regex = args[0]  app = Flask(__name__) app.url_map.converters['re'] = Regex_url  @app.route('/user/<re("[a-z]{3}"):id>') def hello_itcast(id):     return 'hello %s' %id ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image005.gif)
 
-## 4.3 获取请求参数
 
+## 5.3 请求参数
+
+```python
 from flask import request
+```
 
- 
+就是Flask中表示当前请求的request对象，request对象中保存了一次HTTP请求的一切信息。request常用属性如下:
 
-就是 Flask 中表示当前请求的 request 对象，request对象中保存了一次HTTP请求的一切信息。
+### 5.3.1 mimetype
 
-![img](../../../../Java-HandBook/插图/clip_image007.gif)
+| 属性    | 说明                           | 类型           |
+| :------ | :----------------------------- | :------------- |
+| data    | 记录请求的数据，并转换为字符串 | ·              |
+| form    | 记录请求中的表单数据           | MultiDict      |
+| args    | 记录请求中的查询参数           | MultiDict      |
+| cookies | 记录请求中的cookie信息         | Dict           |
+| headers | 记录请求中的报文头             | EnvironHeaders |
+| method  | 记录请求使用的HTTP方法         | GET/POST       |
+| url     | 记录请求的URL地址              | string         |
+| files   | 记录请求上传的文件             | ·              |
 
-### 4.3.1 上传文件
+### 5.3.2 form表单
+
+```python
+@app.route("/index", methods=["GET", "POST"])
+def index():
+    # request中包含了前端发送过来的所有数据
+    # form和data，查询请求体数据
+    name = request.form.get("name", "zhangsan")
+    age = request.form.get('age')
+
+    print(request.data) # 二进制的数据
+    print(request.data.decode('utf8')) # 需要解码成utf8
+    return "hello name=%s, age=%s" % (name, age, city)
+
+
+@app.route("/index", methods=["GET", "POST"])
+def index():
+   # request中包含了前端发送过来的所有数据
+   # 通过request.form可以直接提取请求体中表单格式的数据，是一个类
+   name = request.form.get("name", "zhangsan")
+   age = request.form.get('age')
+   print(request.form)
+   return "hello name=%s, age=%s " % (name, age)
+```
+
+
+
+### 5.3.3 json字符串
+
+```python
+
+```
+
+
+
+### 5.3.4 上传文件
+
+request.files
 
 已上传的文件存储在内存或是文件系统中一个临时的位置。你可以通过请求对象的 files 属性访问它们。每个上传的文件都会存储在这个字典里。它表现近乎为一个标准的 Python file 对象，但它还有一个 save() 方法，这个方法允许你把文件保存到服务器的文件系统上。这里是一个用它保存文件的例子:
 
  
 
-![文本框: from flask import request  @app.route(../../../../Java-HandBook/插图/clip_image008.gif'/upload', methods=['GET', 'POST']) def upload_file():     if request.method == 'POST':         f = request.files['the_file']         f.save('/var/www/uploads/uploaded_file.txt')     ... ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image008.gif)
+
 
 如果你想知道上传前文件在客户端的文件名是什么，你可以访问 filename 属性。但请记住， 永远不要信任这个值，这个值是可以伪造的。如果你要把文件按客户端提供的文件名存储在服务器上，那么请把它传递给 Werkzeug 提供的 secure_filename() 函数:
 
-![文本框: from flask import request from werkzeug import secure_filename  @app.route(../../../../Java-HandBook/插图/clip_image009.gif) def upload_file():     if request.method == 'POST':         f = request.files['the_file']         f.save('/var/www/uploads/' + secure_filename(f.filename))     ... ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image009.gif)
 
-## 4.4 abort函数与自定义异常处理
 
-### 4.4.1 abort函数
+## 5.4 异常处理
+
+### 5.4.1 abort函数
 
 from flask import abort
 
-### 4.4.2 自定义异常处理
+### 5.4.2 自定义异常处理
 
+```python
 @app.errorhandler(404)
 
 def error(e):
 
 return '您请求的页面不存在了，请确认后再次访问！%s'%e
+```
 
-## 4.5 返回的响应数据 
+## 5.5 响应数据 
 
-### 4.5.1 元组
+### 5.5.1 元组
 
-可以返回一个元组，这样的元组必须是 **(response, status, headers)** 的形式，且至少包含一个元素。 status 值会覆盖状态代码， headers 可以是一个列表或字典，作为额外的消息标头值。
+可以返回一个元组，这样的元组必须是 **(response, status, headers)** 的形式，且至少包含一个元素。 status 值会覆盖状态代码， headers可以是一个列表或字典，作为额外的消息标头值。
 
-### 4.5.2 make_response
+### 5.5.2 make_response
 
 resp = make_response()
 
@@ -281,17 +477,19 @@ resp.headers[“sample”] = “value”
 
 resp.status = “404 not found”
 
-## 4.6 使用jsonify返回json数据
+### 5.5.3 Json数据
 
  
 
-## 4.5 重定向
+### 5.5.4 重定向
 
 from flask import redirect
 
  
 
-## 4.6 设置和读取cookie
+## 5.6 cookie
+
+### 设置和读取
 
 make_response
 
@@ -303,7 +501,9 @@ set_cookie(key, value=’’, max_age=None)
 
 delete_cookie(key)
 
-## 4.7 session
+## 5.7 session
+
+### 设置和读取
 
 from flask import session
 
@@ -313,9 +513,9 @@ from flask import session
 
  
 
-## 4.8 请求上下文与应用上下文
+## 5.8 上下文
 
- 
+###  请求上下文与应用上下文
 
 请求上下文(request context) 
 
@@ -335,7 +535,7 @@ g:处理请求时，用于临时存储的对象，每次请求都会重设这个
 
  
 
-## 4.9 请求钩子
+## 5.9 请求钩子
 
 请求钩子是通过装饰器的形式实现，Flask支持如下四种请求钩子：
 
@@ -361,15 +561,13 @@ teardown_request(response)：在每次请求后运行，即使有未处理的异
 
  
 
-# 5 Flask扩展
+# 6 Flask扩展
 
 ## 5.1 Flask-Script
 
 pip install Flask-Script
 
- 
 
-![文本框: from flask import Flask from flask_script import Manager  app = Flask(../../../../Java-HandBook/插图/clip_image010.gif)  manager = Manager(app)  @app.route('/') def index():     return '床前明月光'  if __name__ == "__main__":     manager.run()    ... ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image010.gif)
 
 ## 5.2 Flask-SQLalchemy
 
@@ -381,23 +579,17 @@ pip install flask-mysqldb
 
 
 
-# 6 Jinja2模板
+# 7 Jinja2模板
+
+flask本身没有加载模板的能力，需要开发者自己编写，但是目前flask使用了三方的模板系统：jinja2模板系统，jinja2是仿照django的模板系统开发的一套模板系统，但是功能比django的模板系统强。
 
 ## 6.1 基本流程
 
-![文本框: <!DOCTYPE html> <html lang="en"> <head>     <meta charset="UTF-8">     <title>Template</title> </head> <body>     <h1>hello {{ name }}</h1> </body> </html> ](../../../../Java-HandBook/插图/clip_image011.gif)
-
- 
-
-![文本框: @app.route(../../../../Java-HandBook/插图/clip_image012.gif"/") def index():     return render_template("index.html", name="python") ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image012.gif)
-
- 
-
-使用flask 中的**render_template**渲染模板
+使用flask中的**render_template**渲染模板
 
 ## 6.2 变量
 
-![文本框: <p>{{mydict['key']}}</p>  <p>{{mydict.key}}</p>  <p>{{mylist[1]}}</p>  <p>{{mylist[myvariable]}}</p> ](../../../../Java-HandBook/插图/clip_image013.gif)![文本框: from flask import Flask,render_template app = Flask(__name__)  @app.route('/') def index():     mydict = {'key':'silence is gold'}     mylist = ['Speech', 'is','silver']     myintvar = 0      return render_template('vars.html',                            mydict=mydict,                            mylist=mylist,                            myintvar=myintvar                            ) if __name__ == '__main__':     app.run(debug=True) ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image014.gif)
+
 
 ## 6.3 过滤器
 
@@ -620,19 +812,19 @@ include
 
  
 
-# 7 数据库 
+# 8 数据库 
 
 
 
 
 
-# 8 测试
+# 9 测试
 
 
 
 
 
-# 9 部署
+# 10 部署
 
 gunicorn 并不支持windows，只能在linux 上跑
 
