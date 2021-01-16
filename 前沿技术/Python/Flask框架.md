@@ -124,7 +124,7 @@ pip install –r requirements.txt
 
 ## 4.2 Conda
 
-```py
+```python
 conda -V
 conda create -n py2.6 python=2.6
 conda activate py2.6
@@ -136,25 +136,35 @@ deactivate
 
 ```python
 # 导入Flask类
-from flask import Flask
+from flask import Flask, render_template
 
-# Flask类接收一个参数__name__表示当前模块的名字。模块名，flask是以这个模块所在的目录为总目录，默认情况这个目录中的static为静态目录，templates为模板目录
+# Flask类接收一个参数__name__表示当前模块的名字。
+# 模块名，flask是以这个模块所在的目录为总目录，默认情况这个目录中的static为静态目录，templates为模板目录
 app = Flask(__name__)
 
 
+# 将 '/' 和 函数index的对应关系添加到路由中。
 # 装饰器的作用是将路由映射到视图函数index
-@app.route('/')
+@app.route('/hello')
 def hello_world():
     return 'Hello World!'
 
 
-@app.route('/java')
-def java():
-    return "java", 200
+@app.route('/info')
+def info():
+    return "java", 200, {"aa": "bb"}
+
+
+@app.route('/tem')
+def tem():
+    return render_template("index.html")
 
 
 # Flask应用程序实例的run方法启动WEB服务器
 if __name__ == '__main__':
+    # 监听用户请求
+    # 如果有用户请求到来，则执行app的__call__方法
+    # app.__call__
     app.run()
 
 ```
@@ -166,48 +176,28 @@ if __name__ == '__main__':
 ### 5.1.1 初始化参数
 
 ```python
-import_name: 
+import_name：app = Flask(__name__)，如何理解__name__
 
-static_url_path:
+static_url_path：默认是static
 
-static_folder: 默认‘static’
+static_folder：默认‘static’
 
-template_folder: 默认‘templates’
+template_folder：默认‘templates’
 ```
+
+import_name和static_url_path的区别：import_name是**请求地址**如果包含指定的路径会到static_url_path下**寻找静态资源**。
 
 ### 5.1.2 配置参数
 
 ```python
-app.config.from_pyfile(“yourconfig.cfg”) 
-
+app.config.from_pyfile("yourconfig.cfg") 
 或
-
 app.config.from_object()
 ```
 
-### 5.1.3 在视图读取配置参数
-
-```python
-app.config.get() 
-或 
-current_app.config.get()
-```
-
-### 5.1.4 app.run的参数
-
-```python
-app.run(host=”0.0.0.0”, port=5000)
-```
-
-### 5.1.5 应用配置
-
 在Django中，有一个程序的配置文件settings.py，但是在flask中并没有settings.py这个文件，不过不必担心，flask提供了3种应用配置的方式，分别如下：
 
-- app.config.from_pyfile(file)：使用配置文件
-- app.config.from_object(obj)：使用对象配置参数
-- app.config：直接操作全局对象
-
-1、文件配置
+1、文件配置，app.config.from_pyfile(file)：使用配置文件
 
 ```python
 DEBUG = True
@@ -220,7 +210,7 @@ SQLALCHEMY_ECHO = True
 app.config.from_pyfile("config.cfg")
 ```
 
-2、对象配置
+2、对象配置，app.config.from_object(obj)：使用对象配置参数
 
 ```python
 class Config(object):
@@ -230,7 +220,7 @@ class Config(object):
 app.config.from_object(Config)
 ```
 
-3、直接配置
+3、直接配置，app.config：直接操作全局对象
 
 ```python
 app = Flask(__name__)
@@ -245,38 +235,43 @@ db = SQLAlchemy(app)
 
 
 
+### 5.1.3 在视图读取配置参数
+
+1、如果可以拿到app对
+
 ```python
-# 导入Flask类
-from flask import Flask, render_template, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-import json
+app.config.get() 
+```
 
-# Flask类接收一个参数__name__
-app = Flask(__name__)
-app.config.from_pyfile("config.cfg")
-db = SQLAlchemy(app)
-db.init_app(app)
+2、不能拿到app对象
 
+```python
+from flask current_app
+current_app.config.get()
+```
 
-class Person(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(32), unique=True)
-    password = db.Column(db.String(32))
-    nickname = db.Column(db.String(32), default="", comment="信息")
-    age = db.Column(db.Integer, default=18)
-    gender = db.Column(db.String(16), default="男")
-    score = db.Column(db.Float, nullable=True)
+### 5.1.4 app.run的参数
 
+```python
+# Flask应用程序实例的run方法启动WEB服务器
+if __name__ == '__main__':
+    print(app.url_map)
+    app.run(host="0.0.0.0", port=5000)
+```
 
-db.create_all()
+## 5.2 路由
 
+### 5.2.1 app.url_map查看所有路由
 
-# 装饰器的作用是将路由映射到视图函数index
-@app.route('/')
-def hello_world():
-    return render_template("demo.html")
+ ```python
+print(app.url_map)
+ ```
 
 
+
+### 5.2.2 同一路由装饰多个视图函数
+
+ ```python
 @app.route('/hello', methods=["GET"])
 def hello():
     return 'hello1'
@@ -285,20 +280,24 @@ def hello():
 @app.route('/hello', methods=['POST'])
 def hello2():
     return 'hello2'
+ ```
 
 
+
+### 5.2.3 同一视图多个路由装饰器
+
+ ```python
 @app.route('/hi1')
 @app.route('/hi2')
 def hi():
     return 'hi page'
+ ```
 
 
-@app.route('/java/<userId>', methods=['GET'])
-def java(userId):
-    print(userId)
-    return "java", 200
 
+### 5.2.4 利用methods限制访问方式
 
+```python
 @app.route("/index", methods=["GET", "POST"])
 def index():
     # request中包含了前端发送过来的所有数据
@@ -307,69 +306,22 @@ def index():
     age = request.form.get('age')
     print(request.form)
     return "hello name=%s, age=%s " % (name, age)
-
-
-@app.route('/json1')
-def json1():
-    # json就是字符串
-    data = {
-        "name": "ah",
-        "age": 24
-    }
-
-    # json.dumps(字典) 将python的字典转换为json字符串
-    # json.loads(字符串) 将字符串转换为python中的字典
-
-    json_str = json.dumps(data)
-    #
-    # return json_str, 200, {'Content-Type': 'application/json'}
-
-    # jsonify帮助转为json数据，并设置响应头 Content-Type 为 application/json
-    return jsonify(data)
-    # return jsonify(city='sz', country='china')
-
-
-# 定义错误的处理方法
-@app.errorhandler(404)
-def handle_404_error(err):
-    """自定义处理错误方法"""
-    # 这个函数的返回值会是前端用户看到的最终结果
-
-    return "出现了404错误，错误信息: %s" % err
-
-
-# Flask应用程序实例的run方法启动WEB服务器
-if __name__ == '__main__':
-    print(app.url_map)
-    app.run()
-
 ```
 
 
-
-## 5.2 路由
-
-### 5.2.1 app.url_map查看所有路由
-
- 
-
-### 5.2.2 同一路由装饰多个视图函数
-
- 
-
-### 5.2.3 同一视图多个路由装饰器
-
- 
-
-### 5.2.4 利用methods限制访问方式
-
-@app.route('/sample', methods=['GET', 'POST'])
 
 ### 5.2.5 使用url_for进行反解析
 
  
 
 ### 5.2.6 动态路由
+
+```python
+# 路由传递的参数默认当做string处理，这里指定int，尖括号中冒号后面的内容是动态的
+@app.route('/user/<int:sid>')
+def it_cast(sid):
+    return 'hello it_cast %d' % sid
+```
 
 
 
@@ -383,7 +335,7 @@ if __name__ == '__main__':
 from flask import request
 ```
 
-就是Flask中表示当前请求的request对象，request对象中保存了一次HTTP请求的一切信息。request常用属性如下:
+就是Flask中表示当前请求的request对象，request对象中保存了一次HTTP请求的一切信息。
 
 ### 5.3.1 mimetype
 
@@ -401,6 +353,17 @@ from flask import request
 ### 5.3.2 form表单
 
 ```python
+@app.route(rule='/formObj', methods=['POST'])
+def form_obj():
+    # 直接获取
+    name = request.form.get("name", "guo")
+    # 后端接收字典dict数据
+    post_form = dict(request.form)
+    print(post_form)
+    return jsonify(code=200, status=0, message='ok', data={})
+
+
+
 @app.route("/index", methods=["GET", "POST"])
 def index():
     # request中包含了前端发送过来的所有数据
@@ -428,86 +391,142 @@ def index():
 ### 5.3.3 json字符串
 
 ```python
-
+@app.route(rule='/jsonStr', methods=['POST'])
+def info():
+    # 方式一
+    data01 = request.get_json()
+    print(data01)
+    # 方式二
+    data02 = request.get_data()
+    print(data02)
+    return jsonify(code=200, status=0, message='ok', data={})
 ```
 
 
 
 ### 5.3.4 上传文件
 
+```python
 request.files
+```
 
 已上传的文件存储在内存或是文件系统中一个临时的位置。你可以通过请求对象的 files 属性访问它们。每个上传的文件都会存储在这个字典里。它表现近乎为一个标准的 Python file 对象，但它还有一个 save() 方法，这个方法允许你把文件保存到服务器的文件系统上。这里是一个用它保存文件的例子:
 
- 
+```python
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        f = request.files['the_file']
+        print(f)
+        f.save("d:/aa.docx")
+        return jsonify("保存成功！", 200)
+```
 
-
-
-如果你想知道上传前文件在客户端的文件名是什么，你可以访问 filename 属性。但请记住， 永远不要信任这个值，这个值是可以伪造的。如果你要把文件按客户端提供的文件名存储在服务器上，那么请把它传递给 Werkzeug 提供的 secure_filename() 函数:
-
-
+ 如果你想知道上传前文件在客户端的文件名是什么，你可以访问filename属性。但请记住， 永远不要信任这个值，这个值是可以伪造的。如果你要把文件按客户端提供的文件名存储在服务器上，那么请把它传递给Werkzeug 提供的secure_filename() 函数。
 
 ## 5.4 异常处理
 
 ### 5.4.1 abort函数
 
+```python
 from flask import abort
+```
+
+类比Java中的**throw关键字**，直接抛异常。
 
 ### 5.4.2 自定义异常处理
 
 ```python
 @app.errorhandler(404)
-
-def error(e):
-
-return '您请求的页面不存在了，请确认后再次访问！%s'%e
+def handler_404(err):
+    return '您请求的页面不存在了，请确认后再次访问！%s' % err
 ```
 
 ## 5.5 响应数据 
 
 ### 5.5.1 元组
 
-可以返回一个元组，这样的元组必须是 **(response, status, headers)** 的形式，且至少包含一个元素。 status 值会覆盖状态代码， headers可以是一个列表或字典，作为额外的消息标头值。
+可以返回一个元组，这样的元组必须是(response, status, headers)的形式，且至少包含一个元素。 
+
+status 值会覆盖状态代码， headers可以是一个列表或字典，作为额外的消息标头值。
+
+```python
+@app.route('/tum_info')
+def tum_info():
+    return "成功", 200
+```
+
+
 
 ### 5.5.2 make_response
 
-resp = make_response()
+```python
+@app.route('/make_res')
+def make_res():
+    res = make_response()
+    res.headers['aa'] = 'bb'
+    res.status = "400 my error info"
+    return res
+```
 
-resp.headers[“sample”] = “value”
 
-resp.status = “404 not found”
 
 ### 5.5.3 Json数据
 
- 
+ ```python
+@app.route('/json_info')
+def json_info():
+    return jsonify(code=200, status=0, message='ok', data={})
+ ```
+
+
 
 ### 5.5.4 重定向
 
+ ```python
 from flask import redirect
+ ```
 
- 
+
 
 ## 5.6 cookie
 
-### 设置和读取
+### 5.6.1 设置
 
-make_response
+```python
+@app.route('/make_res')
+def make_res():
+    res = make_response()
+    res.set_cookie('aa', value='bb', max_age=None)
+    return res
+```
 
- 
 
-set_cookie(key, value=’’, max_age=None)
 
- 
+### 5.6.2 读取删除
 
-delete_cookie(key)
+```python
+@app.route('/make_res')
+def make_res():
+    res = make_response()
+    # 在请求中获取存入的cookie
+    print(request.cookies['aa'])
+    # 删除cookie信息
+    res.delete_cookie('aa')
+    return res
+```
+
+
 
 ## 5.7 session
 
 ### 设置和读取
 
+```python
 from flask import session
+```
 
- 
+
 
 需要设置secret_key
 
@@ -515,7 +534,7 @@ from flask import session
 
 ## 5.8 上下文
 
-###  请求上下文与应用上下文
+###  5.8.1 请求上下文
 
 请求上下文(request context) 
 
@@ -523,13 +542,13 @@ request和session都属于请求上下文对象。
 
  
 
+###  5.8.2 应用上下文
+
 应用上下文(application context)
 
 current_app和g都属于应用上下文对象。
 
- 
-
-current_app:表示当前运行程序文件的程序实例。
+ current_app：表示当前运行程序文件的程序实例。
 
 g:处理请求时，用于临时存储的对象，每次请求都会重设这个变量。
 
@@ -539,23 +558,13 @@ g:处理请求时，用于临时存储的对象，每次请求都会重设这个
 
 请求钩子是通过装饰器的形式实现，Flask支持如下四种请求钩子：
 
- 
-
 before_first_request：在处理第一个请求前运行。
-
- 
 
 @app.before_first_request
 
- 
-
 before_request：在每次请求前运行。
 
- 
-
 after_request(response)：如果没有未处理的异常抛出，在每次请求后运行。
-
- 
 
 teardown_request(response)：在每次请求后运行，即使有未处理的异常抛出。
 
@@ -565,7 +574,9 @@ teardown_request(response)：在每次请求后运行，即使有未处理的异
 
 ## 5.1 Flask-Script
 
+```python
 pip install Flask-Script
+```
 
 
 
@@ -573,7 +584,6 @@ pip install Flask-Script
 
 ```properties
 pip install flask-sqlalchemy
-
 pip install flask-mysqldb
 ```
 
@@ -585,9 +595,40 @@ flask本身没有加载模板的能力，需要开发者自己编写，但是目
 
 ## 6.1 基本流程
 
-使用flask中的**render_template**渲染模板
+使用flask中的render_template渲染模板
+
+```python
+@app.route('/')
+def info():
+    return render_template('index.html', name='python')
+```
+
+
 
 ## 6.2 变量
+
+```python
+@app.route('/')
+def info():
+    my_disc = {"name": "guo", "age": 12}
+    return render_template('index.html', my_disc=my_disc)
+```
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+姓名：{{ my_disc.name }}
+年龄：{{ my_disc.age }}
+</body>
+</html>
+```
 
 
 
@@ -595,72 +636,19 @@ flask本身没有加载模板的能力，需要开发者自己编写，但是目
 
 ### 6.3.1 字符串过滤器
 
-**safe****：禁用转义；**
 
-  <p>{{ '<em>hello</em>' | safe }}</p>
-**capitalize****：把变量值的首字母转成大写，其余字母转小写；**
 
-  <p>{{ 'hello' | capitalize }}</p>
-**lower****：把值转成小写；**
-
-  <p>{{ 'HELLO' | lower }}</p>
-**upper****：把值转成大写；**
-
-  <p>{{ 'hello' | upper }}</p>
-**title****：把值中的每个单词的首字母都转成大写；**
-
-  <p>{{ 'hello' | title }}</p>
-**trim****：把值的首尾空格去掉；**
-
-  <p>{{ ' hello world ' | trim }}</p>
-**reverse:****字符串反转；**
-
-  <p>{{ 'olleh' | reverse }}</p>
-**format:****格式化输出；**
-
-  <p>{{ '%s is %d' | format('name',17) }}</p>
-**striptags****：渲染之前把值中所有的HTML****标签都删掉；**
-
-  <p>{{ '<em>hello</em>' | striptags }}</p>
 ### 6.3.2 支持链式使用过滤器
 
-<p>{{ “ hello world  “ | trim | upper }}</p>
+
+
 ### 6.3.3 列表过滤器
 
-**first****：取第一个元素**
 
-  <p>{{ [1,2,3,4,5,6] | first }}</p>
-**last****：取最后一个元素**
 
-  <p>{{ [1,2,3,4,5,6] | last }}</p>
-**length****：获取列表长度**
-
-  <p>{{ [1,2,3,4,5,6] | length }}</p>
-**sum****：列表求和**
-
-  <p>{{ [1,2,3,4,5,6] | sum }}</p>
-**sort****：列表排序**
-
-  <p>{{ [6,2,3,1,5,4] | sort }}</p>
 ### 6.3.4 自定义过滤器
 
-自定义的过滤器名称如果和内置的过滤器重名，会覆盖内置的过滤器。
 
- 
-
-方式一：
-
-​     通过 **add_template_filter (****过滤器函数****,** **模板中使用的过滤器名字****)**
-
-![文本框: def filter_double_sort(../../../../Java-HandBook/插图/clip_image015.gif):     return ls[::2] app.add_template_filter(filter_double_sort,'double_2')  ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image015.gif)
-
- 
-
-方式二：
-
-​     通过装饰器 **app.template_filter (****模板中使用的装饰器名字)**
-
-![文本框: @app.template_filter(../../../../Java-HandBook/插图/clip_image016.gif'db3') def filter_double_sort(ls):     return ls[::-3] ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image016.gif)
 
 ## 6.4 表单
 
@@ -670,9 +658,11 @@ flask本身没有加载模板的能力，需要开发者自己编写，但是目
 
 **pip install Flask-WTF**
 
-### 6.4.1 不使用Flask-WTF扩展时，表单需要自己处理
+### 6.4.1 自己处理
 
-![文本框: #模板文件 <form method='post'>     <input type="text" name="username" placeholder='Username'>     <input type="password" name="password" placeholder='password'>     <input type="submit"> </form> ](../../../../Java-HandBook/插图/clip_image017.gif)![文本框: from flask import Flask,render_template,request  @app.route('/login',methods=['GET','POST']) def login():     if request.method == 'POST':         username = request.form['username']         password = request.form['password']         print username,password     	return “success” 	else: 		return render_template(“login.html”)  ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image018.gif)
+不使用Flask-WTF扩展时，表单需要自己处理
+
+
 
 ### 6.4.2 使用Flask-WTF扩展
 
@@ -682,13 +672,11 @@ flask本身没有加载模板的能力，需要开发者自己编写，但是目
 
 模板页：
 
-![文本框: <form method="post">         #设置csrf_token         {{ form.csrf_token(../../../../Java-HandBook/插图/clip_image019.gif) }}         {{ form.us.label }}         <p>{{ form.us }}</p>         {{ form.ps.label }}         <p>{{ form.ps }}</p>         {{ form.ps2.label }}         <p>{{ form.ps2 }}</p>         <p>{{ form.submit() }}</p>         {% for x in get_flashed_messages() %}             {{ x }}         {% endfor %}  </form> ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image019.gif)
 
- 
 
 视图函数
 
-![文本框: rf#coding=utf-8 from flask import Flask,render_template, redirect,url_for,session,request,flash  #导入wtf扩展的表单类 from flask_wtf import FlaskForm #导入自定义表单需要的字段 from wtforms import SubmitField,StringField,PasswordField #导入wtf扩展提供的表单验证器 from wtforms.validators import DataRequired,EqualTo app = Flask(../../../../Java-HandBook/插图/clip_image020.gif) app.config['SECRET_KEY']='1'  #自定义表单类，文本字段、密码字段、提交按钮 class Login(Flask Form):     us = StringField(label=u'用户：',validators=[DataRequired()])     ps = PasswordField(label=u'密码',validators=[DataRequired(),EqualTo('ps2','err')])     ps2 = PasswordField(label=u'确认密码',validators=[DataRequired()])     submit = SubmitField(u'提交')  #定义根路由视图函数，生成表单对象，获取表单数据，进行表单数据验证 @app.route('/',methods=['GET','POST']) def index():     form = Login()     if form.validate_on_submit():         name = form.us.data         pswd = form.ps.data         pswd2 = form.ps2.data         print name,pswd,pswd2         return redirect(url_for('login'))     else:         if request.method=='POST': flash(u'信息有误，请重新输入！')      return render_template('index.html',form=form) if __name__ == '__main__':     app.run(debug=True)  ](file:///C:/Users/DELL/AppData/Local/Temp/msohtmlclip1/01/clip_image020.gif)
+
 
 ## 6.5 控制语句
 
@@ -814,18 +802,503 @@ include
 
 # 8 数据库 
 
+Web应用中普遍使用的是关系模型的数据库，关系型数据库把所有的数据都存储在表中，表用来给应用的实体建模，表的列数是固定的，行数是可变的。它使用结构化的查询语言。关系型数据库的列定义了表中表示的实体的数据属性。比如：商品表里有name、price、number等。 Flask本身不限定数据库的选择，你可以选择SQL或NOSQL的任何一种。也可以选择更方便的SQLALchemy，类似于Django的ORM。SQLALchemy实际上是对数据库的抽象，让开发者不用直接和SQL语句打交道，而是通过Python对象来操作数据库，在舍弃一些性能开销的同时，换来的是开发效率的较大提升。
 
+SQLAlchemy是一个关系型数据库框架，它提供了高层的ORM和底层的原生数据库的操作。flask-sqlalchemy是一个简化了SQLAlchemy操作的flask扩展。
+
+1、数据库服务
+
+2、数据库基本操作命令
+
+## 8.1 数据库设置
+
+```properties
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test3'
+```
+
+常用的SQLAlchemy字段类型
+
+| 类型名       | python中类型      | 说明                                                |
+| ------------ | ----------------- | --------------------------------------------------- |
+| Integer      | int               | 普通整数，一般是32位                                |
+| SmallInteger | int               | 取值范围小的整数，一般是16位                        |
+| BigInteger   | int或long         | 不限制精度的整数                                    |
+| Float        | float             | 浮点数                                              |
+| Numeric      | decimal.Decimal   | 普通整数，一般是32位                                |
+| String       | str               | 变长字符串                                          |
+| Text         | str               | 变长字符串，对较长或不限长度的字符串做了优化        |
+| Unicode      | unicode           | 变长Unicode字符串                                   |
+| UnicodeText  | unicode           | 变长Unicode字符串，对较长或不限长度的字符串做了优化 |
+| Boolean      | bool              | 布尔值                                              |
+| Date         | datetime.date     | 时间                                                |
+| Time         | datetime.datetime | 日期和时间                                          |
+| LargeBinary  | str               | 二进制文件                                          |
+
+常用的SQLAlchemy列选项
+
+| 选项名      | 说明                                              |
+| ----------- | ------------------------------------------------- |
+| primary_key | 如果为True，代表表的主键                          |
+| unique      | 如果为True，代表这列不允许出现重复的值            |
+| index       | 如果为True，为这列创建索引，提高查询效率          |
+| nullable    | 如果为True，允许有空值，如果为False，不允许有空值 |
+| default     | 为这列定义默认值                                  |
+
+常用的SQLAlchemy关系选项
+
+| 选项名         | 说明                                                         |
+| -------------- | ------------------------------------------------------------ |
+| backref        | 在关系的另一模型中添加反向引用                               |
+| primary join   | 明确指定两个模型之间使用的联结条件                           |
+| uselist        | 如果为False，不使用列表，而使用标量值                        |
+| order_by       | 指定关系中记录的排序方式                                     |
+| secondary      | 指定多对多中记录的排序方式                                   |
+| secondary join | 在SQLAlchemy中无法自行决定时，指定多对多关系中的二级联结条件 |
+
+## 8.2 基础操作
+
+在Flask-SQLAlchemy中，插入、修改、删除操作，均由数据库会话管理。会话用db.session表示。在准备把数据写入数据库前，要先将数据添加到会话中然后调用commit()方法提交会话。
+
+数据库会话是为了保证数据的一致性，避免因部分更新导致数据不一致。提交操作把会话对象全部写入数据库，如果写入过程发生错误，整个会话都会失效。
+
+数据库会话也可以回滚，通过db.session.rollback()方法，实现会话提交数据前的状态。
+
+在Flask-SQLAlchemy中，查询操作是通过query对象操作数据。最基本的查询是返回表中所有数据，可以通过过滤器进行更精确的数据库查询。
+
+1、数据添加到会话中
+
+```python
+user = User(name='python')
+db.session.add(user)
+db.session.commit()
+```
+
+2、视图数据定义到模型类中
+
+```python
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+
+app = Flask(__name__)
+
+# 设置连接数据库的URL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/Flask_test'
+
+# 设置每次请求结束后会自动提交数据库中的改动
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# 查询时会显示原始SQL语句
+app.config['SQLALCHEMY_ECHO'] = True
+db = SQLAlchemy(app)
+
+class Role(db.Model):
+    # 定义表名
+    __tablename__ = 'roles'
+    # 定义列对象
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    us = db.relationship('User', backref='role')
+
+    #repr()方法显示一个可读字符串
+    def __repr__(self):
+        return 'Role:%s'% self.name
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(64),unique=True)
+    pswd = db.Column(db.String(64))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+
+    def __repr__(self):
+        return 'User:%s'%self.name
+if __name__ == '__main__':
+    db.drop_all()
+    db.create_all()
+    ro1 = Role(name='admin')
+    ro2 = Role(name='user')
+    db.session.add_all([ro1,ro2])
+    db.session.commit()
+    us1 = User(name='wang',email='wang@163.com',pswd='123456',role_id=ro1.id)
+    us2 = User(name='zhang',email='zhang@189.com',pswd='201512',role_id=ro2.id)
+    us3 = User(name='chen',email='chen@126.com',pswd='987654',role_id=ro2.id)
+    us4 = User(name='zhou',email='zhou@163.com',pswd='456789',role_id=ro1.id)
+    db.session.add_all([us1,us2,us3,us4])
+    db.session.commit()
+    app.run(debug=True)
+```
+
+3、
+
+## 8.3 自定义模板类
+
+```python
+#coding=utf-8
+from flask import Flask,render_template,url_for,redirect,request
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired
+from wtforms import StringField,SubmitField
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@localhost/test1'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SECRET_KEY']='s'
+
+db = SQLAlchemy(app)
+
+#创建表单类，用来添加信息
+class Append(Form):
+    au_info = StringField(validators=[DataRequired()])
+    bk_info = StringField(validators=[DataRequired()])
+    submit = SubmitField(u'添加')
+
+
+@app.route('/',methods=['GET','POST'])
+def index():
+    # 查询所有作者和书名信息
+    author = Author.query.all()
+    book = Book.query.all()
+    # 创建表单对象
+    form = Append()
+    if form.validate_on_submit():
+        # 获取表单输入数据
+        wtf_au = form.au_info.data
+        wtf_bk = form.bk_info.data
+        # 把表单数据存入模型类
+        db_au = Author(name=wtf_au)
+        db_bk = Book(info=wtf_bk)
+        # 提交会话
+        db.session.add_all([db_au,db_bk])
+        db.session.commit()
+        # 添加数据后，再次查询所有作者和书名信息
+        author = Author.query.all()
+        book = Book.query.all()
+        return render_template('index.html',author=author,book=book,form=form)
+    else:
+        if request.method=='GET':
+            render_template('index.html', author=author, book=book,form=form)
+    return render_template('index.html',author=author,book=book,form=form)
+
+# 删除作者
+@app.route('/delete_author<id>')
+def delete_author(id):
+    # 精确查询需要删除的作者id
+    au = Author.query.filter_by(id=id).first()
+    db.session.delete(au)
+    # 直接重定向到index视图函数
+    return redirect(url_for('index'))
+
+# 删除书名
+@app.route('/delete_book<id>')
+def delete_book(id):
+    # 精确查询需要删除的书名id
+    bk = Book.query.filter_by(id=id).first()
+    db.session.delete(bk)
+    # 直接重定向到index视图函数
+    return redirect(url_for('index'))
+
+
+if __name__ == '__main__':
+    db.drop_all()
+    db.create_all()
+    # 生成数据
+    au_xi = Author(name='我吃西红柿',email='xihongshi@163.com')
+    au_qian = Author(name='萧潜',email='xiaoqian@126.com')
+    au_san = Author(name='唐家三少',email='sanshao@163.com')
+    bk_xi = Book(info='吞噬星空',lead='罗峰')
+    bk_xi2 = Book(info='寸芒',lead='李杨')
+    bk_qian = Book(info='飘渺之旅',lead='李强')
+    bk_san = Book(info='冰火魔厨',lead='融念冰')
+    # 把数据提交给用户会话
+    db.session.add_all([au_xi,au_qian,au_san,bk_xi,bk_xi2,bk_qian,bk_san])
+    # 提交会话
+    db.session.commit()
+    app.run(debug=True)
+```
+
+
+
+## 8.4 数据库迁移
+
+
+
+## 8.5 邮件扩展
+
+
+
+```python
+from flask import Flask
+from flask_mail import Mail, Message
+
+app = Flask(__name__)
+#配置邮件：服务器／端口／传输层安全协议／邮箱名／密码
+app.config.update(
+    DEBUG = True,
+    MAIL_SERVER='smtp.qq.com',
+    MAIL_PROT=465,
+    MAIL_USE_TLS = True,
+    MAIL_USERNAME = '371673381@qq.com',
+    MAIL_PASSWORD = 'goyubxohbtzfbidd',
+)
+
+mail = Mail(app)
+
+@app.route('/')
+def index():
+ # sender 发送方，recipients 接收方列表
+    msg = Message("This is a test ",sender='371673381@qq.com', recipients=['shengjun@itcast.cn','371673381@qq.com'])
+    #邮件内容
+    msg.body = "Flask test mail"
+    #发送邮件
+    mail.send(msg)
+    print "Mail sent"
+    return "Sent　Succeed"
+
+if __name__ == "__main__":
+    app.run()
+```
 
 
 
 # 9 测试
 
+## 9.1 为什么要测试？
 
+Web程序开发过程一般包括以下几个阶段：[需求分析，设计阶段，实现阶段，测试阶段]。其中测试阶段通过人工或自动来运行测试某个系统的功能。目的是检验其是否满足需求，并得出特定的结果，以达到弄清楚预期结果和实际结果之间的差别的最终目的。
+
+## 9.2 测试的分类
+
+测试从软件开发过程可以分为：单元测试、集成测试、系统测试等。在众多的测试中，与程序开发人员最密切的就是单元测试，因为单元测试是由开发人员进行的，而其他测试都由专业的测试人员来完成。所以我们主要学习单元测试。
+
+## 9.3 什么是单元测试
+
+程序开发过程中，写代码是为了实现需求。当我们的代码通过了编译，只是说明它的语法正确，功能能否实现则不能保证。 因此，当我们的某些功能代码完成后，为了检验其是否满足程序的需求。可以通过编写测试代码，模拟程序运行的过程，检验功能代码是否符合预期。
+
+单元测试就是开发者编写一小段代码，检验目标代码的功能是否符合预期。通常情况下，单元测试主要面向一些功能单一的模块进行。
+
+举个例子：一部手机有许多零部件组成，在正式组装一部手机前，手机内部的各个零部件，CPU、内存、电池、摄像头等，都要进行测试，这就是单元测试。
+
+在Web开发过程中，单元测试实际上就是一些“断言”（assert）代码。
+
+断言就是判断一个函数或对象的一个方法所产生的结果是否符合你期望的那个结果。 python中assert断言是声明布尔值为真的判定，如果表达式为假会发生异常。单元测试中，一般使用assert来断言结果。
+
+## 9.4 断言方法的使用
+
+```python
+if not expression:
+    raise AssertionError
+```
+
+
+
+```python
+assertEqual     如果两个值相等，则pass
+assertNotEqual  如果两个值不相等，则pass
+assertTrue      判断bool值为True，则pass
+assertFalse     判断bool值为False，则pass
+assertIsNone    不存在，则pass
+assertIsNotNone 存在，则pass
+```
+
+## 9.4 如何测试
+
+```python
+
+```
+
+
+
+## 9.5 基本写法
+
+1、基本写法
+
+```python
+import unittest
+
+
+class TestMain(unittest.TestCase):
+    # 该方法会首先执行，相当于做测试的准备工作
+    def setUp(self):
+        print("aa")
+
+    # 该方法会在测试代码执行完后执行，相当于做测试后的扫尾工作
+    def tearDown(self):
+        print("bb")
+
+    def test_app_exists(self):
+        print("cc")
+```
+
+2、案例写法
+
+```python
+
+```
 
 
 
 # 10 部署
 
+当我们执行下面的hello.py时，使用的flask自带的服务器，完成了web服务的启动。在生产环境中，flask自带的服务器，无法满足性能要求，我们这里采用**Gunicorn**做wsgi容器，来部署flask程序。
+
+Gunicorn（绿色独角兽）是一个Python WSGI的HTTP服务器。从Ruby的独角兽（Unicorn ）项目移植。该Gunicorn服务器与各种Web框架兼容，实现非常简单，轻量级的资源消耗。Gunicorn直接用命令启动，不需要编写配置文件，相对uWSGI要容易很多。
+
+区分几个概念：
+
+**WSGI：**全称是Web Server Gateway Interface（web服务器网关接口），它是一种规范，它是web服务器和web应用程序之间的接口。它的作用就像是桥梁，连接在web服务器和web应用框架之间。
+
+**uwsgi：**是一种传输协议，用于定义传输信息的类型。
+
+**uWSGI：**是实现了uwsgi协议WSGI的web服务器。
+
+我们的部署方式： nginx + gunicorn + flask
+
 gunicorn 并不支持windows，只能在linux 上跑
 
 gunicorn -w 4 -b 127.0.0.1:5000 -D --access-logfile ./log/log main:app
+
+## 10.1 Gunicorn
+
+web开发中，部署方式大致类似。简单来说，前端代理使用Nginx主要是为了实现分流、转发、负载均衡，以及分担服务器的压力。Nginx部署简单，内存消耗少，成本低。Nginx既可以做正向代理，也可以做反向代理。
+
+正向代理：请求经过代理服务器从局域网发出，然后到达互联网上的服务器。
+
+特点：服务端并不知道真正的客户端是谁。
+
+反向代理：请求从互联网发出，先进入代理服务器，再转发给局域网内的服务器。
+
+特点：客户端并不知道真正的服务端是谁。
+
+区别：正向代理的对象是客户端。反向代理的对象是服务端。
+
+1、安装
+
+```python
+pip install gunicorn
+```
+
+2、查看命令行选项
+
+安装gunicorn成功后，通过命令行的方式可以查看gunicorn的使用信息。
+
+```python
+gunicorn -h
+```
+
+3、运行
+
+```python
+# 直接运行，默认启动的127.0.0.1::8000
+gunicorn 运行文件名称:Flask程序实例名
+# 指定进程和端口号：-w: 表示进程（worker）；-b：表示绑定ip地址和端口号（bind）
+gunicorn -w 4 -b 127.0.0.1:5001 运行文件名称:Flask程序实例名
+```
+
+## 10.2 配置Nginx
+
+```properties
+server {
+    # 监听80端口
+    listen 80;
+    # 本机
+    server_name localhost; 
+    # 默认请求的url
+    location / {
+        # 请求转发到gunicorn服务器
+        proxy_pass http://127.0.0.1:5001; 
+        # 设置请求头，并将头信息传递给服务器端 
+        proxy_set_header Host $host; 
+    }
+}
+```
+
+
+
+# 11 蓝图
+
+## 11.1 为什么学习蓝图
+
+我们学习Flask框架，是从写单个文件，执行hello world开始的。我们在这单个文件中可以定义路由、视图函数、定义模型等等。但这显然存在一个问题：随着业务代码的增加，将所有代码都放在单个程序文件中，是非常不合适的。这不仅会让代码阅读变得困难，而且会给后期维护带来麻烦。
+
+我们在一个文件中写入多个路由，这会使代码维护变得困难。
+
+**问题：一个程序执行文件中，功能代码过多。**就是让代码模块化。根据具体不同功能模块的实现，划分成不同的分类，降低各功能模块之间的耦合度。python中的模块制作和导入就是基于实现功能模块的封装的需求。
+
+**尝试用模块导入的方式解决：** 我们把上述一个py文件的多个路由视图函数给拆成两个文件：app.py和admin.py文件。app.py文件作为程序启动文件，因为admin文件没有应用程序实例app，在admin文件中要使用app.route路由装饰器，需要把app.py文件的app导入到admin.py文件中。
+
+## 11.2 什么是蓝图
+
+蓝图：用于实现单个应用的视图、模板、静态文件的集合。
+
+蓝图就是模块化处理的类。
+
+简单来说，蓝图就是一个存储操作路由映射方法的容器，主要用来实现客户端请求和URL相互关联的功能。 在Flask中，使用蓝图可以帮助我们实现模块化应用的功能。
+
+## 11.3 蓝图的运行机制
+
+蓝图是保存了一组将来可以在应用对象上执行的操作。注册路由就是一种操作,当在程序实例上调用route装饰器注册路由时，这个操作将修改对象的url_map路由映射列表。当我们在蓝图对象上调用route装饰器注册路由时，它只是在内部的一个延迟操作记录列表defered_functions中添加了一个项。当执行应用对象的 register_blueprint() 方法时，应用对象从蓝图对象的 defered_functions 列表中取出每一项，即调用应用对象的 add_url_rule() 方法，这将会修改程序实例的路由映射列表。
+
+## 11.4 蓝图使用
+
+1、创建蓝图对象
+
+
+
+2、注册蓝图路由
+
+
+
+3、在程序实例中注册蓝图
+
+# 12 RESTfull
+
+2000年，Roy Thomas Fielding博士在他的博士论文《Architectural Styles and the Design of Network-based Software Architectures》中提出了几种软件应用的架构风格，REST作为其中的一种架构风格在这篇论文中进行了概括性的介绍。
+
+REST:Representational State Transfer的缩写，翻译：“具象状态传输”。一般解释为“表现层状态转换”。
+
+REST是设计风格而不是标准。是指客户端和服务器的交互形式。我们需要关注的重点是如何设计REST风格的网络接口。
+
+- REST的特点：
+- 具象的。一般指表现层，要表现的对象就是资源。比如，客户端访问服务器，获取的数据就是资源。比如文字、图片、音视频等。
+- 表现：资源的表现形式。txt格式、html格式、json格式、jpg格式等。浏览器通过URL确定资源的位置，但是需要在HTTP请求头中，用Accept和Content-Type字段指定，这两个字段是对资源表现的描述。
+- 状态转换：客户端和服务器交互的过程。在这个过程中，一定会有数据和状态的转化，这种转化叫做状态转换。其中，GET表示获取资源，POST表示新建资源，PUT表示更新资源，DELETE表示删除资源。HTTP协议中最常用的就是这四种操作方式。
+  - RESTful架构：
+  - 每个URL代表一种资源；
+  - 客户端和服务器之间，传递这种资源的某种表现层；
+  - 客户端通过四个http动词，对服务器资源进行操作，实现表现层状态转换。
+
+## 12.1 域名
+
+
+
+## 12.2 版本
+
+
+
+## 12.3 路径
+
+
+
+
+
+# 13 性能
+
+## 13.1 人员角度
+
+普通用户认为的网站性能：网站性能对于普通用户来说，最直接的体现就是响应时间。用户在浏览器上直观感受到的网站响应速度，即从客户端发送请求，到服务器返回响应内容的时间。
+
+做为网站开发人员来说，网站性能通常会和普通的用户理解的不一样。
+
+普通用户感受到的网站性能，并不只是由网站服务器决定的。它还包括客户端计算机和服务器通信的时间，网站服务器处理响应的时间，客户端浏览器构造请求解析响应数据的时间。甚至，不同的计算机性能、不同浏览器解析HTML的速度、不同网络运营商提供的网络带宽房屋的差异，这些都会导致用户感受到响应时间，可能大于网站服务器处理请求的时间。
+
+开发人员认为的网站性能：开发人员关注的主要是服务器应用程序本身，以及相关配套系统的性能。包括并发处理能力、系统稳定性、响应延迟等技术指标。
+
+对性能优化的主要手段，包括使用缓存加速数据读取，使用集群提高数据吞吐能力，使用异步消息加快请求响应，使用代码改善程序性能。
+
+运维人员认为的网站性能：运维人员关注的主要是服务器基础设施和资源利用率。如服务器硬件的配置、网络运营商的带宽、数据中心的网络架构等。主要优化手段有使用高性价比的服务器、建设优化骨干网络、利用虚拟化技术优化资源利用等。
