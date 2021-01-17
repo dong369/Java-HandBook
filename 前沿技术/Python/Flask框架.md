@@ -106,7 +106,7 @@ Flask-Moment：本地化日期和时间；
 
 英文文档： http://flask.pocoo.org/docs/0.11/
 
-# 4 创建虚拟环境
+# 4 虚拟环境
 
 ## 4.1 Virtual
 
@@ -128,11 +128,11 @@ pip install –r requirements.txt
 conda -V
 conda create -n py2.6 python=2.6
 conda activate py2.6
-activate py2.6
+conda remove py2.6
 deactivate
 ```
 
-# 5 视图
+## 4.3 hello word
 
 ```python
 # 导入Flask类
@@ -169,7 +169,13 @@ if __name__ == '__main__':
 
 ```
 
+解决pycharm运行Flask指定ip、端口更改无效，后来查了一下官网文档，原来Flask 1.0 版本不再支持之前的FLASK_ENV 环境变量了。
 
+Prior to Flask 1.0 the FLASK_ENV environment variable was not supported and you needed to enable debug mode by exporting FLASK_DEBUG=1. This can still be used to control debug mode, but you should prefer setting the development environment as shown above.
+
+pycharm会自动识别出来你的flask项目（即使你创建项目的时候并没有选择flask框架的模板），但是在你运行的时候依旧是下图所示，右上角以flask的logo运行的。我们只需要**切换成python模式运行**就行啦。
+
+# 5 视图
 
 ## 5.1 app对象
 
@@ -520,17 +526,32 @@ def make_res():
 
 ## 5.7 session
 
-### 设置和读取
+### 5.7.1 设置
 
 ```python
 from flask import session
+
+session["name"] = "guo"
+session["age"] = 12
+```
+
+需要设置secret_key
+
+```properties
+SECRET_KEY='abc'
+或
+app.config.set("SECRET_KEY")="abc"
 ```
 
 
 
-需要设置secret_key
+### 5.7.2 读取
 
- 
+```python
+print(session.get("name"))
+```
+
+
 
 ## 5.8 上下文
 
@@ -544,17 +565,17 @@ request和session都属于请求上下文对象。
 
 ###  5.8.2 应用上下文
 
-应用上下文(application context)
+应用上下文(application context)，current_app和g都属于应用上下文对象。
 
-current_app和g都属于应用上下文对象。
+current_app：表示当前运行程序文件的程序实例。
 
- current_app：表示当前运行程序文件的程序实例。
-
-g:处理请求时，用于临时存储的对象，每次请求都会重设这个变量。
+g：处理请求时，用于临时存储的对象，每次请求都会重设这个变量。
 
  
 
 ## 5.9 请求钩子
+
+### 5.9.1 四种钩子
 
 请求钩子是通过装饰器的形式实现，Flask支持如下四种请求钩子：
 
@@ -568,28 +589,7 @@ after_request(response)：如果没有未处理的异常抛出，在每次请求
 
 teardown_request(response)：在每次请求后运行，即使有未处理的异常抛出。
 
- 
-
-# 6 Flask扩展
-
-## 5.1 Flask-Script
-
-```python
-pip install Flask-Script
-```
-
-
-
-## 5.2 Flask-SQLalchemy
-
-```properties
-pip install flask-sqlalchemy
-pip install flask-mysqldb
-```
-
-
-
-# 7 Jinja2模板
+# 6 Jinja2模板
 
 flask本身没有加载模板的能力，需要开发者自己编写，但是目前flask使用了三方的模板系统：jinja2模板系统，jinja2是仿照django的模板系统开发的一套模板系统，但是功能比django的模板系统强。
 
@@ -607,14 +607,17 @@ def info():
 
 ## 6.2 变量
 
+1、后台数据
+
 ```python
 @app.route('/')
 def info():
     my_disc = {"name": "guo", "age": 12}
     return render_template('index.html', my_disc=my_disc)
+	# return render_template('index.html', **my_disc)
 ```
 
-
+2、前端展示
 
 ```html
 <!DOCTYPE html>
@@ -648,15 +651,35 @@ def info():
 
 ### 6.3.4 自定义过滤器
 
+自定义的过滤器名称如果和内置的过滤器重名，会覆盖内置的过滤器。
 
+1、方式一
+
+```python
+# 定义
+def lsit_filter(li1):
+    retrun li1[::2]
+# 注册
+app.add_template_filter(lsit_filter,"li1")
+```
+
+
+
+2、方式2
+
+```python
+@app.template_filter("li2")
+def list_filter(li2):
+    return li2[::3]
+```
 
 ## 6.4 表单
 
-使用Flask-WTF表单扩展，可以帮助进行CSRF验证，帮助我们快速定义表单模板，而且可以帮助我们在视图中验证表的数据
+使用Flask-WTF表单扩展，可以帮助进行**CSRF验证**，帮助我们快速定义表单模板，而且可以帮助我们在视图中验证表的数据
 
- 
-
-**pip install Flask-WTF**
+ ```python
+pip install Flask-WTF
+ ```
 
 ### 6.4.1 自己处理
 
@@ -666,17 +689,61 @@ def info():
 
 ### 6.4.2 使用Flask-WTF扩展
 
-需要设置 SECRET_KEY 的配置参数
+1、需要设置SECRET_KEY的配置参数
 
  
 
-模板页：
+2、模板页
 
 
 
-视图函数
+3、视图函数
 
+web表单是web应用程序的基本功能。
 
+它是HTML页面中负责数据采集的部件。表单有三个部分组成：表单标签、表单域、表单按钮。表单允许用户输入数据，负责HTML页面数据采集，通过表单将用户输入的数据提交给服务器。
+
+在Flask中，为了处理web表单，我们一般使用Flask-WTF扩展，它封装了WTForms，并且它有验证表单数据的功能。
+
+WTForms支持的HTML标准字段
+
+| 字段对象            | 说明                                |
+| :------------------ | :---------------------------------- |
+| StringField         | 文本字段                            |
+| TextAreaField       | 多行文本字段                        |
+| PasswordField       | 密码文本字段                        |
+| HiddenField         | 隐藏文本字段                        |
+| DateField           | 文本字段，值为datetime.date格式     |
+| DateTimeField       | 文本字段，值为datetime.datetime格式 |
+| IntegerField        | 文本字段，值为整数                  |
+| DecimalField        | 文本字段，值为decimal.Decimal       |
+| FloatField          | 文本字段，值为浮点数                |
+| BooleanField        | 复选框，值为True和False             |
+| RadioField          | 一组单选框                          |
+| SelectField         | 下拉列表                            |
+| SelectMultipleField | 下拉列表，可选择多个值              |
+| FileField           | 文本上传字段                        |
+| SubmitField         | 表单提交按钮                        |
+| FormField           | 把表单作为字段嵌入另一个表单        |
+| FieldList           | 一组指定类型的字段                  |
+
+WTForms常用验证函数
+
+| 验证函数     | 说明                                     |
+| :----------- | :--------------------------------------- |
+| DataRequired | 确保字段中有数据                         |
+| EqualTo      | 比较两个字段的值，常用于比较两次密码输入 |
+| Length       | 验证输入的字符串长度                     |
+| NumberRange  | 验证输入的值在数字范围内                 |
+| URL          | 验证URL                                  |
+| AnyOf        | 验证输入值在可选列表中                   |
+| NoneOf       | 验证输入值不在可选列表中                 |
+
+使用Flask-WTF需要配置参数SECRET_KEY。
+
+CSRF_ENABLED是为了CSRF（跨站请求伪造）保护。 SECRET_KEY用来生成加密令牌，当CSRF激活的时候，该设置会根据设置的密匙生成加密令牌。
+
+在HTML页面中直接写form表单：
 
 ## 6.5 控制语句
 
@@ -688,17 +755,13 @@ def info():
 
 {% for item in samples %} {% endfor %}
 
- 
-
 ## 6.6 宏
 
-类似于python中的函数，宏的作用就是在模板中重复利用代码，避免代码冗余。
+类似于python中的函数，宏的作用就是在模板中重复利用代码，避免**代码冗余**。
 
- 
+### 6.6.1 不带参数宏
 
-### 6.6.1 不带参数宏的定义与使用
-
-**定义：**
+1、定义
 
 {% macro input() %}
 
@@ -712,17 +775,15 @@ def info():
 
 {% endmacro %}
 
- 
-
-**使用**
+2、使用
 
 {{ input() }}
 
  
 
-### 6.6.2 带参数宏的定义与使用
+### 6.6.2 带参数宏
 
-定义
+1、定义
 
 {% macro input(name,value='',type='text',size=20) %}
 
@@ -738,25 +799,19 @@ def info():
 
  
 
-使用
+2、使用
 
 {{ input(value='name',type='password',size=40)}}
 
  
 
-### 6.6.3 将宏单独封装在html文件中
+### 6.6.3 将宏单独封装
 
- 
-
-文件名可以自定义macro.html
-
- 
+1、文件名可以自定义macro.html
 
 {% macro input() %}
 
- 
-
-  <input type="text" name="username" placeholde="Username">
+   <input type="text" name="username" placeholde="Username">
 
   <input type="password" name="password" placeholde="Password">
 
@@ -766,9 +821,7 @@ def info():
 
  
 
-在其它模板文件中先导入，再调用
-
- 
+2、在其它模板文件中先导入，再调用
 
 {% import 'macro.html' as func %}
 
@@ -780,25 +833,184 @@ def info():
 
 extend
 
+```python
+{% block top %}
+顶部菜单
+{% endblock top %}
+
+{% block content %}
+{% endblock content %}
+
+{% block bottom %}
+底部
+{% endblock bottom %}
+```
+
+
+
+```python
+{% extends 'base.html' %}
+{% block content %}
+需要填充的内容
+{% endblock content %}
+```
+
+
+
 ## 6.5 模板包含
 
 include
 
- 
+Jinja2模板中，除了宏和继承，还支持一种代码重用的功能，叫包含(Include)。它的功能是将另一个模板整个加载到当前模板中，并直接渲染。
 
-## 6.6 flask在模板中使用特殊变量和方法
+示例：
+
+include的使用
+
+{\% include 'hello.html' %}
+
+包含在使用时，如果包含的模板文件不存在时，程序会抛出TemplateNotFound异常，可以加上ignore missing关键字。如果包含的模板文件不存在，会忽略这条include语句。
+
+示例：
+
+include的使用加上关键字ignore missing
+
+{\% include 'hello.html' ignore missing %}
+
+- 宏、继承、包含：
+  - 宏(Macro)、继承(Block)、包含(include)均能实现代码的复用。
+  - 继承(Block)的本质是代码替换，一般用来实现多个页面中重复不变的区域。
+  - 宏(Macro)的功能类似函数，可以传入参数，需要定义、调用。
+  - 包含(include)是直接将目标模板文件整个渲染出来。
+
+## 6.6 特殊变量/方法
+
+flask在模板中使用特殊变量和方法
 
 ### 6.6.1 config
 
- 
+ ```python
+config 对象就是Flask的config对象，也就是 app.config 对象。
+
+{{ config.SQLALCHEMY_DATABASE_URI }}
+ ```
+
+
 
 ### 6.6.2 request
 
- 
+request常用的属性如下
+
+|  属性   |              说明              |      类型      |
+| :-----: | :----------------------------: | :------------: |
+|  data   | 记录请求的数据，并转换为字符串 |       *        |
+|  form   |      记录请求中的表单数据      |   MultiDict    |
+|  args   |      记录请求中的查询参数      |   MultiDict    |
+| cookies |     记录请求中的cookie信息     |      Dict      |
+| headers |       记录请求中的报文头       | EnvironHeaders |
+| method  |     记录请求使用的HTTP方法     |    GET/POST    |
+|   url   |       记录请求的URL地址        |     string     |
+|  files  |       记录请求上传的文件       |       *        |
+
+```python
+{{ request.url }}
+```
+
+
 
 ### 6.6.3 url_for 
 
- 
+ url_for() 会返回传入的路由函数对应的URL，所谓路由函数就是被 app.route() 路由装饰器装饰的函数。如果我们定义的路由函数是带有参数的，则可以将这些参数作为命名参数传入。
+
+```python
+{{ url_for('index') }}
+
+{{ url_for('post', post_id=1024) }}
+```
+
+get_flashed_messages方法
+
+返回之前在Flask中通过 flash() 传入的信息列表。把字符串对象表示的消息加入到一个消息队列中，然后通过调用 get_flashed_messages() 方法取出。
+
+```python
+{% for message in get_flashed_messages() %}
+    {{ message }}
+{% endfor %}
+```
+
+### 6.6.4 闪现
+
+存一次；取一次。
+
+1、后台
+
+```python
+from flask import flash
+
+flash("hello")
+```
+
+2、页面
+
+```python
+for msg in get_flashed_messages()
+```
+
+
+
+# 7 Flask扩展
+
+## 7.1 Flask-Script
+
+1、安装模块
+
+```shell
+pip install Flask-Script
+```
+
+2、使用模块
+
+```python
+from flask import Flask
+from flask_script import Manager
+
+app = Flask(__name__)
+app.config.from_pyfile("config.cfg")
+manager = Manager(app)
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    manager.run()
+
+```
+
+3、启动命令
+
+```python
+python app.py runserver -h 0.0.0.0 -p 8888
+```
+
+4、shell脚本
+
+
+
+## 7.2 Flask-SQLalchemy
+
+```properties
+# 安装一个flask-sqlalchemy的扩展，模型类转SQL语句，结果转模型类
+pip install flask-sqlalchemy
+# 要连接mysql数据库，仍需要安装flask-mysqldb，python2中用的是mysql-python
+pip install flask-mysqldb
+```
+
+使用Flask-SQLAlchemy扩展操作数据库，首先需要建立数据库连接。数据库连接通过URL指定，而且程序使用的数据库必须保存到**Flask配置对象**的SQLALCHEMY_DATABASE_URI键中。
+
+Flask的数据库设置：app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test3'
 
 # 8 数据库 
 
@@ -811,6 +1023,8 @@ SQLAlchemy是一个关系型数据库框架，它提供了高层的ORM和底层�
 2、数据库基本操作命令
 
 ## 8.1 数据库设置
+
+数据库连接配置：
 
 ```properties
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test3'
@@ -885,9 +1099,9 @@ app = Flask(__name__)
 # 设置连接数据库的URL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/Flask_test'
 
-# 设置每次请求结束后会自动提交数据库中的改动
+# 设置每次请求结束后会自动提交数据库中的改动，不提倡使用
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-
+# 模型类和数据库进行同步一直
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # 查询时会显示原始SQL语句
 app.config['SQLALCHEMY_ECHO'] = True
@@ -896,18 +1110,20 @@ db = SQLAlchemy(app)
 class Role(db.Model):
     # 定义表名
     __tablename__ = 'roles'
+    __table_args__ = ({'comment': '角色表'})  # 表注释
     # 定义列对象
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, comment="主键ID")
     name = db.Column(db.String(64), unique=True)
     us = db.relationship('User', backref='role')
 
-    #repr()方法显示一个可读字符串
+    # repr()方法显示一个可读字符串
     def __repr__(self):
         return 'Role:%s'% self.name
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    __table_args__ = ({'comment': '用户表'})  # 表注释
+    id = db.Column(db.Integer, primary_key=True, comment="主键ID")
     name = db.Column(db.String(64), unique=True, index=True)
     email = db.Column(db.String(64),unique=True)
     pswd = db.Column(db.String(64))
@@ -931,9 +1147,54 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-3、
+3、查询操作
+
+```python
+User.query.filter_by(name='wang').all() # 名字是wang的所有数据
+User.query.first() # 第一条数据
+User.query.all() # 全部数据
+User.query.filter(User.name.endswith('g')).all() # g结尾的数据
+User.query.get() # 指定ID
+User.query.filter(User.name!='wang').all() # 不等于wang
+User.query.filter(and_(User.name!='wang',User.email.endswith('163.com'))).all() # and
+User.query.filter(or_(User.name!='wang',User.email.endswith('163.com'))).all() # or
+User.query.filter(not_(User.name=='chen')).all() # 取返
+User.query.order_by(User.id.asc).all() # 排序
+User.query(role_id,count).group_by(User.role_id).all() # 分组
+```
+
+4、关联查询
+
+
+
+5、删除
+
+```python
+db.session.delete(user);
+db.session.commit();
+```
+
+
+
+6、修改
+
+```python
+# 方式一
+db.session.add(user);
+db.session.commit();
+# 方式二
+db.session.query().update({"name":"guod"});
+```
+
+
 
 ## 8.3 自定义模板类
+
+定义模型
+
+模型表示程序使用的数据实体，在Flask-SQLAlchemy中，模型一般是Python类，继承自db.Model，db是SQLAlchemy类的实例，代表程序使用的数据库。
+
+类中的属性对应数据库表中的列。id为主键，是由Flask-SQLAlchemy管理。db.Column类构造函数的第一个参数是数据库列和模型属性类型。
 
 ```python
 #coding=utf-8
@@ -1026,7 +1287,21 @@ if __name__ == '__main__':
 
 ## 8.4 数据库迁移
 
+在开发过程中，需要修改数据库模型，而且还要在修改之后更新数据库。最直接的方式就是删除旧表，但这样会丢失数据。
 
+更好的解决办法是使用数据库迁移框架，它可以追踪数据库模式的变化，然后把变动应用到数据库中。
+
+在Flask中可以使用Flask-Migrate扩展，来实现数据迁移。并且集成到Flask-Script中，所有操作通过命令就能完成。
+
+为了导出数据库迁移命令，Flask-Migrate提供了一个MigrateCommand类，可以附加到flask-script的manager对象上。
+
+首先要在虚拟环境中安装Flask-Migrate。
+
+```python
+pip install flask-migrate
+```
+
+文件database.py
 
 ## 8.5 邮件扩展
 
