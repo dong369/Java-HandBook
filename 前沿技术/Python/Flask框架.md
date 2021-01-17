@@ -206,11 +206,16 @@ app.config.from_object()
 1、文件配置，app.config.from_pyfile(file)：使用配置文件
 
 ```python
+# 开启debug
 DEBUG = True
+# MySQL配置
 SQLALCHEMY_DATABASE_URI = mysql://root:passw0rd@127.0.0.1:3306/test
 SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SQLALCHEMY_ECHO = True
+# CORS防御
+WTF_CSRF_ENABLED = True
+SECRET_KEY = 'BB'
 
 # 文件名: 配置文件一般是.cfg结尾
 app.config.from_pyfile("config.cfg")
@@ -691,7 +696,19 @@ pip install Flask-WTF
 
 1、需要设置SECRET_KEY的配置参数
 
- 
+ ```python
+# 配置
+app.config['SECRET_KEY'] = 'you can't know'
+或csrf专用令牌
+app.config['WTF_CSRF_SECRET_KEY'] = 'IT 666 to 709 kill pic'
+# 页面
+{{ form.csrf_token }}
+或者
+{{ form.hidden_tag() }}
+# 关闭保护
+1、全局禁用：app.config中设置WTF_CSRF_ENABLED = False
+2、单个表单禁用：生成表单时加入参数form = UserFrom(csrf_enabled=False)
+ ```
 
 2、模板页
 
@@ -1416,9 +1433,120 @@ class TestMain(unittest.TestCase):
 
 ```
 
+# 10 蓝图
+
+## 10.1 为什么学习蓝图
+
+我们学习Flask框架，是从写单个文件，执行hello world开始的。我们在这单个文件中可以定义路由、视图函数、定义模型等等。但这显然存在一个问题：随着业务代码的增加，将所有代码都放在单个程序文件中，是非常不合适的。这不仅会让代码阅读变得困难，而且会给后期维护带来麻烦。
+
+我们在一个文件中写入多个路由，这会使代码维护变得困难。
+
+**问题：一个程序执行文件中，功能代码过多。**就是让代码模块化。根据具体不同功能模块的实现，划分成不同的分类，降低各功能模块之间的耦合度。python中的模块制作和导入就是基于实现功能模块的封装的需求。
+
+**尝试用模块导入的方式解决：** 我们把上述一个py文件的多个路由视图函数给拆成两个文件：app.py和admin.py文件。app.py文件作为程序启动文件，因为admin文件没有应用程序实例app，在admin文件中要使用app.route路由装饰器，需要把app.py文件的app导入到admin.py文件中。
+
+1、循环引用，解决方式推迟导入，放入到方法中
+
+2、app.route("get_goods")(get_goods)，进行后补装饰器
+
+3、蓝图方式
+
+## 10.2 什么是蓝图
+
+蓝图：用于实现单个应用的视图、模板、静态文件的集合。
+
+蓝图就是模块化处理的类。
+
+简单来说，蓝图就是一个存储操作路由映射方法的容器，主要用来实现客户端请求和URL相互关联的功能。 在Flask中，使用蓝图可以帮助我们实现模块化应用的功能。
+
+## 10.3 蓝图的运行机制
+
+蓝图是保存了一组将来可以在应用对象上执行的操作。注册路由就是一种操作,当在程序实例上调用route装饰器注册路由时，这个操作将修改对象的url_map路由映射列表。当我们在蓝图对象上调用route装饰器注册路由时，它只是在内部的一个延迟操作记录列表defered_functions中添加了一个项。当执行应用对象的 register_blueprint() 方法时，应用对象从蓝图对象的 defered_functions 列表中取出每一项，即调用应用对象的 add_url_rule() 方法，这将会修改程序实例的路由映射列表。
+
+## 10.4 蓝图使用
+
+1、创建蓝图对象
+
+```python
+from flask import Blueprint
+
+# 创建蓝图对象，蓝图就是一个小模块的抽象概念
+app_orders = Blueprint("orders", __name__)
+```
+
+2、注册蓝图路由
+
+```python
+# 定义具体视图函数
+@app_orders.route("/order_list")
+def order_list():
+    return "java"
+```
+
+3、在程序实例中注册蓝图
+
+```python
+from orders import app_orders
+# 注册蓝图
+app.register_blueprint(app_orders)
+# app.register_blueprint(app_orders, url_prefix="/order")
+```
+
+4、如果是**目录模块**
+
+包模块中__init__.py
+
+```python
+from flask import Blueprint
+
+app_sys = Blueprint("app_sys", __name__, template_folder="templates", static_folder="static")
+# 在__init__.py文件被执行的时候，把视图加载进去，让蓝图与应用程序知道视图的存在
+from .sys import app_sys
+```
 
 
-# 10 部署
+
+```python
+from . import app_sys
+
+
+@app_sys.route("/list")
+def sys():
+    return "sys"
+```
+
+如果主templates和子templates都有页面，那么就以主templates为主！
+
+# 11 RESTfull
+
+2000年，Roy Thomas Fielding博士在他的博士论文《Architectural Styles and the Design of Network-based Software Architectures》中提出了几种软件应用的架构风格，REST作为其中的一种架构风格在这篇论文中进行了概括性的介绍。
+
+REST:Representational State Transfer的缩写，翻译：“具象状态传输”。一般解释为“表现层状态转换”。
+
+REST是设计风格而不是标准。是指客户端和服务器的交互形式。我们需要关注的重点是如何设计REST风格的网络接口。
+
+- REST的特点：
+- 具象的。一般指表现层，要表现的对象就是资源。比如，客户端访问服务器，获取的数据就是资源。比如文字、图片、音视频等。
+- 表现：资源的表现形式。txt格式、html格式、json格式、jpg格式等。浏览器通过URL确定资源的位置，但是需要在HTTP请求头中，用Accept和Content-Type字段指定，这两个字段是对资源表现的描述。
+- 状态转换：客户端和服务器交互的过程。在这个过程中，一定会有数据和状态的转化，这种转化叫做状态转换。其中，GET表示获取资源，POST表示新建资源，PUT表示更新资源，DELETE表示删除资源。HTTP协议中最常用的就是这四种操作方式。
+  - RESTful架构：
+  - 每个URL代表一种资源；
+  - 客户端和服务器之间，传递这种资源的某种表现层；
+  - 客户端通过四个http动词，对服务器资源进行操作，实现表现层状态转换。
+
+## 11.1 域名
+
+
+
+## 11.2 版本
+
+
+
+## 11.3 路径
+
+
+
+# 12 部署
 
 当我们执行下面的hello.py时，使用的flask自带的服务器，完成了web服务的启动。在生产环境中，flask自带的服务器，无法满足性能要求，我们这里采用**Gunicorn**做wsgi容器，来部署flask程序。
 
@@ -1438,7 +1566,7 @@ gunicorn 并不支持windows，只能在linux 上跑
 
 gunicorn -w 4 -b 127.0.0.1:5000 -D --access-logfile ./log/log main:app
 
-## 10.1 Gunicorn
+## 12.1 Gunicorn
 
 web开发中，部署方式大致类似。简单来说，前端代理使用Nginx主要是为了实现分流、转发、负载均衡，以及分担服务器的压力。Nginx部署简单，内存消耗少，成本低。Nginx既可以做正向代理，也可以做反向代理。
 
@@ -1452,7 +1580,7 @@ web开发中，部署方式大致类似。简单来说，前端代理使用Nginx
 
 区别：正向代理的对象是客户端。反向代理的对象是服务端。
 
-1、安装
+1、安装Gunicorn，并不支持windows，**只能在linux 上跑**
 
 ```python
 pip install gunicorn
@@ -1471,11 +1599,11 @@ gunicorn -h
 ```python
 # 直接运行，默认启动的127.0.0.1::8000
 gunicorn 运行文件名称:Flask程序实例名
-# 指定进程和端口号：-w: 表示进程（worker）；-b：表示绑定ip地址和端口号（bind）
-gunicorn -w 4 -b 127.0.0.1:5001 运行文件名称:Flask程序实例名
+# 指定进程和端口号：-w: 表示进程（worker）;-b：表示绑定ip地址和端口号（bind）;-D后台运行;运行文件名称:Flask程序实例名
+gunicorn -w 4 -b 127.0.0.1:5001 -D --access-logfile ./log/log main:app
 ```
 
-## 10.2 配置Nginx
+## 12.2 配置Nginx
 
 ```properties
 server {
@@ -1492,73 +1620,6 @@ server {
     }
 }
 ```
-
-
-
-# 11 蓝图
-
-## 11.1 为什么学习蓝图
-
-我们学习Flask框架，是从写单个文件，执行hello world开始的。我们在这单个文件中可以定义路由、视图函数、定义模型等等。但这显然存在一个问题：随着业务代码的增加，将所有代码都放在单个程序文件中，是非常不合适的。这不仅会让代码阅读变得困难，而且会给后期维护带来麻烦。
-
-我们在一个文件中写入多个路由，这会使代码维护变得困难。
-
-**问题：一个程序执行文件中，功能代码过多。**就是让代码模块化。根据具体不同功能模块的实现，划分成不同的分类，降低各功能模块之间的耦合度。python中的模块制作和导入就是基于实现功能模块的封装的需求。
-
-**尝试用模块导入的方式解决：** 我们把上述一个py文件的多个路由视图函数给拆成两个文件：app.py和admin.py文件。app.py文件作为程序启动文件，因为admin文件没有应用程序实例app，在admin文件中要使用app.route路由装饰器，需要把app.py文件的app导入到admin.py文件中。
-
-## 11.2 什么是蓝图
-
-蓝图：用于实现单个应用的视图、模板、静态文件的集合。
-
-蓝图就是模块化处理的类。
-
-简单来说，蓝图就是一个存储操作路由映射方法的容器，主要用来实现客户端请求和URL相互关联的功能。 在Flask中，使用蓝图可以帮助我们实现模块化应用的功能。
-
-## 11.3 蓝图的运行机制
-
-蓝图是保存了一组将来可以在应用对象上执行的操作。注册路由就是一种操作,当在程序实例上调用route装饰器注册路由时，这个操作将修改对象的url_map路由映射列表。当我们在蓝图对象上调用route装饰器注册路由时，它只是在内部的一个延迟操作记录列表defered_functions中添加了一个项。当执行应用对象的 register_blueprint() 方法时，应用对象从蓝图对象的 defered_functions 列表中取出每一项，即调用应用对象的 add_url_rule() 方法，这将会修改程序实例的路由映射列表。
-
-## 11.4 蓝图使用
-
-1、创建蓝图对象
-
-
-
-2、注册蓝图路由
-
-
-
-3、在程序实例中注册蓝图
-
-# 12 RESTfull
-
-2000年，Roy Thomas Fielding博士在他的博士论文《Architectural Styles and the Design of Network-based Software Architectures》中提出了几种软件应用的架构风格，REST作为其中的一种架构风格在这篇论文中进行了概括性的介绍。
-
-REST:Representational State Transfer的缩写，翻译：“具象状态传输”。一般解释为“表现层状态转换”。
-
-REST是设计风格而不是标准。是指客户端和服务器的交互形式。我们需要关注的重点是如何设计REST风格的网络接口。
-
-- REST的特点：
-- 具象的。一般指表现层，要表现的对象就是资源。比如，客户端访问服务器，获取的数据就是资源。比如文字、图片、音视频等。
-- 表现：资源的表现形式。txt格式、html格式、json格式、jpg格式等。浏览器通过URL确定资源的位置，但是需要在HTTP请求头中，用Accept和Content-Type字段指定，这两个字段是对资源表现的描述。
-- 状态转换：客户端和服务器交互的过程。在这个过程中，一定会有数据和状态的转化，这种转化叫做状态转换。其中，GET表示获取资源，POST表示新建资源，PUT表示更新资源，DELETE表示删除资源。HTTP协议中最常用的就是这四种操作方式。
-  - RESTful架构：
-  - 每个URL代表一种资源；
-  - 客户端和服务器之间，传递这种资源的某种表现层；
-  - 客户端通过四个http动词，对服务器资源进行操作，实现表现层状态转换。
-
-## 12.1 域名
-
-
-
-## 12.2 版本
-
-
-
-## 12.3 路径
-
-
 
 
 
