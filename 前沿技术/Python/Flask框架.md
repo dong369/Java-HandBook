@@ -66,7 +66,7 @@ django提供了：
 
 django-admin快速创建项目工程目录
 
-manage.py 管理项目工程
+manage.py管理项目工程
 
 orm模型（数据库抽象层）
 
@@ -199,6 +199,8 @@ import_name和static_url_path的区别：import_name是**请求地址**如果包
 app.config.from_pyfile("yourconfig.cfg") 
 或
 app.config.from_object()
+或
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 ```
 
 在Django中，有一个程序的配置文件settings.py，但是在flask中并没有settings.py这个文件，不过不必担心，flask提供了3种应用配置的方式，分别如下：
@@ -1483,9 +1485,10 @@ def order_list():
     return "java"
 ```
 
-3、在程序实例中注册蓝图
+3、在app程序实例中注册蓝图
 
 ```python
+# 导入蓝图
 from orders import app_orders
 # 注册蓝图
 app.register_blueprint(app_orders)
