@@ -175,6 +175,80 @@ Prior to Flask 1.0 the FLASK_ENV environment variable was not supported and you 
 
 pycharm会自动识别出来你的flask项目（即使你创建项目的时候并没有选择flask框架的模板），但是在你运行的时候依旧是下图所示，右上角以flask的logo运行的。我们只需要**切换成python模式运行**就行啦。
 
+## 4.4 完整例子
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：flaskProject
+@File    ：manage.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
+from flask_wtf import CSRFProtect
+
+import redis
+
+# app对象
+app = Flask(__name__)
+
+
+class Config(object):
+    """配置信息"""
+
+    # 秘钥配置
+    SECRET_KEY = 'abc'
+
+    # MySQL配置
+    SQLALCHEMY_DATABASE_URI = "mysql://root:passw0rd@127.0.0.1:3306/flask"  # 连接地址
+    SQLALCHEMY_TRACK_MODIFICATIONS = True  # 模型类和数据库进行同步一直
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True  # 自动提交事务和关闭
+    SQLALCHEMY_ECHO = True  # 打印SQL
+
+    # Redis
+    REDIS_HOST = "127.0.0.1"
+    REDIS_PORT = 6379
+
+    # Flask-session
+    SESSION_TYPE = "redis"
+    SESSION_REDIS = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
+    SESSION_USE_SIGNER = True  # 对cookie中session_id进行隐藏处理
+    PERMANENT_SESSION_LIFETIME = 86400  # session数据的有效期，单位秒
+
+
+# 加载配置文件
+app.config.from_object(Config)
+
+# 数据库配置
+db = SQLAlchemy(app)
+
+# Redis连接配置
+redis_store = redis.StrictRedis(host=Config.REDIS_HOST, port=Config.REDIS_PORT)
+
+# 利用flask-session，将session数据保存到redis中
+Session(app)
+
+# 安全防护
+CSRFProtect(app)
+
+
+@app.route('/')
+def hello_world():
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8585)
+
+
+```
+
+
+
 # 5 视图
 
 ## 5.1 app对象
@@ -1047,6 +1121,9 @@ SQLAlchemy是一个关系型数据库框架，它提供了高层的ORM和底层�
 
 ```properties
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/test3'
+
+SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:passw0rd@10.4.128.183:5432/bdi_db_test"
+
 ```
 
 常用的SQLAlchemy字段类型
@@ -1120,7 +1197,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/Flask
 
 # 设置每次请求结束后会自动提交数据库中的改动，不提倡使用
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-# 模型类和数据库进行同步一直
+# 模型类和数据库进行同步一致
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # 查询时会显示原始SQL语句
 app.config['SQLALCHEMY_ECHO'] = True
@@ -1641,3 +1718,5 @@ server {
 对性能优化的主要手段，包括使用缓存加速数据读取，使用集群提高数据吞吐能力，使用异步消息加快请求响应，使用代码改善程序性能。
 
 运维人员认为的网站性能：运维人员关注的主要是服务器基础设施和资源利用率。如服务器硬件的配置、网络运营商的带宽、数据中心的网络架构等。主要优化手段有使用高性价比的服务器、建设优化骨干网络、利用虚拟化技术优化资源利用等。
+
+# 14 项目结构
