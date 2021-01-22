@@ -1053,7 +1053,7 @@ for msg in get_flashed_messages()
 
 # 7 Flask扩展
 
-## 7.1 Flask-Script
+## 7.1 Script
 
 1、安装模块
 
@@ -1092,7 +1092,7 @@ python app.py runserver -h 0.0.0.0 -p 8888
 
 
 
-## 7.2 Flask-SQLalchemy
+## 7.2 SQLalchemy
 
 ```properties
 # 安装一个flask-sqlalchemy的扩展，模型类转SQL语句，结果转模型类
@@ -1391,13 +1391,62 @@ if __name__ == '__main__':
 
 为了导出数据库迁移命令，Flask-Migrate提供了一个MigrateCommand类，可以附加到flask-script的manager对象上。
 
-首先要在虚拟环境中安装Flask-Migrate。
+1、首先要在虚拟环境中安装Flask-Migrate。
 
 ```python
 pip install flask-migrate
 ```
 
-文件database.py
+2、文件database.py
+
+```python
+# coding=utf-8
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate,MigrateCommand
+from flask_script import Shell,Manager
+
+app = Flask(__name__)
+manager = Manager(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:mysql@127.0.0.1:3306/Flask_test'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app)
+
+# 第一个参数是Flask的实例，第二个参数是Sqlalchemy数据库实例
+migrate = Migrate(app,db) 
+
+# manager是Flask-Script的实例，这条语句在flask-Script中添加一个db命令
+manager.add_command('db',MigrateCommand)
+
+# 定义模型Role
+class Role(db.Model):
+    # 定义表名
+    __tablename__ = 'roles'
+    # 定义列对象
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    def __repr__(self):
+        return 'Role:'.format(self.name)
+
+# 定义用户
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    def __repr__(self):
+        return 'User:'.format(self.username)
+if __name__ == '__main__':
+    manager.run()
+```
+
+3、基础命令
+
+```python
+#这个命令会创建migrations文件夹，所有迁移文件都放在里面。
+python database.py db init
+```
 
 ## 8.5 邮件扩展
 
