@@ -8,3 +8,15 @@
 5.线条的样式（比如颜色，透明度等）
 6.标记出特殊的点（比如告诉别人最高点和最低点在哪里）
 7.给图片添加一个水印（防伪，防止盗用
+
+```python
+from matplotlib import pyplot as plt
+
+fig = plt.figure(figsize=(20, 8), dpi=80)
+
+x = range(2, 26, 2)
+y = range(12)
+plt.plot(x, y)
+plt.show()
+```
+
