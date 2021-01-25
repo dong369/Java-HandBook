@@ -56,8 +56,6 @@ print(type(array))
 
 平时用的最多的是一维数组、二维数组。
 
-
-
 ## 2.2 创建方式
 
 ```python
@@ -96,34 +94,35 @@ CSV逗号分隔的文件
 
 转置，交换轴
 
+```python
+np.loadtxt(fname,dtype=np.float,delimiter=None,skiprows=0,usecols=None,unpack=False)
+```
+
+![image-20210125132917731](../../插图/image-20210125132917731.png)
+
 ## 3.2 切片
 
 ```python
-path = "../cvs/US_video_data_numbers.csv"
-t1 = np.loadtxt(path, delimiter=",", dtype="int", skiprows=0)
-print(t1)
-print(10 * "*")
-# 取一行
-print(t1[1])
-# 取多行
-print(t1[[2, 4]])
-print("*" * 10)
-# 连续多行（切片）
-print(t1[:5])
-print("*" * 100)
-print(t1[1, :])
-print("*" * 100)
-print(t1[:, 0])
-print(t1[2, 2])
-# 多行多列，取第三行到第五行，第二列到第四列
-print(t1[0:4, 2:4])
-# 取多个不相邻的点
-print(t1[[0, 1], [2, 1]])
-aa = t1[2] = 0
-bb = np.where(t1 > 0, 3, 5)
-cc = t1.clip(12, 1000)
-print(t1.astype("float"))
-print(cc)
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+print(two_arr)
+# x轴方向，行数
+print(two_arr.shape[0])
+# y轴方向，列数
+print(two_arr.shape[1])
+# 读取一行
+print(two_arr[0])
+# 读取多行
+print(two_arr[:2])
+# 读取一列
+print(two_arr[:, 1])
+# 读取连续多列
+print(two_arr[:, : 2])
+# 读取不连续多列
+print(two_arr[:, [1, 3]])
+# 读取不连续多行
+print(two_arr[[1, 3], :])
 ```
 
 
@@ -164,11 +163,13 @@ print(cc)
 
 ## 3.11 Nan
 
+nan(NAN,Nan):not a number表示不是一个数字
 
+nan和任何值计算都为nan
 
 ## 3.12 Inf
 
-
+inf(-inf,inf):infinity,inf表示正无穷，-inf表示负无穷
 
 ## 3.13 函数
 
@@ -203,3 +204,6 @@ print(info)
 
 ```
 
+
+
+![image-20210125164145476](../../插图/image-20210125164145476.png)
