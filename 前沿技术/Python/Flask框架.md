@@ -1097,6 +1097,7 @@ python app.py runserver -h 0.0.0.0 -p 8888
 pip install flask-sqlalchemy
 # 要连接mysql数据库，仍需要安装flask-mysqldb，python2中用的是mysql-python
 pip install flask-mysqldb
+pip install psycopg2
 ```
 
 使用Flask-SQLAlchemy扩展操作数据库，首先需要建立数据库连接。数据库连接通过URL指定，而且程序使用的数据库必须保存到**Flask配置对象**的SQLALCHEMY_DATABASE_URI键中。

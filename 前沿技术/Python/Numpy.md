@@ -36,7 +36,7 @@ print(type(array))
 
 ```
 
-## 1.4 目标
+## 1.4 问题
 
 1、什么是numpy
 
