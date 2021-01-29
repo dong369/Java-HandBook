@@ -18,6 +18,34 @@ numpy能够帮我们处理处理数值型数据，但是这还不够
 
 Series 一维，带标签数组
 
+```python
+import string
+
+import pandas as pd
+import numpy as np
+
+# 创建series的两种方式
+ser_dict = {"name": "guo", "age": 12, "tel": 1888}
+data_rang = pd.Series(np.arange(10), index=list(string.ascii_uppercase[:10]), dtype=int)
+data_dict = pd.Series(ser_dict)
+print(data_dict)
+print(data_rang)
+
+# 取值
+print(data_dict[[0, 1, 2]])
+print(data_dict[["age", "tel"]])
+print(data_dict[0:4])
+print(data_dict[0:4:2])
+print(data_rang[data_rang > 6])
+
+# 索引、值
+print(data_rang.index)
+print(data_rang.values)
+
+```
+
+
+
 DataFrame 二维，Series容器
 
 ## 1.1 列表推导式
