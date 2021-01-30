@@ -1,4 +1,4 @@
-# 1 基本操作
+# 1 基本认识
 
 Numpy是Python中科学计算的基础包。主要提供**多维数组对象**，各种派生对象（如掩码数组和矩阵），以及用于数组快速操作的各种API，有包含数学、逻辑、形状、排序、选择、输入输出、离散愽立叶变换、基本线性代数，基本统计运算和随机模拟。
 
@@ -86,7 +86,7 @@ NumPy的主要对象是同构多维数组。它是一个元素表（通常是数
 
 ![image-20210124113413641](../../插图/image-20210124113413641.png)
 
-# 3 本地数据
+# 3 基本操作
 
 ## 3.1 读取
 
@@ -101,6 +101,13 @@ np.loadtxt(fname,dtype=np.float,delimiter=None,skiprows=0,usecols=None,unpack=Fa
 ![image-20210125132917731](../../插图/image-20210125132917731.png)
 
 2、自定义数据
+
+```python
+data_path = "../csv/video/GB_video_data_numbers.csv"
+dn = np.loadtxt(data_path, delimiter=",", dtype=np.int)
+print(dn[:, 2:])
+
+```
 
 
 
@@ -212,7 +219,222 @@ print(arr_three)
 
 
 
-## 3.6 方法
+
+
+## 3.6 赋值
+
+修改行列的值，我们能够很容易的实现，但是如果条件更复杂呢？比如我们想要把t中小于10的数字替换为3
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 赋值
+two_arr[1:3, 4:6] = 0
+print(two_arr)
+
+```
+
+
+
+## 3.7 布尔替换
+
+小于10的数字替换为0，把大于10的替换为10，应该怎么做？？
+
+注意：会直接修改数组中的值，因为等价于赋值操作
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 大于6的替换成6
+two_arr[two_arr > 6] = 6
+print(two_arr)
+
+```
+
+
+
+## 3.8 三位替换
+
+小于10的数字替换为0，把大于20的替换为20，应该怎么做？？
+
+注意：不会直接修改数组中的值，区别布尔操作
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 大于6的替换成6
+np.where(two_arr < 9, 0, 10)
+print(two_arr)
+
+```
+
+
+
+## 3.9 裁剪替换
+
+小于10的替换为10，大于18的替换为了18，但是nan没有被替换，那么nan是什么？
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 裁剪替换
+print(two_arr.clip(9, 18))
+
+```
+
+
+
+## 3.10 转置
+
+T、transpose()、swapaxes(1,0)
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np01.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+arr_data = np.arange(24).reshape(3, 8)
+print(arr_data.T)
+print(arr_data.transpose())
+print(arr_data.swapaxes(1, 0))
+
+```
+
+
+
+## 3.11 Nan
+
+1、nan(NAN,Nan)：not a number表示不是一个数字。
+
+2、nan和任何值计算都为nan。
+
+3、什么时候numpy中会出现nan
+
+​      当我们读取本地的文件为float的时候，如果有缺失，就会出现nan
+
+​      当做了一个不合适的计算的时候(比如无穷大(inf)减去无穷大)
+
+## 3.12 Inf
+
+1、inf(-inf,inf)：infinity,inf表示正无穷，-inf表示负无穷。
+
+2、什么时候回出现inf包括（-inf，+inf）
+
+​      比如一个数字除以0，（python中直接会报错，numpy中是一个inf或者-inf）
+
+## 3.13 函数
+
+
+
+## 3.14 拼接
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：py
+@File    ：np02.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+# 文件读取
+gb_data_path = "../csv/video/GB_video_data_numbers.csv"
+us_data_path = "../csv/video/GB_video_data_numbers.csv"
+gb_dn = np.loadtxt(gb_data_path, delimiter=",", dtype=np.int)
+us_dn = np.loadtxt(us_data_path, delimiter=",", dtype=np.int)
+
+# 构建标识列
+gb_flag = np.zeros((gb_dn.shape[0], 1))
+us_flag = np.ones((us_dn.shape[0], 1))
+
+# 水平拼接
+gb_stack_data = np.hstack((gb_dn, gb_flag))
+us_stack_data = np.hstack((us_dn, us_flag))
+
+# 垂直拼接
+all_data = np.vstack((gb_stack_data, us_stack_data))
+
+print(all_data)
+
+```
+
+## 3.15 随机
+
+![image-20210125164145476](../../插图/image-20210125164145476.png)
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+np.random.seed(10)
+print(np.random.rand())
+print(np.random.random())
+print(np.random.randint(12, 90), (5, 6))
+print(np.random.uniform(1, 1.5, (3, 4)))
+print(np.random.normal(1, 1.5, (2, 3)))
+
+```
+
+
+
+## 3.17 方阵
+
+```python
+print(np.eye(3, 6))
+```
+
+## 3.17 方法
 
 求和：t.sum(axis=None)
 
@@ -259,192 +481,14 @@ print(list(np.ptp(two_arr, axis=0)))
 
 ```
 
+获取最大值最小值的位置
 
+np.argmax(t,axis=0)
 
-## 3.7 赋值
+np.argmin(t,axis=1)
 
-修改行列的值，我们能够很容易的实现，但是如果条件更复杂呢？比如我们想要把t中小于10的数字替换为3
+创建一个全0的数组: np.zeros((3,4))
 
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np03.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
-import numpy as np
+创建一个全1的数组:np.ones((3,4))
 
-two_arr = np.arange(45).reshape(5, 9)
-# 赋值
-two_arr[1:3, 4:6] = 0
-print(two_arr)
-
-```
-
-
-
-## 3.8 布尔替换
-
-小于10的数字替换为0，把大于10的替换为10，应该怎么做？？
-
-注意：会直接修改数组中的值，因为等价于赋值操作
-
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np03.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
-import numpy as np
-
-two_arr = np.arange(45).reshape(5, 9)
-# 大于6的替换成6
-two_arr[two_arr > 6] = 6
-print(two_arr)
-
-```
-
-
-
-## 3.9 三位替换
-
-小于10的数字替换为0，把大于20的替换为20，应该怎么做？？
-
-注意：不会直接修改数组中的值，区别布尔操作
-
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np03.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
-import numpy as np
-
-two_arr = np.arange(45).reshape(5, 9)
-# 大于6的替换成6
-np.where(two_arr < 9, 0, 10)
-print(two_arr)
-
-```
-
-
-
-## 3.10 裁剪替换
-
-小于10的替换为10，大于18的替换为了18，但是nan没有被替换，那么nan是什么？
-
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np03.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
-import numpy as np
-
-two_arr = np.arange(45).reshape(5, 9)
-# 裁剪替换
-print(two_arr.clip(9, 18))
-
-```
-
-
-
-## 3.11 转置
-
-T、transpose()、swapaxes(1,0)
-
-```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np01.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
-import numpy as np
-
-arr_data = np.arange(24).reshape(3, 8)
-print(arr_data.T)
-print(arr_data.transpose())
-print(arr_data.swapaxes(1, 0))
-
-```
-
-
-
-## 3.12 Nan
-
-1、nan(NAN,Nan)：not a number表示不是一个数字。
-
-2、nan和任何值计算都为nan。
-
-3、什么时候numpy中会出现nan
-
-​      当我们读取本地的文件为float的时候，如果有缺失，就会出现nan
-
-​      当做了一个不合适的计算的时候(比如无穷大(inf)减去无穷大)
-
-## 3.13 Inf
-
-1、inf(-inf,inf)：infinity,inf表示正无穷，-inf表示负无穷。
-
-2、什么时候回出现inf包括（-inf，+inf）
-
-​      比如一个数字除以0，（python中直接会报错，numpy中是一个inf或者-inf）
-
-## 3.14 函数
-
-
-
-## 3.15 拼接
-
-```python
-import numpy as np
-
-us = "../cvs/US_video_data_numbers.csv"
-gb = "../cvs/GB_video_data_numbers.csv"
-
-# 加载数据
-us_data = np.loadtxt(us, delimiter=",", dtype=int)
-gb_data = np.loadtxt(gb, delimiter=",", dtype=int)
-
-# 添加国家信息
-print(us_data.shape[0])
-
-# 初始化值
-us_zeros = np.zeros((us_data.shape[0], 2)).astype(int)
-gb_zeros = np.ones((gb_data.shape[0], 2)).astype(int)
-
-# 横向拼接
-us_data = np.hstack((us_data, us_zeros))
-gb_data = np.hstack((gb_data, gb_zeros))
-
-# 垂直拼接
-info = np.vstack((us_data, gb_data))
-print(info)
-
-```
-
-## 3.16 随机
-
-![image-20210125164145476](../../插图/image-20210125164145476.png)
-
-## 3.17 方阵
-
-```python
-print(np.eye(3, 6))
-```
-
-## 3.18 缺失
+创建一个对角线为1的正方形数组(方阵)：np.eye(3)
