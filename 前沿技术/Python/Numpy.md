@@ -88,9 +88,9 @@ NumPy的主要对象是同构多维数组。它是一个元素表（通常是数
 
 # 3 本地数据
 
-## 3.1 读取 
+## 3.1 读取
 
-CSV逗号分隔的文件
+1、CSV文件读取
 
 转置，交换轴
 
@@ -100,82 +100,315 @@ np.loadtxt(fname,dtype=np.float,delimiter=None,skiprows=0,usecols=None,unpack=Fa
 
 ![image-20210125132917731](../../插图/image-20210125132917731.png)
 
-## 3.2 切片
+2、自定义数据
+
+
+
+3、数据库
+
+
+
+4、其他
+
+## 3.2 索引
 
 ```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np01.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
 import numpy as np
 
-two_arr = np.arange(45).reshape(5, 9)
-print(two_arr)
-# x轴方向，行数
-print(two_arr.shape[0])
-# y轴方向，列数
-print(two_arr.shape[1])
-# 读取一行
-print(two_arr[0])
-# 读取多行
-print(two_arr[:2])
-# 读取一列
-print(two_arr[:, 1])
-# 读取连续多列
-print(two_arr[:, : 2])
-# 读取不连续多列
-print(two_arr[:, [1, 3]])
-# 读取不连续多行
-print(two_arr[[1, 3], :])
+arr = np.arange(24).reshape(3, 8)
+print(arr[1])
+
 ```
 
 
 
-## 3.3 索引
+## 3.3 切片
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np01.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+arr = np.arange(24).reshape(3, 8)
+# 全部数据
+print(arr)
+print("*" * 100)
+
+# x轴方向，行数
+print(arr.shape[0])
+# y轴方向，列数
+print(arr.shape[1])
+print("*" * 100)
+
+# 点数据
+print(arr[1, 3])
+print("*" * 100)
+
+# 单行
+print(arr[1])
+# 相邻多行
+print(arr[1:3])
+# 不相邻多行
+print(arr[[0, 2]])
+print("*" * 100)
+
+# 单列
+print(arr[:, 1])
+# 相邻多列
+print(arr[:, 1:4])
+# 不相邻多列
+print(arr[:, [1, 2]])
+
+```
+
+## 3.4 形状
+
+1、基本使用
+
+2、常用方法
+
+flatten()
+
+3、形状变换
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np01.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+arr_data = np.arange(24)
+arr_one = arr_data.flatten()
+arr_two = arr_data.reshape(3, 8)
+arr_three = arr_data.reshape(2, 3, 4)
+print(arr_one.tolist())
+print(arr_two)
+print(arr_three)
+
+```
 
 
 
-## 3.4 方法
+## 3.5 运算
 
 
 
-## 3.5 赋值
+## 3.6 方法
+
+求和：t.sum(axis=None)
+
+均值：t.mean(a,axis=None) 受离群点的影响较大
+
+中值：np.median(t,axis=None)
+
+最大值：t.max(axis=None)
+
+最小值：t.min(axis=None)
+
+极值：np.ptp(t,axis=None) 即最大值和最小值只差
+
+标准差：t.std(axis=None)
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+print(two_arr)
+# 求和
+print(list(two_arr.sum(axis=0)))
+# 均值
+print(list(two_arr.mean(axis=0)))
+# 最小
+print(list(two_arr.min(axis=0)))
+# 最大
+print(list(two_arr.max(axis=0)))
+# 标准差，标准差是一组数据平均值分散程度的一种度量。一个较大的标准差，代表大部分数值和其平均值之间差异较大；
+# 一个较小的标准差，代表这些数值较接近平均值反映出数据的波动稳定情况，越大表示波动越大，约不稳定
+print(list(two_arr.std(axis=0)))
+# 中值
+print(list(np.median(two_arr, axis=0)))
+# 极值，最大值和最小值只差
+print(list(np.ptp(two_arr, axis=0)))
+
+```
 
 
 
-## 3.6 替换
+## 3.7 赋值
+
+修改行列的值，我们能够很容易的实现，但是如果条件更复杂呢？比如我们想要把t中小于10的数字替换为3
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 赋值
+two_arr[1:3, 4:6] = 0
+print(two_arr)
+
+```
 
 
 
-## 3.7 布尔
+## 3.8 布尔替换
+
+小于10的数字替换为0，把大于10的替换为10，应该怎么做？？
+
+注意：会直接修改数组中的值，因为等价于赋值操作
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 大于6的替换成6
+two_arr[two_arr > 6] = 6
+print(two_arr)
+
+```
 
 
 
-## 3.8 三位
+## 3.9 三位替换
+
+小于10的数字替换为0，把大于20的替换为20，应该怎么做？？
+
+注意：不会直接修改数组中的值，区别布尔操作
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 大于6的替换成6
+np.where(two_arr < 9, 0, 10)
+print(two_arr)
+
+```
 
 
 
-## 3.9 裁剪
+## 3.10 裁剪替换
+
+小于10的替换为10，大于18的替换为了18，但是nan没有被替换，那么nan是什么？
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np03.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+two_arr = np.arange(45).reshape(5, 9)
+# 裁剪替换
+print(two_arr.clip(9, 18))
+
+```
 
 
 
-## 3.10 转置
+## 3.11 转置
+
+T、transpose()、swapaxes(1,0)
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：studypy
+@File    ：np01.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import numpy as np
+
+arr_data = np.arange(24).reshape(3, 8)
+print(arr_data.T)
+print(arr_data.transpose())
+print(arr_data.swapaxes(1, 0))
+
+```
 
 
 
+## 3.12 Nan
+
+1、nan(NAN,Nan)：not a number表示不是一个数字。
+
+2、nan和任何值计算都为nan。
+
+3、什么时候numpy中会出现nan
+
+​      当我们读取本地的文件为float的时候，如果有缺失，就会出现nan
+
+​      当做了一个不合适的计算的时候(比如无穷大(inf)减去无穷大)
+
+## 3.13 Inf
+
+1、inf(-inf,inf)：infinity,inf表示正无穷，-inf表示负无穷。
+
+2、什么时候回出现inf包括（-inf，+inf）
+
+​      比如一个数字除以0，（python中直接会报错，numpy中是一个inf或者-inf）
+
+## 3.14 函数
 
 
-## 3.11 Nan
 
-nan(NAN,Nan):not a number表示不是一个数字
-
-nan和任何值计算都为nan
-
-## 3.12 Inf
-
-inf(-inf,inf):infinity,inf表示正无穷，-inf表示负无穷
-
-## 3.13 函数
-
-
-
-## 3.7 拼接
+## 3.15 拼接
 
 ```python
 import numpy as np
@@ -204,6 +437,14 @@ print(info)
 
 ```
 
-
+## 3.16 随机
 
 ![image-20210125164145476](../../插图/image-20210125164145476.png)
+
+## 3.17 方阵
+
+```python
+print(np.eye(3, 6))
+```
+
+## 3.18 缺失
