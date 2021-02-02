@@ -96,14 +96,30 @@ print(ser_rang.dtype)
 
 ## 3.3 取值
 
+由于series是一维数组，所以不涉及取多列操作。
+
 ```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""""
+@Project ：guodd
+@File    ：maintest.py
+@Author  ：guodd
+@IDE     ：PyCharm
+"""
+import pandas as pd
+
+ds_dict = pd.Series({"name": "guo", "age": 23, "tel": 1001})
+ds_range = pd.Series(range(2, 9))
+print(ds_dict.shape[0])
 # 取值
-print(data_dict[[0, 1, 2]])
-print(data_dict[["age", "tel"]])
-print(data_dict[0:4])
-print(data_dict[0:4:2])
-print(ser_rang[ser_rang > 6])
-print(ser_rang[[1], [2]]) # 错误写法
+print(ds_dict[[0, 1, 2]])
+print(ds_dict[["age", "tel"]])
+print(ds_dict[0:4])
+print(ds_dict[0:4:2])
+print(ds_range[ds_range > 6])
+# print(ds_range[[1], [2]])  # 错误写法
+
 ```
 
 
@@ -202,7 +218,65 @@ print(file_data.describe())
 
 2.dfdf.loc.iloc 通过**位置**获取行数据
 
+```python
+import string
+import pandas as pd
+import numpy as np
+
+df_dict = pd.DataFrame({"name": ["guo", "zhang"], "age": [23, np.nan], "tel": [1001, 12]},
+                       index=list(string.ascii_lowercase[:2]),
+                       columns=list(string.ascii_uppercase[:3]))
+df_range = pd.DataFrame(np.arange(24).reshape(3, 8),
+                        index=list(string.ascii_lowercase[0:3]),
+                        columns=list(string.ascii_uppercase[:8]))
+
+# 数据格式
+print(df_dict)
+print(df_range)
+
+# 形状
+print(df_range.shape[0])
+print(df_range.shape[1])
+
+# 取连续行
+print(df_range[0:2])
+# print(df_range[1, 2]) 错误写法
+print(df_range.loc[["a"], ["A"]])
+# 不连续行
+print(df_range.iloc[[0, 2], :])
+
+# 指定列
+print(df_range["A"])
+# 不连续列
+print(df_range[["A", "B"]])
+# 连续列
+print(df_range.iloc[:, 0:3])
+
+# 任意块
+print(df_range.iloc[1:3, 2:5])
+
+```
+
+
+
 ## 4.5 索引/值
+
+```python
+import string
+import pandas as pd
+import numpy as np
+
+df_dict = pd.DataFrame({"name": ["guo", "zhang"], "age": [23, np.nan], "tel": [1001, 12]},
+                       index=list(string.ascii_lowercase[:2]),
+                       columns=list(string.ascii_uppercase[:3]))
+df_range = pd.DataFrame(np.arange(24).reshape(3, 8),
+                        index=list(string.ascii_lowercase[0:3]),
+                        columns=list(string.ascii_uppercase[:8]))
+
+print(df_range.index)
+print(df_range.values)
+
+```
 
 
 
