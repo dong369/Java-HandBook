@@ -140,14 +140,6 @@ print(arr[1])
 ## 3.3 切片
 
 ```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""""
-@Project ：studypy
-@File    ：np01.py
-@Author  ：guodd
-@IDE     ：PyCharm
-"""
 import numpy as np
 
 arr = np.arange(24).reshape(3, 8)
@@ -179,6 +171,7 @@ print(arr[:, 1])
 print(arr[:, 1:4])
 # 不相邻多列
 print(arr[:, [1, 2]])
+
 
 ```
 

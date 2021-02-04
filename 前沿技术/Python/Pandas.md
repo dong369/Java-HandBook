@@ -286,31 +286,59 @@ print(df_range.values)
 
 ## 4.7 缺失处理
 
-我们的数据缺失通常有两种情况：一种就是空，None等，在pandas是NaN(和np.nan一样)；另一种是我们让其为0。
+数据缺失通常有**两种情况**：一种就是空，None等，在pandas是NaN(和np.nan一样)；另一种是我们让其为0。
 
-## 4.8 布尔
+对于NaN的数据，在numpy中我们是如何处理的？
 
+在pandas中我们处理起来非常容易判断数据是否为NaN：pd.isnull(df),pd.notnull(df)
 
+处理方式1：删除NaN所在的行列dropna (axis=0, how='any', **inplace**=False)
+
+处理方式2：填充数据，t.fillna(t.mean()),t.fillna(t.median()),t.fillna(0)
+
+处理为0的数据：t[t==0]=np.nan
+
+当然**并不是**每次为0的数据都需要处理，计算平均值等情况，nan是**不参与计算**的，但是0会。
+
+## 4.8 布尔筛选
+
+假如我们想找到所有的使用次数超过700并且名字的字符串的长度大于4的狗的名字，应该怎么选择？
 
 ## 4.9 数据合并
 
+join：默认情况下他是把行索引相同的数据合并到一起。
 
+merge：按照指定的列把数据按照一定的方式合并到一起。
 
 ## 4.10 分组
 
-join、merge
+df.groupby(by="columns_name")
 
 ## 4.11 聚合
 
-groupby
+
 
 ## 4.12 复合索引
 
+获取index：df.index
 
+指定index ：df.index = ['x','y']
+
+重新设置index : df.reindex(list("abcedf"))
+
+指定某一列作为index ：df.set_index("Country",drop=False)
+
+返回index的唯一值：df.set_index("Country").index.unique()
 
 # 5 时间序列
 
 ## 5.1 创建
+
+pd.date_range(start=None, end=None, periods=None, freq='D')
+
+start和end以及freq配合能够生成start和end范围内以频率freq的一组时间索引
+
+start和periods以及freq配合能够生成从start开始的频率为freq的periods个时间索引
 
 ```python
 import pandas as pd
@@ -326,47 +354,14 @@ print(date_df)
 
 pandas提供了一个resample的方法来帮助我们实现频率转化。
 
-
-
-## 5.3 PeriodIndex
-
-之前所学习的DatetimeIndex可以理解为时间戳
-
-那么现在我们要学习的PeriodIndex可以理解为时间段
+## 5.3 DatetimeIndex
 
 
 
-periods = pd.PeriodIndex(year=data["year"],month=data["month"],day=data["day"],hour=data["hour"],freq="H")
+## 5.4 PeriodIndex
+
+之前所学习的DatetimeIndex可以理解为时间戳，那么现在我们要学习的PeriodIndex可以理解为时间段。
+
+s = pd.PeriodIndex(year=data["year"],month=data["month"],day=data["day"],hour=data["hour"],freq="H")
 
 那么如果给这个时间段降采样呢？
-
-
-
-# 5 列表推导式
-
-## 5.1 基本格式
-
-`[* for i in k]:  `*可以是一个函数，变量为i（也可以与i无关），k为一个可迭代对象，如列表。
-
-1、一句代码输出一个1到5的立方
-
-2、一句代码创建一个列表，包含10个60-100的随机整数
-
-```python
-import random
-
-print([i ** 3 for i in range(1, 6)])
-print([random.randint(60, 100) for _ in range(10)])
-```
-
-## 5.2 for循环嵌套
-
-
-
-## 5.3 筛选功能
-
-```python
-print([i for i in range(12, 16) if i != 13])
-```
-
-# 
