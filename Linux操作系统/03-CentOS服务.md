@@ -36,7 +36,7 @@ echo $JAVA_HOME
 
 ### 1.3 OpenJDK安装
 
-1. 安装
+1、安装
 
 ```properties
 yum search java|grep jdk
@@ -54,7 +54,7 @@ export JAVA_HOME JRE_HOME CLASS_PATH PATH
 source /etc/profile
 ```
 
-2. 卸载
+2、卸载
 
 ```properties
 yum list installed | grep java

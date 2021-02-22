@@ -400,13 +400,13 @@ docker pull minio/minio
 docker run -it -p 9000:9000 -d minio/minio server /data
 
 
-docker run -p 9000:9000 --name minio \
+docker run -p 9000:9000 --name some-minio \
 -d --restart=always \
 -e "MINIO_ACCESS_KEY=root" \
 -e "MINIO_SECRET_KEY=passw0rd" \
 -v /home/devuser/data:/data \
 -v /home/devuser/config:/root/.minio \
-minio/minio server /data
+minio server /data
 ```
 
 # 5 IDEA整合Docker

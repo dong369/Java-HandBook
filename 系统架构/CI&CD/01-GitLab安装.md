@@ -21,9 +21,9 @@ enabled=1
 
 ## 2.1 Docker脚本
 
-1. 创建对应映射的文件夹：mkdir -p /opt/soft/gitlab/{etc,log,data}
+1、创建对应映射的文件夹：mkdir -p /opt/soft/gitlab/{etc,log,data}
 
-2. 创建文件vim start.sh把以下内容粘贴进文件（注意IP换了，SSH端口22也要换被占用了，不换的话可以换docker的映射端口）。
+2、创建文件vim start.sh把以下内容粘贴进文件（注意IP换了，SSH端口22也要换被占用了，不换的话可以换docker的映射端口）。
 
 ```shell
 #!/usr/bin/env bash
