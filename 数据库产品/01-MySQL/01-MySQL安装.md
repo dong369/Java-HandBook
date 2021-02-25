@@ -451,6 +451,18 @@ select @@global.sql_mode;
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
 
+docker安装MySQL报错，奶侧连接提示：caching_sha2_password问题
+
+```sql
+use mysql;
+select Host,User,plugin from user;
+ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'passw0rd';
+flush privileges;
+```
+
+
+
 ## 7.4 时区错误
 
 ```properties
