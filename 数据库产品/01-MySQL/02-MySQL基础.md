@@ -62,7 +62,7 @@ mysql>flush privileges;  // 执行完update语句后**千万别忘了执行这�
 
 mysql>select host,user from user where user='root';
 
-mysql>quit​                            
+mysql>quit​;                         
 
 mysql>select host, user from user;
 
@@ -72,7 +72,7 @@ mysql>select host, user from user;
 
 1、d:\mysql\bin\>mysql -h localhost -uroot -ppassw0rd
 
-//这样应该可以进入MySQL服务器 
+// 这样应该可以进入MySQL服务器 
 
 2、mysql>GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION 
 
@@ -92,7 +92,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'192.168.1.3'IDENTIFIED BY
 
 3、mysql>FLUSH PRIVILEGES 
 
-//修改生效 
+// 修改生效 
 
 4、mysql>EXIT 
 
