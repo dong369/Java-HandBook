@@ -1,5 +1,4 @@
-> 第01阶段.前端基础.认识HTML
-# 目标
+# 1 目标
 
 - 理解
   - HTML的概念
@@ -10,7 +9,7 @@
   - HTML骨架格式
   - sublime基本使用
 
-# 1 HTML初识
+# 2 HTML初识
 
 - HTML指的是**超文本标记语言** (**H**yper **T**ext **M**arkup **L**anguage)是用来描述网页的一种语言。
 - HTML不是一种编程语言，而是一种标记语言 (markup language)

@@ -8,6 +8,12 @@ cnpm install -g vue-cli // 更新
 vue -V 或者 vue --version  // 查看版本
 ```
 
+## 1.2 卸载
+
+```vue
+cnpm uninstall -g vue-cli
+```
+
 # 2 创建项目
 
 ### 2.2.1 交互式命令
