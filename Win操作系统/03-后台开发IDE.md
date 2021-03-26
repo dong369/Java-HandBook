@@ -794,6 +794,7 @@ ctrl+shift+r：打开资源
 ctrl+o：快速outline
 Ctrl+1：快速修复(最经典的快捷键,就不用多说了)
 ctrl+2：L：为本地变量赋值
+ctrl+6：快速定位controller
 Alt+Shift+R：快速修改所有的变量名
 ctrl + shift+o：搜索一个类中的方法
 ctrl + o：搜索一个类中的方法
