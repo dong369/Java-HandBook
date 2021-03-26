@@ -202,7 +202,8 @@ arr_three = arr_data.reshape(2, 3, 4)
 print(arr_one.tolist())
 print(arr_two)
 print(arr_three)
-
+# 对应位置：(1,2)、(2,3)
+print(arr[[1,2],[1,3]])
 ```
 
 
@@ -263,7 +264,7 @@ print(two_arr)
 
 
 
-## 3.8 三位替换
+## 3.8 三元替换
 
 小于10的数字替换为0，把大于20的替换为20，应该怎么做？？
 
