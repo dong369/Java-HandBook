@@ -223,6 +223,20 @@ settings.xml中配置maven镜像地址
 </repositories>
 ```
 
+6、idea中指定默认配置，project.default.xml文件
+
+```properties
+<component name="MavenImportPreferences">
+    <option name="generalSettings">
+        <MavenGeneralSettings>
+            <option name="mavenHome" value="D:\dev\maven\maven-3.6.3" />
+            <option name="localRepository" value="D:\dev\maven\maven-repository" />
+            <option name="userSettingsFile" value="D:\dev\maven\maven-3.6.3\conf\settings.xml" />
+        </MavenGeneralSettings>
+    </option>
+</component>
+```
+
 ## 3.3 Gradle
 
 1、下载安装

@@ -65,7 +65,9 @@ arr1 = np.array([2 3 4 5 6 7 8 9])
 arr2 = np.array(range(2, 10))  # 包含2，不包含10
 arr3 = np.arange(2, 10)  # 包含2，不包含10
 print(arr1)
-print(arr1.shape)
+print(arr1.shape) # 维度大小
+print(arr1.dtype) # 数据类型
+print(arr1.ndim) # 维度个数
 
 # 三维
 aa = np.array([
@@ -359,7 +361,12 @@ print(arr_data.swapaxes(1, 0))
 
 ## 3.13 函数
 
-
+1. `np.mean()`, `np.sum()`：所有元素的平均值，所有元素的和，参数是 number 或 array
+2. `np.max()`, `np.min()`：所有元素的最大值，所有元素的最小值，参数是 number 或 array
+3. `np.std()`, `np.var()`：所有元素的标准差，所有元素的方差，参数是 number 或 array
+4. `np.argmax()`, `np.argmin()`：最大值的下标索引值，最小值的下标索引值，参数是 number 或 array
+5. `np.cumsum()`, `np.cumprod()`：返回一个一维数组，每个元素都是之前所有元素的 累加和 和 累乘积，参数是 number 或 array
+6. 多维数组默认统计全部维度，`axis`参数可以按指定轴心统计，值为`0`则按列统计，值为`1`则按行统计。
 
 ## 3.14 拼接
 

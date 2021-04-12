@@ -289,29 +289,33 @@ docker run --name some-oracle -d -p 1521:1521 \
            -e ORACLE_ALLOW_REMOTE=true \
            --restart=always wnameless/oracle-xe-11g
 
-// 进行连接
+# 进行连接
 sid: xe
 service name: xe
 username: system
 password: oracle
-                     
-docker exec -it 容器id /bin/bash
 
-su oracle
+# 进入Oracle容器
+docker exec -it 容器id /bin/bash
+su - oracle
 cd $ORACLE_HOME
 cd /u01/app/oracle
-mkdir test
-chmod 777 test
+mkdir jepaas
+chmod 777 jepaas
 
-create tablespace TEST datafile '/u01/app/oracle/oradata/test/test.dbf' size 100M;  
-// 创建表空间
+# 连接到Oracle数据库
+sqlplus / as sysdba
+# 创建表空间
+create tablespace JEPAAS datafile '/u01/app/oracle/jepaas/jepaas.dbf' size 800M; 
 
-create user TEST identified by TEST123 default tablespace TEST;		// 创建用户
+# 创建用户
+create user JEPAAS identified by JEPAAS default tablespace JEPAAS;
 
+# 进行授权操作
 grant connect,resource to TEST;
 grant connect,resource,dba to system;
 
-grant dba to TEST; // 授予dba权限后，这个用户能操作所有用户的表
+grant dba to JEPAAS; // 授予dba权限后，这个用户能操作所有用户的表
 
 drop user TEST cascade; // 删除用户
 ```

@@ -1,3 +1,6 @@
+1 快速入门
+=======================
+
 
 
 ```java
@@ -13,26 +16,15 @@ public Session getSessionDelegate() {
 }
 ```
 
-
-
-
-
 ![aa](../../../插图/aa.png)
 
-
-
-
-
-1 JPA 快速入门
------------------------
-
-### 1.1、Hibernate5 JPA 概述
+## 1.1 Hibernate5 JPA 概述
 
 JPA 的全称是 Java Persistence API， 即 Java 持久化 API，是 SUN 公司推出的一套基于 ORM 的规范，内部是由一系列的接口和抽象类构成。JPA 通过 JDK 5.0 注解描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中
 
 但是 JPA 仅仅只是一套接口规范和抽象类，并不能真正的去干活，因此，就有很多厂商实现了 JPA 的规范，提供了相应的技术支持，就类似实现了 JDBC 的 MySQL 驱动，而本节课程将采用 Hibernate 实现作为驱动使用，因此我称之为 Hibernate5 JPA
 
-### 1.2、Hibernate5 JPA 下载
+## 1.2 Hibernate5 JPA 下载
 
 官方网址：[hibernate orm](http://hibernate.org/orm/)
 
@@ -46,7 +38,7 @@ hibernate-release-5.0.7.Final\\lib 文件夹介绍：
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vY2FvY2hlbmxlaS9CbG9nSW1hZ2VzL3Jhdy9tYXN0ZXIvMjAyMDA4MDgxMTA3MTMucG5n?x-oss-process=image/format,png)
 
-### 1.3、Hibernate5 JPA 工程搭建
+## 1.3 Hibernate5 JPA 工程搭建
 
 前边学习的 Hibernate，接下来进行工程搭建，根 Hibernate 相比，它只需要再多加入一个包就行
 
@@ -472,7 +464,7 @@ public class LinkMan {
 
 ```
 
-### 1.4、Hibernate5 JPA 增删改查
+## 1.4 Hibernate5 JPA 增删改查
 
 CustomerJPATest.java（全路径：/hibernate\_jpa/src/com/caochenlei/hibernate/jpa/CustomerJPATest.java）
 
@@ -622,7 +614,7 @@ public class CustomerJPATest {
 
 ```
 
-### 1.5、Hibernate5 JPA 工具类
+## 1.5 Hibernate5 JPA 工具类
 
 JPAUtil.java（全路径：/hibernate\_jpa/src/com/caochenlei/hibernate/jpa/JPAUtil.java）
 
@@ -649,18 +641,18 @@ public class JPAUtil {
 
 ```
 
-2 JPA 核心对象
------------------------
+2 核心对象
+=======================
 
-### 2.1、Persistence
+## 2.1 Persistence
 
 Persistence 对象主要作用是用于获取 EntityManagerFactory 对象的 。通过调用该类的 createEntityManagerFactory 静态方法，根据配置文件中持久化单元名称创建 EntityManagerFactory。
 
-### 2.2、EntityManagerFactory
+## 2.2 EntityManagerFactory
 
 EntityManagerFactory 接口主要用来创建 EntityManager 实例。
 
-### 2.3、EntityManager
+## 2.3 EntityManager
 
 在 JPA 规范中，EntityManager 是完成持久化操作的核心对象。实体类作为普通 java 对象，只有在调用 EntityManager 将其持久化后才会变成持久化对象。EntityManager 对象在一组实体类与底层数据源之间进行 O/R 映射的管理。它可以用来管理和更新 Entity Bean，根椐主键查找 Entity Bean, 还可以通过 JPQL 语句查询实体。我们可以通过调用 EntityManager 的方法完成获取事务，以及持久化数据库的操作，例如：
 
@@ -670,7 +662,7 @@ EntityManagerFactory 接口主要用来创建 EntityManager 实例。
 *   remove：删除操作
 *   find/getReference：根据 id 查询
 
-### 2.4、EntityTransaction
+## 2.4 EntityTransaction
 
 在 JPA 规范中，EntityTransaction 是完成事务操作的核心对象，对于 EntityTransaction 在我们的 Java 代码中承接的功能比较简单。
 
@@ -678,12 +670,12 @@ EntityManagerFactory 接口主要用来创建 EntityManager 实例。
 *   commit：提交事务
 *   rollback：回滚事务
 
-3 JPA 映射配置
------------------------
+3 映射配置
+=======================
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vY2FvY2hlbmxlaS9CbG9nSW1hZ2VzL3Jhdy9tYXN0ZXIvMjAyMDA4MDgxMjU2MDUucG5n?x-oss-process=image/format,png)
 
-### 3.1、一对多关联
+## 3.1 一对多关联
 
 #### 3.1.1、修改实体
 
@@ -970,7 +962,7 @@ public class OneToManyTest {
 
 ```
 
-### 3.2、多对多关联
+## 3.2 多对多关联
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vY2FvY2hlbmxlaS9CbG9nSW1hZ2VzL3Jhdy9tYXN0ZXIvMjAyMDA4MDgxNDExMTUucG5n?x-oss-process=image/format,png)
 
@@ -1447,7 +1439,7 @@ public class ManyToManyTest {
 
 ```
 
-### 3.3、一对一关联
+## 3.3 一对一关联
 
 ![](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vY2FvY2hlbmxlaS9CbG9nSW1hZ2VzL3Jhdy9tYXN0ZXIvMjAyMDA4MDgxNTQyNTEucG5n?x-oss-process=image/format,png)
 
@@ -1853,8 +1845,8 @@ public class OneToOneTest {
 
 ```
 
-4 JPA 的 JPQL 查询
-----------------------------
+4 JPQL查询
+============================
 
 初始化数据，运行 init 方法：
 
@@ -1941,7 +1933,7 @@ public class InitQueryData {
 
 JPQLTest.java（全路径：/hibernate\_jpa/src/com/caochenlei/hibernate/jpa/JPQLTest.java）
 
-### 4.1、简单查询
+## 4.1 简单查询
 
 ```
 @Test
@@ -1964,7 +1956,7 @@ public void test1() {
 
 ```
 
-### 4.2、别名查询
+## 4.2 别名查询
 
 ```
 @Test
@@ -1995,7 +1987,7 @@ public void test2() {
 
 ```
 
-### 4.3、排序查询
+## 4.3 排序查询
 
 ```
 @Test
@@ -2031,7 +2023,7 @@ public void test3() {
 
 ```
 
-### 4.4、条件查询
+## 4.4 条件查询
 
 ```
 @Test
@@ -2066,7 +2058,7 @@ public void test4() {
 
 ```
 
-### 4.5、投影查询
+## 4.5 投影查询
 
 ```
 @Test
@@ -2108,7 +2100,7 @@ public void test5() {
 
 ```
 
-### 4.6、分页查询
+## 4.6 分页查询
 
 ```
 @Test
@@ -2133,7 +2125,7 @@ public void test6() {
 
 ```
 
-### 4.7、分组查询
+## 4.7 分组查询
 
 ```
 @Test
@@ -2160,7 +2152,7 @@ public void test7() {
 
 ```
 
-### 4.8、多表查询
+## 4.8 多表查询
 
 ```
 @Test

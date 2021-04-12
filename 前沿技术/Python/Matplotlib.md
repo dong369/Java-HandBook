@@ -1,16 +1,24 @@
 # 1 认识
 
+matplotlib：最流行的Python**底层绘图库**，主要做数据可视化图表，名字取材于MATLAB，模仿MATLAB构建。
+
 ## 1.1 下载
 
-
+```python
+conda install matplotlib
+或
+pip install matplotlib
+```
 
 ## 1.2 导入
 
-
+```python
+from matplotlib import pyplot as plt
+```
 
 ## 1.3 使用
 
-折线图体现变化；散点图体现关系；条形图统计离散数据；直方图统计连续数据
+折线图体现变化；散点图体现关系；条形图统计离散数据；直方图统计连续数据。
 
 ## 1.4 问题
 
@@ -24,15 +32,19 @@
 
 ## 2.1 创建
 
-导包、数据、填充数据、画图
+导包、数据、填充数据、画图。
 
 
 
 ## 2.2属性
 
-画的大小、字体
+画的大小、字体。
 
-
+```python
+# 整体配置（字体、展示图片大小分辨率）
+matplotlib.rc("font", family="MicroSoft YaHei")
+plt.figure(figsize=(20, 8), dpi=80)
+```
 
 ## 2.3 图信息
 
